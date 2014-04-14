@@ -1,4 +1,4 @@
-pmixin
+pmixins
 ======
 
 

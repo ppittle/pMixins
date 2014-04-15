@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AutoGeneratedCommentHeaderFormat" xml:space="preserve">
+    <value>//------------------------------------------------------------------------------
+// &lt;auto-generated&gt;
+//     This code was generated by {0}
+//      for file {1} 
+//      on {2}.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if 
+//     the code is regenerated.  
+// &lt;/auto-generated&gt; 
+//------------------------------------------------------------------------------
+</value>
+  </data>
+  <data name="ErrorInterceptorMustBeConcreteClass" xml:space="preserve">
+    <value>Interceptor [{0}] is not a concrete class.</value>
+  </data>
+  <data name="ErrorInterceptorMustImplementIMixinIntercetpor" xml:space="preserve">
+    <value>Interceptor [{0}] does not implement {1}.</value>
+  </data>
+  <data name="ErrorMixinCanNotBeInterfaceOrStruct" xml:space="preserve">
+    <value>Mixin [{0}] is an interface or struct. Mixins must be a class.</value>
+  </data>
+  <data name="ErrorMixinCouldNotBeResolved" xml:space="preserve">
+    <value>Unable to resolve Mixin type [{0}].  Please make sure all class files have been saved.  If you continue to receive this error try rebuilding the solution.</value>
+  </data>
+  <data name="ErrorMixinIsNestedAndAbstract" xml:space="preserve">
+    <value>Mixin [{0}] is both Abstract and a Nested Type.  </value>
+  </data>
+  <data name="ErrorMixinTypeIsNotSpecified" xml:space="preserve">
+    <value>Required Field [Mixin] is not defined.</value>
+  </data>
+  <data name="ErrorSourceFileHasErrors" xml:space="preserve">
+    <value>Code Generator Pipeline can not execute when source file has errors.  Correct any errors and re-run Code Generator.</value>
+  </data>
+  <data name="ErrorTypeInMixinMemberCouldNotBeResolved" xml:space="preserve">
+    <value>"Mixin [{0}] {1} [{2}] could not be resolved.  Are you missing an assembly reference?</value>
+  </data>
+  <data name="ExceptionCouldNotFindProjectWithFullName" xml:space="preserve">
+    <value>Project at [{0}] has not been parsed or could not be found.</value>
+  </data>
+  <data name="ExceptionCreateDataMemberFailedBecauseClassAlreadyContainsDataMemberName" xml:space="preserve">
+    <value>Failed adding Data Member [{0}] because the class already contains a Data Member with that name</value>
+  </data>
+  <data name="ExceptionCreateMethodFailedBecauseClassAlreadyContainsMethodSignature" xml:space="preserve">
+    <value>Failed adding method because the class already contains a method matching the signature {0}({1})</value>
+  </data>
+  <data name="ExceptionParsingCodeInCodeGeneratorProxy" xml:space="preserve">
+    <value>Could not create {0} in Code Generator Proxy because the following code failed to parse [{1}]</value>
+  </data>
+  <data name="WarningFailedToResolveClass" xml:space="preserve">
+    <value>Failed to Resolve Class: {0}</value>
+  </data>
+  <data name="WarningNoPartialClassInSourceFile" xml:space="preserve">
+    <value>No Partial class definition found in source file.  Code Generation can only be performed on Partial classes.</value>
+  </data>
+  <data name="WarningNopMixinAttributeInFile" xml:space="preserve">
+    <value>File is configured to use the pMixin Code Generator but it hasn't made use of a pMixin Attributes.  See the pMixin documentation for more information on how to use the framework.</value>
+  </data>
+  <data name="WarningpMixinAttributeOnNonPartialClass" xml:space="preserve">
+    <value>Class [{0}] must be partial in order to use pMixin</value>
+  </data>
+</root>

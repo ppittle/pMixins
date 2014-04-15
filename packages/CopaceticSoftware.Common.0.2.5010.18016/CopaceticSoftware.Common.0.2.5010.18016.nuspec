@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>CopaceticSoftware.Common</id>
+    <version>0.2.5010.18016</version>
+    <title>CopaceticSoftware.Common Class Library</title>
+    <authors>Copacetic Software / Philip Pittle</authors>
+    <owners>Copacetic Software / Philip Pittle</owners>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <projectUrl>https://nuget.org/packages/CopaceticSoftware.Common</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Copacetic Software Common class library provided by Copacetic Software</description>
+    <summary>Copacetic Software Common class library provided by Copacetic Software</summary>
+    <releaseNotes>Initial Beta.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>CopaceticSoftware Copacetic Software Common</tags>
+    <dependencies>
+      <dependency id="JetBrains.Annotations" version="7.0" />
+      <dependency id="log4net" version="2.0.0" />
+    </dependencies>
+  </metadata>
+</package>

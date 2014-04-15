@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>pMixins</id>
+    <version>$version$</version>
+    <title>pMixins</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>http://pmixin.com</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Mixin Framework for C#</description>
+    <summary>$description$</summary>
+    <releaseNotes>Initial Alpha</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>pMixins Code Generator Mixin Aspect Oriented Development AOP</tags>
+  </metadata>
+</package>

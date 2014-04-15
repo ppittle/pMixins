@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1D0E9F5-C2E8-4E30-9FD8-FF87FD97F324}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CopaceticSoftware.pMixins.TheorySandbox</RootNamespace>
+    <AssemblyName>CopaceticSoftware.pMixins.TheorySandbox</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GurkBurk">
+      <HintPath>..\packages\nbehave.0.6.2\lib\net40\GurkBurk.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>..\packages\ICSharpCode.NRefactory.5.3.0\lib\Net40\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.CSharp">
+      <HintPath>..\packages\ICSharpCode.NRefactory.5.3.0\lib\Net40\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.Xml">
+      <HintPath>..\packages\ICSharpCode.NRefactory.5.3.0\lib\Net40\ICSharpCode.NRefactory.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.4\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Gherkin">
+      <HintPath>..\packages\nbehave.0.6.2\lib\net40\NBehave.Gherkin.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Narrator.Framework">
+      <HintPath>..\packages\nbehave.0.6.2\lib\net40\NBehave.Narrator.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NBehave.Spec.NUnit">
+      <HintPath>..\packages\nbehave.spec.nunit.0.6.2\lib\net40\NBehave.Spec.NUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="COVERED\AbstractMixin\AbstractMixinSpec.cs" />
+    <Compile Include="COVERED\AbstractMixin\AbstractMixinSpecTest.cs" />
+    <Compile Include="COVERED\AsIsWrapper\AsIsWraperSpec.cs" />
+    <Compile Include="COVERED\AsIsWrapper\AsIsWrapperSpecTest.cs" />
+    <Compile Include="COVERED\BasicConcept\BasicConceptSpec.cs" />
+    <Compile Include="COVERED\BasicConcept\BasicConceptSpecTest.cs" />
+    <Compile Include="BasicMixinAttribute.cs" />
+    <Compile Include="COVERED\HostInheritsMixinInterfaces\HostInheritsMixinInterfacesSpec.cs" />
+    <Compile Include="COVERED\HostInheritsMixinInterfaces\HostInheritsMixinInterfacesSpecTest.cs" />
+    <Compile Include="COVERED\MixinIsInternal\MixinIsInternalSpec.cs" />
+    <Compile Include="COVERED\MixinIsInternal\MixinIsInternalSpecTest.cs" />
+    <Compile Include="COVERED\DIMixinActivator\DIMixinActivatorSpec.cs" />
+    <Compile Include="COVERED\DIMixinActivator\DIMixinActivatorSpecTest.cs" />
+    <Compile Include="COVERED\HostCanAccessProtectedMembersInMixin\HostCanAccessProtectedMembersInMixinSpec.cs" />
+    <Compile Include="COVERED\HostCanAccessProtectedMembersInMixin\HostCanAccessProtectedMembersInMixinSpecTest.cs" />
+    <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpec.cs" />
+    <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpecTest.cs" />
+    <Compile Include="GenericDecorator\GenericDecorator.cs" />
+    <Compile Include="GenericDecorator\GenericDecoratorSpecTest.cs" />
+    <Compile Include="HostCanUseMixinExtensionMethods\HostCanUseMixinExtensionMethodsSpec.cs" />
+    <Compile Include="HostCanUseMixinExtensionMethods\HostCanUseMixinExtensionMethodsSpecTest.cs" />
+    <Compile Include="COVERED\HostInheritsAttributes\HostInheritsAttributesSpec.cs" />
+    <Compile Include="COVERED\HostInheritsAttributes\HostInheritsAttributesSpecTest.cs" />
+    <Compile Include="COVERED\HostInheritsMethodsMixinBaseClassMethods\HostInheritsMethodsMixinBaseClassMethodsSpec.cs" />
+    <Compile Include="COVERED\HostInheritsMethodsMixinBaseClassMethods\HostInheritsMethodsMixinBaseClassMethodsSpecTest.cs" />
+    <Compile Include="COVERED\HostInheritsStaticMembersInMixin\HostInheritsStaticMembersInMixinSpec.cs" />
+    <Compile Include="COVERED\HostInheritsStaticMembersInMixin\HostInheritsStaticMembersInMixinSpecTest.cs" />
+    <Compile Include="IMixinInterceptor.cs" />
+    <Compile Include="InterceptorMixinRequirementAttribute.cs" />
+    <Compile Include="COVERED\Interceptors\BasicInterceptor\BasicInterceptorSpec.cs" />
+    <Compile Include="COVERED\Interceptors\BasicInterceptor\BasicInterceptorSpecTest.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorCancellationToken\InterceptorCancellationSpec.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorCancellationToken\InterceptorCancellationSpecTest.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorManipulatesReturnValue\InterceptorManipulatesReturnValueSpec.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorManipulatesReturnValue\InterceptorManipulatesReturnValueTest.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorRequiresMixin\InterceptorRequiresMixinSpec.cs" />
+    <Compile Include="COVERED\Interceptors\InterceptorRequiresMixin\InterceptorRequiresMixinTest.cs" />
+    <Compile Include="COVERED\Log4Net\Log4NetSpec.cs" />
+    <Compile Include="COVERED\Log4Net\Log4NetTest.cs" />
+    <Compile Include="COVERED\MixinWithProtectedConstructor\MixinWithProtectedConstructorAndParametersSpecTest.cs" />
+    <Compile Include="COVERED\MixinIsAbstractWithProtectedNonParameterlessConstructor\MixinIsAbstractWithProtectedNonParameterlessConstructorSpec.cs" />
+    <Compile Include="COVERED\MixinIsAbstractWithProtectedNonParameterlessConstructor\MixinIsAbstractWithProtectedNonParameterlessConstructorSpecTest.cs" />
+    <Compile Include="MasterWrapperBase.cs" />
+    <Compile Include="COVERED\MixinIsTargetsNestedClass\MixinIsTargetsNestedClassSpec.cs" />
+    <Compile Include="COVERED\MixinIsTargetsNestedClass\MixinIsTargetsNestedClassSpecTest.cs" />
+    <Compile Include="MultipleMixinsMethodPriority\MultipleMixinsMethodPrioritySpec.cs" />
+    <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpec.cs" />
+    <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpecTest.cs" />
+    <Compile Include="IMixinActivator.cs" />
+    <Compile Include="COVERED\InheritingFromHostPreservesMemberAccess\InheritingFromHostPreservesMemberAccess.cs" />
+    <Compile Include="COVERED\InheritingFromHostPreservesMemberAccess\InheritingFromHostPreservesMemberAccessSpecTest.cs" />
+    <Compile Include="COVERED\MixinWithProtectedConstructor\MixinWithProtectedConstructorAndParametersSpec.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scratch.cs" />
+    <Compile Include="SpecTestBase.cs" />
+    <Compile Include="StaticMixinInstance\StaticMixinInstanceSpec.cs" />
+    <Compile Include="StaticMixinInstance\StaticMixinInstanceSpecTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HostCanAccessMixinProtectedNestedClasses\" />
+    <Folder Include="Masks\" />
+    <Folder Include="MethodCollisionResolutionStrategy\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj">
+      <Project>{576b2c1f-2744-4dc9-b68b-a2c48cbbcf5f}</Project>
+      <Name>pMixins.CodeGenerator.Tests</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>powershell.exe -file "$(SolutionDir)\scripts\AddCopyrightToAllClasses.ps1" -target $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

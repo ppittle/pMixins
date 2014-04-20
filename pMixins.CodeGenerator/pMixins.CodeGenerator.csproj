@@ -35,7 +35,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>pMixins.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CopaceticSoftware.Common">
@@ -143,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="pMixins.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">

@@ -24,7 +24,6 @@ using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
-using ICSharpCode.NRefactory.CSharp.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem;
 using JetBrains.Annotations;
 
@@ -67,29 +66,29 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
                 typeof (DoNotMixinAttribute)
                 .ToIType(manager.BaseState.Context.TypeResolver.Compilation);
 
-            var memberFilter = new Predicate<IUnresolvedMember>(
+            var memberFilter = new Func<IMember, bool>(
                 member => ( 
                             !member.IsPrivate && 
                             (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
                             (!member.IsInternal || includeInternalMembers) &&
-                            !member.FullName.StartsWith("System.Object")
-                            && MemberDoesNotContainAttribute(member, doNotMixinIType, manager)));
+                            !member.FullName.StartsWith("System.Object") &&
+                            !member.IsDecoratedWithAttribute(doNotMixinIType)));
 
 
             //If no masks, just return mixin's members
             if (null == mixinAttribute.Masks || !mixinAttribute.Masks.Any())
-                return mixinAttribute.Mixin.GetMembers(memberFilter)
+                return mixinAttribute.Mixin.GetMembers().Where(memberFilter)
                     .Select(member => new MixinMemberResolvedResult {Member = member});
 
 
             //There are masks, so generate allowed members by mask
             var maskMethods =
                 mixinAttribute.Masks
-                .ToDictionary(mask => mask, mask => mask.GetMembers(memberFilter));
+                .ToDictionary(mask => mask, mask => mask.GetMembers().Where(memberFilter));
 
             var resolvedMembers = new List<MixinMemberResolvedResult>();
 
-            foreach (var mixinMember in mixinAttribute.Mixin.GetMembers(memberFilter))
+            foreach (var mixinMember in mixinAttribute.Mixin.GetMembers().Where(memberFilter))
             {
                 var maskMatch =
                     maskMethods.FirstOrDefault(
@@ -160,14 +159,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
             }
 
             return null;
-        }
-
-        private bool MemberDoesNotContainAttribute(IUnresolvedMember member, IType attributeType, pMixinGeneratorPipelineState manager)
-        {
-            
-            return
-                member.Attributes.OfType<CSharpAttribute>().All(
-                    a => a.AttributeType.ToString() != attributeType.Name);
         }
     }
 }

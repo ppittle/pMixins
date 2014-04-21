@@ -52,5 +52,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                         method.TypeParameters.Select(t => t.Name)
                         ));
         }
+
+        public static bool IsDecoratedWithAttribute(this IMember member, IType attributeType)
+        {
+            return member.Attributes.Any(a => Equals(a.AttributeType, attributeType));
+        }
     }
 }

@@ -26,6 +26,7 @@ using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests
 {
+    [TestFixture]
     public abstract class GenerateCodeAndCompileTestBase : GenerateCodeTestBase
     {
         protected virtual bool FailOnCompilerErrors { get { return true; } }

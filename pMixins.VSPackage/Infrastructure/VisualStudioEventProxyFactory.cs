@@ -27,7 +27,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
     /// </summary>
     public class VisualStudioEventProxyFactory 
     {
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
 
         private static IVisualStudioEventProxy _visualStudioEventProxy;
 

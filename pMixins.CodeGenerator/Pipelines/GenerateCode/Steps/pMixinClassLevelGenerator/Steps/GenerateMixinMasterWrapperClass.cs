@@ -220,6 +220,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
                     string.Format("base.TryActivateMixin<{0}>();",
                        manager.CurrentpMixinAttribute.Mixin.GetOriginalFullNameWithGlobal());
             }
+            else if (manager.CurrentpMixinAttribute.Mixin.GetDefinition().IsAbstract)
+            {
+                mixinInstanceInitialization =
+                    string.Format("base.TryActivateMixin<{0}>({1});",
+                            mixinInstanceType,
+                        MixinInstanceDataMemberName.Replace("_", ""));
+            }
             else
             {
                 mixinInstanceInitialization =

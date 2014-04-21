@@ -16,11 +16,14 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using NUnit.Framework;
+
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.AdvancedMixinTypes
 {
     /// <summary>
     /// Abstract Mixin is not Explicitly Initialized.  Should still compile.
     /// </summary>
+    [TestFixture]
     public class MixinHasNonParamaterlessConstructorButTargetDoesNotInitialize : GenerateCodeAndCompileTestBase
     {
         protected override string SourceCode
@@ -33,15 +36,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
 
                         namespace Test{
 
-                        public abstract class AbstractMixin
+                        public abstract class AbstractMixinWithNonParamaterlessConstructor
                         {                           
-                            protected AbstractMixin(int i)
+                            protected AbstractMixinWithNonParamaterlessConstructor(int i)
                             {                         
                             }
                         }
 
-                        [pMixin(Mixin = typeof(AbstractMixin))]                        
-                        public partial class Class2
+                        [pMixin(Mixin = typeof(AbstractMixinWithNonParamaterlessConstructor))]                        
+                        public partial class DoNotInitialize
                         {
                         }
                     }";

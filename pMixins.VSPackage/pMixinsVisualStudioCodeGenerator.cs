@@ -17,12 +17,16 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory;
 using CopaceticSoftware.Common.Extensions;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE80;
@@ -34,19 +38,36 @@ namespace CopaceticSoftware.pMixins_VSPackage
 {
     [ComVisible(true)]
     [Guid("3E3CAED9-8C24-4332-A774-059F50FF38D6")]
-    [ProvideObject(typeof(pMixinsVisualStudioCodeGenerator))]
+    [ProvideObject(typeof (pMixinsVisualStudioCodeGenerator))]
     [CodeGeneratorRegistration(
-        typeof(pMixinsVisualStudioCodeGenerator),
-        "C# pMixin Code Generator", 
-        vsContextGuids.vsContextGuidVCSProject, 
+        typeof (pMixinsVisualStudioCodeGenerator),
+        "C# pMixins Code Generator",
+        vsContextGuids.vsContextGuidVCSProject,
         GeneratesDesignTimeSource = true)]
     public class pMixinsVisualStudioCodeGenerator : BaseCodeGeneratorWithSite
     {
         private readonly VisualStudioEventProxyFactory _eventProxyFactory = new VisualStudioEventProxyFactory();
 
+        private readonly Lazy<SolutionManager> _solutionManager;
+
         public pMixinsVisualStudioCodeGenerator()
         {
-            log4net.Config.BasicConfigurator.Configure();
+            log4net.Config.XmlConfigurator.Configure();
+            
+            _solutionManager =
+                new Lazy<SolutionManager>(
+                    () =>
+                    {
+                        var sm =
+                            new SolutionManager(
+                                GetVSProject().DTE.Solution.FullName,
+                                _eventProxyFactory.BuildVisualStudioEventProxy(() => (DTE2) GetVSProject().DTE));
+
+                        sm.SolutionExtender.OnProjectAssemblyReferencesResolved +=
+                            SolutionExtenderOnOnProjectAssemblyReferencesResolved;
+
+                        return sm;
+                    });
         }
 
         protected override string GetDefaultExtension()
@@ -61,13 +82,16 @@ namespace CopaceticSoftware.pMixins_VSPackage
                 var codeGeneratorResponse = GetCodeGeneratorResponse(inputFileContent);
 
                 #region Write Messages to Output Pane
+
                 var outputPane = GetOutputPane(GetVSProject().DTE);
 
                 foreach (var logMessage in codeGeneratorResponse.LogMessages)
                     outputPane.OutputString(logMessage.EnsureEndsWith(Environment.NewLine));
+
                 #endregion
 
                 #region Write Errors / Warnings
+
                 foreach (var error in codeGeneratorResponse.Errors)
                     switch (error.Severity)
                     {
@@ -79,6 +103,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
                             GeneratorWarning(1, error.Message, error.Line, error.Column);
                             break;
                     }
+
                 #endregion
 
                 return Encoding.UTF8.GetBytes(codeGeneratorResponse.GeneratedCodeSyntaxTree.GetText());
@@ -94,18 +119,34 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         private CodeGeneratorResponse GetCodeGeneratorResponse(string inputFileContent)
         {
-            var solutionManager = new SolutionManager(
-                    GetVSProject().DTE.Solution.FullName,
-                    _eventProxyFactory.BuildVisualStudioEventProxy(() => (DTE2)GetVSProject().DTE));
+            var sm =
+                            new SolutionManager(
+                                GetVSProject().DTE.Solution.FullName,
+                                _eventProxyFactory.BuildVisualStudioEventProxy(() => (DTE2)GetVSProject().DTE));
+
+            sm.SolutionExtender.OnProjectAssemblyReferencesResolved +=
+                SolutionExtenderOnOnProjectAssemblyReferencesResolved;
+
+           // _solutionManager.Value.EnsureSolutionIsFullyParsed();
 
             var codeGeneratorContext =
-                new CodeGeneratorContextFactory(solutionManager)
+                new CodeGeneratorContextFactory(/*_solutionManager.Value*/ sm)
                     .GenerateContext(inputFileContent, GetProjectItem().Name, GetProject().FullName);
 
             return
                 new pMixinPartialCodeGenerator()
                     .GeneratePartialCode(codeGeneratorContext);
+        }
 
+        private void SolutionExtenderOnOnProjectAssemblyReferencesResolved(
+            object sender,
+            CSharpProject.AssemblyReferencesResolved assemblyReferencesResolved)
+        {
+            assemblyReferencesResolved.References =
+                assemblyReferencesResolved.References
+                    .Where(r => !r.Contains("pMixins.dll"))
+                    .Union(typeof (pMixinAttribute).Assembly.Location)
+                    .ToList();
         }
     }
 }

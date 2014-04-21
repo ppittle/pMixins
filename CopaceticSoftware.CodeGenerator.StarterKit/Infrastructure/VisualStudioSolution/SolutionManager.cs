@@ -13,6 +13,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     public interface ISolutionManager : IDisposable
     {
         Solution Solution { get; }
+
+        ISolutionExtender SolutionExtender { get; }
+
         CSharpFile AddOrUpdateCodeGeneratorFileSource(string projectFilePath, string codeFilePath, string sourceCode);
 
         /// <summary>
@@ -82,16 +85,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public void EnsureSolutionIsFullyParsed()
         {
-            var task = Task.Factory.StartNew(EnsureSolutionIsFullyParsedInteral);
-            task.Wait();
+            EnsureSolutionIsFullyParsedInternal();
         }
 
         public void EnsureSolutionIsFullyParsedAsync()
         {
-            Task.Factory.StartNew(EnsureSolutionIsFullyParsedInteral);
+            Task.Factory.StartNew(EnsureSolutionIsFullyParsedInternal);
         }
 
-        private void EnsureSolutionIsFullyParsedInteral()
+        private void EnsureSolutionIsFullyParsedInternal()
         {
             lock (SolutionExtenderLock)
             {

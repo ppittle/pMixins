@@ -39,6 +39,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     [DebuggerDisplay("{ToString()}")]
     public class CSharpProject
     {
+        public class AssemblyReferencesResolved : EventArgs
+        {
+            public IList<string> References { get; set; } 
+        }
+
+        public event EventHandler<AssemblyReferencesResolved> OnAssemblyReferencesResolved;
+
         #region Properties
         /// <summary>
         /// Parent solution.
@@ -108,14 +115,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     new CSharpFile(this, Path.Combine(msbuildProject.DirectoryPath, item.EvaluatedInclude)));
             }
 
-            // Add referenced assemblies:
-            foreach (string assemblyFile in ResolveAssemblyReferences(msbuildProject))
-            {
-                //TODO: This needs an extension point
-                //Don't load the Project's reference to Intent Compositor, we'll add one later.
-                if (assemblyFile.Contains("IntentCompositor.dll"))
-                    continue;
+            var assemblyReferences =
+                new AssemblyReferencesResolved
+                {
+                    References = ResolveAssemblyReferences(msbuildProject).ToList()
+                };
+            
+            if (null != OnAssemblyReferencesResolved)
+                OnAssemblyReferencesResolved(this, assemblyReferences);
 
+            // Add referenced assemblies:
+            foreach (string assemblyFile in assemblyReferences.References)
+            {
                 IUnresolvedAssembly assembly = solution.LoadAssembly(assemblyFile);
                 ProjectContent = ProjectContent.AddAssemblyReferences(new IAssemblyReference[] { assembly });
             }
@@ -128,14 +139,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 referencedFileName = Path.GetFullPath(referencedFileName);
                 ProjectContent = ProjectContent.AddAssemblyReferences(new IAssemblyReference[] { new ProjectReference(referencedFileName) });
             }
-
-            //TODO: This needs an extension point
-            /*
-            //Ensure project has pMixin References
-            ProjectContent = ProjectContent.AddAssemblyReferences(
-                new IAssemblyReference[] { solution.LoadAssembly(typeof(pMixinAttribute).Assembly.Location) });
-             */
-
         }
 
         private Project GetMSBuildProject(string fileName)

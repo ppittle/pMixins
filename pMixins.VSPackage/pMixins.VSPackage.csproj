@@ -225,6 +225,10 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\pMixins\pMixins.csproj">
+      <Project>{f2d44224-b6db-4518-a017-2b3dc5f4c4ea}</Project>
+      <Name>pMixins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ItemTemplates\" />

@@ -29,6 +29,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface ISolutionExtender
     {
+        event EventHandler<CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
+
         Solution Solution { get; }
         CSharpFile AddOrUpdateProjectItemFile(string projectFilePath, string codeRelativeFilePath, string sourceCode);
         CSharpProject AddOrUpdateProject(string projectFilePath);
@@ -45,7 +47,26 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public Solution Solution { get; private set; }
+        public event EventHandler<CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
+
+        private Solution _solution;
+        public Solution Solution
+        {
+            get { return _solution; }
+
+            private set
+            {
+                if (null != value)
+                    foreach (var p in value.Projects)
+                        p.OnAssemblyReferencesResolved += (sender, resolved) =>
+                                                          {
+                                                              if (null != OnProjectAssemblyReferencesResolved)
+                                                                  OnProjectAssemblyReferencesResolved(sender, resolved);
+                                                          };
+
+                _solution = value;
+            }
+        }
 
 
         public SolutionExtender(Solution solution)
@@ -97,7 +118,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (null != project)
             {
                 _log.Info("Project has already been parsed.");
-                return project;
+
+                Solution.Projects.Remove(project);
+
+                var newProject = new CSharpProject(Solution, project.Title, project.FileName);
+
+                Solution.Projects.Add(newProject);
+
+                Solution.RecreateCompilations();
+
+                return newProject;
             }
 
             _log.Info("Project has not been parsed.  Adding it now.");

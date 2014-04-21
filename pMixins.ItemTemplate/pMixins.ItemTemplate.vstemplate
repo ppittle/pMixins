@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>pMixin Class File</Name>
+    <Name>pMixins Class File</Name>
     <Description>An empty class definition configured to be used with the pMixin Code Generator</Description>
-    <Icon>pMixin.ItemTemplate.ico</Icon>
+    <Icon>pMixins.ItemTemplate.ico</Icon>
     <TemplateID>423a0cc3-8056-489b-acdb-af01c7752af4</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
@@ -19,7 +19,7 @@
     <ProjectItem ReplaceParameters="true">Class.cs</ProjectItem>
     <CustomParameters>
       <CustomParameter Name="$itemproperties$" Value="CustomTool" />
-      <CustomParameter Name="$CustomTool$" Value="pMixinVisualStudioCodeGenerator" />
+      <CustomParameter Name="$CustomTool$" Value="pMixinsVisualStudioCodeGenerator" />
     </CustomParameters>
   </TemplateContent>
   <WizardExtension>

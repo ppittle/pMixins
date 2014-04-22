@@ -2,8 +2,8 @@
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
     <Name>pMixins Class File</Name>
-    <Description>An empty class definition configured to be used with the pMixin Code Generator</Description>
-    <Icon>pMixins.ItemTemplate.png</Icon>
+    <Description>An empty class definition configured to be used with the pMixins Code Generator</Description>
+    <Icon>pMixins.ItemTemplate2.ico</Icon>
     <TemplateID>423a0cc3-8056-489b-acdb-af01c7752af4</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>

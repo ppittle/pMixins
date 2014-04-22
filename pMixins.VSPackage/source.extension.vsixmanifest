@@ -6,6 +6,8 @@
     <Description xml:space="preserve">Visual Studio Plug-In for generating pMixins code.</Description>
     <MoreInfo>http://pmixins.com</MoreInfo>
     <License>ApacheLicense.txt</License>
+    <Icon>logoSmall.png</Icon>
+    <PreviewImage>logo.png</PreviewImage>
     <Tags>pMixins Code Generator Mixin Aspect AOP Copacetic</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">

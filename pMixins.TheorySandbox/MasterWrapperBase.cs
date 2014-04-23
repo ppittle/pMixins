@@ -224,6 +224,5 @@ namespace CopaceticSoftware.pMixins.TheorySandbox
                 invocationComplete(eventArgs);
 
         }
-
     }
 }

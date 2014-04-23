@@ -271,6 +271,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
         private string CreateConstructorInitializersForVirtualMemberFunctions(
             pMixinGeneratorPipelineState manager, ICodeGeneratorProxy wrapperClass)
         {
+            var proxyMemberHelper =
+                new MasterWrapperCodeGeneratorProxyMemberHelper(wrapperClass,
+                    manager.BaseState.Context.TypeResolver.Compilation);
+
             var sb = new StringBuilder();
 
             foreach (
@@ -281,24 +285,32 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
                 if (member is IMethod)
                 {
                     //ProtectedVirtualMethodFunc = (i) => AbstractWrapper.ProtectedVirtualMethod(i);
-                    sb.AppendFormat("{0} = ({1}) => {2}.{3}({1});",
+                    sb.AppendFormat("{0} = ({1}) => {2};",
 
                         GenerateVirtualMethodFuncName(member),
                         string.Join(",",
                             (member as IMethod).Parameters.Select(x => x.Name)),
-                        MixinInstanceDataMemberName,
-                        member.Name);
+                        proxyMemberHelper.GetMethodBodyCallStatement(
+                            member as IMethod, 
+                            (m) => MixinInstanceDataMemberName, 
+                            (m) => m.Name));
                 }
                 else if (member is IProperty)
                 {
                     //PublicVirtaulPropertyFuncGet = () => AbstractWrapper.PublicVirtualProperty;
                     //PublicVirtualPropertySetFunc = (s) => AbstractWrapper.PublicVirtualProperty = s;
                     sb.AppendFormat(
-                        @"{0}Get = () => {1}.{2};
-                          {0}Set = (v) => {1}.{2} = v;",
+                        @"{0}Get = () => {1};
+                          {0}Set = (value) => {2};",
                         GenerateVirtualMethodFuncName(member),
-                        MixinInstanceDataMemberName,
-                        member.Name);
+                        proxyMemberHelper.GetPropertyGetterReturnBodyStatement(
+                            member as IProperty,
+                            (m) => MixinInstanceDataMemberName,
+                            (m) => m.Name),
+                        proxyMemberHelper.GetPropertySetterReturnBodyStatement(
+                            member as IProperty,
+                            (m) => MixinInstanceDataMemberName,
+                            (m) => m.Name));
                 }
             }
 

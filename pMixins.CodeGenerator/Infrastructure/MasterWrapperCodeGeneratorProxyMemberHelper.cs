@@ -18,6 +18,7 @@
 
 using System;
 using System.Linq;
+using System.Security.Permissions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.Interceptors;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -34,6 +35,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         }
 
         protected override string GetMethodBodyStatementImpl(
+            IMethod method,
+            Func<IMember, string> baseObjectIdentifierFunc,
+            Func<IMember, string> methodNameFunc)
+        {
+            if (method.IsStatic)
+                return base.GetMethodBodyStatementImpl(method, baseObjectIdentifierFunc, methodNameFunc);
+
+            return string.Format("{0} {1};",
+                method.GetReturnString(),
+                GetMethodBodyCallStatement(method, baseObjectIdentifierFunc, methodNameFunc));
+        }
+
+        public string GetMethodBodyCallStatement(
             IMethod method, 
             Func<IMember,string> baseObjectIdentifierFunc, 
             Func<IMember,string> methodNameFunc)
@@ -46,14 +60,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
                     ? "ExecuteVoidMethod"
                     : "ExecuteMethod";
 
-
             return string.Format(
-                @"{0} base.{1}(
-                            ""{2}"",
-                            new global::System.Collections.Generic.List<{3}>{{{4}}},
-                            () => {5}.{6}({7}));",
-                                 
-                method.GetReturnString(),
+                @"base.{0}(
+                            ""{1}"",
+                            new global::System.Collections.Generic.List<{2}>{{{3}}},
+                            () => {4}.{5}({6}))",
+                
                 masterWrapperBaseMethod,
                 method.GetOriginalName(),
                 "global::" + typeof(Parameter).FullName,
@@ -85,7 +97,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
                 return base.GetPropertyGetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
 
 
-            return string.Format("get{{ return base.ExecutePropertyGet(\"{0}\", () => {1}.{2}); }}",
+            return string.Format("get{{ return {0}; }}",
+                GetPropertyGetterReturnBodyStatement(prop, baseObjectIdentifierFunc, propertyNameFunc));
+        }
+
+        public string GetPropertyGetterReturnBodyStatement(
+            IProperty prop,
+            Func<IMember, string> baseObjectIdentifierFunc,
+            Func<IMember, string> propertyNameFunc)
+        {
+            return string.Format("base.ExecutePropertyGet(\"{0}\", () => {1}.{2})",
                 prop.Name,
                 baseObjectIdentifierFunc(prop),
                 propertyNameFunc(prop));
@@ -99,7 +120,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
             if (prop.IsStatic)
                 return base.GetPropertySetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
 
-            return string.Format("set{{ base.ExecutePropertySet(\"{0}\", value, (v) => {1}.{2} = v); }}",
+            return string.Format("set{{ {0}; }}",
+               GetPropertySetterReturnBodyStatement(prop, baseObjectIdentifierFunc, propertyNameFunc));
+        }
+
+        public string GetPropertySetterReturnBodyStatement(
+            IProperty prop,
+            Func<IMember, string> baseObjectIdentifierFunc,
+            Func<IMember, string> propertyNameFunc)
+        {
+            return string.Format("base.ExecutePropertySet(\"{0}\", value, (v) => {1}.{2} = v)",
                 prop.Name,
                 baseObjectIdentifierFunc(prop),
                 propertyNameFunc(prop));

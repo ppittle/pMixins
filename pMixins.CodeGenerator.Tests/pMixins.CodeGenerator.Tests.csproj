@@ -116,6 +116,7 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\BasicInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptorWithMixinRequirementTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualMethods.cs" />
+    <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinMasks\SimpleInterfaceMask.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\TargetCanAccessProtectedMembers.cs" />

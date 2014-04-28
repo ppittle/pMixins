@@ -101,7 +101,7 @@ namespace CopaceticSoftware.pMixins.Infrastructure
 
             //Fire Initialized Event
             foreach (var interceptor in Interceptors)
-                interceptor.OnMixinInitialized(
+                interceptor.OnTargetInitialized(
                     this,
                     new InterceptionEventArgs
                     {
@@ -209,8 +209,7 @@ namespace CopaceticSoftware.pMixins.Infrastructure
             Action<MemberEventArgs> callMethodInvocationDelegate,
             Action<MemberEventArgs> invocationComplete = null)
         {
-            var eventArgs =
-                            new MethodEventArgs
+            var eventArgs = new MethodEventArgs
                             {
                                 Target = _target,
                                 Mixin = _mixin,
@@ -219,41 +218,68 @@ namespace CopaceticSoftware.pMixins.Infrastructure
                                 Parameters = parameters
                             };
 
-
-            foreach (var interceptor in Interceptors)
+            if (FireInterceptorEvent(
+                    eventArgs,
+                    (i, e) => i.OnBeforeMethodInvocation(this, eventArgs),
+                    invocationComplete))
             {
-                interceptor.OnBeforeMethodInvocation(
-                    this, eventArgs);
+                return;
+            }
 
-                if (null != eventArgs.CancellationToken && eventArgs.CancellationToken.Cancel)
+            try
+            {
+                callMethodInvocationDelegate(eventArgs);
+            }
+            catch (Exception exc)
+            {
+                eventArgs.MemberInvocationException = exc;
+
+                if (FireInterceptorEvent(
+                    eventArgs,
+                    (i, e) => i.OnAfterMethodInvocation(this, eventArgs),
+                    invocationComplete))
                 {
-                    if (null != invocationComplete)
-                        invocationComplete(eventArgs);
-                    
                     return;
+                }
+                else
+                {
+                    throw;
                 }
             }
 
-            callMethodInvocationDelegate(eventArgs);
-
-            foreach (var interceptor in Interceptors)
-            {
-                interceptor.OnAfterMethodInvocation(
-                    this, eventArgs);
-
-                if (null != eventArgs.CancellationToken && eventArgs.CancellationToken.Cancel)
-                {
-                    if (null != invocationComplete)
-                        invocationComplete(eventArgs);
-                    
-
-                    return;
-                }
-            }
-
+            FireInterceptorEvent(
+                eventArgs,
+                (i, e) => i.OnAfterMethodInvocation(this, eventArgs),
+                invocationComplete);
+            
             if (null != invocationComplete)
                 invocationComplete(eventArgs);
 
+        }
+
+        /// <summary>
+        /// Fires the event and returns true if cancellation token is present.
+        /// </summary>
+        private bool FireInterceptorEvent<TEventArgs>(
+            TEventArgs eventArgs,
+            Action<IMixinInterceptor, TEventArgs> interceptorEvent, 
+            Action<TEventArgs> invocationComplete)
+            where TEventArgs : MemberEventArgs
+        {
+            foreach (var interceptor in Interceptors)
+            {
+                interceptorEvent(interceptor, eventArgs);
+
+                if (null != eventArgs.CancellationToken && eventArgs.CancellationToken.Cancel)
+                {
+                    if (null != invocationComplete)
+                        invocationComplete(eventArgs);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -348,8 +374,7 @@ namespace CopaceticSoftware.pMixins.Infrastructure
             Action<MemberEventArgs> callMethodInvocationDelegate,
             Action<MemberEventArgs> invocationComplete = null)
         {
-            var eventArgs =
-                            new PropertyEventArgs
+            var eventArgs = new PropertyEventArgs
                             {
                                 Target = _target,
                                 Mixin = _mixin,
@@ -358,36 +383,40 @@ namespace CopaceticSoftware.pMixins.Infrastructure
                                 Parameters = parameters
                             };
 
-
-            foreach (var interceptor in Interceptors)
+            if (FireInterceptorEvent(
+                    eventArgs,
+                    (i, e) => i.OnBeforePropertyInvocation(this, eventArgs),
+                    invocationComplete))
             {
-                interceptor.OnBeforePropertyInvocation(
-                    this, eventArgs);
+                return;
+            }
 
-                if (null != eventArgs.CancellationToken && eventArgs.CancellationToken.Cancel)
+
+            try
+            {
+                callMethodInvocationDelegate(eventArgs);
+            }
+            catch (Exception exc)
+            {
+                eventArgs.MemberInvocationException = exc;
+
+                if (FireInterceptorEvent(
+                    eventArgs,
+                    (i, e) => i.OnAfterPropertyInvocation(this, eventArgs),
+                    invocationComplete))
                 {
-                    if (null != invocationComplete)
-                        invocationComplete(eventArgs);
-                    
                     return;
+                }
+                else
+                {
+                    throw;
                 }
             }
 
-            callMethodInvocationDelegate(eventArgs);
-
-            foreach (var interceptor in Interceptors)
-            {
-                interceptor.OnAfterPropertyInvocation(
-                    this, eventArgs);
-
-                if (null != eventArgs.CancellationToken && eventArgs.CancellationToken.Cancel)
-                {
-                    if (null != invocationComplete)
-                        invocationComplete(eventArgs);
-
-                    return;
-                }
-            }
+            FireInterceptorEvent(
+                eventArgs,
+                (i, e) => i.OnAfterPropertyInvocation(this, eventArgs),
+                invocationComplete);
 
             if (null != invocationComplete)
                 invocationComplete(eventArgs);

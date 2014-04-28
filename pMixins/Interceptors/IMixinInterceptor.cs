@@ -38,11 +38,80 @@ namespace CopaceticSoftware.pMixins.Interceptors
     /// </example> 
     public interface IMixinInterceptor
     {
+        /// <summary>
+        /// Fired after the <see cref="pMixinAttribute.Mixin"/> object
+        /// is instantiated.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class.
+        /// </param>
         void OnTargetInitialized(object sender, InterceptionEventArgs eventArgs);
+
+        /// <summary>
+        /// Fired before a method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the method that is executing.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to prevent
+        /// the method from invoking.
+        /// </remarks>
         void OnBeforeMethodInvocation(object sender, MethodEventArgs eventArgs);
+
+        /// <summary>
+        /// Fired after a method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the method that is executing including the return value.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to overwrite
+        /// the return value.
+        /// </remarks>
         void OnAfterMethodInvocation(object sender, MethodEventArgs eventArgs);
-        
+
+        /// <summary>
+        /// Fired before a property's get or set method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the property that is executing.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to prevent
+        /// the get or set method from invoking.
+        /// </remarks>
         void OnBeforePropertyInvocation(object sender, PropertyEventArgs eventArgs);
+
+        /// <summary>
+        /// Fired after a property's get or set method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the property that is executing including the return value.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to overwrite
+        /// the return value.
+        /// </remarks>
         void OnAfterPropertyInvocation(object sender, PropertyEventArgs eventArgs);
     }
 
@@ -96,14 +165,80 @@ namespace CopaceticSoftware.pMixins.Interceptors
     /// </example>
     public abstract class MixinInterceptorBase : IMixinInterceptor
     {
+        /// <summary>
+        /// Fired after the <see cref="pMixinAttribute.Mixin"/> object
+        /// is instantiated.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class.
+        /// </param>
         public virtual void OnTargetInitialized(object sender, InterceptionEventArgs eventArgs) { }
 
+        /// <summary>
+        /// Fired before a method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the method that is executing.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to prevent
+        /// the method from invoking.
+        /// </remarks>
         public virtual void OnBeforeMethodInvocation(object sender, MethodEventArgs eventArgs) { }
 
+        /// <summary>
+        /// Fired after a method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the method that is executing including the return value.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to overwrite
+        /// the return value.
+        /// </remarks>
         public virtual void OnAfterMethodInvocation(object sender, MethodEventArgs eventArgs) { }
 
+        /// <summary>
+        /// Fired before a property's get or set method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the property that is executing.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to prevent
+        /// the get or set method from invoking.
+        /// </remarks>
         public virtual void OnBeforePropertyInvocation(object sender, PropertyEventArgs eventArgs) { }
 
+        /// <summary>
+        /// Fired after a property's get or set method is invoked.
+        /// </summary>
+        /// <param name="sender">
+        /// The Mixin host container.
+        /// </param>
+        /// <param name="eventArgs">
+        /// Contains references to the Target and Mixin class as well 
+        /// as the property that is executing including the return value.
+        /// </param>
+        /// <remarks>
+        /// Set the <see cref="MemberEventArgs.CancellationToken"/> to overwrite
+        /// the return value.
+        /// </remarks>
         public virtual void OnAfterPropertyInvocation(object sender, PropertyEventArgs eventArgs) { }
     }
 

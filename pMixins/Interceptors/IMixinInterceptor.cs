@@ -38,8 +38,7 @@ namespace CopaceticSoftware.pMixins.Interceptors
     /// </example> 
     public interface IMixinInterceptor
     {
-        void OnMixinInitialized(object sender, InterceptionEventArgs args);
-
+        void OnTargetInitialized(object sender, InterceptionEventArgs eventArgs);
         void OnBeforeMethodInvocation(object sender, MethodEventArgs eventArgs);
         void OnAfterMethodInvocation(object sender, MethodEventArgs eventArgs);
         
@@ -97,7 +96,7 @@ namespace CopaceticSoftware.pMixins.Interceptors
     /// </example>
     public abstract class MixinInterceptorBase : IMixinInterceptor
     {
-        public virtual void OnMixinInitialized(object sender, InterceptionEventArgs args) { }
+        public virtual void OnTargetInitialized(object sender, InterceptionEventArgs eventArgs) { }
 
         public virtual void OnBeforeMethodInvocation(object sender, MethodEventArgs eventArgs) { }
 

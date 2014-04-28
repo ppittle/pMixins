@@ -101,7 +101,7 @@ namespace CopaceticSoftware.pMixins.Infrastructure
 
             //Fire Initialized Event
             foreach (var interceptor in Interceptors)
-                interceptor.OnMixinInitialized(
+                interceptor.OnTargetInitialized(
                     this,
                     new InterceptionEventArgs
                     {

@@ -38,7 +38,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
             public static int AfterPropertySetInvocationCount = 0;
 
 
-            public void OnMixinInitialized(object sender, InterceptionEventArgs args)
+            public void OnTargetInitialized(object sender, InterceptionEventArgs args)
             {
                 InitializedCount++;
             }

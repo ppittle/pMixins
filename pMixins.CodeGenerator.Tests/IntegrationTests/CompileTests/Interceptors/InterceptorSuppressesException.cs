@@ -17,10 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions;
 using CopaceticSoftware.pMixins.Interceptors;
 using NUnit.Framework;
@@ -30,11 +26,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
     public class InterceptorSuppressesException : GenerateCodeAndCompileTestBase
     {
         #region MixinInterceptor
+
         public class SuppressExceptionInterceptor : MixinInterceptorBase
         {
             public override void OnAfterMethodInvocation(object sender, MethodEventArgs eventArgs)
             {
-                if (null != eventArgs.MemberInvocationException)
+                if (null != eventArgs.MemberInvocationException && eventArgs.MemberName == "Method")
                     eventArgs.CancellationToken = new CancellationToken
                     {
                         Cancel = true,
@@ -52,6 +49,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     };
             }
         }
+
         #endregion
 
         protected override string SourceCode
@@ -60,7 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
             {
                 return
                     string.Format(
-                    @"
+                        @"
                 using System;
 
                 namespace Test
@@ -74,6 +72,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
 
                         public string Property  
                         {{ get{{ throw new Exception(""Should be Suppressed""); }} }}
+
+                        public void ThrowException()
+                        {{
+                            throw new Exception(""Should NOT be Suppressed"");
+                        }}   
+
                     }}
 
                     [CopaceticSoftware.pMixins.Attributes.pMixin(
@@ -81,18 +85,46 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                         Interceptors = new Type[] {{ typeof({0})}})]
                     public partial class Target{{}}                        
                 }}",
-                typeof(SuppressExceptionInterceptor).FullName.Replace("+", "."));
+                        typeof (SuppressExceptionInterceptor).FullName.Replace("+", "."));
             }
+        }
+
+        private dynamic target;
+
+        public override void MainSetup()
+        {
+            base.MainSetup();
+
+            target = CompilerResults.TryLoadCompiledType("Test.Target");
+
+            Assert.True(null != target, "Failed to load Target");
         }
 
         [Test]
         public void InterceptorSuppressesMethodException()
         {
-            dynamic target = CompilerResults.TryLoadCompiledType("Test.Target");
-
             Assert.True(target.Method() == "Intercepted", "Exception in method should be suppressed");
+        }
 
+        [Test]
+        public void InterceptorSuppressesPropertyException()
+        {
             Assert.True(target.Property == "Intercepted", "Exception in property should be suppressed");
+        }
+
+        [Test]
+        public void InterceptorDoesNotSuppressesExceptionWhenItShouldNot()
+        {
+            try
+            {
+                target.ThrowException();
+
+                Assert.Fail("Exception was suppressed when should not be.");
+            }
+            catch (Exception e)
+            {
+                Assert.True(e.Message.Equals("Should NOT be Suppressed"), "Incorrect exception was thrown.");
+            }
         }
     }
 }

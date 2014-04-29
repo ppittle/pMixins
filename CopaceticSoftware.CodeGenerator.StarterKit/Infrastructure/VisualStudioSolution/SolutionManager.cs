@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
@@ -111,7 +112,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 {
                     lock (EventQueueLock)
                     {
-                        eventsWorkingQueue = _pendingVisualStudioEvents.DeepCopy();
+                        eventsWorkingQueue = _pendingVisualStudioEvents.Select(a => a.DeepCopyLocal()).ToList();
 
                         _pendingVisualStudioEvents.Clear();
                     }

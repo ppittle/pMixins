@@ -78,16 +78,17 @@ namespace CopaceticSoftware.pMixins_VSPackage
         {
             try
             {
-                var codeGeneratorResponse = GetCodeGeneratorResponse(inputFileContent);
                 Log4NetInitializer.Initialize(GetOutputPane(GetVSProject().DTE));
 
-                #region Write Messages to Output Pane
+                var codeGeneratorResponse = GetCodeGeneratorResponse(inputFileContent);
 
+                #region Write Messages to Output Pane (Commented out)
+                /*
                 var outputPane = GetOutputPane(GetVSProject().DTE);
 
                 foreach (var logMessage in codeGeneratorResponse.LogMessages)
                     outputPane.OutputString(logMessage.EnsureEndsWith(Environment.NewLine));
-
+                */
                 #endregion
 
                 #region Write Errors / Warnings

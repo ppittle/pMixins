@@ -20,7 +20,6 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
@@ -120,23 +119,24 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         private CodeGeneratorResponse GetCodeGeneratorResponse(string inputFileContent)
         {
-            var sm =
-                            new SolutionManager(
-                                GetVSProject().DTE.Solution.FullName,
-                                _eventProxyFactory.BuildVisualStudioEventProxy(() => (DTE2)GetVSProject().DTE));
+            using (var sm = new SolutionManager(
+                    GetVSProject().DTE.Solution.FullName,
+                    _eventProxyFactory.BuildVisualStudioEventProxy(() => (DTE2) GetVSProject().DTE)))
+            {
 
-            sm.SolutionExtender.OnProjectAssemblyReferencesResolved +=
-                SolutionExtenderOnOnProjectAssemblyReferencesResolved;
+                sm.SolutionExtender.OnProjectAssemblyReferencesResolved +=
+                    SolutionExtenderOnOnProjectAssemblyReferencesResolved;
 
-           // _solutionManager.Value.EnsureSolutionIsFullyParsed();
+                // _solutionManager.Value.EnsureSolutionIsFullyParsed();
 
-            var codeGeneratorContext =
-                new CodeGeneratorContextFactory(/*_solutionManager.Value*/ sm)
-                    .GenerateContext(inputFileContent, GetProjectItem().Name, GetProject().FullName);
+                var codeGeneratorContext =
+                    new CodeGeneratorContextFactory( /*_solutionManager.Value*/ sm)
+                        .GenerateContext(inputFileContent, GetProjectItem().Name, GetProject().FullName);
 
-            return
-                new pMixinPartialCodeGenerator()
-                    .GeneratePartialCode(codeGeneratorContext);
+                return
+                    new pMixinPartialCodeGenerator()
+                        .GeneratePartialCode(codeGeneratorContext);
+            }
         }
 
         private void SolutionExtenderOnOnProjectAssemblyReferencesResolved(

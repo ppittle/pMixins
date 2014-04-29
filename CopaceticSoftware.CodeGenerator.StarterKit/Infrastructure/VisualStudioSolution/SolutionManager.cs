@@ -296,10 +296,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (eventArgs is VisualStudioClassEventArgs && !(eventArgs as VisualStudioClassEventArgs).IsCSharpFile())
                 return;
 
-            _log.InfoFormat("Queued Event [{0}] from [{1}]",
-                eventArgs.GetDebugString(),
-                null == sender ? "null" : sender.ToString());
-
             lock (EventQueueLock)
             {
                 _pendingVisualStudioEvents.Add(eventArgs);

@@ -123,6 +123,9 @@
   <data name="ExceptionCouldNotFindProjectWithFullName" xml:space="preserve">
     <value>Project at [{0}] has not been parsed or could not be found. </value>
   </data>
+  <data name="VisualStudioBuildEvent" xml:space="preserve">
+    <value>Build Event</value>
+  </data>
   <data name="VisualStudioEventClassAddedDebugString" xml:space="preserve">
     <value>Project [{0}] Added Class: [{1}]</value>
   </data>

@@ -20,6 +20,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         event EventHandler<ProjectItemRenamedEventArgs> OnProjectItemRenamed;
         event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
         event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
+
+        event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
+        event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
     }
 
     #region Event Arg Definitions
@@ -181,6 +184,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     }
     #endregion
 
+    #region Build Events
+
+    public class VisualStudioBuildEventArgs : VisualStudioEventArgs
+    {
+        public vsBuildScope Scope { get; set; }
+        public vsBuildAction BuildAction { get; set; }
+
+        public override string GetDebugString()
+        {
+            return Strings.VisualStudioBuildEvent;
+        }
+    }
+    #endregion
+
     #endregion
 
     public class VisualStudioEventProxy : IVisualStudioEventProxy
@@ -197,6 +214,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         public event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
         public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
 
+        public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
+        public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
+
         #endregion
 
         /// <summary>
@@ -207,6 +227,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         private SolutionEvents _solutionEvents;
         private DocumentEvents _documentEvents;
         private ProjectItemsEvents _projectItemsEvents;
+        private BuildEvents _buildEvents;
         
 
         private readonly Dictionary<string, ReferencesEvents> _projectSpecificReferenceEvents = 
@@ -216,6 +237,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         {
             _dte = dte;
 
+            _buildEvents = _dte.Events.BuildEvents;
             _solutionEvents = _dte.Events.SolutionEvents;
             _documentEvents = _dte.Events.DocumentEvents;
             _projectItemsEvents = ((Events2)dte.Events).ProjectItemsEvents;
@@ -267,6 +289,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
             _documentEvents.DocumentSaved += item =>
                 OnProjectItemSaved(this, new ProjectItemSavedEventArgs{ ProjectFullPath = item.ProjectItem.ContainingProject.FullName, ClassFullPath = item.Name });
+
+            _buildEvents.OnBuildBegin += (scope, action) =>
+                OnBuildBegin(this, new VisualStudioBuildEventArgs {Scope = scope, BuildAction = action});
+
+            _buildEvents.OnBuildDone += (scope, action) =>
+                 OnBuildDone(this, new VisualStudioBuildEventArgs { Scope = scope, BuildAction = action });
         }
 
         private void RegisterForProjectLevelEvents(VSProject project)
@@ -311,6 +339,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemRenamed += (s, a) => { };
             OnProjectItemOpened += (s, a) => { };
             OnProjectItemSaved += (s, a) => { };
+            OnBuildBegin += (s, a) => { };
+            OnBuildDone += (s, a) => { };
         }
         
         public void Dispose()
@@ -329,6 +359,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemRenamed.GetInvocationList().Map(del => OnProjectItemRenamed -= (EventHandler<ProjectItemRenamedEventArgs>)del);
             OnProjectItemOpened.GetInvocationList().Map(del => OnProjectItemOpened -= (EventHandler<ProjectItemOpenedEventArgs>)del);
             OnProjectItemSaved.GetInvocationList().Map(del => OnProjectItemSaved -= (EventHandler<ProjectItemSavedEventArgs>)del);
+            OnBuildBegin.GetInvocationList().Map(del => OnBuildBegin -= (EventHandler<VisualStudioBuildEventArgs>)del);
+            OnBuildDone.GetInvocationList().Map(del => OnBuildDone -= (EventHandler<VisualStudioBuildEventArgs>)del);
 
         }
         #endregion

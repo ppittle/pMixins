@@ -172,6 +172,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         private void ProcessEventSafe(VisualStudioEventArgs vsEvent)
         {
+            if (vsEvent is VisualStudioBuildEventArgs)
+                return;
+
             if (vsEvent is ProjectAddedEventArgs || vsEvent is ProjectReferenceAddedEventArgs
                 || vsEvent is ProjectReferenceRemovedEventArgs)
             {

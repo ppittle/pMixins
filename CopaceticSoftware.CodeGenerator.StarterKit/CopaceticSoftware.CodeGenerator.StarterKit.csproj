@@ -113,6 +113,7 @@
     <Compile Include="Infrastructure\VisualStudioSolution\NRefactory\Solution.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionExtender.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionManager.cs" />
+    <Compile Include="Logging\Log4NetInitializer.cs" />
     <Compile Include="Logging\VisualStudioOutputWindowAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.Designer.cs">

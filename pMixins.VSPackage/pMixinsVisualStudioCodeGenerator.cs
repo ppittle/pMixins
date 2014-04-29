@@ -25,6 +25,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator;
@@ -52,8 +53,6 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         public pMixinsVisualStudioCodeGenerator()
         {
-            log4net.Config.XmlConfigurator.Configure();
-            
             _solutionManager =
                 new Lazy<SolutionManager>(
                     () =>
@@ -80,6 +79,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
             try
             {
                 var codeGeneratorResponse = GetCodeGeneratorResponse(inputFileContent);
+                Log4NetInitializer.Initialize(GetOutputPane(GetVSProject().DTE));
 
                 #region Write Messages to Output Pane
 

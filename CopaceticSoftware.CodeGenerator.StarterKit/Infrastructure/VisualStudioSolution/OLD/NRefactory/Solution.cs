@@ -26,7 +26,7 @@ using System.Text.RegularExpressions;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory
 {
     
     /// <summary>

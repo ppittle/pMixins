@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="ICodeGeneratorContext.cs" company="Copacetic Software"> 
+// <copyright file="ConcurrentSpecializedList.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Wednesday, April 30, 2014 5:48:10 PM</date> 
+// <date>Wednesday, April 30, 2014 11:07:08 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,21 +16,32 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using ICSharpCode.NRefactory.CSharp.Resolver;
+using System.Collections.Generic;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections
 {
-    public interface ICodeGeneratorContext
+    public class ConcurrentSpecializedList<T>
     {
-        CSharpFile Source { get; }
-        CSharpAstResolver TypeResolver { get; }
-    }
+        private static object _lock = new object();
 
-    public class CodeGeneratorContext : ICodeGeneratorContext
-    {
-        public CSharpFile Source { get; set; }
+        private readonly List<T> _backingList = new List<T>();
+        public void Add(T item)
+        {
+            lock(_lock)
+                _backingList.Add(item);
+        }
 
-        public CSharpAstResolver TypeResolver { get; set; }
+        public T[] CopyToArrayAndClear()
+        {
+            T[] buffer;
+
+            lock (_lock)
+            {
+                buffer = _backingList.ToArray();
+                _backingList.Clear();
+            }
+
+            return buffer;
+        }
     }
 }

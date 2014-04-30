@@ -21,7 +21,8 @@ using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
 using NUnit.Framework;
 

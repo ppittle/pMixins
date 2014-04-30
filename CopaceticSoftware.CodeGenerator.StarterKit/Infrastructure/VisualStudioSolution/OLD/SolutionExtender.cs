@@ -20,12 +20,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
 using log4net;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD
 {
     public interface ISolutionExtender
     {
@@ -121,7 +121,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
                 Solution.Projects.Remove(project);
 
-                var newProject = new CSharpProject(Solution, project.Title, project.FileName);
+                var newProject = new CSharpProject(Solution, project.FileName);
 
                 Solution.Projects.Add(newProject);
 

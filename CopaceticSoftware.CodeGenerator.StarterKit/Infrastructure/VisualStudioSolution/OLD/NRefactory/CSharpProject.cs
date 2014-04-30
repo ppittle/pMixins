@@ -27,7 +27,7 @@ using Microsoft.Build.Evaluation;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Logging;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory
 {
     /// <summary>
     /// Represents a C# project (.csproj file)
@@ -144,7 +144,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         private Project GetMSBuildProject(string fileName)
         {
             var loadedProjects = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(fileName);
-
+            
             return loadedProjects.Any()
                 ? loadedProjects.First()
                 : new Project(fileName);

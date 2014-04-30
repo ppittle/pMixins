@@ -2,7 +2,7 @@
 // <copyright file="CSharpFile.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Sunday, November 10, 2013 12:26:14 AM</date> 
+// <date>Wednesday, April 30, 2014 11:07:08 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -18,57 +18,41 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
-using ICSharpCode.NRefactory.CSharp.Resolver;
 using ICSharpCode.NRefactory.CSharp.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.NRefactory
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
-    /// <remarks>
-    /// Copied from the NRefactory StringIndexOf sample
-    /// http://www.codeproject.com/Articles/408663/Using-NRefactory-for-analyzing-Csharp-code
-    /// </remarks>
     public class CSharpFile
     {
         public readonly string FileName;
         public readonly string OriginalText;
-
-        private readonly IEnumerable<Error> _errors;
-        public bool HasErrors
-        {
-            get { return _errors.Any(); }
-        }
-
         public readonly SyntaxTree SyntaxTree;
         public readonly CSharpUnresolvedFile UnresolvedTypeSystemForFile;
-        public CSharpProject _project { get; private set; }
+        public readonly CSharpProject Project;
+        public readonly IEnumerable<Error> Errors;
 
         public CSharpFile(CSharpProject project, string fileName)
-            : this(project, fileName, File.ReadAllText(fileName)) { }
+            : this(project, fileName, File.ReadAllText(fileName))
+        {
+        }
 
         public CSharpFile(CSharpProject project, string fileName, string sourceCode)
         {
-            _project = project;
+            Project = project;
             FileName = fileName;
-
-            var parser = new CSharpParser(project.CompilerSettings);
-
-            // Keep the original text around; we might use it for a refactoring later
             OriginalText = sourceCode;
-            SyntaxTree = parser.Parse(OriginalText, fileName);
 
-            _errors = parser.HasErrors
+            var parser = new CSharpParser(Project.CompilerSettings);
+            
+            SyntaxTree = parser.Parse(sourceCode, fileName);
+
+            Errors = parser.HasErrors
                 ? parser.ErrorsAndWarnings
                 : new List<Error>(0);
 
             UnresolvedTypeSystemForFile = SyntaxTree.ToTypeSystem();
-        }
-
-        public CSharpAstResolver CreateResolver()
-        {
-            return new CSharpAstResolver(_project.Compilation, SyntaxTree, UnresolvedTypeSystemForFile);
         }
     }
 }

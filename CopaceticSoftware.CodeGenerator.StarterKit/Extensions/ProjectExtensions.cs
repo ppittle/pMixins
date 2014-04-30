@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="ICodeGeneratorContext.cs" company="Copacetic Software"> 
+// <copyright file="ProjectExtensions.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Wednesday, April 30, 2014 5:48:10 PM</date> 
+// <date>Wednesday, April 30, 2014 11:07:08 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,21 +16,20 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using ICSharpCode.NRefactory.CSharp.Resolver;
+using Microsoft.Build.Evaluation;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
-    public interface ICodeGeneratorContext
+    public static class ProjectExtensions
     {
-        CSharpFile Source { get; }
-        CSharpAstResolver TypeResolver { get; }
-    }
+        public static bool? GetBoolProperty(this Project p, string propertyName)
+        {
+            string val = p.GetPropertyValue(propertyName);
+            bool result;
+            if (bool.TryParse(val, out result))
+                return result;
 
-    public class CodeGeneratorContext : ICodeGeneratorContext
-    {
-        public CSharpFile Source { get; set; }
-
-        public CSharpAstResolver TypeResolver { get; set; }
+            return null;
+        }
     }
 }

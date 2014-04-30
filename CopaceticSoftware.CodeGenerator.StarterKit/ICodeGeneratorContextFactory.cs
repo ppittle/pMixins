@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.Common.Infrastructure;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit

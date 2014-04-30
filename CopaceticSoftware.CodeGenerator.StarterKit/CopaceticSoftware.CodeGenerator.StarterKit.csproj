@@ -108,10 +108,31 @@
     <Compile Include="Infrastructure\CodeGeneratorResponse.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\NRefactory\CSharpFile.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\NRefactory\CSharpProject.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\NRefactory\Solution.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\SolutionExtender.cs" />
+    <Compile Include="Infrastructure\Collections\ConcurrentSpecializedList.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\CSharpFile.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\CSharpProject.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\CSharpProjectFactory.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProjectAssemblyReferenceResolver.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProject.cs" />
+    <Compile Include="Extensions\ProjectExtensions.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\CSharpFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\CSharpProject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\Solution.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\OLD\SolutionExtender.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\OLD\SolutionManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\Solution.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\SolutionFactory.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\SolutionFileReader.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionManager.cs" />
     <Compile Include="Logging\Log4NetInitializer.cs" />
     <Compile Include="Logging\VisualStudioOutputWindowAppender.cs" />

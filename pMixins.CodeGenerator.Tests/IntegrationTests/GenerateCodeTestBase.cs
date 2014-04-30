@@ -68,9 +68,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             try
             {
                 CodeGeneratorContextFactory =
-                    new CodeGeneratorContextFactory(
-                        new SolutionManager(
-                            new SolutionExtender(Solution), new DummyVisualStudioEventProxy()));
+                    new CodeGeneratorContextFactory(new SolutionExtender(Solution));
 
                 CodeGenerationContext = 
                    CodeGeneratorContextFactory

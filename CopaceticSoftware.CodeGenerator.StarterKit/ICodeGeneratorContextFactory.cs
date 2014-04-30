@@ -29,8 +29,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
             return new CodeGeneratorContext
                        {
                            Source = sourceFile,
-                           TypeResolver = sourceFile.CreateResolver(),
-                           SolutionManager = _solutionManager
+                           TypeResolver = sourceFile.CreateResolver()
                        };
         }
     }

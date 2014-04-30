@@ -10,20 +10,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
 
     public class CodeGeneratorContextFactory : ICodeGeneratorContextFactory
     {
-        private readonly ISolutionManager _solutionManager;
+        private readonly ISolutionExtender _solutionExtender;
 
-        public CodeGeneratorContextFactory(ISolutionManager solutionManager)
+        public CodeGeneratorContextFactory(ISolutionExtender solutionExtender)
         {
-            Ensure.ArgumentNotNull(solutionManager, "solutionManager");
+            Ensure.ArgumentNotNull(solutionExtender, "solutionExtender");
 
-            _solutionManager = solutionManager;
+            _solutionExtender = solutionExtender;
         }
 
         public ICodeGeneratorContext GenerateContext(
             string sourceCode, string sourceFileName, string projectFilePath)
         {
             var sourceFile =
-                _solutionManager.AddOrUpdateCodeGeneratorFileSource(
+                _solutionExtender.AddOrUpdateProjectItemFile(
                     projectFilePath, sourceFileName, sourceCode);
 
             return new CodeGeneratorContext

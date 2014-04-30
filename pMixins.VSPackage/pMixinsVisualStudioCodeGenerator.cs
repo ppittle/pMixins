@@ -130,7 +130,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
                 // _solutionManager.Value.EnsureSolutionIsFullyParsed();
 
                 var codeGeneratorContext =
-                    new CodeGeneratorContextFactory( /*_solutionManager.Value*/ sm)
+                    new CodeGeneratorContextFactory( /*_solutionManager.Value*/ sm.SolutionExtender)
                         .GenerateContext(inputFileContent, GetProjectItem().Name, GetProject().FullName);
 
                 return

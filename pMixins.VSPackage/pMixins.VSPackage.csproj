@@ -184,6 +184,7 @@
     <Compile Include="pMixinsVisualStudioCodeGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="pMixins.VSPackagePackage.cs" />
+    <Compile Include="pMixinsVisualStudioCodeGenerateInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

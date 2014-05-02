@@ -21,7 +21,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
-namespace CopaceticSoftware.pMixins.Mvc
+namespace pMixins.Mvc
 {
     public partial class Startup
     {

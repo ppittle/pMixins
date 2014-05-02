@@ -19,9 +19,10 @@
 using CopaceticSoftware.pMixins.Mvc;
 using Microsoft.Owin;
 using Owin;
+using pMixins.Mvc;
 
 [assembly: OwinStartup(typeof(Startup))]
-namespace CopaceticSoftware.pMixins.Mvc
+namespace pMixins.Mvc
 {
     public partial class Startup
     {
@@ -31,3 +32,5 @@ namespace CopaceticSoftware.pMixins.Mvc
         }
     }
 }
+
+

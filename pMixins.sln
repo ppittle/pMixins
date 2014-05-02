@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pMixins.TheorySandbox", "pM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pMixins.VisualStudio", "pMixins.VisualStudio\pMixins.VisualStudio.csproj", "{B2738273-42FA-4589-AFFC-610CE796D1F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{5C4D0962-12AA-4D22-9844-0099D8C85DE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pMixins.Mvc", "pMixins.Mvc\pMixins.Mvc.csproj", "{3DAD41E3-D418-44FE-B844-4350A3C2C6E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,10 @@ Global
 		{B2738273-42FA-4589-AFFC-610CE796D1F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2738273-42FA-4589-AFFC-610CE796D1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2738273-42FA-4589-AFFC-610CE796D1F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DAD41E3-D418-44FE-B844-4350A3C2C6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DAD41E3-D418-44FE-B844-4350A3C2C6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DAD41E3-D418-44FE-B844-4350A3C2C6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DAD41E3-D418-44FE-B844-4350A3C2C6E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +96,7 @@ Global
 		{B2738273-42FA-4589-AFFC-610CE796D1F2} = {13FD010F-24D4-4519-881A-985B265D7FE9}
 		{A1D0E9F5-C2E8-4E30-9FD8-FF87FD97F324} = {E9B35708-C66D-44B0-9B58-4A7D47A319ED}
 		{576B2C1F-2744-4DC9-B68B-A2C48CBBCF5F} = {D7A901F5-B909-448B-9982-07CDC2F326C3}
+		{3DAD41E3-D418-44FE-B844-4350A3C2C6E3} = {5C4D0962-12AA-4D22-9844-0099D8C85DE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

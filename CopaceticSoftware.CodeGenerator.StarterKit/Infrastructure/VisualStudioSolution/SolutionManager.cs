@@ -23,12 +23,17 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections;
+using JetBrains.Annotations;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     public interface ISolutionManager : IDisposable
     {
+        void LoadSolution(string solutionFileName);
+
+        void RegisterCodeGeneratorResponse(CodeGeneratorResponse response);
+
         Task EnsureSolutionIsUpToDate();
 
         IEnumerable<CSharpFile> LoadCSharpFiles(IEnumerable<RawSourceFile> rawSourceFiles);
@@ -39,18 +44,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IVisualStudioEventProxy _visualStudioEventProxy;
+        private readonly ISolutionFactory _solutionFactory;
 
         protected readonly ConcurrentSpecializedList<VisualStudioEventArgs> _visualStudioEventQueue
             = new ConcurrentSpecializedList<VisualStudioEventArgs>();
 
-        protected readonly ConcurrentBag<string> _codeGeneratedFileNames = new ConcurrentBag<string>(); 
+        protected ConcurrentBag<CSharpFile> _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(); 
 
-        public Solution Solution { get; set; }
+        public Solution Solution { get; private set; }
 
-        public SolutionManager(Solution solution, IVisualStudioEventProxy visualStudioEventProxy)
+        private bool _monitorVisualStudioEvents = false;
+
+        public SolutionManager(IVisualStudioEventProxy visualStudioEventProxy, ISolutionFactory solutionFactory)
         {
-            Solution = solution;
             _visualStudioEventProxy = visualStudioEventProxy;
+            _solutionFactory = solutionFactory;
 
             visualStudioEventProxy.OnProjectAdded += QueueVisualStudioEvent;
             visualStudioEventProxy.OnProjectRemoved += QueueVisualStudioEvent;
@@ -63,7 +71,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             visualStudioEventProxy.OnProjectItemOpened += (sender, args) =>
             {
-                if (!_codeGeneratedFileNames.Any(f => f.Equals(args.ClassFullPath)))
+                if (!_monitorVisualStudioEvents)
+                    return;
+
+                if (!_codeGeneratedFileNames.Any(f => f.FileName.Equals(args.ClassFullPath)))
                     return;
 
                 _log.InfoFormat(
@@ -72,10 +83,57 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
                 EnsureSolutionIsUpToDate();
             };
+
+            visualStudioEventProxy.OnProjectRemoved += (sender, args) =>
+            {
+                if (!_monitorVisualStudioEvents)
+                    return;
+
+                //Remove _codeGeneratedFiles for the Project
+                _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(
+                    _codeGeneratedFileNames.Where(
+                        c => c.Project.FileName != args.ProjectFullPath));
+            };
+
+            visualStudioEventProxy.OnProjectItemRemoved += (sender, args) =>
+            {
+                if (!_monitorVisualStudioEvents)
+                    return;
+
+                //Remove the _projectItem in Code Generated Files
+                _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(
+                    _codeGeneratedFileNames.Where(
+                        c => c.FileName != args.ClassFullPath));
+            };
+
+            //TODO: Update _codeGeneratedFileNames OnProjectItemRenamed
+        }
+
+        public void LoadSolution(string solutionFileName)
+        {
+            _log.InfoFormat("Loading Solution [{0}]", solutionFileName);
+
+            _monitorVisualStudioEvents = false;
+
+            Solution = _solutionFactory.BuildSolution(solutionFileName);
+
+            _visualStudioEventQueue.Clear();
+
+            _monitorVisualStudioEvents = true;
+
+            _log.InfoFormat("Completed Loading Solution [{0}]", solutionFileName);
+        }
+
+        public void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)
+        {
+            _codeGeneratedFileNames.Add(response.CodeGeneratorContext.Source);
         }
 
         public Task EnsureSolutionIsUpToDate()
         {
+            if (null == Solution)
+                return new TaskFactory().StartNew(() => { });
+
             return new TaskFactory().StartNew(
                 () => new SolutionSyncer().SyncSolution(
                     Solution, 
@@ -89,6 +147,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         protected virtual void QueueVisualStudioEvent(object sender, VisualStudioEventArgs eventArgs)
         {
+            if (!_monitorVisualStudioEvents)
+                return;
+
             #region Null Guard Check and Logging
 
             if (null == eventArgs)
@@ -117,9 +178,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class SolutionSyncer
     {
-        public void SyncSolution(Solution solution, IEnumerable<VisualStudioEventArgs> visualStudioEvents)
+        public void SyncSolution(Solution solution, VisualStudioEventArgs[] visualStudioEvents)
         {
-            
+            if (null == visualStudioEvents || visualStudioEvents.Length == 0)
+                return;
         }
     }
 }

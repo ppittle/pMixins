@@ -16,7 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+
+using System.Collections.Generic;
+using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.Common.Infrastructure;
 
@@ -24,32 +26,34 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
 {
     public interface ICodeGeneratorContextFactory
     {
-        ICodeGeneratorContext GenerateContext(string sourceCode, string sourceFileName, string projectFilePath);
+        IEnumerable<ICodeGeneratorContext> GenerateContext(IEnumerable<RawSourceFile> rawSourceFiles);
     }
 
     public class CodeGeneratorContextFactory : ICodeGeneratorContextFactory
     {
-        private readonly ISolutionExtender _solutionExtender;
+        private readonly ISolutionManager _solutionManager;
 
-        public CodeGeneratorContextFactory(ISolutionExtender solutionExtender)
+        public CodeGeneratorContextFactory(ISolutionManager solutionManager)
         {
-            Ensure.ArgumentNotNull(solutionExtender, "solutionExtender");
+            Ensure.ArgumentNotNull(solutionManager, "solutionManager");
 
-            _solutionExtender = solutionExtender;
+            _solutionManager = solutionManager;
         }
 
-        public ICodeGeneratorContext GenerateContext(
-            string sourceCode, string sourceFileName, string projectFilePath)
+        public IEnumerable<ICodeGeneratorContext> GenerateContext(IEnumerable<RawSourceFile> rawSourceFiles)
         {
-            var sourceFile =
-                _solutionExtender.AddOrUpdateProjectItemFile(
-                    projectFilePath, sourceFileName, sourceCode);
+            if (null == rawSourceFiles)
+                return Enumerable.Empty<ICodeGeneratorContext>();
 
-            return new CodeGeneratorContext
-                       {
-                           Source = sourceFile,
-                           TypeResolver = sourceFile.CreateResolver()
-                       };
+            return
+                _solutionManager.LoadCSharpFiles(rawSourceFiles)
+                    .Select(
+                        csharpFile =>
+                            new CodeGeneratorContext
+                            {
+                                Source = csharpFile,
+                                TypeResolver = csharpFile.CreateResolver()
+                            });
         }
     }
 }

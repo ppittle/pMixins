@@ -16,12 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps;
+using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
-using EnvDTE80;
 using log4net;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -38,43 +38,16 @@ namespace CopaceticSoftware.pMixins_VSPackage
         {
             base.Initialize();
 
-            Log4NetInitializer.Initialize(GetOutputPane((DTE)GetService(typeof(DTE))));
+            var visualStudioWriter = new VisualStudioWriter(
+                (DTE) GetService(typeof (DTE)), this);
+
+            Log4NetInitializer.Initialize(visualStudioWriter);
+
+            ServiceLocator.Initialize(visualStudioWriter);
 
             var log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
             log.Warn("I'm in!");
-        }
-
-        protected EnvDTE.OutputWindowPane GetOutputPane(DTE dte)
-        {
-            if (dte == null)
-                return null;
-
-            string windowName = GetType().Name;
-            EnvDTE.OutputWindowPane pane = null;
-            EnvDTE.Window window = dte.Windows.Item(EnvDTE.Constants.vsWindowKindOutput);
-            if (window != null)
-            {
-                EnvDTE.OutputWindow output = window.Object as EnvDTE.OutputWindow;
-                if (output != null)
-                {
-                    pane = output.ActivePane;
-                    if (pane == null || pane.Name != windowName)
-                    {
-                        for (int ix = output.OutputWindowPanes.Count; ix > 0; ix--)
-                        {
-                            pane = output.OutputWindowPanes.Item(ix);
-                            if (pane.Name == windowName)
-                                break;
-                        }
-                        if (pane == null || pane.Name != windowName)
-                            pane = output.OutputWindowPanes.Add(windowName);
-                        if (pane != null)
-                            pane.Activate();
-                    }
-                }
-            }
-            return pane;
         }
     }
 }

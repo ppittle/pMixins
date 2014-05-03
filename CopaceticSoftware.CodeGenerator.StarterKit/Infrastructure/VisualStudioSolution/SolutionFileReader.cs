@@ -46,7 +46,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(string solutionFileName)
         {
             if (!File.Exists(solutionFileName))
-                throw new FileNotFoundException("Solution File", solutionFileName);
+                throw new FileNotFoundException("Solution FileName", solutionFileName);
 
             Ensure.ArgumentNotNullOrEmpty(solutionFileName, "solutionFileName");
 

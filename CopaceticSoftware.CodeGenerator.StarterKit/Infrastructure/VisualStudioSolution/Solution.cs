@@ -26,12 +26,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     [DebuggerDisplay("{File} - {Projects.Count} Projects")]
     public class Solution
     {
-        public readonly string File;
+        public readonly string FileName;
         public readonly IEnumerable<CSharpProject> Projects;
 
-        public Solution(string file, IEnumerable<CSharpProject> projects)
+        public Solution(string fileName, IEnumerable<CSharpProject> projects)
         {
-            File = file;
+            FileName = fileName;
             Projects = projects;
         }
 

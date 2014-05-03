@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject.Modules;
 
@@ -25,7 +26,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
     {
         public override void Load()
         {
+            Bind<ICodeGeneratorContextFactory>().To<CodeGeneratorContextFactory>();
+            Bind<ICSharpProjectFactory>().To<CSharpProjectFactory>();
+            Bind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<MicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+            Bind<ISolutionFactory>().To<SolutionFactory>();
+            Bind<ISolutionFileReader>().To<SolutionFileReader>();
             Bind<ISolutionManager>().To<SolutionManager>().InSingletonScope();
+            Bind<IVisualStudioEventProxy>().To<VisualStudioEventProxy>().InSingletonScope();
         }
     }
 }

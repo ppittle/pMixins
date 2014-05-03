@@ -40,6 +40,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public CSharpFile(CSharpProject project, string fileName, string sourceCode)
         {
+            Ensure.ArgumentNotNull(project, "project");
+
             Project = project;
             FileName = fileName;
             OriginalText = sourceCode;

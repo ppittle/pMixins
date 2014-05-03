@@ -40,6 +40,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver,
             string projectFileName)
         {
+            FileName = projectFileName ?? "";
+
             var msBuildProject = GetMSBuildProject(projectFileName);
             
             AssemblyName = msBuildProject.GetPropertyValue("AssemblyName");

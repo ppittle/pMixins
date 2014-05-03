@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using Ninject;
 using Ninject.Modules;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
@@ -25,7 +26,11 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
     {
         public override void Load()
         {
-            Rebind<ISolutionManager>().To<pMixinsSolutionManager>().InSingletonScope();
+            //http://stackoverflow.com/questions/4195428/binding-one-class-to-several-interfaces-as-singleton
+            Bind<pMixinsSolutionManager>().ToSelf().InSingletonScope();
+            Bind<IpMixinsSolutionManager>().ToMethod(c => c.Kernel.Get<pMixinsSolutionManager>());
+            Rebind<ISolutionManager>().ToMethod(c => c.Kernel.Get<pMixinsSolutionManager>());
+
             Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<pMixinsMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
         }
     }

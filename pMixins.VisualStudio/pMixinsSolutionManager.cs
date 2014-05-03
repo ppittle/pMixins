@@ -21,7 +21,12 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolu
 
 namespace CopaceticSoftware.pMixins.VisualStudio
 {
-    public class pMixinsSolutionManager : SolutionManager
+    public interface IpMixinsSolutionManager : ISolutionManager
+    {
+        
+    }
+
+    public class pMixinsSolutionManager : SolutionManager, IpMixinsSolutionManager
     {
         public pMixinsSolutionManager(Solution solution, IVisualStudioEventProxy visualStudioEventProxy) : 
             base(solution, visualStudioEventProxy)

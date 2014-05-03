@@ -43,12 +43,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public readonly SyntaxTree SyntaxTree;
         public readonly CSharpUnresolvedFile UnresolvedTypeSystemForFile;
-        public CSharpProject _project { get; private set; }
+        public NRefactory.CSharpProject _project { get; private set; }
 
         public CSharpFile(CSharpProject project, string fileName)
             : this(project, fileName, File.ReadAllText(fileName)) { }
 
-        public CSharpFile(CSharpProject project, string fileName, string sourceCode)
+        public CSharpFile(NRefactory.CSharpProject project, string fileName, string sourceCode)
         {
             _project = project;
             FileName = fileName;

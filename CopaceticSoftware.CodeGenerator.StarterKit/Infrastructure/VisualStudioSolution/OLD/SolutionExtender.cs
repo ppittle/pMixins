@@ -29,15 +29,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface ISolutionExtender
     {
-        event EventHandler<CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
+        event EventHandler<NRefactory.CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
 
-        Solution Solution { get; }
-        CSharpFile AddOrUpdateProjectItemFile(string projectFilePath, string codeRelativeFilePath, string sourceCode);
-        CSharpProject AddOrUpdateProject(string projectFilePath);
-        void RemoveCSharpFileFromProject(CSharpProject project, string codeFilePath);
+        NRefactory.Solution Solution { get; }
+        NRefactory.CSharpFile AddOrUpdateProjectItemFile(string projectFilePath, string codeRelativeFilePath, string sourceCode);
+        NRefactory.CSharpProject AddOrUpdateProject(string projectFilePath);
+        void RemoveCSharpFileFromProject(NRefactory.CSharpProject project, string codeFilePath);
         void AddFileToProject(string projectFilePath, string codeFilePath);
-        CSharpProject GetProjectByFilePath(string projectFilePath);
-        void RemoveProject(CSharpProject project);
+        NRefactory.CSharpProject GetProjectByFilePath(string projectFilePath);
+        void RemoveProject(NRefactory.CSharpProject project);
     }
 
     /// <summary>
@@ -47,10 +47,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public event EventHandler<CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
+        public event EventHandler<NRefactory.CSharpProject.AssemblyReferencesResolved> OnProjectAssemblyReferencesResolved;
 
-        private Solution _solution;
-        public Solution Solution
+        private NRefactory.Solution _solution;
+        public NRefactory.Solution Solution
         {
             get { return _solution; }
 
@@ -69,7 +69,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         }
 
 
-        public SolutionExtender(Solution solution)
+        public SolutionExtender(NRefactory.Solution solution)
         {
             Ensure.ArgumentNotNull(solution, "solution");
 
@@ -77,7 +77,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         }
 
 
-        public CSharpFile AddOrUpdateProjectItemFile(string projectFilePath, string codeRelativeFilePath, string sourceCode)
+        public NRefactory.CSharpFile AddOrUpdateProjectItemFile(string projectFilePath, string codeRelativeFilePath, string sourceCode)
         {
             var projectAbsoluteFilePath = PathExt.MakePathAbsolute(Solution.FullName, projectFilePath);
             var codeAbsoluteFilePath = PathExt.MakePathAbsolute(projectAbsoluteFilePath, codeRelativeFilePath);
@@ -91,7 +91,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 RemoveCSharpFileFromProject(project, codeAbsoluteFilePath);
 
                 //Create a new CSharpFile
-                var newFile = new CSharpFile(project, codeAbsoluteFilePath, sourceCode);
+                var newFile = new NRefactory.CSharpFile(project, codeAbsoluteFilePath, sourceCode);
 
                 //Add the file to the Project
                 project.AddCSharpFile(newFile);
@@ -109,7 +109,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
         }
 
-        public CSharpProject AddOrUpdateProject(string projectFilePath)
+        public NRefactory.CSharpProject AddOrUpdateProject(string projectFilePath)
         {
             _log.InfoFormat("Looking for Project [{0}]", projectFilePath);
 
@@ -121,7 +121,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
                 Solution.Projects.Remove(project);
 
-                var newProject = new CSharpProject(Solution, project.FileName);
+                var newProject = new NRefactory.CSharpProject(Solution, project.Title, project.FileName);
 
                 Solution.Projects.Add(newProject);
 
@@ -132,7 +132,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _log.Info("Project has not been parsed.  Adding it now.");
             //Reparse the whole solution - TODO: can probably optomize this.
-            Solution = new Solution(Solution.FullName);
+            Solution = new NRefactory.Solution(Solution.FullName);
 
             project = GetProjectByFilePath(projectFilePath);
 
@@ -144,7 +144,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             return project;
         }
 
-        public void RemoveCSharpFileFromProject(CSharpProject project, string codeAbsoluteFilePath)
+        public void RemoveCSharpFileFromProject(NRefactory.CSharpProject project, string codeAbsoluteFilePath)
         {
             Ensure.ArgumentNotNull(project, "project");
 
@@ -160,10 +160,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (null == project)
                 throw new Exception(string.Format(Strings.ExceptionCouldNotFindProjectWithFullName, projectFilePath));
 
-            project.AddCSharpFile(new CSharpFile(project, codeFilePath));
+            project.AddCSharpFile(new NRefactory.CSharpFile(project, codeFilePath));
         }
 
-        public CSharpProject GetProjectByFilePath(string projectFilePath)
+        public NRefactory.CSharpProject GetProjectByFilePath(string projectFilePath)
         {
             projectFilePath = Path.GetFullPath(projectFilePath);
 
@@ -171,7 +171,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 Solution.Projects.FirstOrDefault(x => PathExt.PathsAreEqual(x.FileName, projectFilePath));
         }
 
-        public void RemoveProject(CSharpProject project)
+        public void RemoveProject(NRefactory.CSharpProject project)
         {
             if (null == project)
                 return;

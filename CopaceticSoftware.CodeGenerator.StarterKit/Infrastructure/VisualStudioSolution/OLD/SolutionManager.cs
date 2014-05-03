@@ -31,11 +31,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface ISolutionManager : IDisposable
     {
-        Solution Solution { get; }
+        NRefactory.Solution Solution { get; }
 
         ISolutionExtender SolutionExtender { get; }
 
-        CSharpFile AddOrUpdateCodeGeneratorFileSource(string projectFilePath, string codeFilePath, string sourceCode);
+        NRefactory.CSharpFile AddOrUpdateCodeGeneratorFileSource(string projectFilePath, string codeFilePath, string sourceCode);
 
         /// <summary>
         /// Insturcts the <see cref="ISolutionManager"/> to reparse any parts of a Solution
@@ -78,11 +78,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         #region Constructor
 
         public SolutionManager(string solutionName, IVisualStudioEventProxy visualStudioEvents)
-            : this(new Solution(solutionName), visualStudioEvents)
+            : this(new NRefactory.Solution(solutionName), visualStudioEvents)
         {
         }
 
-        public SolutionManager(Solution solution, IVisualStudioEventProxy visualStudioEvents)
+        public SolutionManager(NRefactory.Solution solution, IVisualStudioEventProxy visualStudioEvents)
             : this(new SolutionExtender(solution), visualStudioEvents)
         {
         }
@@ -324,12 +324,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         #region Wrapped ISolutionManager Members
 
-        public Solution Solution
+        public NRefactory.Solution Solution
         {
             get { return SolutionExtender.Solution; }
         }
 
-        public CSharpFile AddOrUpdateCodeGeneratorFileSource(string projectFilePath, string codeFilePath,
+        public NRefactory.CSharpFile AddOrUpdateCodeGeneratorFileSource(string projectFilePath, string codeFilePath,
             string sourceCode)
         {
             lock (SolutionExtenderLock)

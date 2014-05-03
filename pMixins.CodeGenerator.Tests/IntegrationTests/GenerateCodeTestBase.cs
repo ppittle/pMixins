@@ -24,6 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
+using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using NUnit.Framework;
 using Ninject;
 
@@ -50,11 +51,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 
         static GenerateCodeTestBase()
         {
-            Kernel = new StandardKernel(new StandardModule());
+            Kernel = new StandardKernel(
+                new StandardModule(),
+                new pMixinsStandardModule());
 
             Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
 
-            Solution = Kernel.Get<ISolutionFactory>().BuildSolution(solutionFile);
+            var solutionManager = Kernel.Get<ISolutionManager>();
+
+            solutionManager.LoadSolution(solutionFile);
+
+            Solution = solutionManager.Solution;
         }
 
         protected ICodeGeneratorContextFactory CodeGeneratorContextFactory { get; private set; }
@@ -72,8 +79,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 
         public override void MainSetup()
         {
-            log4net.Config.XmlConfigurator.Configure();
-
             Console.WriteLine("SourceCode: \n\n"+ SourceCode + "\n");
 
             var generator = new pMixinPartialCodeGenerator();
@@ -97,6 +102,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             }
             catch(Exception e)
             {
+                Log.Fatal(e);
+
                 Assert.Fail("Exception in CodeGeneratorContextFactory: " + e.Message, e);
             }
             

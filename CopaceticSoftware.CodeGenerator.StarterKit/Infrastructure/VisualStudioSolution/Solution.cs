@@ -23,16 +23,18 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
-    [DebuggerDisplay("{File} - {Projects.Count} Projects")]
+    [DebuggerDisplay("{FileName} - {Projects.Count} Projects")]
     public class Solution
     {
         public readonly string FileName;
-        public readonly IEnumerable<CSharpProject> Projects;
+        public readonly IList<CSharpProject> Projects;
 
         public Solution(string fileName, IEnumerable<CSharpProject> projects)
         {
             FileName = fileName;
-            Projects = projects;
+            Projects = projects.ToList();
+
+            RecreateCompilations();
         }
 
         /// <summary>

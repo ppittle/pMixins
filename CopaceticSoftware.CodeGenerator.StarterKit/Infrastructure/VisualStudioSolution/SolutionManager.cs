@@ -22,7 +22,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections;
+using CopaceticSoftware.Common.Infrastructure;
 using JetBrains.Annotations;
 using log4net;
 
@@ -30,6 +32,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface ISolutionManager : IDisposable
     {
+        Solution Solution { get; }
+
         void LoadSolution(string solutionFileName);
 
         void RegisterCodeGeneratorResponse(CodeGeneratorResponse response);
@@ -142,7 +146,19 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public IEnumerable<CSharpFile> LoadCSharpFiles(IEnumerable<RawSourceFile> rawSourceFiles)
         {
-            throw new NotImplementedException();
+            Ensure.ArgumentNotNull(rawSourceFiles, "rawSourceFiles");
+
+            if (null == Solution)
+                throw new Exception("Solution has not be Loaded yet.  You must call LoadSolution() first.");
+
+            var csharpFiles = 
+                rawSourceFiles.Select(r => Solution.AddOrUpdateProjectItemFile(r))
+                .ToList();
+
+            //Recreate the compilation once all the files have been updated
+            Solution.RecreateCompilations();
+
+            return csharpFiles;
         }
 
         protected virtual void QueueVisualStudioEvent(object sender, VisualStudioEventArgs eventArgs)

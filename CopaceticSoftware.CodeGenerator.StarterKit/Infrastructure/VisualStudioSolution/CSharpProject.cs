@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CopaceticSoftware.Common.Extensions;
 using ICSharpCode.NRefactory.CSharp;
@@ -24,6 +25,7 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
+    [DebuggerDisplay("[CSharpProject AssemblyName={AssemblyName}]")]
     public class CSharpProject
     {
         #region Public Fields
@@ -49,7 +51,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         /// <summary>
         /// The unresolved type system for this project.
         /// </summary>
-        public readonly IProjectContent ProjectContent;
+        public IProjectContent ProjectContent;
 
         /// <summary>
         /// The resolved type system for this project.
@@ -66,10 +68,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             AssemblyName = msBuildProject.AssemblyName;
             FileName = msBuildProject.FileName;
-
-            Files = msBuildProject.CompiledFileNames.Select(
-                f => new CSharpFile(this, f)).ToList();
-
+            
             CompilerSettings =
                 #region new CompilerSettings
                 new CompilerSettings
@@ -82,15 +81,25 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             #endregion
 
             ProjectContent = new CSharpProjectContent();
-
             ProjectContent.SetAssemblyName(msBuildProject.AssemblyName);
             ProjectContent.SetProjectFileName(msBuildProject.FileName);
             ProjectContent.SetCompilerSettings(CompilerSettings);
+
+            Files = msBuildProject.CompiledFileNames.Select(
+                f => new CSharpFile(this, f)).ToList();
 
             ProjectContent = ProjectContent.AddOrUpdateFiles(
                 Files.Select(f => f.UnresolvedTypeSystemForFile));
 
             ProjectContent = ProjectContent.AddAssemblyReferences(msBuildProject.ReferencedAssemblies);
+        }
+
+        public void AddOrUpdateCSharpFile(CSharpFile csharpFile)
+        {
+            if (Files.All(f => !f.FileName.Equals(csharpFile.FileName)))
+                Files.Add(csharpFile);
+
+            ProjectContent = ProjectContent.AddOrUpdateFiles(csharpFile.UnresolvedTypeSystemForFile);
         }
     }
 }

@@ -16,21 +16,29 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.pMixins.Attributes;
 
 namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public interface IpMixinsSolutionManager : ISolutionManager
     {
-        
+        /// <summary>
+        /// A collection of source class files that a Target depends on.  The Key
+        /// is a file with the pMixins attribute and the Value is a collection
+        /// of files where the <see cref="pMixinAttribute.Mixin"/> is defined.
+        /// </summary>
+        IDictionary<CSharpFile, IEnumerable<CSharpFile>> MixinDependencies { get; }
     }
 
     public class pMixinsSolutionManager : SolutionManager, IpMixinsSolutionManager
     {
-        public pMixinsSolutionManager(Solution solution, IVisualStudioEventProxy visualStudioEventProxy) : 
-            base(solution, visualStudioEventProxy)
+        public pMixinsSolutionManager(IVisualStudioEventProxy visualStudioEventProxy, ISolutionFactory solutionFactory) : base(visualStudioEventProxy, solutionFactory)
         {
         }
+
+        public IDictionary<CSharpFile, IEnumerable<CSharpFile>> MixinDependencies { get; private set; }
     }
 }

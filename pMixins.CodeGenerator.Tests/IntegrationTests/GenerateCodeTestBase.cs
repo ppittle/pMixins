@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
@@ -50,6 +51,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
         static GenerateCodeTestBase()
         {
             Kernel = new StandardKernel(new StandardModule());
+
+            Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
 
             Solution = Kernel.Get<ISolutionFactory>().BuildSolution(solutionFile);
         }

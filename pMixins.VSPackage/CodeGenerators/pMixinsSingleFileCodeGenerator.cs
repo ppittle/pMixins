@@ -16,7 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using System.Runtime.InteropServices;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
 using Microsoft.Samples.VisualStudio.GeneratorSample;
 using Microsoft.VisualStudio.Shell;
@@ -49,10 +51,18 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         protected override byte[] GenerateCode(string inputFileContent)
         {
-            return _visualStudioCodeGenerator.GenerateCode(
-                inputFileContent,
-                GetProjectItem().Name,
-                GetProject().FullName);
+            return
+                _visualStudioCodeGenerator.GenerateCode(
+                    new[]
+                    {
+                        new RawSourceFile
+                        {
+                            FileContents = inputFileContent,
+                            FileName = GetProjectItem().Name,
+                            ProjectFileName = GetProject().FullName
+                        }
+                    })
+                    .First();
         }
     }
 }

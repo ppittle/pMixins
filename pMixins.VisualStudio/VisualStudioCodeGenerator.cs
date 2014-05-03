@@ -17,17 +17,20 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public interface IVisualStudioCodeGenerator
     {
-        byte[] GenerateCode(string inputFileContent, string fileName, string projectFileName);
+        IEnumerable<byte[]> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles);
     }
 
     public class VisualStudioCodeGenerator : IVisualStudioCodeGenerator
@@ -45,23 +48,30 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
         }
 
-        public byte[] GenerateCode(string inputFileContent, string fileName, string projectFileName)
+        public IEnumerable<byte[]> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles)
         {
-            inputFileContent = inputFileContent ?? "";
-            fileName = fileName ?? "";
-            projectFileName = projectFileName ?? "";
-            
-            Log.InfoFormat("Generating Code for file [{0}] in [{1}]",
-                    fileName, projectFileName);
+            var sourceFileList = rawSourceFiles.ToList();
 
-            Log.DebugFormat("Input File Contents: {0}{1}",
-                Environment.NewLine,
-                inputFileContent);
+            IEnumerable<ICodeGeneratorContext> contexts = 
+                _codeGeneratorContextFactory.GenerateContext(sourceFileList);
 
+            foreach (var context in contexts)
+            {
+                Log.InfoFormat("Generating Code for file [{0}] in [{1}]",
+                        context.Source.FileName, context.Source.Project.FileName);
+
+                Log.DebugFormat("Input File Contents: {0}{1}",
+                    Environment.NewLine,
+                    context.Source.OriginalText);
+
+                yield return GenerateCode(context);
+            }
+        }
+
+        private byte[] GenerateCode(ICodeGeneratorContext context)
+        {
             try
             {
-                var context = _codeGeneratorContextFactory.GenerateContext(inputFileContent, fileName, projectFileName);
-
                 var response = _codeGenerator.GeneratePartialCode(context);
 
                 #region Write Errors / Warnings
@@ -96,16 +106,16 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             {
                 var errorMessage =
                     string.Format("Unhandled Exception Generating Code for File [{0}] in Product [{1}]: {2}",
-                        fileName,
-                        projectFileName,
+                        context.Source.FileName,
+                        context.Source.Project.FileName,
                         e.Message);
 
                 if (Log.IsInfoEnabled)
-                    errorMessage += Environment.NewLine + "File Contents:" + Environment.NewLine + inputFileContent;
+                    errorMessage += Environment.NewLine + "File Contents:" + Environment.NewLine + context.Source.OriginalText;
 
                 Log.Error(errorMessage, e);
 
-                return new byte[0];
+                return Encoding.UTF8.GetBytes(""); 
             }
         }
     }

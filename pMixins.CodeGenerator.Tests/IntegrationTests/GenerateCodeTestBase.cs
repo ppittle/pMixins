@@ -21,10 +21,10 @@ using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory;
+using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
 using NUnit.Framework;
+using Ninject;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 {
@@ -43,9 +43,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                     Directory.GetCurrentDirectory(),
                     @"..\..\..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj"));
 
-        protected static readonly Solution Solution = new Solution(solutionFile);
+        protected static readonly Solution Solution;
 
-        protected CodeGeneratorContextFactory CodeGeneratorContextFactory { get; private set; }
+        protected static IKernel Kernel { get; private set; }
+
+        static GenerateCodeTestBase()
+        {
+            Kernel = new StandardKernel(new StandardModule());
+
+            Solution = Kernel.Get<ISolutionFactory>().BuildSolution(solutionFile);
+        }
+
+        protected ICodeGeneratorContextFactory CodeGeneratorContextFactory { get; private set; }
 
         protected ICodeGeneratorContext CodeGenerationContext { get; private set; }
 
@@ -68,15 +77,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             
             try
             {
-                CodeGeneratorContextFactory =
-                    new CodeGeneratorContextFactory(new SolutionExtender(Solution));
+                CodeGeneratorContextFactory = Kernel.Get<ICodeGeneratorContextFactory>();
 
-                CodeGenerationContext = 
-                   CodeGeneratorContextFactory
-                       .GenerateContext(
-                            SourceCode,
-                            "testFile.cs",
-                            ProjectFile);
+                CodeGenerationContext =
+                    CodeGeneratorContextFactory
+                        .GenerateContext(
+                            new []{
+                            new RawSourceFile()
+                            {
+                                FileContents = SourceCode,
+                                FileName = "testFile.cs",
+                                ProjectFileName = ProjectFile
+                            }})
+                        .First();
+
             }
             catch(Exception e)
             {

@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests
         }
 
     }
-
+    
     public static class Log4NetInitializer
     {
         static Log4NetInitializer()

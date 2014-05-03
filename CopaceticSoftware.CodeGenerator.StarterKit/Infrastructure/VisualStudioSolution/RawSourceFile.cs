@@ -23,6 +23,10 @@ using System.Text;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
+    /// <summary>
+    /// Represents the information needed to create
+    /// <see cref="CSharpFile"/>s
+    /// </summary>
     public class RawSourceFile
     {
         public string FileName { get; set; }

@@ -81,9 +81,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             #endregion
 
             ProjectContent = new CSharpProjectContent();
-            ProjectContent.SetAssemblyName(msBuildProject.AssemblyName);
-            ProjectContent.SetProjectFileName(msBuildProject.FileName);
-            ProjectContent.SetCompilerSettings(CompilerSettings);
+            ProjectContent = ProjectContent.SetAssemblyName(msBuildProject.AssemblyName);
+            ProjectContent = ProjectContent.SetProjectFileName(msBuildProject.FileName);
+            ProjectContent = ProjectContent.SetCompilerSettings(CompilerSettings);
 
             Files = msBuildProject.CompiledFileNames.Select(
                 f => new CSharpFile(this, f)).ToList();

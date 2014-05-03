@@ -154,6 +154,10 @@
       <Project>{0b3b811b-d400-4144-a655-81bbff88e858}</Project>
       <Name>pMixins.CodeGenerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pMixins.VisualStudio\pMixins.VisualStudio.csproj">
+      <Project>{b2738273-42fa-4589-affc-610ce796d1f2}</Project>
+      <Name>pMixins.VisualStudio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pMixins\pMixins.csproj">
       <Project>{f2d44224-b6db-4518-a017-2b3dc5f4c4ea}</Project>
       <Name>pMixins</Name>

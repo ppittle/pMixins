@@ -109,6 +109,7 @@
     <Compile Include="Infrastructure\CodeGenerationError.cs" />
     <Compile Include="Infrastructure\IPartialCodeGenerator.cs" />
     <Compile Include="Infrastructure\CodeGeneratorResponse.cs" />
+    <Compile Include="Infrastructure\IVisualStudioWriter.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
     <Compile Include="Infrastructure\Collections\ConcurrentSpecializedList.cs" />

@@ -16,8 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 {
+    /// <summary>
+    /// Proxies communication to the Visual Studio Output and Error List
+    /// window.
+    /// </summary>
     public interface IVisualStudioWriter
     {
         void GeneratorError(uint level, string message, uint line, uint column);

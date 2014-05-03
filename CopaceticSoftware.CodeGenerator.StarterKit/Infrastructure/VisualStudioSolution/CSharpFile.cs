@@ -18,7 +18,9 @@
 
 using System.Collections.Generic;
 using System.IO;
+using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.CSharp.Resolver;
 using ICSharpCode.NRefactory.CSharp.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem;
 
@@ -55,6 +57,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 : new List<Error>(0);
 
             UnresolvedTypeSystemForFile = SyntaxTree.ToTypeSystem();
+        }
+
+        public CSharpAstResolver CreateResolver()
+        {
+            return new CSharpAstResolver(Project.Compilation, SyntaxTree, UnresolvedTypeSystemForFile);
         }
     }
 }

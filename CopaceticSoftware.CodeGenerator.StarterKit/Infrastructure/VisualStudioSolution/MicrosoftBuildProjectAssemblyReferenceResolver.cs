@@ -18,15 +18,19 @@
 
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
 using Microsoft.Build.Evaluation;
+using Microsoft.Build.Framework;
+using Microsoft.Build.Logging;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     public interface IMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project);
+        IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName);
     }
 
     //Should be singleton
@@ -41,10 +45,41 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         }
 
 
-        public virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
+        public IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName)
         {
-            throw new System.NotImplementedException();
+            return ResolveAssemblyReferences(project, projectFileName)
+                .Union<IAssemblyReference>(ResolvedProjectReferences(project));
         }
+
+        protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
+        {
+            string baseDirectory = Path.GetDirectoryName(projectFileName);
+
+            // Use MSBuild to figure out the full path of the referenced assemblies
+            var projectInstance = project.CreateProjectInstance();
+            projectInstance.SetProperty("BuildingProject", "false");
+            project.SetProperty("DesignTimeBuild", "true");
+
+            projectInstance.Build("ResolveAssemblyReferences", new[] { new ConsoleLogger(LoggerVerbosity.Minimal) });
+
+            var items = projectInstance.GetItems("_ResolveAssemblyReferenceResolvedFiles");
+
+            return items.Select(i => LoadAssembly(Path.Combine(baseDirectory, i.GetMetadataValue("Identity"))));
+        }
+
+        protected virtual IEnumerable<ProjectReference> ResolvedProjectReferences(Project project)
+        {
+            foreach (var item in project.GetItems("ProjectReference"))
+            {
+                string referencedFileName = Path.Combine(project.DirectoryPath, item.EvaluatedInclude);
+
+                // Normalize the path; this is required to match the name with the referenced project's file name
+                referencedFileName = Path.GetFullPath(referencedFileName);
+
+                yield return new ProjectReference(referencedFileName);
+            }
+        }
+
 
         protected IUnresolvedAssembly LoadAssembly(string assemblyFileName)
         {

@@ -24,6 +24,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     {
         public enum SeverityOptions
         {
+            Message,
             Warning,
             Error
         }

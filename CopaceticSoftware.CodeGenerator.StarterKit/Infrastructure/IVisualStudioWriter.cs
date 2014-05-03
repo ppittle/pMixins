@@ -24,8 +24,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     /// </summary>
     public interface IVisualStudioWriter
     {
-        void GeneratorError(uint level, string message, uint line, uint column);
-        void GeneratorWarning(uint level, string message, uint line, uint column);
+        void GeneratorError(string message, uint line, uint column);
+        void GeneratorWarning(string message, uint line, uint column);
+
+        void GeneratorMessage(string message, uint line, uint column);
         void OutputString(string s);
     }
 }

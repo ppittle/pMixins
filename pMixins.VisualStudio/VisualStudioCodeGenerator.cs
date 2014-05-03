@@ -71,11 +71,15 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                     switch (error.Severity)
                     {
                         case CodeGenerationError.SeverityOptions.Error:
-                            _visualStudioWriter.GeneratorError(4, error.Message, error.Line, error.Column);
+                            _visualStudioWriter.GeneratorError(error.Message, error.Line, error.Column);
                             break;
 
                         case CodeGenerationError.SeverityOptions.Warning:
-                            _visualStudioWriter.GeneratorWarning(1, error.Message, error.Line, error.Column);
+                            _visualStudioWriter.GeneratorWarning(error.Message, error.Line, error.Column);
+                            break;
+
+                        case CodeGenerationError.SeverityOptions.Message:
+                            _visualStudioWriter.GeneratorMessage(error.Message, error.Line, error.Column);
                             break;
                     }
 

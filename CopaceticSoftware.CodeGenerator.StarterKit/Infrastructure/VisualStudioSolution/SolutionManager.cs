@@ -27,10 +27,11 @@ using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
-
     public interface ISolutionManager : IDisposable
     {
         Task EnsureSolutionIsUpToDate();
+
+        IEnumerable<CSharpFile> LoadCSharpFiles(IEnumerable<RawSourceFile> rawSourceFiles);
     }
 
     public class SolutionManager : ISolutionManager
@@ -79,6 +80,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 () => new SolutionSyncer().SyncSolution(
                     Solution, 
                     _visualStudioEventQueue.CopyToArrayAndClear()));
+        }
+
+        public IEnumerable<CSharpFile> LoadCSharpFiles(IEnumerable<RawSourceFile> rawSourceFiles)
+        {
+            throw new NotImplementedException();
         }
 
         protected virtual void QueueVisualStudioEvent(object sender, VisualStudioEventArgs eventArgs)

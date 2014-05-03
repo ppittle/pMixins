@@ -19,7 +19,7 @@
     <ProjectItem ReplaceParameters="true">Class.cs</ProjectItem>
     <CustomParameters>
       <CustomParameter Name="$itemproperties$" Value="CustomTool" />
-      <CustomParameter Name="$CustomTool$" Value="pMixinsVisualStudioCodeGenerator" />
+      <CustomParameter Name="$CustomTool$" Value="pMixinsSingleFileCodeGenerator" />
     </CustomParameters>
   </TemplateContent>
   <WizardExtension>

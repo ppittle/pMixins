@@ -35,20 +35,20 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 {
     [ComVisible(true)]
     [Guid("3E3CAED9-8C24-4332-A774-059F50FF38D6")]
-    [ProvideObject(typeof (pMixinsVisualStudioCodeGenerator))]
+    [ProvideObject(typeof (pMixinsSingleFileCodeGenerator))]
     [CodeGeneratorRegistration(
-        typeof (pMixinsVisualStudioCodeGenerator),
+        typeof (pMixinsSingleFileCodeGenerator),
         "C# pMixins Code Generator",
         vsContextGuids.vsContextGuidVCSProject,
         GeneratesDesignTimeSource = true)]
-    public class pMixinsVisualStudioCodeGenerator : BaseCodeGeneratorWithSite
+    public class pMixinsSingleFileCodeGenerator : BaseCodeGeneratorWithSite
     {
         private readonly VisualStudioEventProxyFactory _eventProxyFactory = new VisualStudioEventProxyFactory();
 
         //private readonly Lazy<SolutionManager> _solutionManager;
 
         /*
-        public pMixinsVisualStudioCodeGenerator()
+        public pMixinsSingleFileCodeGenerator()
         {
             _solutionManager =
                 new Lazy<SolutionManager>(

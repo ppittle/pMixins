@@ -184,7 +184,7 @@
     <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGenerator.cs" />
     <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGeneratorWithSite.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
-    <Compile Include="pMixinsVisualStudioCodeGenerator.cs" />
+    <Compile Include="CodeGenerators\pMixinsVisualStudioCodeGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="pMixins.VSPackagePackage.cs" />
     <Compile Include="pMixinsVisualStudioCodeGenerateInitializer.cs" />

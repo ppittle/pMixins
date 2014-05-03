@@ -17,16 +17,12 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution.OLD.NRefactory;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
-using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
@@ -35,7 +31,7 @@ using Microsoft.Samples.VisualStudio.GeneratorSample;
 using Microsoft.VisualStudio.Shell;
 using VSLangProj80;
 
-namespace CopaceticSoftware.pMixins_VSPackage
+namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 {
     [ComVisible(true)]
     [Guid("3E3CAED9-8C24-4332-A774-059F50FF38D6")]
@@ -49,8 +45,9 @@ namespace CopaceticSoftware.pMixins_VSPackage
     {
         private readonly VisualStudioEventProxyFactory _eventProxyFactory = new VisualStudioEventProxyFactory();
 
-        private readonly Lazy<SolutionManager> _solutionManager;
+        //private readonly Lazy<SolutionManager> _solutionManager;
 
+        /*
         public pMixinsVisualStudioCodeGenerator()
         {
             _solutionManager =
@@ -68,6 +65,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
                         return sm;
                     });
         }
+         */
 
         protected override string GetDefaultExtension()
         {

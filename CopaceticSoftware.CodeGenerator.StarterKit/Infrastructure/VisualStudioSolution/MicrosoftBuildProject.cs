@@ -34,7 +34,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public readonly bool CheckForOverflowUnderflow;
         public readonly IEnumerable<string> DefineConstants;
         public readonly IEnumerable<string> CompiledFileNames;
-        public readonly IEnumerable<IUnresolvedAssembly> ReferencedAssemblies; 
+        public readonly IAssemblyReference[] ReferencedAssemblies; 
 
         public MicrosoftBuildProject(
             IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver,
@@ -57,7 +57,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 msBuildProject.GetItems("Compile")
                     .Select(i => Path.Combine(msBuildProject.DirectoryPath, i.EvaluatedInclude));
 
-            ReferencedAssemblies = assemblyReferenceResolver.ResolveAssemblyReferences(msBuildProject);}
+            ReferencedAssemblies = 
+                assemblyReferenceResolver.ResolveReferences(msBuildProject, projectFileName)
+                .ToArray();
+        }
 
         private Project GetMSBuildProject(string projectFileName)
         {

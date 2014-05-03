@@ -32,18 +32,17 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
     public class VisualStudioCodeGenerator : IVisualStudioCodeGenerator
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IVisualStudioWriter _visualStudioWriter;
-        private readonly IpMixinsSolutionManager _solutionManager;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IPartialCodeGenerator _codeGenerator;
 
-        public VisualStudioCodeGenerator(IVisualStudioWriter visualStudioWriter, IpMixinsSolutionManager solutionManager, IPartialCodeGenerator codeGenerator)
+        public VisualStudioCodeGenerator(IVisualStudioWriter visualStudioWriter, IpMixinsSolutionManager solutionManager, IPartialCodeGenerator codeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory)
         {
             _visualStudioWriter = visualStudioWriter;
-            _solutionManager = solutionManager;
             _codeGenerator = codeGenerator;
+            _codeGeneratorContextFactory = codeGeneratorContextFactory;
         }
 
         public byte[] GenerateCode(string inputFileContent, string fileName, string projectFileName)
@@ -52,10 +51,10 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             fileName = fileName ?? "";
             projectFileName = projectFileName ?? "";
             
-            _log.InfoFormat("Generating Code for file [{0}] in [{1}]",
+            Log.InfoFormat("Generating Code for file [{0}] in [{1}]",
                     fileName, projectFileName);
 
-            _log.DebugFormat("Input File Contents: {0}{1}",
+            Log.DebugFormat("Input File Contents: {0}{1}",
                 Environment.NewLine,
                 inputFileContent);
 
@@ -87,7 +86,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
                 var generatedCode = response.GeneratedCodeSyntaxTree.GetText();
 
-                _log.InfoFormat("Generated Code for File [{0}]: {1}{2}{1}",
+                Log.InfoFormat("Generated Code for File [{0}]: {1}{2}{1}",
                     Environment.NewLine,
                     generatedCode);
 
@@ -101,10 +100,10 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                         projectFileName,
                         e.Message);
 
-                if (_log.IsInfoEnabled)
+                if (Log.IsInfoEnabled)
                     errorMessage += Environment.NewLine + "File Contents:" + Environment.NewLine + inputFileContent;
 
-                _log.Error(errorMessage, e);
+                Log.Error(errorMessage, e);
 
                 return new byte[0];
             }

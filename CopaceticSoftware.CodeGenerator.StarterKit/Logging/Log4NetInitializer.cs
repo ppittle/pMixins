@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
@@ -28,7 +29,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 
         private static object _lock = new object();
 
-        public static void Initialize(EnvDTE.OutputWindowPane outputWindow)
+        public static void Initialize(IVisualStudioWriter visualStudioWriter)
         {
             if (_isInitialized)
                 return;
@@ -48,7 +49,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                 if (null == root)
                     return;
 
-                root.AddAppender(new VisualStudioOutputWindowAppender(outputWindow));
+                root.AddAppender(new VisualStudioOutputWindowAppender(visualStudioWriter));
 
                 _isInitialized = true;
             }

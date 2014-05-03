@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
@@ -24,9 +25,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 {
     public class VisualStudioOutputWindowAppender : AppenderSkeleton
     {
-        public EnvDTE.OutputWindowPane OutputWindow { get; set; }
+        public IVisualStudioWriter OutputWindow { get; set; }
 
-        public VisualStudioOutputWindowAppender(EnvDTE.OutputWindowPane outputWindow)
+        public VisualStudioOutputWindowAppender(IVisualStudioWriter outputWindow)
         {
             OutputWindow = outputWindow;
 

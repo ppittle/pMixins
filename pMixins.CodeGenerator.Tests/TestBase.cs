@@ -18,30 +18,54 @@
 
 using System.Reflection;
 using log4net;
+using log4net.Appender;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 using NBehave.Spec.NUnit;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests
 {
     public abstract class TestBase : SpecBase
     {
-        protected ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected TestBase()
+        static TestBase()
         {
             Log4NetInitializer.Initialize();
         }
 
     }
-    
+
     public static class Log4NetInitializer
     {
-        static Log4NetInitializer()
-        {
-            log4net.Config.XmlConfigurator.Configure();
-        }
+        private static bool _isInitialized;
+
+        private static object _lock = new object();
 
         public static void Initialize()
         {
+            if (_isInitialized)
+                return;
+
+            lock (_lock)
+            {
+                if (_isInitialized)
+                    return;
+
+                log4net.Config.BasicConfigurator.Configure();
+
+                var heirachy = (LogManager.GetRepository() as Hierarchy);
+                if (null == heirachy)
+                    return;
+
+                var root = heirachy.Root as IAppenderAttachable;
+                if (null == root)
+                    return;
+
+                root.AddAppender(new ConsoleAppender());
+
+                _isInitialized = true;
+            }
         }
     }
 }

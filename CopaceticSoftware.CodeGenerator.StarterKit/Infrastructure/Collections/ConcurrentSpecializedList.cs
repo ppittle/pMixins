@@ -43,5 +43,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections
 
             return buffer;
         }
+
+        public void Clear()
+        {
+            lock(_lock)
+                _backingList.Clear();
+        }
     }
 }

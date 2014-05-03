@@ -194,7 +194,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\pMixins.Mvc\favicon2.ico" />
     <Content Include="app.config">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

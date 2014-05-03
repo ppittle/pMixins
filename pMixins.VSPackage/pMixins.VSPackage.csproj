@@ -189,6 +189,7 @@
     <Compile Include="pMixins.VSPackagePackage.cs" />
     <Compile Include="pMixinsVisualStudioCodeGenerateInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\VisualStudioWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="VSPackage.resx">

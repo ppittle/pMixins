@@ -16,15 +16,19 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps;
+using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
 using log4net;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Ninject;
 
 namespace CopaceticSoftware.pMixins_VSPackage
 {
@@ -34,20 +38,78 @@ namespace CopaceticSoftware.pMixins_VSPackage
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     public class pMixinsVisualStudioCodeGenerateInitializer : Package
     {
+        private ILog _log;
+
+        private VisualStudioWriter _visualStudioWriter;
+        private ISolutionManager _solutionManager;
+
+        private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
+        private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
+
         protected override void Initialize()
         {
             base.Initialize();
 
-            var visualStudioWriter = new VisualStudioWriter(
-                (DTE) GetService(typeof (DTE)), this);
+            //Get copy of current DTE
+            var dte = (DTE) GetService(typeof (DTE));
 
-            Log4NetInitializer.Initialize(visualStudioWriter);
+            //Create a Visual Studio Writer
+            _visualStudioWriter = new VisualStudioWriter(dte, this);
 
-            ServiceLocator.Initialize(visualStudioWriter);
+            //Initialize Logging
+            Log4NetInitializer.Initialize(_visualStudioWriter);
 
-            var log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            //Get a logger for this class
+            _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-            log.Warn("I'm in!");
+            //Initialize the IoC Kernel
+            ServiceLocator.Initialize(_visualStudioWriter);
+
+            _log.Info("Initialized Kernel");
+
+            InitializeSolutionManager(dte);
+
+            InitializeFileGenerators();
+        }
+
+        private void InitializeSolutionManager(DTE dte)
+        {
+            _solutionManager = ServiceLocator.Kernel.Get<ISolutionManager>();
+
+            if (null == dte.Solution)
+                _log.Error("Failed to load Solution object from DTE");
+            else
+                _solutionManager.LoadSolution(dte.Solution.FileName);
+        }
+
+        private void InitializeFileGenerators()
+        {
+            try
+            {
+                _onBuildCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnBuildCodeGenerator>();
+
+                _onItemSaveCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnItemSaveCodeGenerator>();
+            }
+            catch (Exception e)
+            {
+                _log.Fatal("Exception creating Code Generators", e);
+
+                throw;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (null != _visualStudioWriter)
+                    _visualStudioWriter.Dispose();
+
+                if (null != _solutionManager)
+                    _solutionManager.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

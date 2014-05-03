@@ -41,7 +41,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         }
 
 
-        public IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
+        public virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
         {
             throw new System.NotImplementedException();
         }

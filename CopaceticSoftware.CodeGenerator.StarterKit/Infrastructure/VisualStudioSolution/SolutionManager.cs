@@ -124,7 +124,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             _log.InfoFormat("Completed Loading Solution [{0}]", solutionFileName);
         }
 
-        public void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)
+        public virtual void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)
         {
             _codeGeneratedFiles.Add(response.CodeGeneratorContext.Source);
         }

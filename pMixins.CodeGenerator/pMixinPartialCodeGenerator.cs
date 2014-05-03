@@ -45,6 +45,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
                        {
                            CodeGeneratorExecutionTime = stopwatch.Elapsed,
                            CodeGeneratorPipelineState = pipelineState,
+                           CodeGeneratorContext = codeGeneratorContext,
                            Errors = pipelineState.CodeGenerationErrors,
                            GeneratedCodeSyntaxTree = pipelineState.GeneratedCodeSyntaxTree,
                            LogMessages = logManager.GetRenderedLoggingEvents(LoggingVerbosity.All)

@@ -35,5 +35,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         public TimeSpan CodeGeneratorExecutionTime { get; set; }
         public IList<CodeGenerationError> Errors { get; set; }
         public IEnumerable<string> LogMessages { get; set; }
+
+        public ICodeGeneratorContext CodeGeneratorContext { get; set; }
     }
 }

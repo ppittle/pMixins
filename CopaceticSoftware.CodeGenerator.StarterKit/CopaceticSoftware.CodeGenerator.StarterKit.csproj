@@ -134,6 +134,7 @@
     <Compile Include="Infrastructure\VisualStudioSolution\OLD\SolutionManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\VisualStudioSolution\RawSourceFile.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\Solution.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFactory.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFileReader.cs" />

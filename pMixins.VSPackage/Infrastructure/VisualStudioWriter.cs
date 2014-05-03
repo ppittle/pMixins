@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Diagnostics;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using EnvDTE;
@@ -23,10 +24,10 @@ using Microsoft.VisualStudio.Shell;
 
 namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 {
-    public class VisualStudioWriter : IVisualStudioWriter
+    public class VisualStudioWriter : IVisualStudioWriter, IDisposable
     {
-        private readonly EnvDTE.OutputWindowPane _outputWindowPane;
-        private readonly ErrorListProvider _errorListProvider;
+        private EnvDTE.OutputWindowPane _outputWindowPane;
+        private ErrorListProvider _errorListProvider;
 
         public VisualStudioWriter(DTE dte, System.IServiceProvider serviceProvider)
         {
@@ -112,6 +113,31 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
         public void OutputString(string s)
         {
             _outputWindowPane.OutputString(s);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private bool _disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                if (null != _errorListProvider)
+                    _errorListProvider.Dispose();
+            }
+
+            _outputWindowPane = null;
+            _errorListProvider = null;
+
+            _disposed = true;
         }
     }
 }

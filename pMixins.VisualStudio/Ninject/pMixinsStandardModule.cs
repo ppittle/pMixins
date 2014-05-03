@@ -16,15 +16,17 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject.Modules;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
 {
     public class pMixinsStandardModule : NinjectModule
     {
+        public override void Load()
+        {
+            Rebind<ISolutionManager>().To<pMixinsSolutionManager>().InSingletonScope();
+            Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<pMixinsMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         protected readonly ConcurrentSpecializedList<VisualStudioEventArgs> _visualStudioEventQueue
             = new ConcurrentSpecializedList<VisualStudioEventArgs>();
 
-        protected ConcurrentBag<CSharpFile> _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(); 
+        protected ConcurrentBag<CSharpFile> _codeGeneratedFiles = new ConcurrentBag<CSharpFile>(); 
 
         public Solution Solution { get; private set; }
 
@@ -74,7 +74,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 if (!_monitorVisualStudioEvents)
                     return;
 
-                if (!_codeGeneratedFileNames.Any(f => f.FileName.Equals(args.ClassFullPath)))
+                if (!_codeGeneratedFiles.Any(f => f.FileName.Equals(args.ClassFullPath)))
                     return;
 
                 _log.InfoFormat(
@@ -90,8 +90,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     return;
 
                 //Remove _codeGeneratedFiles for the Project
-                _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(
-                    _codeGeneratedFileNames.Where(
+                _codeGeneratedFiles = new ConcurrentBag<CSharpFile>(
+                    _codeGeneratedFiles.Where(
                         c => c.Project.FileName != args.ProjectFullPath));
             };
 
@@ -101,12 +101,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     return;
 
                 //Remove the _projectItem in Code Generated Files
-                _codeGeneratedFileNames = new ConcurrentBag<CSharpFile>(
-                    _codeGeneratedFileNames.Where(
+                _codeGeneratedFiles = new ConcurrentBag<CSharpFile>(
+                    _codeGeneratedFiles.Where(
                         c => c.FileName != args.ClassFullPath));
             };
 
-            //TODO: Update _codeGeneratedFileNames OnProjectItemRenamed
+            //TODO: Update _codeGeneratedFiles OnProjectItemRenamed
         }
 
         public void LoadSolution(string solutionFileName)
@@ -126,7 +126,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)
         {
-            _codeGeneratedFileNames.Add(response.CodeGeneratorContext.Source);
+            _codeGeneratedFiles.Add(response.CodeGeneratorContext.Source);
         }
 
         public Task EnsureSolutionIsUpToDate()

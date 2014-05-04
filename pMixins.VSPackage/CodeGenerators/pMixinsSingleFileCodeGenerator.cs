@@ -17,9 +17,12 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
+using log4net;
 using Microsoft.Samples.VisualStudio.GeneratorSample;
 using Microsoft.VisualStudio.Shell;
 using Ninject;
@@ -37,11 +40,15 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
         GeneratesDesignTimeSource = true)]
     public class pMixinsSingleFileCodeGenerator : BaseCodeGeneratorWithSite
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
 
         public pMixinsSingleFileCodeGenerator()
         {
             _visualStudioCodeGenerator = ServiceLocator.Kernel.Get<IVisualStudioCodeGenerator>();
+
+            _log.Info("pMixinsSingleFileCodeGenerator was constructed");
         }
 
         protected override string GetDefaultExtension()

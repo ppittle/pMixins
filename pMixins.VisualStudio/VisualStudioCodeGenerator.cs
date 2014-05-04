@@ -100,7 +100,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
                 var generatedCode = response.GeneratedCodeSyntaxTree.GetText();
 
-                Log.InfoFormat("Generated Code for File [{0}]: {1}{2}{1}",
+                Log.DebugFormat("Generated Code for File [{0}]: {1}{2}{1}",
+                    context.Source.FileName,
                     Environment.NewLine,
                     generatedCode);
 

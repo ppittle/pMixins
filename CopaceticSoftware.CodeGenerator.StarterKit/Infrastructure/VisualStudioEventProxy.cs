@@ -41,6 +41,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
+
+        event EventHandler<EventArgs> OnSolutionClosing;
+        event EventHandler<EventArgs> OnSolutionOpening;
     }
 
     #region Event Arg Definitions
@@ -235,6 +238,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
 
+        public event EventHandler<EventArgs> OnSolutionClosing;
+        public event EventHandler<EventArgs> OnSolutionOpening;
         #endregion
 
         /// <summary>
@@ -268,7 +273,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             {
                 RegisterForProjectLevelEvents(project.Object as VSProject);
             }
-                
         }
 
         private void RegisterForSolutionLevelEvents()
@@ -287,6 +291,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
                     UnregisterForProjectLevelEvents(project as VSProject);
                     OnProjectRemoved(this, new ProjectRemovedEventArgs { ProjectFullPath = project.FullName });
                 };
+
+            _solutionEvents.BeforeClosing += () => OnSolutionClosing(this, new EventArgs());
+
+            _solutionEvents.Opened += () => OnSolutionOpening(this, new EventArgs());
 
             _projectItemsEvents.ItemAdded += item =>
                 OnProjectItemAdded(this, new ProjectItemAddedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.Name });
@@ -359,6 +367,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemSaved += (s, a) => { };
             OnBuildBegin += (s, a) => { };
             OnBuildDone += (s, a) => { };
+            OnSolutionClosing += (s, a) => { };
+            OnSolutionOpening += (s, a) => { };
         }
         
         public void Dispose()

@@ -23,7 +23,7 @@ using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NBehave.Spec.NUnit;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public abstract class TestBase : SpecBase
     {

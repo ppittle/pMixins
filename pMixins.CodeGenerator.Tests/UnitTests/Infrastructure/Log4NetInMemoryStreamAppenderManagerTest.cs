@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
+using CopaceticSoftware.pMixins.Tests.Common;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 

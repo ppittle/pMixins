@@ -34,12 +34,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
     [TestFixture]
     public abstract class GenerateCodeTestBase : TestBase
     {
-        private static readonly string solutionFile =
-            Path.GetFullPath(
-                Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.sln"));
-
         protected readonly string ProjectFile =
             Path.GetFullPath(
                 Path.Combine(

@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.IO;
 using System.Reflection;
 using log4net;
 using log4net.Appender;
@@ -28,6 +29,12 @@ namespace CopaceticSoftware.pMixins.Tests.Common
     public abstract class TestBase : SpecBase
     {
         protected static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        protected static readonly string solutionFile =
+            Path.GetFullPath(
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    @"..\..\..\pMixins.sln"));
 
         static TestBase()
         {

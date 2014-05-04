@@ -19,21 +19,24 @@
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
+using EnvDTE80;
 using Ninject;
 
-namespace CopaceticSoftware.pMixins_VSPackage
+namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 {
     public static class ServiceLocator
     {
         public static IKernel Kernel { get; private set; }
 
-        public static void Initialize(IVisualStudioWriter visualStudioWriter)
+        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy)
         {
             Kernel = new StandardKernel(
                 new StandardModule(),
                 new pMixinsStandardModule());
 
-            Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter);
+            Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter).InSingletonScope();
+
+            Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
         }
     }
 }

@@ -17,18 +17,22 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps;
 using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
+using EnvDTE80;
 using log4net;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
+using VSLangProj;
 
 namespace CopaceticSoftware.pMixins_VSPackage
 {
@@ -45,6 +49,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
+        private VisualStudioEventProxy _visualStudioEventProxy;
 
         protected override void Initialize()
         {
@@ -62,8 +67,13 @@ namespace CopaceticSoftware.pMixins_VSPackage
             //Get a logger for this class
             _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+            _log.Info("Initialized Logging");
+
+            //create Visual Studio Event Proxy
+            _visualStudioEventProxy = new VisualStudioEventProxy(GetGlobalService(typeof(DTE)) as DTE2);
+
             //Initialize the IoC Kernel
-            ServiceLocator.Initialize(_visualStudioWriter);
+            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy);
 
             _log.Info("Initialized Kernel");
 

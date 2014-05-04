@@ -17,6 +17,8 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Attributes;
@@ -37,6 +39,30 @@ namespace CopaceticSoftware.pMixins.VisualStudio
     {
         public pMixinsSolutionManager(IVisualStudioEventProxy visualStudioEventProxy, ISolutionFactory solutionFactory) : base(visualStudioEventProxy, solutionFactory)
         {
+            OnSolutionLoaded += (sender, args) => ScanSolutionForCodeGeneratedFiles();
+        }
+
+        private void ScanSolutionForCodeGeneratedFiles()
+        {
+            var filesContainingpMixinAttribute =
+                Solution.AllFiles
+                    .Where(f => f.SyntaxTree.GetPartialClasses().Any(
+                        c =>
+                        {
+                            var resolvedClass = f.CreateResolver().Resolve(c);
+
+                            if (resolvedClass.IsError)
+                                return false;
+
+                            return
+                                resolvedClass.Type.GetAttributes()
+                                    .Any(x => x.AttributeType.Implements<IpMixinAttribute>());
+                        }));
+
+            foreach (var file in filesContainingpMixinAttribute)
+            {
+                _codeGeneratedFiles.Add(file);
+            }
         }
 
         public IDictionary<CSharpFile, IEnumerable<CSharpFile>> MixinDependencies { get; private set; }

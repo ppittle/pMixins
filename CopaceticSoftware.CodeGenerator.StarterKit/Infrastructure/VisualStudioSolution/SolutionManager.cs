@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -115,6 +116,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public void LoadSolution(string solutionFileName)
         {
+            var sw = Stopwatch.StartNew();
+
             _log.InfoFormat("Loading Solution [{0}]", solutionFileName);
 
             _monitorVisualStudioEvents = false;
@@ -125,7 +128,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _monitorVisualStudioEvents = true;
 
-            _log.InfoFormat("Completed Loading Solution [{0}]", solutionFileName);
+            _log.InfoFormat("Completed Loading Solution [{0}] in [{1}] ms", solutionFileName, sw.ElapsedMilliseconds);
         }
 
         public virtual void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)

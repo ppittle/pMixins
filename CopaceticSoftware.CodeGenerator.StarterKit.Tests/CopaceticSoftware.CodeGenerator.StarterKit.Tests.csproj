@@ -70,12 +70,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTests\Infrastructure\SolutionManagerTest.cs" />
+    <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CopaceticSoftware.CodeGenerator.StarterKit\CopaceticSoftware.CodeGenerator.StarterKit.csproj">
+      <Project>{1ac30318-70f7-406c-bddb-95535981b558}</Project>
+      <Name>CopaceticSoftware.CodeGenerator.StarterKit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\pMixins.Tests.Common\pMixins.Tests.Common.csproj">
       <Project>{4d065750-f4e9-4bca-a3f4-c0e9e9176eda}</Project>
       <Name>pMixins.Tests.Common</Name>

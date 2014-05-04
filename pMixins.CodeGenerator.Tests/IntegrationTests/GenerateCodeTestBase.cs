@@ -23,7 +23,6 @@ using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
 using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using NUnit.Framework;

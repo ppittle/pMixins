@@ -18,7 +18,7 @@
 
 using NUnit.Framework;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class TestNotWrittenYetAttribute : IgnoreAttribute
     {

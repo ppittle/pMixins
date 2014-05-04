@@ -131,10 +131,7 @@
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicMethodsAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicPropertiesAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\ChildOfTargetCanAccessProtectedMembers.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\DummyVisualStudioEventProxy.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\ExpectedOutputShouldMatchGeneratedCode.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\TestNotWrittenYetAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />
     <Compile Include="UnitTests\Infrastructure\Log4NetInMemoryStreamAppenderManagerTest.cs" />

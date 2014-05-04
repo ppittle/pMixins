@@ -29,6 +29,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public readonly string FileName;
         public readonly IList<CSharpProject> Projects;
 
+        public IEnumerable<CSharpFile> AllFiles
+        {
+            get { return Projects.SelectMany(p => p.Files); }
+        }
+
         public Solution(string fileName, IEnumerable<CSharpProject> projects)
         {
             FileName = fileName;

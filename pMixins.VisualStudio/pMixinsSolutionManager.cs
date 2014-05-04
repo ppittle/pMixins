@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -44,9 +45,13 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
         private void ScanSolutionForCodeGeneratedFiles()
         {
-            var filesContainingpMixinAttribute =
+            var filesContainingMixinAttribute =
                 Solution.AllFiles
-                    .Where(f => f.SyntaxTree.GetPartialClasses().Any(
+                    
+                    .Where(f => 
+                        //TODO: Hard coded constant
+                        !f.FileName.EndsWith(".mixin.cs", StringComparison.InvariantCultureIgnoreCase) &&
+                        f.SyntaxTree.GetPartialClasses().Any(
                         c =>
                         {
                             var resolvedClass = f.CreateResolver().Resolve(c);
@@ -59,7 +64,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                                     .Any(x => x.AttributeType.Implements<IpMixinAttribute>());
                         }));
 
-            foreach (var file in filesContainingpMixinAttribute)
+            foreach (var file in filesContainingMixinAttribute)
             {
                 _codeGeneratedFiles.Add(file);
             }

@@ -30,7 +30,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public interface IVisualStudioCodeGenerator
     {
-        IEnumerable<byte[]> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles);
+        IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles);
     }
 
     public class VisualStudioCodeGenerator : IVisualStudioCodeGenerator
@@ -50,7 +50,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
         }
 
-        public IEnumerable<byte[]> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles)
+        public IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles)
         {
             var sourceFileList = rawSourceFiles.ToList();
 
@@ -70,7 +70,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             }
         }
 
-        private byte[] GenerateCode(ICodeGeneratorContext context)
+        private CodeGeneratorResponse GenerateCode(ICodeGeneratorContext context)
         {
             try
             {
@@ -98,14 +98,12 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
                 #endregion
 
-                var generatedCode = response.GeneratedCodeSyntaxTree.GetText();
-
                 Log.DebugFormat("Generated Code for File [{0}]: {1}{2}{1}",
                     context.Source.FileName,
                     Environment.NewLine,
-                    generatedCode);
+                    response.GeneratedCodeSyntaxTree.GetText());
 
-                return Encoding.UTF8.GetBytes(generatedCode);
+                return response;
             }
             catch (Exception e)
             {
@@ -120,7 +118,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
                 Log.Error(errorMessage, e);
 
-                return Encoding.UTF8.GetBytes(""); 
+                return new CodeGeneratorResponse(); 
             }
         }
     }

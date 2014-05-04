@@ -28,6 +28,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         {
             Errors = new List<CodeGenerationError>();
             LogMessages = new List<string>();
+            GeneratedCodeSyntaxTree = new SyntaxTree();
         }
 
         public SyntaxTree GeneratedCodeSyntaxTree { get; set; }

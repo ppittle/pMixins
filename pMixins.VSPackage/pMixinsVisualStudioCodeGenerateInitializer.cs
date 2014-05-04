@@ -57,9 +57,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
             //Get copy of current DTE
             var dte = (DTE) GetService(typeof (DTE));
-
+            var dte2 = GetGlobalService(typeof (DTE)) as DTE2;
+            
             //Create a Visual Studio Writer
-            _visualStudioWriter = new VisualStudioWriter(dte, this);
+            _visualStudioWriter = new VisualStudioWriter(dte, this); 
 
             //Initialize Logging
             Log4NetInitializer.Initialize(_visualStudioWriter);
@@ -70,10 +71,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
             _log.Info("Initialized Logging");
 
             //create Visual Studio Event Proxy
-            _visualStudioEventProxy = new VisualStudioEventProxy(GetGlobalService(typeof(DTE)) as DTE2);
+            _visualStudioEventProxy = new VisualStudioEventProxy(dte2);
 
             //Initialize the IoC Kernel
-            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy);
+            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy, new VisualStudioProjectHelper(dte2));
 
             _log.Info("Initialized Kernel");
 

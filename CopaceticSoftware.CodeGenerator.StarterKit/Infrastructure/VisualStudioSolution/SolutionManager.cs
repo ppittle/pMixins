@@ -28,6 +28,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections;
 using CopaceticSoftware.Common.Infrastructure;
 using JetBrains.Annotations;
 using log4net;
+using Mono.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -35,11 +36,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         Solution Solution { get; }
 
-        void LoadSolution(string solutionFileName);
+        void LoadSolution(string solutionFileName, bool forceReload = false);
 
         event EventHandler<EventArgs> OnSolutionLoaded; 
 
         void RegisterCodeGeneratorResponse(CodeGeneratorResponse response);
+
+        IEnumerable<CSharpFile> CodeGeneratedFiles { get; }
 
         Task EnsureSolutionIsUpToDate();
 
@@ -116,8 +119,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             //TODO: Update _codeGeneratedFiles OnProjectItemRenamed
         }
 
-        public void LoadSolution(string solutionFileName)
+        public void LoadSolution(string solutionFileName, bool forceReload = false)
         {
+            if (!forceReload &&
+                null != Solution &&
+                Solution.FileName.Equals(solutionFileName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                _log.WarnFormat("LoadSolution was called with [{0}] but this already the current solution. To Force a Reload, set forceReload to true",
+                    solutionFileName);
+
+                return;
+            }
+
             var sw = Stopwatch.StartNew();
 
             _log.InfoFormat("Loading Solution [{0}]", solutionFileName);
@@ -164,6 +177,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (null == Solution)
                 throw new Exception("Solution has not be Loaded yet.  You must call LoadSolution() first.");
 
+            EnsureSolutionIsUpToDate().Wait();
+
             var csharpFiles = 
                 rawSourceFiles.Select(r => Solution.AddOrUpdateProjectItemFile(r))
                 .ToList();
@@ -198,6 +213,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _visualStudioEventQueue.Add(eventArgs);
         }
+
+        public IEnumerable<CSharpFile> CodeGeneratedFiles { get { return _codeGeneratedFiles; } }
 
         public void Dispose()
         {

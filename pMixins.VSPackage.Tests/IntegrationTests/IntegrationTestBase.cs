@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="ServiceLocator.cs" company="Copacetic Software"> 
+// <copyright file="IntegrationTestBase.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Saturday, May 3, 2014 4:11:20 PM</date> 
+// <date>Sunday, May 4, 2014 2:49:53 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -18,28 +18,24 @@
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
+using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
-using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
-using EnvDTE80;
+using CopaceticSoftware.pMixins.VSPackage.Tests.Infrastructure;
 using Ninject;
 
-namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
+namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
 {
-    public static class ServiceLocator
+    public abstract class IntegrationTestBase : TestBase
     {
-        public static IKernel Kernel { get; private set; }
+        protected static IKernel Kernel { get; private set; }
 
-        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioProjectHelper visualStudioProjectHelper)
+        static IntegrationTestBase()
         {
-            Kernel = new StandardKernel(
-                new StandardModule(),
-                new pMixinsStandardModule());
+            Kernel = new StandardKernel(new StandardModule(), new pMixinsStandardModule());
 
-            Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter).InSingletonScope();
-
-            Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
-
-            Kernel.Bind<IVisualStudioProjectHelper>().ToMethod(c => visualStudioProjectHelper).InSingletonScope();
+            Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
+            Kernel.Rebind<IVisualStudioWriter>().To<DummyVisualStudioWriter>();
         }
+
     }
 }

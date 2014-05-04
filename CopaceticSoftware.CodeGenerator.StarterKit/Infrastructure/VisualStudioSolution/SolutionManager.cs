@@ -37,6 +37,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         void LoadSolution(string solutionFileName);
 
+        event EventHandler<EventArgs> OnSolutionLoaded; 
+
         void RegisterCodeGeneratorResponse(CodeGeneratorResponse response);
 
         Task EnsureSolutionIsUpToDate();
@@ -130,8 +132,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _monitorVisualStudioEvents = true;
 
+            if (null != OnSolutionLoaded)
+                OnSolutionLoaded(this, new EventArgs());
+
             _log.InfoFormat("Completed Loading Solution [{0}] in [{1}] ms", solutionFileName, sw.ElapsedMilliseconds);
         }
+
+        public event EventHandler<EventArgs> OnSolutionLoaded;
+
 
         public virtual void RegisterCodeGeneratorResponse(CodeGeneratorResponse response)
         {

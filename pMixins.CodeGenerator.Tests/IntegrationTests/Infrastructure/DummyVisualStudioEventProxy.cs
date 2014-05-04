@@ -39,5 +39,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrast
         public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
+        public event EventHandler<EventArgs> OnSolutionClosing;
+        public event EventHandler<EventArgs> OnSolutionOpening;
     }
 }

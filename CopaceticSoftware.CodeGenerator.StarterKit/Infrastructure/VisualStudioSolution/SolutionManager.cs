@@ -126,6 +126,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _visualStudioEventQueue.Clear();
 
+            _codeGeneratedFiles = new ConcurrentBag<CSharpFile>();
+
             _monitorVisualStudioEvents = true;
 
             _log.InfoFormat("Completed Loading Solution [{0}] in [{1}] ms", solutionFileName, sw.ElapsedMilliseconds);

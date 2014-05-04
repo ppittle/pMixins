@@ -213,6 +213,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="logoSmall.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="packages\pMixins.0.1.nupkg">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

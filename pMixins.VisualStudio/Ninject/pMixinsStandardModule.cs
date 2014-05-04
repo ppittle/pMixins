@@ -32,6 +32,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
             Rebind<ISolutionManager>().ToMethod(c => c.Kernel.Get<pMixinsSolutionManager>());
 
             Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<pMixinsMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+
+            Bind<IVisualStudioCodeGenerator>().To<VisualStudioCodeGenerator>();
         }
     }
 }

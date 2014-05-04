@@ -84,12 +84,23 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         private void InitializeSolutionManager(DTE dte)
         {
-            _solutionManager = ServiceLocator.Kernel.Get<ISolutionManager>();
+            try
+            {
+                _solutionManager = ServiceLocator.Kernel.Get<ISolutionManager>();
 
-            if (null == dte.Solution)
-                _log.Error("Failed to load Solution object from DTE");
-            else
-                _solutionManager.LoadSolution(dte.Solution.FileName);
+                if (null == dte.Solution)
+                    _log.Error("Failed to load Solution object from DTE");
+                else
+                    _solutionManager.LoadSolution(dte.Solution.FileName);
+
+                _log.InfoFormat("Loaded Solution [{0}]", dte.Solution.FileName);
+            }
+            catch (Exception e)
+            {
+                _log.Fatal("Exception creating Solution Manager", e);
+
+                throw;
+            }
         }
 
         private void InitializeFileGenerators()
@@ -99,6 +110,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
                 _onBuildCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnBuildCodeGenerator>();
 
                 _onItemSaveCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnItemSaveCodeGenerator>();
+
+                _log.Info("Loaded Code Generators");
             }
             catch (Exception e)
             {

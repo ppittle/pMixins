@@ -90,10 +90,22 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
                 if (null == dte.Solution)
                     _log.Error("Failed to load Solution object from DTE");
+                else if (string.IsNullOrEmpty(dte.Solution.FileName))
+                    _log.Warn("dte.Solution.FileName is null or empty");
                 else
+                {
                     _solutionManager.LoadSolution(dte.Solution.FileName);
 
-                _log.InfoFormat("Loaded Solution [{0}]", dte.Solution.FileName);
+                    _log.InfoFormat("Loaded Solution [{0}]", dte.Solution.FileName);
+                }
+
+                _visualStudioEventProxy.OnSolutionOpening += (o, e) =>
+                {
+                    if (string.IsNullOrEmpty(dte.Solution.FileName))
+                        _log.Warn("dte.Solution.FileName is null or empty");
+                    else
+                        _solutionManager.LoadSolution(dte.Solution.FileName);
+                };
             }
             catch (Exception e)
             {

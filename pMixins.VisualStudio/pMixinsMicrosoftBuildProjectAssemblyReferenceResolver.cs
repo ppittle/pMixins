@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Attributes;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -26,10 +27,13 @@ using Microsoft.Build.Evaluation;
 namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public class pMixinsMicrosoftBuildProjectAssemblyReferenceResolver :
-        MicrosoftBuildProjectAssemblyReferenceResolver
+        CachedMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        private static string pMixinsAssemblyName = typeof (pMixinAttribute).Assembly.GetName().Name;
+        private static readonly string pMixinsAssemblyName = typeof (pMixinAttribute).Assembly.GetName().Name;
 
+        public pMixinsMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy) : base(visualStudioEventProxy)
+        {
+        }
 
         protected override IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
         {

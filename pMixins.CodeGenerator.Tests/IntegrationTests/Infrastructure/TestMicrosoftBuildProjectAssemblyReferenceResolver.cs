@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.pMixins.VisualStudio;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
@@ -29,6 +30,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrast
     {
         private const string projectMatchingString =
             "\\pMixins\\pMixins\\pMixins.csproj]";
+
+        public TestMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy) : base(visualStudioEventProxy)
+        {
+        }
 
         protected override IEnumerable<ProjectReference> ResolveProjectReferences(Project project)
         {

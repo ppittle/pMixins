@@ -36,15 +36,61 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         IAssemblyReference[] ResolveReferences(Project project, string projectFileName);
     }
 
+    public class CachedMicrosoftBuildProjectAssemblyReferenceResolver : MicrosoftBuildProjectAssemblyReferenceResolver
+    {
+        ConcurrentDictionary<string, IAssemblyReference[]> _cache =
+            new ConcurrentDictionary<string, IAssemblyReference[]>();
+
+        public CachedMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy)
+        {
+            IAssemblyReference[] dummy;
+
+            visualStudioEventProxy.OnSolutionClosing +=
+                (sender, args) =>
+                {
+                    _log.Info("Solution closing.  Clearing cache");
+                    _cache = new ConcurrentDictionary<string, IAssemblyReference[]>();
+                };
+
+            visualStudioEventProxy.OnProjectReferenceAdded +=
+                (sender, args) =>
+                {
+                    if (_cache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+                };
+
+            visualStudioEventProxy.OnProjectReferenceRemoved +=
+                (sender, args) =>
+                {
+                    if (_cache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+                };
+
+            visualStudioEventProxy.OnProjectRemoved +=
+                (sender, args) =>
+                {
+                    if (_cache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+                };
+        }
+
+        public override IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
+        {
+            return _cache.GetOrAdd(projectFileName, (f) =>
+                        base.ResolveReferences(project, f));
+        }
+    }
+    
+
     //Should be singleton
     public class MicrosoftBuildProjectAssemblyReferenceResolver : IMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        protected static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private static readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict =
                 new ConcurrentDictionary<string, IUnresolvedAssembly>(Platform.FileNameComparer);
 
-        public IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
+        public virtual IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
         {
             var sw = Stopwatch.StartNew();
             try

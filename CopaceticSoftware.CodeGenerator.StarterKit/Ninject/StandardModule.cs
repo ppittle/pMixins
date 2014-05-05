@@ -29,7 +29,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
         {
             Bind<ICodeGeneratorContextFactory>().To<CodeGeneratorContextFactory>();
             Bind<ICSharpProjectFactory>().To<CSharpProjectFactory>();
-            Bind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<MicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+            Bind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<CachedMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
             Bind<ISolutionFactory>().To<SolutionFactory>();
             Bind<ISolutionFileReader>().To<SolutionFileReader>();
 

@@ -114,6 +114,7 @@
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\StaticImplicitConversionOperator.cs" />
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\TargetWithAbstractMixin.cs" />
     <Compile Include="IntegrationTests\CompileTests\DoNotMixin\DoNotMixinMethod.cs" />
+    <Compile Include="IntegrationTests\CompileTests\ExistingFile\ExistingMixinFileTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinBaseClassMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinStaticMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinVirtualMembersAreInjectedAsVirtual.cs" />

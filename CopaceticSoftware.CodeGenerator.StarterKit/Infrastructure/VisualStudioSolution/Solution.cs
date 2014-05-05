@@ -19,13 +19,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using ICSharpCode.NRefactory.TypeSystem;
+using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     [DebuggerDisplay("{FileName} - {Projects.Count} Projects")]
     public class Solution
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public readonly string FileName;
         public readonly IList<CSharpProject> Projects;
 
@@ -36,10 +40,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public Solution(string fileName, IEnumerable<CSharpProject> projects)
         {
+            var sw = Stopwatch.StartNew();
+
             FileName = fileName;
             Projects = projects.ToList();
 
             RecreateCompilations();
+
+            _log.InfoFormat("Solution created in [{0}] ms", sw.ElapsedMilliseconds);
         }
 
         /// <summary>
@@ -49,12 +57,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         /// </summary>
         public void RecreateCompilations()
         {
+            var sw = Stopwatch.StartNew();
+
             var solutionSnapshot = new DefaultSolutionSnapshot(Projects.Select(p => p.ProjectContent));
 
             foreach (CSharpProject project in Projects)
             {
                 project.Compilation = solutionSnapshot.GetCompilation(project.ProjectContent);
             }
+
+            _log.DebugFormat("Compilation created in [{0}] ms", sw.ElapsedMilliseconds);
         }
     }
 }

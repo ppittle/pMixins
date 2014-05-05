@@ -36,14 +36,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     //Should be singleton
     public class MicrosoftBuildProjectAssemblyReferenceResolver : IMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        private readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict;
 
-        public MicrosoftBuildProjectAssemblyReferenceResolver()
-        {
-            _assemblyDict = 
+        private static readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict =
                 new ConcurrentDictionary<string, IUnresolvedAssembly>(Platform.FileNameComparer);
-        }
-
 
         public IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName)
         {

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="ExpectedOutputShouldMatchGeneratedCode.cs" company="Copacetic Software"> 
+// <copyright file="TestNotWrittenYetAttribute.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Wednesday, January 29, 2014 10:57:24 PM</date> 
+// <date>Friday, January 31, 2014 10:45:52 AM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,26 +16,14 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.Helpers;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
-    public abstract class ExpectedOutputShouldMatchGeneratedCode : GenerateCodeTestBase
+    public class TestNotWrittenYetAttribute : IgnoreAttribute
     {
-        protected abstract string ExpectedOutput { get; }
-
-        [Test]
-        public virtual void ExpectedOutputShouldMatch()
+        public TestNotWrittenYetAttribute() : base("Test not written yet.")
         {
-            Console.WriteLine("Expected: \n\n " + ExpectedOutput + "\n");
-
-            Console.WriteLine("Generated: \n\n " + GeneratedCode + "\n");
-
-            SourceCodeHelper.CleanCode(GeneratedCode).ShouldEqual(
-                SourceCodeHelper.CleanCode(ExpectedOutput));
         }
     }
 }

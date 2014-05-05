@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="TestNotWrittenYetAttribute.cs" company="Copacetic Software"> 
+// <copyright file="IntegrationTestBase.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Friday, January 31, 2014 10:45:52 AM</date> 
+// <date>Sunday, May 4, 2014 2:49:53 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,14 +16,23 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using NUnit.Framework;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
+using CopaceticSoftware.pMixins.Tests.Common;
+using Ninject;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
-    public class TestNotWrittenYetAttribute : IgnoreAttribute
+    public abstract class IntegrationTestBase : TestBase
     {
-        public TestNotWrittenYetAttribute() : base("Test not written yet.")
+        protected static IKernel Kernel { get; private set; }
+
+        static IntegrationTestBase()
         {
+            Kernel = new StandardKernel(new StandardModule());
+
+            Kernel.Bind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
         }
+
     }
 }

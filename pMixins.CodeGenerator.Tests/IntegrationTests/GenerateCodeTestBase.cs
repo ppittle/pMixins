@@ -24,6 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
+using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using NUnit.Framework;
 using Ninject;
@@ -33,12 +34,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
     [TestFixture]
     public abstract class GenerateCodeTestBase : TestBase
     {
-        private static readonly string solutionFile =
-            Path.GetFullPath(
-                Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.sln"));
-
         protected readonly string ProjectFile =
             Path.GetFullPath(
                 Path.Combine(

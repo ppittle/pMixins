@@ -16,7 +16,10 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Attributes;
@@ -33,10 +36,39 @@ namespace CopaceticSoftware.pMixins.VisualStudio
         IDictionary<CSharpFile, IEnumerable<CSharpFile>> MixinDependencies { get; }
     }
 
+    [Obsolete]
     public class pMixinsSolutionManager : SolutionManager, IpMixinsSolutionManager
     {
         public pMixinsSolutionManager(IVisualStudioEventProxy visualStudioEventProxy, ISolutionFactory solutionFactory) : base(visualStudioEventProxy, solutionFactory)
         {
+            OnSolutionLoaded += (sender, args) => ScanSolutionForCodeGeneratedFiles();
+        }
+
+        private void ScanSolutionForCodeGeneratedFiles()
+        {
+            var filesContainingMixinAttribute =
+                Solution.AllFiles
+                    
+                    .Where(f => 
+                        //TODO: Hard coded constant
+                        !f.FileName.EndsWith(".mixin.cs", StringComparison.InvariantCultureIgnoreCase) &&
+                        f.SyntaxTree.GetPartialClasses().Any(
+                        c =>
+                        {
+                            var resolvedClass = f.CreateResolver().Resolve(c);
+
+                            if (resolvedClass.IsError)
+                                return false;
+
+                            return
+                                resolvedClass.Type.GetAttributes()
+                                    .Any(x => x.AttributeType.Implements<IpMixinAttribute>());
+                        }));
+
+            foreach (var file in filesContainingMixinAttribute)
+            {
+                _codeGeneratedFiles.Add(file);
+            }
         }
 
         public IDictionary<CSharpFile, IEnumerable<CSharpFile>> MixinDependencies { get; private set; }

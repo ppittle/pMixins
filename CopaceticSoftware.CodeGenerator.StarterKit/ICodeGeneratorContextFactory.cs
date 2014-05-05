@@ -57,8 +57,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
                 .ToList();
 
             //This causes attributes to be listed twice.
-            //solution.RecreateCompilations();
 
+            solution.RecreateCompilations();
             return GenerateContext(solution, csharpFiles);
         }
 

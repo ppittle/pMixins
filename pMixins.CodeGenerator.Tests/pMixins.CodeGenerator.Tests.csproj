@@ -133,19 +133,14 @@
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicMethodsAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicPropertiesAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\ChildOfTargetCanAccessProtectedMembers.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\DummyVisualStudioEventProxy.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\ExpectedOutputShouldMatchGeneratedCode.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
     <Compile Include="IntegrationTests\Infrastructure\TestMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
-    <Compile Include="IntegrationTests\Infrastructure\TestNotWrittenYetAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />
-    <Compile Include="TestBase.cs" />
     <Compile Include="UnitTests\Infrastructure\Log4NetInMemoryStreamAppenderManagerTest.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +151,10 @@
     <ProjectReference Include="..\pMixins.CodeGenerator\pMixins.CodeGenerator.csproj">
       <Project>{0b3b811b-d400-4144-a655-81bbff88e858}</Project>
       <Name>pMixins.CodeGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pMixins.Tests.Common\pMixins.Tests.Common.csproj">
+      <Project>{4d065750-f4e9-4bca-a3f4-c0e9e9176eda}</Project>
+      <Name>pMixins.Tests.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\pMixins.VisualStudio\pMixins.VisualStudio.csproj">
       <Project>{b2738273-42fa-4589-affc-610ce796d1f2}</Project>

@@ -19,6 +19,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
@@ -44,6 +45,8 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
 
+        public const string DefaultExtension = ".mixin.cs";
+
         public pMixinsSingleFileCodeGenerator()
         {
             _visualStudioCodeGenerator = ServiceLocator.Kernel.Get<IVisualStudioCodeGenerator>();
@@ -53,7 +56,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         protected override string GetDefaultExtension()
         {
-            return ".mixin.cs";
+            return DefaultExtension;
         }
 
         protected override byte[] GenerateCode(string inputFileContent)
@@ -69,6 +72,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
                             ProjectFileName = GetProject().FullName
                         }
                     })
+                    .Select(response => Encoding.UTF8.GetBytes(response.GeneratedCodeSyntaxTree.GetText()))
                     .First();
         }
     }

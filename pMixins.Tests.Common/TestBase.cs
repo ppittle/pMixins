@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.IO;
 using System.Reflection;
 using log4net;
 using log4net.Appender;
@@ -23,11 +24,17 @@ using log4net.Core;
 using log4net.Repository.Hierarchy;
 using NBehave.Spec.NUnit;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public abstract class TestBase : SpecBase
     {
         protected static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        protected static readonly string solutionFile =
+            Path.GetFullPath(
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    @"..\..\..\pMixins.sln"));
 
         static TestBase()
         {
@@ -62,7 +69,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests
                 if (null == root)
                     return;
 
-                root.AddAppender(new ConsoleAppender());
+                root.AddAppender(new ConsoleAppender
+                {
+                    Threshold = Level.Info
+                });
 
                 _isInitialized = true;
             }

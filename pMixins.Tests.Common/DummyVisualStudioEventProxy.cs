@@ -19,7 +19,7 @@
 using System;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class DummyVisualStudioEventProxy : IVisualStudioEventProxy
     {

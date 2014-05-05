@@ -28,7 +28,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrast
         pMixinsMicrosoftBuildProjectAssemblyReferenceResolver
     {
         private const string projectMatchingString =
-            "\\pMixins\\pMixins.CodeGenerator.Tests\\pMixins.CodeGenerator.Tests.csproj]";
+            "\\pMixins\\pMixins\\pMixins.csproj]";
 
         protected override IEnumerable<ProjectReference> ResolveProjectReferences(Project project)
         {

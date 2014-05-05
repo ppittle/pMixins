@@ -43,7 +43,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             Ensure.ArgumentNotNullOrEmpty(solutionFileName,"solutionFileName");
             
             return new Solution(
-                Path.GetFileName(solutionFileName),
+                solutionFileName,
                 _solutionFileReader.ReadProjectReferences(solutionFileName)
                     .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
                 );

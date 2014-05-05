@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
@@ -26,6 +27,7 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
+    [DebuggerDisplay("{FileName}")]
     public class CSharpFile
     {
         public readonly string FileName;

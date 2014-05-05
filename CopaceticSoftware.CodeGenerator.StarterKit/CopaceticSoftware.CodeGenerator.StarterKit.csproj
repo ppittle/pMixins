@@ -114,6 +114,7 @@
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
     <Compile Include="Infrastructure\Collections\ConcurrentSpecializedList.cs" />
+    <Compile Include="Infrastructure\VisualStudioOpenDocumentReader.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpFile.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpProject.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpProjectFactory.cs" />

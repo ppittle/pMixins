@@ -37,6 +37,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         event EventHandler<ProjectItemRemovedEventArgs> OnProjectItemRemoved;
         event EventHandler<ProjectItemRenamedEventArgs> OnProjectItemRenamed;
         event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
+        event EventHandler<ProjectItemClosedEventArgs> OnProjectItemClosed;
         event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
 
         event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
@@ -183,6 +184,19 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     [Serializable]
     public class ProjectItemOpenedEventArgs : VisualStudioClassEventArgs
     {
+        public IVisualStudioOpenDocumentReader DocumentReader { get; set; }
+
+        public override string GetDebugString()
+        {
+            return string.Format(
+                Strings.VisualStudioEventClassOpenedDebugString,
+                ProjectFullPath,
+                ClassFullPath);
+        }
+    }
+
+    public class ProjectItemClosedEventArgs : VisualStudioClassEventArgs
+    {
         public override string GetDebugString()
         {
             return string.Format(
@@ -233,6 +247,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         public event EventHandler<ProjectItemRemovedEventArgs> OnProjectItemRemoved;
         public event EventHandler<ProjectItemRenamedEventArgs> OnProjectItemRenamed;
         public event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
+        public event EventHandler<ProjectItemClosedEventArgs> OnProjectItemClosed;
         public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
 
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
@@ -296,25 +311,37 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
             _solutionEvents.Opened += () => OnSolutionOpening(this, new EventArgs());
 
-            _projectItemsEvents.ItemAdded += item =>
-                OnProjectItemAdded(this, new ProjectItemAddedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.Name });
+           _projectItemsEvents.ItemAdded += item =>
+                OnProjectItemAdded(this, new ProjectItemAddedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.GetFullName() });
 
             _projectItemsEvents.ItemRemoved += item =>
-                OnProjectItemRemoved(this, new ProjectItemRemovedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.Name });
+                OnProjectItemRemoved(this, new ProjectItemRemovedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.GetFullName() });
 
             _projectItemsEvents.ItemRenamed += (item, name) =>
                 OnProjectItemRenamed(this, new ProjectItemRenamedEventArgs
                     {
-                        ProjectFullPath = item.ContainingProject.FullName, 
-                        ClassFullPath = item.Name,
-                        OldClassFileName = name
+                        ProjectFullPath = item.ContainingProject.FullName,
+                        ClassFullPath = item.GetFullName(),
+                        OldClassFileName = Path.Combine(Path.GetDirectoryName(item.GetFullName()) ?? "", name)
                     });
 
             _documentEvents.DocumentOpened += item =>
-                OnProjectItemOpened(this, new ProjectItemOpenedEventArgs{ ProjectFullPath = item.ProjectItem.ContainingProject.FullName, ClassFullPath = item.Name });
+                OnProjectItemOpened(this, new ProjectItemOpenedEventArgs
+                {
+                    DocumentReader = new VisualStudioOpenDocumentReader(item),
+                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
+                    ClassFullPath = item.FullName
+                });
+
+            _documentEvents.DocumentClosing += item =>
+                OnProjectItemClosed(this, new ProjectItemClosedEventArgs
+                {
+                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
+                    ClassFullPath = item.FullName
+                });
 
             _documentEvents.DocumentSaved += item =>
-                OnProjectItemSaved(this, new ProjectItemSavedEventArgs{ ProjectFullPath = item.ProjectItem.ContainingProject.FullName, ClassFullPath = item.Name });
+                OnProjectItemSaved(this, new ProjectItemSavedEventArgs { ProjectFullPath = item.ProjectItem.ContainingProject.FullName, ClassFullPath = item.FullName });
 
             _buildEvents.OnBuildBegin += (scope, action) =>
                 OnBuildBegin(this, new VisualStudioBuildEventArgs {Scope = scope, BuildAction = action});
@@ -364,6 +391,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemRemoved += (s, a) => { };
             OnProjectItemRenamed += (s, a) => { };
             OnProjectItemOpened += (s, a) => { };
+            OnProjectItemClosed += (s, a) => { };
             OnProjectItemSaved += (s, a) => { };
             OnBuildBegin += (s, a) => { };
             OnBuildDone += (s, a) => { };
@@ -386,10 +414,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemRemoved.GetInvocationList().Map(del => OnProjectItemRemoved -= (EventHandler<ProjectItemRemovedEventArgs>)del);
             OnProjectItemRenamed.GetInvocationList().Map(del => OnProjectItemRenamed -= (EventHandler<ProjectItemRenamedEventArgs>)del);
             OnProjectItemOpened.GetInvocationList().Map(del => OnProjectItemOpened -= (EventHandler<ProjectItemOpenedEventArgs>)del);
+            OnProjectItemClosed.GetInvocationList().Map(del => OnProjectItemClosed -= (EventHandler<ProjectItemClosedEventArgs>)del);
             OnProjectItemSaved.GetInvocationList().Map(del => OnProjectItemSaved -= (EventHandler<ProjectItemSavedEventArgs>)del);
             OnBuildBegin.GetInvocationList().Map(del => OnBuildBegin -= (EventHandler<VisualStudioBuildEventArgs>)del);
             OnBuildDone.GetInvocationList().Map(del => OnBuildDone -= (EventHandler<VisualStudioBuildEventArgs>)del);
-
+            OnSolutionClosing.GetInvocationList().Map(del => OnSolutionClosing -= (EventHandler<EventArgs>)del);
+            OnSolutionOpening.GetInvocationList().Map(del => OnSolutionOpening -= (EventHandler<EventArgs>)del);
         }
         #endregion
     }

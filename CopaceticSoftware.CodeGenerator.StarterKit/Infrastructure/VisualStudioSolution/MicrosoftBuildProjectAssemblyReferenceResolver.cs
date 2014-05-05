@@ -18,10 +18,13 @@
 
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
+using log4net;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Logging;
@@ -30,20 +33,32 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface IMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName);
+        IAssemblyReference[] ResolveReferences(Project project, string projectFileName);
     }
 
     //Should be singleton
     public class MicrosoftBuildProjectAssemblyReferenceResolver : IMicrosoftBuildProjectAssemblyReferenceResolver
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private static readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict =
                 new ConcurrentDictionary<string, IUnresolvedAssembly>(Platform.FileNameComparer);
 
-        public IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName)
+        public IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
         {
-            return ResolveAssemblyReferences(project, projectFileName)
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                return ResolveAssemblyReferences(project, projectFileName)
                     .Union<IAssemblyReference>(ResolveProjectReferences(project))
+                    .ToArray();
+            }
+            finally
+            {
+                _log.DebugFormat("References Resolved for [{0}] in [{1}] ms",
+                    Path.GetFileName(projectFileName),
+                    sw.ElapsedMilliseconds);
+            }
         }
 
         protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)

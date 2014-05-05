@@ -18,16 +18,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using ICSharpCode.NRefactory.TypeSystem;
+using log4net;
 using Microsoft.Build.Evaluation;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     public class MicrosoftBuildProject
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public readonly string FileName;
         public readonly string AssemblyName;
         public readonly bool AllowUnsafeBlocks;
@@ -40,6 +45,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver,
             string projectFileName)
         {
+            var sw = Stopwatch.StartNew();
+
             FileName = projectFileName ?? "";
 
             var msBuildProject = GetMSBuildProject(projectFileName);
@@ -57,9 +64,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 msBuildProject.GetItems("Compile")
                     .Select(i => Path.Combine(msBuildProject.DirectoryPath, i.EvaluatedInclude));
 
-            ReferencedAssemblies = 
-                assemblyReferenceResolver.ResolveReferences(msBuildProject, projectFileName)
-                .ToArray();
+            ReferencedAssemblies =
+                assemblyReferenceResolver.ResolveReferences(msBuildProject, projectFileName);
+                
+
+            _log.DebugFormat("Project [{0}] built in [{1}] ms", Path.GetFileName(FileName), sw.ElapsedMilliseconds);
         }
 
         private Project GetMSBuildProject(string projectFileName)

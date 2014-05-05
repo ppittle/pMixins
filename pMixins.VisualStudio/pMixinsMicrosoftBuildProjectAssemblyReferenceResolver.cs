@@ -28,11 +28,13 @@ namespace CopaceticSoftware.pMixins.VisualStudio
     public class pMixinsMicrosoftBuildProjectAssemblyReferenceResolver :
         MicrosoftBuildProjectAssemblyReferenceResolver
     {
+        private static string pMixinsAssemblyName = typeof (pMixinAttribute).Assembly.GetName().Name;
+
         protected override IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
         {
             return base.ResolveAssemblyReferences(project, projectFileName)
                 //Ensure there is 1 and only 1 reference to pMixins
-                .Where(r => !r.AssemblyName.Contains("pMixins.dll"))
+                .Where(r => !r.AssemblyName.Equals(pMixinsAssemblyName))
                 .Union(new[] { LoadAssembly(typeof(pMixinAttribute).Assembly.Location) })
                 .ToList();
         }

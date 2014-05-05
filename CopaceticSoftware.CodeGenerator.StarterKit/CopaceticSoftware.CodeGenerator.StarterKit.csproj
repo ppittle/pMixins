@@ -109,6 +109,8 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="ICodeGeneratorContextFactory.cs" />
     <Compile Include="Infrastructure\CodeGenerationError.cs" />
+    <Compile Include="Infrastructure\IO\CSharpFileFactory.cs" />
+    <Compile Include="Infrastructure\IO\VisualStudioFileCache.cs" />
     <Compile Include="Infrastructure\IPartialCodeGenerator.cs" />
     <Compile Include="Infrastructure\CodeGeneratorResponse.cs" />
     <Compile Include="Infrastructure\IVisualStudioWriter.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="Logging\VisualStudioOutputWindowAppender.cs" />
     <Compile Include="Ninject\StandardModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolutionContext.cs" />
     <Compile Include="Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>

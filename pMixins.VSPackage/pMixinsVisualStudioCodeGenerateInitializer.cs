@@ -20,6 +20,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
@@ -45,7 +46,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private ILog _log;
 
         private VisualStudioWriter _visualStudioWriter;
-        private ISolutionManager _solutionManager;
+        private ISolutionContext _solutionContext;
 
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
@@ -77,16 +78,16 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
             _log.Info("Initialized Kernel");
 
-            InitializeSolutionManager(dte);
+            InitializeSolutionContext(dte);
 
             InitializeFileGenerators();
         }
 
-        private void InitializeSolutionManager(DTE dte)
+        private void InitializeSolutionContext(DTE dte)
         {
             try
             {
-                _solutionManager = ServiceLocator.Kernel.Get<ISolutionManager>();
+                _solutionContext = ServiceLocator.Kernel.Get<ISolutionContext>();
 
                 if (null == dte.Solution)
                     _log.Error("Failed to load Solution object from DTE");
@@ -94,9 +95,9 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     _log.Warn("dte.Solution.FileName is null or empty");
                 else
                 {
-                    _solutionManager.LoadSolution(dte.Solution.FileName);
+                    _solutionContext.SolutionFileName = dte.Solution.FileName;
 
-                    _log.InfoFormat("Loaded Solution [{0}]", dte.Solution.FileName);
+                    _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                 }
 
                 _visualStudioEventProxy.OnSolutionOpening += (o, e) =>
@@ -104,12 +105,16 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     if (string.IsNullOrEmpty(dte.Solution.FileName))
                         _log.Warn("dte.Solution.FileName is null or empty");
                     else
-                        _solutionManager.LoadSolution(dte.Solution.FileName);
+                    {
+                        _solutionContext.SolutionFileName = dte.Solution.FileName;
+
+                        _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
+                    }
                 };
             }
             catch (Exception e)
             {
-                _log.Fatal("Exception creating Solution Manager", e);
+                _log.Fatal("Exception initializing Solution Context", e);
 
                 throw;
             }
@@ -139,9 +144,6 @@ namespace CopaceticSoftware.pMixins_VSPackage
             {
                 if (null != _visualStudioWriter)
                     _visualStudioWriter.Dispose();
-
-                if (null != _solutionManager)
-                    _solutionManager.Dispose();
             }
 
             base.Dispose(disposing);

@@ -16,6 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     public interface ICSharpProjectFactory
@@ -26,15 +28,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     public class CSharpProjectFactory : ICSharpProjectFactory
     {
         private readonly IMicrosoftBuildProjectAssemblyReferenceResolver _assemblyReferenceResolver;
+        private readonly ICSharpFileFactory _cSharpFileFactory;
 
-        public CSharpProjectFactory(IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver)
+        public CSharpProjectFactory(IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver, ICSharpFileFactory cSharpFileFactory)
         {
             _assemblyReferenceResolver = assemblyReferenceResolver;
+            _cSharpFileFactory = cSharpFileFactory;
         }
 
         public CSharpProject BuildProject(string projectFileName, string title)
         {
             return new CSharpProject(
+                _cSharpFileFactory,
                 new MicrosoftBuildProject(_assemblyReferenceResolver, projectFileName),
                 title);
         }

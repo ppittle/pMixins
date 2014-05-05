@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.Common.Infrastructure;
 
@@ -26,34 +27,63 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
 {
     public interface ICodeGeneratorContextFactory
     {
-        IEnumerable<ICodeGeneratorContext> GenerateContext(IEnumerable<RawSourceFile> rawSourceFiles);
+        IList<ICodeGeneratorContext> GenerateContext(IList<RawSourceFile> rawSourceFiles);
+
+        IList<ICodeGeneratorContext> GenerateContext(IEnumerable<CSharpFile> cSharpFiles);
     }
 
     public class CodeGeneratorContextFactory : ICodeGeneratorContextFactory
     {
-        private readonly ISolutionManager _solutionManager;
+        private readonly ISolutionFactory _solutionFactory;
 
-        public CodeGeneratorContextFactory(ISolutionManager solutionManager)
+        public CodeGeneratorContextFactory(ISolutionFactory solutionFactory)
         {
-            Ensure.ArgumentNotNull(solutionManager, "solutionManager");
-
-            _solutionManager = solutionManager;
+            _solutionFactory = solutionFactory;
         }
 
-        public IEnumerable<ICodeGeneratorContext> GenerateContext(IEnumerable<RawSourceFile> rawSourceFiles)
+        public IList<ICodeGeneratorContext> GenerateContext(IList<RawSourceFile> rawSourceFiles)
         {
             if (null == rawSourceFiles)
-                return Enumerable.Empty<ICodeGeneratorContext>();
+                return new List<ICodeGeneratorContext>();
+
+            var solution = _solutionFactory.BuildCurrentSolution();
+
+            if (null == solution)
+                return new List<ICodeGeneratorContext>();
+
+            var csharpFiles = 
+                rawSourceFiles
+                .Select(f => solution.AddOrUpdateProjectItemFile(f))
+                .ToList();
+
+            //This causes attributes to be listed twice.
+            //solution.RecreateCompilations();
+
+            return GenerateContext(solution, csharpFiles);
+        }
+
+        public IList<ICodeGeneratorContext> GenerateContext(IEnumerable<CSharpFile> cSharpFiles)
+        {
+            if (null == cSharpFiles)
+                return new List<ICodeGeneratorContext>();
+
+            return GenerateContext(_solutionFactory.BuildCurrentSolution(), cSharpFiles);
+        }
+
+        private IList<ICodeGeneratorContext> GenerateContext(Solution s, IEnumerable<CSharpFile> cSharpFiles)
+        {
 
             return
-                _solutionManager.LoadCSharpFiles(rawSourceFiles)
-                    .Select(
-                        csharpFile =>
-                            new CodeGeneratorContext
-                            {
-                                Source = csharpFile,
-                                TypeResolver = csharpFile.CreateResolver()
-                            });
+                cSharpFiles
+                    //Load the file from the solution (so it has the latest compilation)
+                    .Select(x => s.AllFiles.FirstOrDefault(f => f.FileName.Equals(x.FileName)))
+                    .Where(x => null != x)
+                    .Select(f => (ICodeGeneratorContext)new CodeGeneratorContext
+                    {
+                        Source = f,
+                        TypeResolver = f.CreateResolver()
+                    })
+                    .ToList();
         }
     }
 }

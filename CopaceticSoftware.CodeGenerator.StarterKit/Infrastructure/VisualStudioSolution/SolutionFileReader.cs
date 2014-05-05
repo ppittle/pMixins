@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using log4net;
 
@@ -38,10 +39,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class SolutionFileReader : ISolutionFileReader
     {
+        private readonly IFileReader _fileReader;
+
         private static readonly Regex ProjectLinePattern = new Regex(
             "Project\\(\"(?<TypeGuid>.*)\"\\)\\s+=\\s+\"(?<Title>.*)\",\\s*\"(?<Location>.*)\",\\s*\"(?<Guid>.*)\"");
 
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public SolutionFileReader(IFileReader fileReader)
+        {
+            _fileReader = fileReader;
+        }
 
         public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(string solutionFileName)
         {
@@ -52,7 +60,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             var directory = Path.GetDirectoryName(solutionFileName);
 
-            foreach (string line in File.ReadLines(solutionFileName))
+            foreach (string line in _fileReader.ReadLines(solutionFileName))
             {
                 Match match = ProjectLinePattern.Match(line);
                 if (match.Success)

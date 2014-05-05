@@ -16,37 +16,67 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CopaceticSoftware.Common.Infrastructure;
+using JetBrains.Annotations;
+using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
     public interface ISolutionFactory
     {
-        Solution BuildSolution(string solutionFileName);
+        [CanBeNull]
+        Solution BuildCurrentSolution();
     }
 
     public class SolutionFactory : ISolutionFactory
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly ISolutionFileReader _solutionFileReader;
         private readonly ICSharpProjectFactory _cSharpProjectFactory;
+        private readonly ISolutionContext _solutionContext;
 
-        public SolutionFactory(ISolutionFileReader solutionFileReader, ICSharpProjectFactory cSharpProjectFactory)
+        public SolutionFactory(ISolutionFileReader solutionFileReader, ICSharpProjectFactory cSharpProjectFactory, ISolutionContext solutionContext)
         {
             _solutionFileReader = solutionFileReader;
             _cSharpProjectFactory = cSharpProjectFactory;
+            _solutionContext = solutionContext;
         }
 
-        public Solution BuildSolution(string solutionFileName)
+        public Solution BuildCurrentSolution()
         {
-            Ensure.ArgumentNotNullOrEmpty(solutionFileName,"solutionFileName");
-            
-            return new Solution(
-                Path.GetFileName(solutionFileName),
-                _solutionFileReader.ReadProjectReferences(solutionFileName)
-                    .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
-                );
+            if (string.IsNullOrEmpty(_solutionContext.SolutionFileName))
+            { 
+                _log.Warn("There is not a valid Solution in the Solution Context (_solutionContext.SolutionFileName is null or empty).  Returning a null Solution");
+                return null;
+            }
+
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                _log.InfoFormat("Start BuildCurrentSolution on [{0}]", _solutionContext.SolutionFileName);
+
+                return new Solution(
+                    Path.GetFileName(_solutionContext.SolutionFileName),
+                    _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
+                        .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
+                    );
+            }
+            catch (Exception e)
+            {
+                _log.Error("Unhandled Exception: " + e.Message, e);
+
+                throw;
+            }
+            finally
+            {
+                _log.InfoFormat("BuildCurrentSolution completed in [{0}] ms", sw.ElapsedMilliseconds);
+            }
         }
     }
 }

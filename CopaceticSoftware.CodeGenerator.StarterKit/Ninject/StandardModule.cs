@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject.Modules;
 
@@ -32,6 +33,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
             Bind<ISolutionFactory>().To<SolutionFactory>();
             Bind<ISolutionFileReader>().To<SolutionFileReader>();
             Bind<ISolutionManager>().To<SolutionManager>().InSingletonScope();
+
+            Bind<IFileReader>().To<VisualStudioFileCache>().InSingletonScope();
+            Bind<ICSharpFileFactory>().To<CSharpFileFactory>().InSingletonScope();
+            Bind<ISolutionContext>().To<SolutionContext>().InSingletonScope();
         }
     }
 }

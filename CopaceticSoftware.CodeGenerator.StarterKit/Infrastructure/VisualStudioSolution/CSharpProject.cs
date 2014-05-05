@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Extensions;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -61,6 +62,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         #endregion
 
         public CSharpProject(
+            ICSharpFileFactory cSharpFileFactory,
             MicrosoftBuildProject msBuildProject,
             string title)
         {
@@ -86,7 +88,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             ProjectContent = ProjectContent.SetCompilerSettings(CompilerSettings);
 
             Files = msBuildProject.CompiledFileNames.Select(
-                f => new CSharpFile(this, f)).ToList();
+                f => cSharpFileFactory.BuildCSharpFile(this, f)).ToList();
 
             ProjectContent = ProjectContent.AddOrUpdateFiles(
                 Files.Select(f => f.UnresolvedTypeSystemForFile));

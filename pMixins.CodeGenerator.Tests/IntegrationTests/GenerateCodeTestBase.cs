@@ -45,9 +45,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                     Directory.GetCurrentDirectory(),
                     @"..\..\..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj"));
 
-        protected static readonly Solution Solution;
-
         protected static IKernel Kernel { get; private set; }
+
+        protected Solution Solution { get; set; }
 
         static GenerateCodeTestBase()
         {
@@ -56,12 +56,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                 new pMixinsStandardModule());
 
             Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
+            Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
+                .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
 
-            var solutionManager = Kernel.Get<ISolutionManager>();
-
-            solutionManager.LoadSolution(solutionFile);
-
-            Solution = solutionManager.Solution;
+            Kernel.Get<ISolutionContext>().SolutionFileName = solutionFile;
         }
 
         protected ICodeGeneratorContextFactory CodeGeneratorContextFactory { get; private set; }
@@ -85,6 +83,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             
             try
             {
+                Solution = Kernel.Get<ISolutionFactory>().BuildCurrentSolution();
+
                 CodeGeneratorContextFactory = Kernel.Get<ICodeGeneratorContextFactory>();
 
                 CodeGenerationContext =

@@ -43,6 +43,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         IEnumerable<CSharpFile> LoadCSharpFiles(IEnumerable<RawSourceFile> rawSourceFiles);
     }
 
+    [Obsolete]
     public class SolutionManager : ISolutionManager
     {
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

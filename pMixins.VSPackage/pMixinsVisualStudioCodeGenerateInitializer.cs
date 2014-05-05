@@ -20,6 +20,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
@@ -112,6 +113,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     else
                     {
                         _solutionContext.SolutionFileName = dte.Solution.FileName;
+
+                        //Warm caches
+                        new TaskFactory().StartNew(
+                            () => ServiceLocator.Kernel.Get<ISolutionFactory>().BuildCurrentSolution());
 
                         _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                     }

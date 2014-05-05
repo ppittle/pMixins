@@ -17,46 +17,18 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
-using CopaceticSoftware.pMixins.Tests.Common;
-using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using NUnit.Framework;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 {
     [TestFixture]
-    public abstract class GenerateCodeTestBase : TestBase
+    public abstract class GenerateCodeTestBase : IntegrationTestBase
     {
-        protected readonly string ProjectFile =
-            Path.GetFullPath(
-                Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj"));
-
-        protected static IKernel Kernel { get; private set; }
-
-        protected Solution Solution { get; set; }
-
-        static GenerateCodeTestBase()
-        {
-            Kernel = new StandardKernel(
-                new StandardModule(),
-                new pMixinsStandardModule());
-
-            Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
-            Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
-                .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
-
-            Kernel.Get<ISolutionContext>().SolutionFileName = solutionFile;
-        }
-
+        
         protected ICodeGeneratorContextFactory CodeGeneratorContextFactory { get; private set; }
 
         protected ICodeGeneratorContext CodeGenerationContext { get; private set; }
@@ -78,8 +50,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             
             try
             {
-                Solution = Kernel.Get<ISolutionFactory>().BuildCurrentSolution();
-
                 CodeGeneratorContextFactory = Kernel.Get<ICodeGeneratorContextFactory>();
 
                 CodeGenerationContext =

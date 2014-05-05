@@ -135,6 +135,7 @@
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\ChildOfTargetCanAccessProtectedMembers.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
     <Compile Include="IntegrationTests\Infrastructure\TestMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
+    <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />
     <Compile Include="UnitTests\Infrastructure\Log4NetInMemoryStreamAppenderManagerTest.cs" />

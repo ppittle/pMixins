@@ -18,17 +18,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.VisualStudio;
+using NBehave.Spec.NUnit;
 using Ninject;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
 {
-    [pMixin]
+    public class DummyMixin{}
+
+    [pMixin(Mixin = typeof(DummyMixin))]
     public partial class SampleTarget { }
 
 
@@ -67,9 +72,39 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
         [Test]
         public void CodeGeneratedFilesIsPopulated()
         {
-            Assert.True(
-                _solutionManager.CodeGeneratedFiles.Any(c => c.FileName.EndsWith("pMixinsSolutionManagerTest.cs")),
+            var csharpFile =
+                _solutionManager.CodeGeneratedFiles.FirstOrDefault(c => c.FileName.EndsWith("pMixinsSolutionManagerTest.cs"));
+
+            Assert.True(null != csharpFile,
                 "Code Generated Files did not find SampleTarget file.");
+
+            
+
+        }
+
+        [Test]
+        public void CanCorrectlyResolveSampleTargetPMixinAttributes()
+        {
+            var csharpFile =
+                _solutionManager.LoadCSharpFiles(
+                    _solutionManager.CodeGeneratedFiles.Where(c => c.FileName.EndsWith("pMixinsSolutionManagerTest.cs"))
+                        .Select(x => new RawSourceFile
+                                     {
+                                         FileContents = File.ReadAllText(x.FileName),
+                                         FileName = x.FileName, 
+                                         ProjectFileName = x.Project.FileName
+                                     }))
+                        .FirstOrDefault();
+
+            var sampleTargetClassDefinition = csharpFile.SyntaxTree.GetPartialClasses().First();
+
+            var sampleTargetType = csharpFile.CreateResolver().Resolve(sampleTargetClassDefinition);
+
+            var sampleTargetTypeAttributes =
+                sampleTargetType.Type.GetAttributes()
+                .Where(x => x.AttributeType.Implements<IpMixinAttribute>());
+
+            sampleTargetTypeAttributes.Count().ShouldEqual(1);
         }
     }
 }

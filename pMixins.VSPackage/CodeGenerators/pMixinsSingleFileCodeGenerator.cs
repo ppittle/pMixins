@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
@@ -68,7 +69,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
                         new RawSourceFile
                         {
                             FileContents = inputFileContent,
-                            FileName = GetProjectItem().Name,
+                            FileName = GetProjectItem().GetFullName(),
                             ProjectFileName = GetProject().FullName
                         }
                     })

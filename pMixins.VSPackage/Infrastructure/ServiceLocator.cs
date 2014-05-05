@@ -19,7 +19,6 @@
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
-using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
 using EnvDTE80;
 using Ninject;
 
@@ -29,7 +28,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
     {
         public static IKernel Kernel { get; private set; }
 
-        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioProjectHelper visualStudioProjectHelper)
+        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy)
         {
             Kernel = new StandardKernel(
                 new StandardModule(),
@@ -38,8 +37,6 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
             Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter).InSingletonScope();
 
             Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
-
-            Kernel.Bind<IVisualStudioProjectHelper>().ToMethod(c => visualStudioProjectHelper).InSingletonScope();
         }
     }
 }

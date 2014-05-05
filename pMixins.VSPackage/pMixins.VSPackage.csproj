@@ -182,7 +182,6 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\pMixinsOnBuildCodeGenerator.cs" />
     <Compile Include="CodeGenerators\pMixinsOnItemSaveCodeGenerator.cs" />
-    <Compile Include="CodeGenerators\VisualStudioProjectHelper.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGenerator.cs" />
     <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGeneratorWithSite.cs" />

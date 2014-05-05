@@ -43,7 +43,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public IEnumerable<IAssemblyReference> ResolveReferences(Project project, string projectFileName)
         {
             return ResolveAssemblyReferences(project, projectFileName)
-                .Union<IAssemblyReference>(ResolvedProjectReferences(project));
+                    .Union<IAssemblyReference>(ResolveProjectReferences(project))
         }
 
         protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
@@ -62,7 +62,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             return items.Select(i => LoadAssembly(Path.Combine(baseDirectory, i.GetMetadataValue("Identity"))));
         }
 
-        protected virtual IEnumerable<ProjectReference> ResolvedProjectReferences(Project project)
+        protected virtual IEnumerable<ProjectReference> ResolveProjectReferences(Project project)
         {
             foreach (var item in project.GetItems("ProjectReference"))
             {

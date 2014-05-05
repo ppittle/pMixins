@@ -55,10 +55,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
                 rawSourceFiles
                 .Select(f => solution.AddOrUpdateProjectItemFile(f))
                 .ToList();
-
-            //This causes attributes to be listed twice.
-
-            solution.RecreateCompilations();
+            
             return GenerateContext(solution, csharpFiles);
         }
 

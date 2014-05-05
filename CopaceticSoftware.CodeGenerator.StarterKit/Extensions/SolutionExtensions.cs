@@ -57,6 +57,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
                 project.AddOrUpdateCSharpFile(csharpFile);
 
+                solution.RecreateCompilations();
+
                 return csharpFile;
             }
             catch (Exception e)

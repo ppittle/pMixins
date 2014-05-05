@@ -29,5 +29,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         void GeneratorMessage(string message, uint line, uint column);
         void OutputString(string s);
+
+        void WriteToStatusBar(string s);
+
+        void SetStatusProgress(uint cookie, int progress, string label, uint complete, uint total);
+
+        void ClearStatusBar();
     }
+
+    
 }

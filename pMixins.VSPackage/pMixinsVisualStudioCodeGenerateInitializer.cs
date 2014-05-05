@@ -63,6 +63,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
             //Create a Visual Studio Writer
             _visualStudioWriter = new VisualStudioWriter(dte, this);
 
+            _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In");
+
             //Initialize Logging
             Log4NetInitializer.Initialize(_visualStudioWriter);
 
@@ -82,6 +84,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
             InitializeSolutionContext(dte);
 
             InitializeFileGenerators();
+
+            _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In ... Complete");
         }
 
         private void InitializeSolutionContext(DTE dte)

@@ -40,16 +40,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         private readonly ISolutionFileReader _solutionFileReader;
         private readonly ICSharpProjectFactory _cSharpProjectFactory;
         private readonly ISolutionContext _solutionContext;
+        private readonly IVisualStudioWriter _visualStudioWriter;
 
-        public SolutionFactory(ISolutionFileReader solutionFileReader, ICSharpProjectFactory cSharpProjectFactory, ISolutionContext solutionContext)
+        public SolutionFactory(ISolutionFileReader solutionFileReader, ICSharpProjectFactory cSharpProjectFactory, ISolutionContext solutionContext, IVisualStudioWriter visualStudioWriter)
         {
             _solutionFileReader = solutionFileReader;
             _cSharpProjectFactory = cSharpProjectFactory;
             _solutionContext = solutionContext;
+            _visualStudioWriter = visualStudioWriter;
         }
 
         public Solution BuildCurrentSolution()
         {
+            _visualStudioWriter.WriteToStatusBar("pMixin - Building Current Solution");
+
             if (string.IsNullOrEmpty(_solutionContext.SolutionFileName))
             { 
                 _log.Warn("There is not a valid Solution in the Solution Context (_solutionContext.SolutionFileName is null or empty).  Returning a null Solution");
@@ -76,6 +80,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             finally
             {
                 _log.InfoFormat("BuildCurrentSolution completed in [{0}] ms", sw.ElapsedMilliseconds);
+
+                _visualStudioWriter.WriteToStatusBar("pMixin - Building Current Solution ... Complete");
             }
         }
     }

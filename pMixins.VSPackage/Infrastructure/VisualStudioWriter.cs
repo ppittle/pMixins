@@ -18,9 +18,11 @@
 
 using System;
 using System.Diagnostics;
+using System.Net;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 {
@@ -28,6 +30,9 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
     {
         private EnvDTE.OutputWindowPane _outputWindowPane;
         private ErrorListProvider _errorListProvider;
+
+        //http://geekswithblogs.net/onlyutkarsh/archive/2013/08/11/using-visual-studio-status-bar-in-your-extensions.aspx
+        private IVsStatusbar _statusbar;
 
         public VisualStudioWriter(DTE dte, System.IServiceProvider serviceProvider)
         {
@@ -40,9 +45,10 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
                 
                 return;
             }
-
+            
             _outputWindowPane = LoadOutputWindowPane(dte);
             _errorListProvider = LoadErrorListPane(serviceProvider);
+            _statusbar = serviceProvider.GetService(typeof (SVsStatusbar)) as IVsStatusbar;
         }
 
         private EnvDTE.OutputWindowPane LoadOutputWindowPane(DTE dte)
@@ -115,6 +121,35 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
             _outputWindowPane.OutputString(s);
         }
 
+        public void WriteToStatusBar(string s)
+        {
+            if (null == _statusbar)
+                return;
+
+            int frozen;
+
+            _statusbar.IsFrozen(out frozen);
+
+            if (0 == frozen)
+                _statusbar.SetText(s);
+        }
+
+        public void SetStatusProgress(uint cookie, int progress, string label, uint complete, uint total)
+        {
+            if (null == _statusbar)
+                return;
+
+            _statusbar.Progress(cookie, progress, label, complete, total);
+        }
+        
+        public void ClearStatusBar()
+        {
+            if (null == _statusbar)
+                return;
+
+            _statusbar.Clear();
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -136,6 +171,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 
             _outputWindowPane = null;
             _errorListProvider = null;
+            _statusbar = null;
 
             _disposed = true;
         }

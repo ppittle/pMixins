@@ -74,6 +74,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
         {
             try
             {
+                _visualStudioWriter.WriteToStatusBar("pMixin - Generating Code Behind for " + context.Source.FileName);
+
                 var response = _codeGenerator.GeneratePartialCode(context);
 
                 _solutionManager.RegisterCodeGeneratorResponse(response);
@@ -119,6 +121,10 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                 Log.Error(errorMessage, e);
 
                 return new CodeGeneratorResponse(); 
+            }
+            finally
+            {
+                _visualStudioWriter.WriteToStatusBar("pMixin - Generating Code Behind for " + context.Source.FileName + " ... complete");
             }
         }
     }

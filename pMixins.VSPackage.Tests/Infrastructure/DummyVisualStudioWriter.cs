@@ -44,5 +44,20 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.Infrastructure
         {
             _log.InfoFormat("Outputpane: {0}", s);
         }
+
+        public void WriteToStatusBar(string s)
+        {
+            _log.InfoFormat("Status Bar: {0}", s);
+        }
+
+        public void SetStatusProgress(uint cookie, int progress, string label, uint complete, uint total)
+        {
+            
+        }
+
+        public void ClearStatusBar()
+        {
+         
+        }
     }
 }

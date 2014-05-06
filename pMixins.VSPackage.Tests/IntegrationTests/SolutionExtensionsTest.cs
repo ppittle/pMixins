@@ -22,6 +22,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
+using ICSharpCode.NRefactory.TypeSystem;
 using NBehave.Spec.NUnit;
 using Ninject;
 using NUnit.Framework;
@@ -37,9 +38,13 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
     [TestFixture]
     public class SolutionExtensionsTest : IntegrationTestBase
     {
+        private const string filenameMatchingString = "SolutionExtensionsTest.cs";
+
         private Solution _solution;
 
         private CSharpFile _thisFile;
+
+        private IType _sampleTargetType;
 
         public override void MainSetup()
         {
@@ -52,14 +57,17 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
             _thisFile = 
                 _solution
                     .GetValidPMixinFiles()
-                    .FirstOrDefault(c => c.FileName.EndsWith("SolutionExtensionsTest.cs"));
-        }
+                    .FirstOrDefault(c => c.FileName.EndsWith(filenameMatchingString));
 
-        [Test]
-        public void GetValidPMixinFilesFindsThisFile()
-        {
             Assert.True(null != _thisFile,
                 "Code Generated Files did not find SampleTarget file.");
+
+            var sampleTargetClassDefinition = _thisFile.SyntaxTree.GetPartialClasses().First();
+
+            _sampleTargetType = _thisFile.CreateResolver().Resolve(sampleTargetClassDefinition).Type;
+
+            Assert.True(null != _sampleTargetType,
+               "Failed to resolve SampleTarget.");
         }
 
         [Test]
@@ -68,15 +76,21 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
             Assert.True(null != _thisFile,
                 "Can't run test when _thisFile is null.");
 
-            var sampleTargetClassDefinition = _thisFile.SyntaxTree.GetPartialClasses().First();
-
-            var sampleTargetType = _thisFile.CreateResolver().Resolve(sampleTargetClassDefinition);
-
             var sampleTargetTypeAttributes =
-                sampleTargetType.Type.GetAttributes()
+                _sampleTargetType.GetAttributes()
                 .Where(x => x.AttributeType.Implements<IpMixinAttribute>());
 
             sampleTargetTypeAttributes.Count().ShouldEqual(1);
+        }
+
+        [Test]
+        public void CanFindFileFromIType()
+        {
+            var file = _solution.FindFileForIType(_sampleTargetType);
+
+            Assert.True(null != file, "Failed to load CSharpFile for SampleTarget");
+
+            Assert.True(file.FileName.EndsWith(filenameMatchingString));
         }
     }
 }

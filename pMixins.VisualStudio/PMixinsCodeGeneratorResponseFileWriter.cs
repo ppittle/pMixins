@@ -36,10 +36,12 @@ namespace CopaceticSoftware.pMixins.VisualStudio
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IFileWrapper _fileWrapper;
+        private readonly IFileReader _fileReader;
 
-        public pMixinsCodeGeneratorResponseFileWriter(IFileWrapper fileWrapper)
+        public pMixinsCodeGeneratorResponseFileWriter(IFileWrapper fileWrapper, IFileReader fileReader)
         {
             _fileWrapper = fileWrapper;
+            _fileReader = fileReader;
         }
 
         public void WriteCodeGeneratorResponse(CodeGeneratorResponse response)
@@ -66,6 +68,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                 }
 
                 _fileWrapper.WriteAllText(filePath, response.GeneratedCodeSyntaxTree.GetText());
+
+                _fileReader.EvictFromCache(filePath);
             }
             catch (Exception e)
             {

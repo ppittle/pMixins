@@ -29,6 +29,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
     {
         string ReadAllText(string filename);
         IEnumerable<string> ReadLines(string filename);
+
+        void EvictFromCache(string filename);
     }
 
     public class VisualStudioFileCache : IFileReader
@@ -39,11 +41,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             new ConcurrentDictionary<string, FileReaderAsync>();
 
         private readonly IFileWrapper _fileWrapper;
+        
 
-        public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy, IFileWrapper fileWrapper)
+        public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy, IFileWrapper fileWrapper, ISolutionContext solutionContext)
         {
             _fileWrapper = fileWrapper;
-            WireUpCacheEvictionEvents(visualStudioEventProxy);
+
+            WireUpCacheEvictionEvents(visualStudioEventProxy, solutionContext);
         }
 
         public string ReadAllText(string filename)
@@ -59,7 +63,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                 .Split(new [] {Environment.NewLine}, StringSplitOptions.None);
         }
 
-        private void WireUpCacheEvictionEvents(IVisualStudioEventProxy visualStudioEventProxy)
+        public void EvictFromCache(string filename)
+        {
+            FileReaderAsync dummy;
+
+            if (_fileCache.TryRemove(filename, out dummy))
+                _log.InfoFormat("Evicted [{0}]", filename);
+        }
+
+        private void WireUpCacheEvictionEvents(IVisualStudioEventProxy visualStudioEventProxy, ISolutionContext solutionContext)
         {
             FileReaderAsync dummy;
 
@@ -70,7 +82,31 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     _fileCache = new ConcurrentDictionary<string, FileReaderAsync>();
                 };
 
+            visualStudioEventProxy.OnProjectAdded +=
+                (sender, args) =>
+                {
+                    if (_fileCache.TryRemove(solutionContext.SolutionFileName, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", solutionContext.SolutionFileName);
+                };
+
             visualStudioEventProxy.OnProjectRemoved +=
+                (sender, args) =>
+                {
+                    if (_fileCache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+
+                    if (_fileCache.TryRemove(solutionContext.SolutionFileName, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", solutionContext.SolutionFileName);
+                };
+
+            visualStudioEventProxy.OnProjectReferenceAdded +=
+                (sender, args) =>
+                {
+                    if (_fileCache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+                };
+
+            visualStudioEventProxy.OnProjectReferenceRemoved +=
                 (sender, args) =>
                 {
                     if (_fileCache.TryRemove(args.ProjectFullPath, out dummy))

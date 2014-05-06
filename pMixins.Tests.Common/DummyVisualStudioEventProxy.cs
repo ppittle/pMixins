@@ -42,5 +42,12 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
         public event EventHandler<EventArgs> OnSolutionClosing;
         public event EventHandler<EventArgs> OnSolutionOpening;
+        public event EventHandler<CodeGeneratedEventArgs> OnCodeGenerated;
+
+        public void FireOnCodeGenerated(object sender, CodeGeneratorResponse response)
+        {
+           if (null != OnCodeGenerated)
+               OnCodeGenerated(sender, new CodeGeneratedEventArgs { Response = response });
+        }
     }
 }

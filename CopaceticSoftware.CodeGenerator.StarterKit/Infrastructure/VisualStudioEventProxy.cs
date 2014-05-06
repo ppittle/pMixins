@@ -45,6 +45,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         event EventHandler<EventArgs> OnSolutionClosing;
         event EventHandler<EventArgs> OnSolutionOpening;
+
+        event EventHandler<CodeGeneratedEventArgs> OnCodeGenerated;
+
+        void FireOnCodeGenerated(object sender, CodeGeneratorResponse response);
     }
 
     #region Event Arg Definitions
@@ -233,6 +237,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     }
     #endregion
 
+    #region Code Generated Event Args
+
+    public class CodeGeneratedEventArgs : EventArgs
+    {
+        public CodeGeneratorResponse Response { get; set; }
+    }
+    #endregion
+
     #endregion
 
     public class VisualStudioEventProxy : IVisualStudioEventProxy
@@ -255,6 +267,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         public event EventHandler<EventArgs> OnSolutionClosing;
         public event EventHandler<EventArgs> OnSolutionOpening;
+        public event EventHandler<CodeGeneratedEventArgs> OnCodeGenerated;
         #endregion
 
         /// <summary>
@@ -379,6 +392,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             _projectSpecificReferenceEvents.Remove(project.Project.FullName);
         }
 
+        public void FireOnCodeGenerated(object sender, CodeGeneratorResponse response)
+        {
+            OnCodeGenerated(sender, new CodeGeneratedEventArgs{Response = response});
+        }
 
         #region Misc Methods
         private void AddDefaultEventHandlers()
@@ -397,6 +414,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnBuildDone += (s, a) => { };
             OnSolutionClosing += (s, a) => { };
             OnSolutionOpening += (s, a) => { };
+            OnCodeGenerated += (s, a) => { };
         }
         
         public void Dispose()
@@ -420,6 +438,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnBuildDone.GetInvocationList().Map(del => OnBuildDone -= (EventHandler<VisualStudioBuildEventArgs>)del);
             OnSolutionClosing.GetInvocationList().Map(del => OnSolutionClosing -= (EventHandler<EventArgs>)del);
             OnSolutionOpening.GetInvocationList().Map(del => OnSolutionOpening -= (EventHandler<EventArgs>)del);
+            OnCodeGenerated.GetInvocationList().Map(del => OnCodeGenerated -= (EventHandler<CodeGeneratedEventArgs>)del);
         }
         #endregion
     }

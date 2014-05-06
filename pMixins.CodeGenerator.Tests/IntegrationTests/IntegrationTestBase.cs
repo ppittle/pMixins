@@ -24,6 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
 using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
+using CopaceticSoftware.pMixins.VSPackage.Tests.Infrastructure;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
@@ -47,6 +48,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                 new pMixinsStandardModule());
 
             Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
+            Kernel.Rebind<IVisualStudioWriter>().To<DummyVisualStudioWriter>();
             Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
                 .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
 

@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
 using log4net;
@@ -41,7 +42,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         ConcurrentDictionary<string, IAssemblyReference[]> _cache =
             new ConcurrentDictionary<string, IAssemblyReference[]>();
 
-        public CachedMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy)
+        private readonly IMicrosoftBuildProjectLoader _buildProjectLoader;
+
+        public CachedMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader)
+        {
+            _buildProjectLoader = buildProjectLoader;
+            WireUpVisualStudioEvents(visualStudioEventProxy);
+        }
+
+        private void WireUpVisualStudioEvents(IVisualStudioEventProxy visualStudioEventProxy)
         {
             IAssemblyReference[] dummy;
 
@@ -52,11 +61,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     _cache = new ConcurrentDictionary<string, IAssemblyReference[]>();
                 };
 
+            visualStudioEventProxy.OnProjectAdded +=
+                (sender, args) =>
+                {
+                    if (_cache.TryRemove(args.ProjectFullPath, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+
+                    EagerlyResolveReferences(args.ProjectFullPath);
+                };
+
             visualStudioEventProxy.OnProjectReferenceAdded +=
                 (sender, args) =>
                 {
                     if (_cache.TryRemove(args.ProjectFullPath, out dummy))
                         _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+
+                    EagerlyResolveReferences(args.ProjectFullPath);
                 };
 
             visualStudioEventProxy.OnProjectReferenceRemoved +=
@@ -64,6 +84,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 {
                     if (_cache.TryRemove(args.ProjectFullPath, out dummy))
                         _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
+
+                    EagerlyResolveReferences(args.ProjectFullPath);
                 };
 
             visualStudioEventProxy.OnProjectRemoved +=
@@ -72,6 +94,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     if (_cache.TryRemove(args.ProjectFullPath, out dummy))
                         _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
                 };
+        }
+
+        private void EagerlyResolveReferences(string filename)
+        {
+            new TaskFactory().StartNew(
+                () =>
+                {
+                    _log.InfoFormat("Eagerly Resolve References for [{0}]", filename);
+
+                    ResolveReferences(_buildProjectLoader.LoadMicrosoftBuildProject(filename));
+                });
         }
 
         public override IAssemblyReference[] ResolveReferences(Project project)

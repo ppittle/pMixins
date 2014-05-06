@@ -44,6 +44,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 
         public override void MainSetup()
         {
+            base.MainSetup();
+
             Console.WriteLine("SourceCode: \n\n"+ SourceCode + "\n");
 
             var generator = new pMixinPartialCodeGenerator();

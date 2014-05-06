@@ -23,6 +23,7 @@ using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using log4net;
 using Microsoft.Samples.VisualStudio.GeneratorSample;
@@ -46,8 +47,6 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
 
-        public const string DefaultExtension = ".mixin.cs";
-
         public pMixinsSingleFileCodeGenerator()
         {
             _visualStudioCodeGenerator = ServiceLocator.Kernel.Get<IVisualStudioCodeGenerator>();
@@ -57,7 +56,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         protected override string GetDefaultExtension()
         {
-            return DefaultExtension;
+            return Constants.PMixinFileExtension;
         }
 
         protected override byte[] GenerateCode(string inputFileContent)

@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Constants.cs" />
     <Compile Include="Ninject\pMixinsStandardModule.cs" />
     <Compile Include="pMixinsMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="pMixinsSolutionManager.cs" />

@@ -126,6 +126,7 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinMasks\SimpleInterfaceMask.cs" />
+    <Compile Include="IntegrationTests\CompileTests\ParsingTests\WhenThereIsAParseErrorLaterInTheFile.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\TargetCanAccessProtectedMembers.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinConstDataMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicDataMembersAreInjectedIntoTarget.cs" />

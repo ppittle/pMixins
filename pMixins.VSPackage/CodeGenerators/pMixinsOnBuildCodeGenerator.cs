@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit;
@@ -52,11 +53,25 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         private void HandleBuild(object sender, VisualStudioBuildEventArgs e)
         {
-            _visualStudioCodeGenerator
-                .GenerateCode(
-                    _codeGeneratorContextFactory.GenerateContext(s => s.GetValidPMixinFiles()))
-                .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
-            
+            var sw = Stopwatch.StartNew();
+
+            try
+            {
+                _log.InfoFormat("HandleBuild started.");
+
+                _visualStudioCodeGenerator
+                    .GenerateCode(
+                        _codeGeneratorContextFactory.GenerateContext(s => s.GetValidPMixinFiles()))
+                    .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
+            }
+            catch (Exception exc)
+            {
+                _log.Error("Exception in HandleBuild", exc);
+            }
+            finally
+            {
+                _log.InfoFormat("HandleBuild Completed in [{0}] ms", sw.ElapsedMilliseconds);
+            }
         }
     }
 }

@@ -17,9 +17,8 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using log4net;
 using log4net.Core;
-using log4net.Repository.Hierarchy;
+using log4net.Layout;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 {
@@ -39,17 +38,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                 if (_isInitialized)
                     return;
 
-                log4net.Config.BasicConfigurator.Configure();
+                //http://stackoverflow.com/questions/650694/changing-the-log-level-programmaticaly-in-log4net
+                var outputWindowAppender =
+                    new VisualStudioOutputWindowAppender(visualStudioWriter)
+                    {
+                        Layout =
+                            new PatternLayout(@"%date{HH:mm:ss,fff} %thread% %-5level [%logger{2}] %message%newline"),
+                        Threshold = Level.Info
+                    };
 
-                var heirachy = (LogManager.GetRepository() as Hierarchy);
-                if (null == heirachy)
-                    return;
-
-                var root = heirachy.Root as IAppenderAttachable;
-                if (null == root)
-                    return;
-
-                root.AddAppender(new VisualStudioOutputWindowAppender(visualStudioWriter));
+                log4net.Config.BasicConfigurator.Configure(outputWindowAppender);
 
                 _isInitialized = true;
             }

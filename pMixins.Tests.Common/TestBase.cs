@@ -21,6 +21,7 @@ using System.Reflection;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
+using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using NBehave.Spec.NUnit;
 
@@ -47,7 +48,7 @@ namespace CopaceticSoftware.pMixins.Tests.Common
     {
         private static bool _isInitialized;
 
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
 
         public static void Initialize()
         {
@@ -59,22 +60,16 @@ namespace CopaceticSoftware.pMixins.Tests.Common
                 if (_isInitialized)
                     return;
 
-                log4net.Config.BasicConfigurator.Configure();
-
-                var heirachy = (LogManager.GetRepository() as Hierarchy);
-                if (null == heirachy)
-                    return;
-
-                var root = heirachy.Root as IAppenderAttachable;
-                if (null == root)
-                    return;
-
-                root.AddAppender(new ConsoleAppender
+                var consoleAppender = new ConsoleAppender()
                 {
+                    Layout = new PatternLayout(@"%date{HH:mm:ss,fff} %-5level [%logger{2}] %message%newline"),
                     Threshold = Level.Info
-                });
+                };
 
-                _isInitialized = true;
+
+                log4net.Config.BasicConfigurator.Configure(consoleAppender);
+
+               _isInitialized = true;
             }
         }
     }

@@ -82,7 +82,6 @@
     <Compile Include="Extensions\SolutionExtensions.cs" />
     <Compile Include="Ninject\pMixinsStandardModule.cs" />
     <Compile Include="pMixinsMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
-    <Compile Include="pMixinsSolutionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisualStudioCodeGenerator.cs" />
   </ItemGroup>

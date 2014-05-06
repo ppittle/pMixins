@@ -145,7 +145,6 @@
     <Compile Include="Infrastructure\VisualStudioSolution\Solution.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFactory.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFileReader.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\SolutionManager.cs" />
     <Compile Include="Logging\Log4NetInitializer.cs" />
     <Compile Include="Logging\VisualStudioOutputWindowAppender.cs" />
     <Compile Include="Ninject\StandardModule.cs" />

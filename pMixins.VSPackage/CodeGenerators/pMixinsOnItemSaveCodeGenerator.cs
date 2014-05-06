@@ -33,12 +33,10 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
     public class pMixinsOnItemSaveCodeGenerator
     {
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
-        private readonly IpMixinsSolutionManager _solutionManager;
-
-        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, IpMixinsSolutionManager solutionManager)
+        
+        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
-            _solutionManager = solutionManager;
 
             visualStudioEventProxy.OnProjectItemSaved += HandleProjectItemSaved;
         }

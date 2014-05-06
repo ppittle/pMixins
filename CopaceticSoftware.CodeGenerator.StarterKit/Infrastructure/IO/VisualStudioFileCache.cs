@@ -21,7 +21,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
@@ -39,15 +38,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         private ConcurrentDictionary<string, FileReaderAsync> _fileCache = 
             new ConcurrentDictionary<string, FileReaderAsync>();
 
-       public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy)
+        private readonly IFileWrapper _fileWrapper;
+
+        public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy, IFileWrapper fileWrapper)
         {
+            _fileWrapper = fileWrapper;
             WireUpCacheEvictionEvents(visualStudioEventProxy);
         }
 
         public string ReadAllText(string filename)
         {
             return 
-                _fileCache.GetOrAdd(filename, f => new FileReaderAsync(f))
+                _fileCache.GetOrAdd(filename, f => new FileReaderAsync(_fileWrapper, f))
                     .FileContents;
         }
 
@@ -140,70 +142,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     }
                 };
             
-        }
-    }
-
-    public class FileReaderAsync
-    {
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private readonly Task _readFileTask;
-
-        private Exception _fileReadException = null;
-
-        private string _fileContents;
-
-        private string _fileName;
-
-        private IVisualStudioOpenDocumentReader _openDocumentReader = null;
-
-        public FileReaderAsync(string filename)
-        {
-            _fileName = filename;
-
-            _readFileTask = new TaskFactory().StartNew(() =>
-            {
-                try
-                {
-                    _log.DebugFormat("Reading File [{0}]", filename);
-
-                    _fileContents = File.ReadAllText(filename);
-                }
-                catch (Exception e)
-                {
-                    _fileReadException = e;
-                }
-            });
-        }
-
-        public void FileIsOpenInEditor(IVisualStudioOpenDocumentReader openDocumentReader)
-        {
-            _openDocumentReader = openDocumentReader;
-        }
-
-        public void FileIsCloseedInEditor()
-        {
-            _openDocumentReader = null;
-        }
-
-        public string FileContents
-        {
-            get
-            {
-                if (null != _openDocumentReader)
-                {
-                    _log.InfoFormat("Document is open in editor [{0}]", _fileName);
-
-                    return _openDocumentReader.GetDocumentText();
-                }
-
-                _readFileTask.Wait();
-
-                if (null != _fileReadException)
-                    throw _fileReadException;
-
-                return _fileContents;
-            }
         }
     }
 }

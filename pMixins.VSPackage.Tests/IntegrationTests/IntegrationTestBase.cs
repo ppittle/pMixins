@@ -20,7 +20,6 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
-using CopaceticSoftware.pMixins.VSPackage.Tests.Infrastructure;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests

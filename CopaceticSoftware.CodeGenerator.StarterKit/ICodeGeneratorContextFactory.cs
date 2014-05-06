@@ -89,6 +89,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
                     .Where(x => null != x)
                     .Select(f => (ICodeGeneratorContext)new CodeGeneratorContext
                     {
+                        Solution = s,
                         Source = f,
                         TypeResolver = f.CreateResolver()
                     })

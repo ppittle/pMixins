@@ -25,6 +25,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
     {
         CSharpFile Source { get; }
         CSharpAstResolver TypeResolver { get; }
+        Solution Solution { get; }
     }
 
     public class CodeGeneratorContext : ICodeGeneratorContext
@@ -32,5 +33,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
         public CSharpFile Source { get; set; }
 
         public CSharpAstResolver TypeResolver { get; set; }
+        public Solution Solution { get; set; }
     }
 }

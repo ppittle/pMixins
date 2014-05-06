@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections
 {
     public class ConcurrentList<T>
     {
@@ -40,10 +40,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                 return _list.Remove(item);
         }
 
-        public void WhereFilter(Func<T, bool> whereFunc)
+        public void AddOrUpdate(Func<T, bool> matchFunc, T item)
         {
             lock (_lock)
-                _list = _list.Where(whereFunc).ToList();
+            {
+                for (int i = 0; i < _list.Count; i++)
+                {
+                    if (matchFunc(_list[i]))
+                    {
+                        _list[i] = item;
+                        return;
+                    }
+                }
+
+                _list.Add(item);
+            }
         }
 
         public bool Contains(T item)

@@ -20,7 +20,7 @@ using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using log4net;
 
-namespace CopaceticSoftware.pMixins.VSPackage.Tests.Infrastructure
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class DummyVisualStudioWriter : IVisualStudioWriter
     {

@@ -162,29 +162,4 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         }
     }
-
-    public class ConcurrentList<T>
-    {
-        private static readonly object _lock = new object();
-
-        private readonly IList<T> _list = new List<T>();
-
-        public void Add(T item)
-        {
-            lock(_lock)
-                _list.Add(item);
-        }
-
-        public bool Remove(T item)
-        {
-            lock (_lock)
-                return _list.Remove(item);
-        }
-
-        public bool Contains(T item)
-        {
-            lock (_lock)
-                return _list.Contains(item);
-        }
-    }
 }

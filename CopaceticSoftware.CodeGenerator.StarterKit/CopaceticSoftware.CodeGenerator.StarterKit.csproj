@@ -109,6 +109,7 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="ICodeGeneratorContextFactory.cs" />
     <Compile Include="Infrastructure\CodeGenerationError.cs" />
+    <Compile Include="Infrastructure\Collections\ConcurrentList.cs" />
     <Compile Include="Infrastructure\IO\CSharpFileFactory.cs" />
     <Compile Include="Infrastructure\IO\FileReaderAsync.cs" />
     <Compile Include="Infrastructure\IO\FileWrapper.cs" />

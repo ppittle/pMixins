@@ -31,6 +31,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
     public interface IVisualStudioCodeGenerator
     {
         IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles);
+        IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<ICodeGeneratorContext> codeGeneratorContexts);
     }
 
     public class VisualStudioCodeGenerator : IVisualStudioCodeGenerator
@@ -52,12 +53,12 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
         public IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles)
         {
-            var sourceFileList = rawSourceFiles.ToList();
+            return GenerateCode(_codeGeneratorContextFactory.GenerateContext(rawSourceFiles.ToList()));
+        }
 
-            IEnumerable<ICodeGeneratorContext> contexts = 
-                _codeGeneratorContextFactory.GenerateContext(sourceFileList);
-
-            foreach (var context in contexts)
+        public IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<ICodeGeneratorContext> codeGeneratorContexts)
+        {
+            foreach (var context in codeGeneratorContexts)
             {
                 Log.InfoFormat("Generating Code for file [{0}] in [{1}]",
                         context.Source.FileName, context.Source.Project.FileName);

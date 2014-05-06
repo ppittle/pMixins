@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Constants.cs" />
+    <Compile Include="Extensions\SolutionExtensions.cs" />
     <Compile Include="Ninject\pMixinsStandardModule.cs" />
     <Compile Include="pMixinsMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="pMixinsSolutionManager.cs" />
@@ -102,6 +103,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>powershell.exe -file "$(SolutionDir)\scripts\AddCopyrightToAllClasses.ps1" -target $(ProjectDir)</PreBuildEvent>

@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -30,6 +31,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
         IList<ICodeGeneratorContext> GenerateContext(IList<RawSourceFile> rawSourceFiles);
 
         IList<ICodeGeneratorContext> GenerateContext(IEnumerable<CSharpFile> cSharpFiles);
+
+        IList<ICodeGeneratorContext> GenerateContext(Func<Solution, IEnumerable<CSharpFile>> buildCSharpFileList);
     }
 
     public class CodeGeneratorContextFactory : ICodeGeneratorContextFactory
@@ -61,16 +64,25 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
 
         public IList<ICodeGeneratorContext> GenerateContext(IEnumerable<CSharpFile> cSharpFiles)
         {
-            if (null == cSharpFiles)
+            return GenerateContext(_solutionFactory.BuildCurrentSolution(), cSharpFiles);
+        }
+
+        public IList<ICodeGeneratorContext> GenerateContext(Func<Solution, IEnumerable<CSharpFile>> buildCSharpFileList)
+        {
+            var solution = _solutionFactory.BuildCurrentSolution();
+
+            if (null == solution)
                 return new List<ICodeGeneratorContext>();
 
-            return GenerateContext(_solutionFactory.BuildCurrentSolution(), cSharpFiles);
+            return GenerateContext(solution, buildCSharpFileList(solution));
         }
 
         private IList<ICodeGeneratorContext> GenerateContext(Solution s, IEnumerable<CSharpFile> cSharpFiles)
         {
+            if (null == cSharpFiles)
+                return new List<ICodeGeneratorContext>();
 
-            return
+           return
                 cSharpFiles
                     //Load the file from the solution (so it has the latest compilation)
                     .Select(x => s.AllFiles.FirstOrDefault(f => f.FileName.Equals(x.FileName)))

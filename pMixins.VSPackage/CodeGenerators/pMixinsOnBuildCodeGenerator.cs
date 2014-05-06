@@ -16,12 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.IO;
-using System.Linq;
+using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.pMixins.VisualStudio.Extensions;
+using log4net;
 
 namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 {
@@ -31,59 +34,60 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
     /// </summary>
     public class pMixinsOnBuildCodeGenerator
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
-        private readonly IpMixinsSolutionManager _solutionManager;
-        
-        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, IpMixinsSolutionManager solutionManager)
+        private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
+
+        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
-            _solutionManager = solutionManager;
-            
+            _codeGeneratorContextFactory = codeGeneratorContextFactory;
+
             visualStudioEventProxy.OnBuildBegin += HandleBuild;
         }
 
         private void HandleBuild(object sender, VisualStudioBuildEventArgs e)
         {
-            /*
-             _solutionManager.CodeGeneratedFiles
-                 .Where(f => File.Exists(f.FileName))
-                 .Map(f => _visualStudioProjectHelper.SaveFile(f.Project.FileName, f.FileName));
-            */
-            
-            _visualStudioCodeGenerator.GenerateCode(
-                _solutionManager.CodeGeneratedFiles.Select(
-                    f => new RawSourceFile
-                         {
-                             FileName = f.FileName,
-                             FileContents = File.ReadAllText(f.FileName),
-                             ProjectFileName = f.Project.FileName
-                         }))
+            _visualStudioCodeGenerator
+                .GenerateCode(
+                    _codeGeneratorContextFactory.GenerateContext(s => s.GetValidPMixinFiles()))
                 .Map(WriteMixinFileAndAddToProject);
             
         }
 
         private void WriteMixinFileAndAddToProject(CodeGeneratorResponse response)
         {
-            if (null == response.CodeGeneratorContext)
-                return;
+            string filePath = "<not defined>";
 
-            var filepath = 
-                Path.Combine(
-                    Path.GetDirectoryName(response.CodeGeneratorContext.Source.FileName) ?? "",
-                    Path.GetFileNameWithoutExtension(response.CodeGeneratorContext.Source.FileName) ?? "")
-                + pMixinsSingleFileCodeGenerator.DefaultExtension;
+            try
+            {
+                if (null == response.CodeGeneratorContext)
+                    return;
 
-            if (File.Exists(filepath))
-                File.Delete(filepath);
+                filePath =
+                    Path.Combine(
+                        Path.GetDirectoryName(response.CodeGeneratorContext.Source.FileName) ?? "",
+                        Path.GetFileNameWithoutExtension(response.CodeGeneratorContext.Source.FileName) ?? "")
+                    + Constants.PMixinFileExtension;
 
-            File.WriteAllText(filepath, response.GeneratedCodeSyntaxTree.GetText());
+                _log.InfoFormat("Updating [{0}]", filePath);
 
-            /*
-            _visualStudioProjectHelper.RegisterCodeGeneratedFile(
-                response.CodeGeneratorContext.Source.Project.FileName,
-                response.CodeGeneratorContext.Source.FileName,
-                filepath);
-             */
+                if (File.Exists(filePath))
+                {
+                    _log.DebugFormat("Deleting file [{0}]", filePath);
+                    File.Delete(filePath);
+                }
+                
+                File.WriteAllText(filePath, response.GeneratedCodeSyntaxTree.GetText());
+            }
+            catch (Exception e)
+            {
+                _log.Error(
+                    string.Format("Exception writing Generated Code to [{0}]: {1}",
+                        filePath,
+                        e.Message), e);
+            }
         }
     }
 }

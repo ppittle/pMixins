@@ -22,6 +22,7 @@ using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using log4net;
@@ -38,11 +39,13 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
+        private readonly IFileWrapper _fileWrapper;
 
-        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory)
+        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IFileWrapper fileWrapper)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
+            _fileWrapper = fileWrapper;
 
             visualStudioEventProxy.OnBuildBegin += HandleBuild;
         }
@@ -73,13 +76,13 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
                 _log.InfoFormat("Updating [{0}]", filePath);
 
-                if (File.Exists(filePath))
+                if (_fileWrapper.Exists(filePath))
                 {
                     _log.DebugFormat("Deleting file [{0}]", filePath);
-                    File.Delete(filePath);
+                    _fileWrapper.Delete(filePath);
                 }
-                
-                File.WriteAllText(filePath, response.GeneratedCodeSyntaxTree.GetText());
+
+                _fileWrapper.WriteAllText(filePath, response.GeneratedCodeSyntaxTree.GetText());
             }
             catch (Exception e)
             {

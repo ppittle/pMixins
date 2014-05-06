@@ -110,6 +110,7 @@
     <Compile Include="ICodeGeneratorContextFactory.cs" />
     <Compile Include="Infrastructure\CodeGenerationError.cs" />
     <Compile Include="Infrastructure\IO\CSharpFileFactory.cs" />
+    <Compile Include="Infrastructure\IO\FileWrapper.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioFileCache.cs" />
     <Compile Include="Infrastructure\IPartialCodeGenerator.cs" />
     <Compile Include="Infrastructure\CodeGeneratorResponse.cs" />

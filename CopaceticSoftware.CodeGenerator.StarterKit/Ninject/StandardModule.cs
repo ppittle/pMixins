@@ -33,6 +33,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
             Bind<ISolutionFactory>().To<SolutionFactory>();
             Bind<ISolutionFileReader>().To<SolutionFileReader>();
 
+            Bind<IFileWrapper>().To<FileWrapper>();
             Bind<IFileReader>().To<VisualStudioFileCache>().InSingletonScope();
             Bind<ICSharpFileFactory>().To<CSharpFileFactory>().InSingletonScope();
             Bind<ISolutionContext>().To<SolutionContext>().InSingletonScope();

@@ -26,7 +26,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 {
-    public class VisualStudioWriter : IVisualStudioWriter, IDisposable
+    public class VisualStudioWriter : IVisualStudioWriter
     {
         private EnvDTE.OutputWindowPane _outputWindowPane;
         private ErrorListProvider _errorListProvider;

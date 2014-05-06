@@ -59,5 +59,10 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         {
          
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

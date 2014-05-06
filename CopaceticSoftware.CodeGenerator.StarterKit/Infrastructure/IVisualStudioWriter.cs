@@ -16,13 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
+
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 {
     /// <summary>
     /// Proxies communication to the Visual Studio Output and Error List
     /// window.
     /// </summary>
-    public interface IVisualStudioWriter
+    public interface IVisualStudioWriter : IDisposable
     {
         void GeneratorError(string message, uint line, uint column);
         void GeneratorWarning(string message, uint line, uint column);

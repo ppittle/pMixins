@@ -127,21 +127,6 @@
     <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProject.cs" />
     <Compile Include="Extensions\ProjectExtensions.cs" />
-    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\CSharpFile.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\CSharpProject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Infrastructure\VisualStudioSolution\OLD\NRefactory\Solution.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Infrastructure\VisualStudioSolution\OLD\SolutionExtender.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Infrastructure\VisualStudioSolution\OLD\SolutionManager.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Infrastructure\VisualStudioSolution\RawSourceFile.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\Solution.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFactory.cs" />

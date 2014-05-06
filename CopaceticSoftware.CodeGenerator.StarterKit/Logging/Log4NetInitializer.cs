@@ -20,7 +20,6 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.Utils;
 using log4net.Core;
-using log4net.Filter;
 using log4net.Layout;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
@@ -51,15 +50,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                     };
 
                 outputWindowAppender.AddFilter(
-                    new LevelRangeFilter{
+                    new LevelAndLoggerFilter
+                    {
                         LevelMax = Level.Fatal,
                         LevelMin = Level.Warn, 
-                        AcceptOnMatch = true,
-                        Next = new LoggerMatchFilter
-                        {
-                            AcceptOnMatch = false, LoggerToMatch = typeof(IPipelineStep<>).Namespace
-                        }
-                        });
+                        LoggerToMatch = typeof(IPipelineStep<>).Namespace
+                    });
 
                 log4net.Config.BasicConfigurator.Configure(outputWindowAppender);
 

@@ -24,6 +24,7 @@ using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.pMixins.VisualStudio.Logging;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio
@@ -73,6 +74,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
         private CodeGeneratorResponse GenerateCode(ICodeGeneratorContext context)
         {
+            using (var activity = new LoggingActivity("GenerateCode " + context.Source.FileName))
             try
             {
                 _visualStudioWriter.WriteToStatusBar("pMixin - Generating Code Behind for " + context.Source.FileName);

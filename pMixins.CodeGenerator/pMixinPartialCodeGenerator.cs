@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit;
@@ -35,13 +36,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
         {
             var stopwatch = Stopwatch.StartNew();
 
-            var logManager = new Log4NetInMemoryStreamAppenderManager();
+            try
+            {
+                _log.InfoFormat("ResolveReferences Begin [{0}]", codeGeneratorContext.Source.FileName);
 
-            var pipelineState = new CodeGenerationPipelineState(codeGeneratorContext);
+                var logManager = new Log4NetInMemoryStreamAppenderManager();
 
-            new pMixinPartialCodeGeneratorPipeline().PerformTask(pipelineState);
+                var pipelineState = new CodeGenerationPipelineState(codeGeneratorContext);
 
-            return new pMixinPartialCodeGeneratorResponse
+                new pMixinPartialCodeGeneratorPipeline().PerformTask(pipelineState);
+
+                return new pMixinPartialCodeGeneratorResponse
                        {
                            CodeGeneratorExecutionTime = stopwatch.Elapsed,
                            CodeGeneratorPipelineState = pipelineState,
@@ -50,6 +55,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
                            GeneratedCodeSyntaxTree = pipelineState.GeneratedCodeSyntaxTree,
                            LogMessages = logManager.GetRenderedLoggingEvents(LoggingVerbosity.All)
                        };
+            }
+            catch (Exception e)
+            {
+                _log.Error(string.Format("Unhandled exception generating [{0}]: {1}", 
+                    codeGeneratorContext.Source.FileName, e.Message), e);
+
+                throw;
+            }
+            finally
+            {
+                _log.InfoFormat("ResolveReferences Complete [{0}] in [{1}] ms", 
+                    codeGeneratorContext.Source.FileName,
+                    stopwatch.ElapsedMilliseconds);
+            }
         }
 
         CodeGeneratorResponse IPartialCodeGenerator.GeneratePartialCode(ICodeGeneratorContext codeGeneratorContext)

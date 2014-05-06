@@ -24,6 +24,7 @@ using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
+using ICSharpCode.NRefactory.TypeSystem;
 using JetBrains.Annotations;
 using log4net;
 
@@ -68,5 +69,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             }
         }
 
+        [CanBeNull]
+        public static CSharpFile FindFileForIType(this Solution solution, IType type)
+        {
+            return
+                solution.AllFiles.FirstOrDefault(
+                    f => f.UnresolvedTypeSystemForFile.TopLevelTypeDefinitions.Any(td => td.FullName == type.FullName));
+        }
     }
 }

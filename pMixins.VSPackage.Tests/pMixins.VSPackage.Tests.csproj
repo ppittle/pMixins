@@ -89,7 +89,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\DummyVisualStudioWriter.cs" />
     <Compile Include="IntegrationTests\pMixinsSolutionManagerTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

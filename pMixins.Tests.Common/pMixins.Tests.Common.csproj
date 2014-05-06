@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DummyVisualStudioEventProxy.cs" />
+    <Compile Include="DummyVisualStudioWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestNotWrittenYetAttribute.cs" />

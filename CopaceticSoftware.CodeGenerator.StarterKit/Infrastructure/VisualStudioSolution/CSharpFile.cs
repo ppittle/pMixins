@@ -18,7 +18,6 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.Resolver;
@@ -36,11 +35,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public readonly CSharpUnresolvedFile UnresolvedTypeSystemForFile;
         public readonly CSharpProject Project;
         public readonly IEnumerable<Error> Errors;
-
-        public CSharpFile(CSharpProject project, string fileName)
-            : this(project, fileName, File.ReadAllText(fileName))
-        {
-        }
 
         public CSharpFile(CSharpProject project, string fileName, string sourceCode)
         {

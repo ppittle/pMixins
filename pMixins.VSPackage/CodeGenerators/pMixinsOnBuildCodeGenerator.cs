@@ -55,7 +55,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
             _visualStudioCodeGenerator
                 .GenerateCode(
                     _codeGeneratorContextFactory.GenerateContext(s => s.GetValidPMixinFiles()))
-                .Map(WriteMixinFileAndAddToProject);
+                .MapParallel(WriteMixinFileAndAddToProject);
             
         }
 

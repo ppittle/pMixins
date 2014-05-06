@@ -92,7 +92,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     }
     #endregion
 
-    #region Project EventArgs
+    #region Project Event Args
     [Serializable]
     public class ProjectAddedEventArgs : VisualStudioProjectEventArgs
     {
@@ -219,7 +219,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     }
     #endregion
 
-    #region Build Events
+    #region Build Event Args
 
     public class VisualStudioBuildEventArgs : VisualStudioEventArgs
     {

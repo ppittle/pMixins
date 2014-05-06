@@ -33,7 +33,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface IMicrosoftBuildProjectAssemblyReferenceResolver
     {
-        IAssemblyReference[] ResolveReferences(Project project, string projectFileName);
+        IAssemblyReference[] ResolveReferences(Project project);
     }
 
     public class CachedMicrosoftBuildProjectAssemblyReferenceResolver : MicrosoftBuildProjectAssemblyReferenceResolver
@@ -74,10 +74,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 };
         }
 
-        public override IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
+        public override IAssemblyReference[] ResolveReferences(Project project)
         {
-            return _cache.GetOrAdd(projectFileName, (f) =>
-                        base.ResolveReferences(project, f));
+            return _cache.GetOrAdd(project.FullPath, (f) =>
+                        base.ResolveReferences(project));
         }
     }
     
@@ -90,26 +90,26 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         private static readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict =
                 new ConcurrentDictionary<string, IUnresolvedAssembly>(Platform.FileNameComparer);
 
-        public virtual IAssemblyReference[] ResolveReferences(Project project, string projectFileName)
+        public virtual IAssemblyReference[] ResolveReferences(Project project)
         {
             var sw = Stopwatch.StartNew();
             try
             {
-                return ResolveAssemblyReferences(project, projectFileName)
+                return ResolveAssemblyReferences(project)
                     .Union<IAssemblyReference>(ResolveProjectReferences(project))
                     .ToArray();
             }
             finally
             {
                 _log.DebugFormat("References Resolved for [{0}] in [{1}] ms",
-                    Path.GetFileName(projectFileName),
+                    Path.GetFileName(project.FullPath),
                     sw.ElapsedMilliseconds);
             }
         }
 
-        protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
+        protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
         {
-            string baseDirectory = Path.GetDirectoryName(projectFileName);
+            string baseDirectory = Path.GetDirectoryName(project.FullPath);
 
             // Use MSBuild to figure out the full path of the referenced assemblies
             var projectInstance = project.CreateProjectInstance();

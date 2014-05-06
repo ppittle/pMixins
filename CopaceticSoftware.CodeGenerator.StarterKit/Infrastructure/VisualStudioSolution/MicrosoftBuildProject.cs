@@ -65,7 +65,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     .Select(i => Path.Combine(msBuildProject.DirectoryPath, i.EvaluatedInclude));
 
             ReferencedAssemblies =
-                assemblyReferenceResolver.ResolveReferences(msBuildProject, projectFileName);
+                assemblyReferenceResolver.ResolveReferences(msBuildProject);
                 
 
             _log.DebugFormat("Project [{0}] built in [{1}] ms", Path.GetFileName(FileName), sw.ElapsedMilliseconds);

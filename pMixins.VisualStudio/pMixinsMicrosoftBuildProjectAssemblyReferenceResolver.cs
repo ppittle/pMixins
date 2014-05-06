@@ -31,13 +31,13 @@ namespace CopaceticSoftware.pMixins.VisualStudio
     {
         private static readonly string pMixinsAssemblyName = typeof (pMixinAttribute).Assembly.GetName().Name;
 
-        public pMixinsMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy) : base(visualStudioEventProxy)
+        public pMixinsMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader) : base(visualStudioEventProxy, buildProjectLoader)
         {
         }
 
-        protected override IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project, string projectFileName)
+        protected override IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
         {
-            return base.ResolveAssemblyReferences(project, projectFileName)
+            return base.ResolveAssemblyReferences(project)
                 //Ensure there is 1 and only 1 reference to pMixins
                 .Where(r => !r.AssemblyName.Equals(pMixinsAssemblyName))
                 .Union(new[] { LoadAssembly(typeof(pMixinAttribute).Assembly.Location) })

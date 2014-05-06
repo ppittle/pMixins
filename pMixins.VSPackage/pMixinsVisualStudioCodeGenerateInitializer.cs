@@ -46,12 +46,13 @@ namespace CopaceticSoftware.pMixins_VSPackage
     {
         private ILog _log;
 
-        private VisualStudioWriter _visualStudioWriter;
+        private IVisualStudioWriter _visualStudioWriter;
         private ISolutionContext _solutionContext;
+        private IVisualStudioEventProxy _visualStudioEventProxy;
 
+        //Keep references to code generators so they don't get garbage collected
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
-        private VisualStudioEventProxy _visualStudioEventProxy;
 
         protected override void Initialize()
         {

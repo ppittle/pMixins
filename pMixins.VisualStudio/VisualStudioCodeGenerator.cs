@@ -40,13 +40,14 @@ namespace CopaceticSoftware.pMixins.VisualStudio
         private readonly IVisualStudioWriter _visualStudioWriter;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IPartialCodeGenerator _codeGenerator;
+        private readonly IVisualStudioEventProxy _visualStudioEventProxy;
         
-        public VisualStudioCodeGenerator(IVisualStudioWriter visualStudioWriter, IpMixinsSolutionManager solutionManager, IPartialCodeGenerator codeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory)
+        public VisualStudioCodeGenerator(IVisualStudioWriter visualStudioWriter, IPartialCodeGenerator codeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IVisualStudioEventProxy visualStudioEventProxy)
         {
             _visualStudioWriter = visualStudioWriter;
-            _solutionManager = solutionManager;
             _codeGenerator = codeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
+            _visualStudioEventProxy = visualStudioEventProxy;
         }
 
         public IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<RawSourceFile> rawSourceFiles)
@@ -77,7 +78,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
                 var response = _codeGenerator.GeneratePartialCode(context);
 
-                _solutionManager.RegisterCodeGeneratorResponse(response);
+                _visualStudioEventProxy.FireOnCodeGenerated(this, response);
 
                 #region Write Errors / Warnings
 

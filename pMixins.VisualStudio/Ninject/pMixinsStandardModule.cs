@@ -32,6 +32,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
             Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>().To<pMixinsMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
 
             Bind<IVisualStudioCodeGenerator>().To<VisualStudioCodeGenerator>();
+
+            Bind<IpMixinsCodeGeneratorResponseFileWriter>().To<pMixinsCodeGeneratorResponseFileWriter>();
         }
     }
 }

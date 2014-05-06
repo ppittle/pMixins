@@ -39,14 +39,14 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
-        private readonly IFileWrapper _fileWrapper;
+        private readonly IpMixinsCodeGeneratorResponseFileWriter _responseFileWriter;
 
-        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IFileWrapper fileWrapper)
+        public pMixinsOnBuildCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
-            _fileWrapper = fileWrapper;
-
+            _responseFileWriter = responseFileWriter;
+            
             visualStudioEventProxy.OnBuildBegin += HandleBuild;
         }
 
@@ -55,42 +55,8 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
             _visualStudioCodeGenerator
                 .GenerateCode(
                     _codeGeneratorContextFactory.GenerateContext(s => s.GetValidPMixinFiles()))
-                .MapParallel(WriteMixinFileAndAddToProject);
+                .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
             
-        }
-
-        private void WriteMixinFileAndAddToProject(CodeGeneratorResponse response)
-        {
-            string filePath = "<not defined>";
-
-            try
-            {
-                if (null == response.CodeGeneratorContext)
-                    return;
-
-                filePath =
-                    Path.Combine(
-                        Path.GetDirectoryName(response.CodeGeneratorContext.Source.FileName) ?? "",
-                        Path.GetFileNameWithoutExtension(response.CodeGeneratorContext.Source.FileName) ?? "")
-                    + Constants.PMixinFileExtension;
-
-                _log.InfoFormat("Updating [{0}]", filePath);
-
-                if (_fileWrapper.Exists(filePath))
-                {
-                    _log.DebugFormat("Deleting file [{0}]", filePath);
-                    _fileWrapper.Delete(filePath);
-                }
-
-                _fileWrapper.WriteAllText(filePath, response.GeneratedCodeSyntaxTree.GetText());
-            }
-            catch (Exception e)
-            {
-                _log.Error(
-                    string.Format("Exception writing Generated Code to [{0}]: {1}",
-                        filePath,
-                        e.Message), e);
-            }
         }
     }
 }

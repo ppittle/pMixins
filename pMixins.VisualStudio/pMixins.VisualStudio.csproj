@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pMixinsCodeGeneratorResponseFileWriter.cs" />
     <Compile Include="Extensions\Constants.cs" />
     <Compile Include="Extensions\SolutionExtensions.cs" />
     <Compile Include="Ninject\pMixinsStandardModule.cs" />

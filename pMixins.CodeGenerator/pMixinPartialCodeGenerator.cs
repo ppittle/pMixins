@@ -38,7 +38,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
 
             try
             {
-                _log.InfoFormat("ResolveReferences Begin [{0}]", codeGeneratorContext.Source.FileName);
+                _log.InfoFormat("GeneratePartialCode Begin [{0}]", codeGeneratorContext.Source.FileName);
 
                 var logManager = new Log4NetInMemoryStreamAppenderManager();
 
@@ -65,7 +65,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
             }
             finally
             {
-                _log.InfoFormat("ResolveReferences Complete [{0}] in [{1}] ms", 
+                _log.InfoFormat("GeneratePartialCode Complete [{0}] in [{1}] ms", 
                     codeGeneratorContext.Source.FileName,
                     stopwatch.ElapsedMilliseconds);
             }

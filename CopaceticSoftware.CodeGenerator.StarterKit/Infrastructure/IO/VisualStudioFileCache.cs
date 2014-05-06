@@ -172,7 +172,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
                     if (_fileCache.TryGetValue(args.ClassFullPath, out fileReader))
                     {
-                        _log.InfoFormat("Document Opened [{0}]", args.ClassFullPath);
+                        _log.InfoFormat("Document Closed [{0}]", args.ClassFullPath);
 
                         fileReader.FileIsCloseedInEditor();
                     }

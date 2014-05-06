@@ -40,8 +40,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
         private readonly IVisualStudioWriter _visualStudioWriter;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IPartialCodeGenerator _codeGenerator;
-        private readonly IpMixinsSolutionManager _solutionManager;
-
+        
         public VisualStudioCodeGenerator(IVisualStudioWriter visualStudioWriter, IpMixinsSolutionManager solutionManager, IPartialCodeGenerator codeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory)
         {
             _visualStudioWriter = visualStudioWriter;

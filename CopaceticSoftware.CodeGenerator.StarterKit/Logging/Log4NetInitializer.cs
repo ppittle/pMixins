@@ -17,7 +17,10 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.Common.Patterns;
+using ICSharpCode.NRefactory.Utils;
 using log4net.Core;
+using log4net.Filter;
 using log4net.Layout;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
@@ -46,6 +49,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                             new PatternLayout(@"%date{HH:mm:ss,fff} %thread% %-5level [%logger{2}] %message%newline"),
                         Threshold = Level.Info
                     };
+
+                outputWindowAppender.AddFilter(
+                    new LevelRangeFilter{
+                        LevelMax = Level.Fatal,
+                        LevelMin = Level.Warn, 
+                        AcceptOnMatch = true,
+                        Next = new LoggerMatchFilter
+                        {
+                            AcceptOnMatch = false, LoggerToMatch = typeof(IPipelineStep<>).Namespace
+                        }
+                        });
 
                 log4net.Config.BasicConfigurator.Configure(outputWindowAppender);
 

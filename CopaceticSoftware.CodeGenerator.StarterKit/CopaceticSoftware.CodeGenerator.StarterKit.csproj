@@ -127,6 +127,7 @@
     <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProject.cs" />
     <Compile Include="Extensions\ProjectExtensions.cs" />
+    <Compile Include="Infrastructure\VisualStudioSolution\MicrosoftBuildProjectLoader.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\RawSourceFile.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\Solution.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFactory.cs" />

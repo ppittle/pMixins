@@ -25,7 +25,6 @@ using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
-using Microsoft.Build.Evaluation;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -42,6 +41,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public readonly IAssemblyReference[] ReferencedAssemblies; 
 
         public MicrosoftBuildProject(
+            IMicrosoftBuildProjectLoader microsoftBuildProjectLoader,
             IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver,
             string projectFileName)
         {
@@ -49,7 +49,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             FileName = projectFileName ?? "";
 
-            var msBuildProject = GetMSBuildProject(projectFileName);
+            var msBuildProject = microsoftBuildProjectLoader.LoadMicrosoftBuildProject(projectFileName);
             
             AssemblyName = msBuildProject.GetPropertyValue("AssemblyName");
             AllowUnsafeBlocks = msBuildProject.GetBoolProperty("AllowUnsafeBlocks") ?? false;
@@ -69,15 +69,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 
 
             _log.DebugFormat("Project [{0}] built in [{1}] ms", Path.GetFileName(FileName), sw.ElapsedMilliseconds);
-        }
-
-        private Project GetMSBuildProject(string projectFileName)
-        {
-            var loadedProjects = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName);
-
-            return loadedProjects.Any()
-                ? loadedProjects.First()
-                : new Project(projectFileName);
         }
     }
 }

@@ -29,18 +29,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         private readonly IMicrosoftBuildProjectAssemblyReferenceResolver _assemblyReferenceResolver;
         private readonly ICSharpFileFactory _cSharpFileFactory;
+        private readonly IMicrosoftBuildProjectLoader _microsoftBuildProjectLoader;
 
-        public CSharpProjectFactory(IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver, ICSharpFileFactory cSharpFileFactory)
+        public CSharpProjectFactory(IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver, ICSharpFileFactory cSharpFileFactory, IMicrosoftBuildProjectLoader microsoftBuildProjectLoader)
         {
             _assemblyReferenceResolver = assemblyReferenceResolver;
             _cSharpFileFactory = cSharpFileFactory;
+            _microsoftBuildProjectLoader = microsoftBuildProjectLoader;
         }
 
         public CSharpProject BuildProject(string projectFileName, string title)
         {
             return new CSharpProject(
                 _cSharpFileFactory,
-                new MicrosoftBuildProject(_assemblyReferenceResolver, projectFileName),
+                new MicrosoftBuildProject(_microsoftBuildProjectLoader, _assemblyReferenceResolver, projectFileName),
                 title);
         }
     }

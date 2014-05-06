@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps;
+using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
@@ -34,7 +33,6 @@ using log4net;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Ninject;
-using VSLangProj;
 
 namespace CopaceticSoftware.pMixins_VSPackage
 {

@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IntegrationTests\Infrastructure\SolutionManagerTest.cs" />
+    <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

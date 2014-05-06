@@ -32,6 +32,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             Kernel = new StandardKernel(new StandardModule());
 
             Kernel.Bind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
+
+            Kernel.Bind<IVisualStudioWriter>().To<DummyVisualStudioWriter>();
         }
 
     }

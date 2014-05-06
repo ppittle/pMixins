@@ -17,47 +17,39 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using NBehave.Spec.NUnit;
 using Ninject;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Infrastructure
 {
     [TestFixture]
-    public class SolutionManagerTest : IntegrationTestBase
+    public class SolutionFactoryTest : IntegrationTestBase
     {
-        private SolutionManager _solutionManager;
         public override void MainSetup()
         {
             try
             {
-                _solutionManager = Kernel.Get<SolutionManager>();
+               Kernel.Get<ISolutionContext>().SolutionFileName = solutionFile;
             }
             catch (Exception e)
             {
                 Log.Error(e);
 
-                Assert.Fail("Failed to resolve Solution Manager from IoC: " + e.Message);
+                Assert.Fail("Failed to set Solution Context: " + e.Message);
             }
-
-            Assert.True(null != _solutionManager, "IoC returned null Solution Manager");
         }
 
         [Test]
         public void CanLoadSolutionFile()
         {
-            _solutionManager.LoadSolution(solutionFile);
+            var solution = Kernel.Get<ISolutionFactory>().BuildCurrentSolution();
 
-            Assert.True(null != _solutionManager.Solution, "Solution is null after LoadSolution");
+            Assert.True(null != solution, "Solution is null after LoadSolution");
 
-            Assert.True(null != _solutionManager.Solution.Projects, "Solution.Projects is null after LoadSolution");
+            Assert.True(null != solution.Projects, "Solution.Projects is null after LoadSolution");
 
-            Assert.True(_solutionManager.Solution.Projects.Count > 2, "Solution.Projects is less than expected (2)");
+            Assert.True(solution.Projects.Count > 2, "Solution.Projects is less than expected (2)");
         }
     }
 }

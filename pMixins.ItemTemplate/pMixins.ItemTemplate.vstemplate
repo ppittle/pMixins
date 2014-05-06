@@ -33,7 +33,7 @@
   <WizardData>
     <packages repository="extension"
           repositoryId="8d5593a2-b006-4306-884b-bfd9bd3ebd75">
-      <package id="pMixins" version="0.1.6" />
+      <package id="pMixins" version="0.1.7" />
     </packages>
   </WizardData>
 </VSTemplate>

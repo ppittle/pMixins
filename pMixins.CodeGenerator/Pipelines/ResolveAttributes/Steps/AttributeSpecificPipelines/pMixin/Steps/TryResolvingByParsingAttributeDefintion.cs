@@ -34,7 +34,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 //ResolvedResult has already been resolved!
                 return true;
 
-            var attribute = manager.ResolvedResult.AttributeDefiniton;
+            var attribute = manager.ResolvedResult.AttributeDefinition;
 
             manager.ResolvedResult.Mixin =
                 attribute.GetNamedArgumentValue("Mixin") as IType;

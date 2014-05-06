@@ -30,11 +30,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.In
         /// <summary>
         /// Gets a reference to the Attribute's source.
         /// </summary>
-        public IAttribute AttributeDefiniton { get; private set; }
+        public IAttribute AttributeDefinition { get; private set; }
 
         protected pMixinAttributeResolvedResultBase(IAttribute attribute)
         {
-            AttributeDefiniton = attribute;
+            AttributeDefinition = attribute;
         }
     }
 }

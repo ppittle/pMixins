@@ -31,7 +31,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             var compilation = manager.BaseState.Context.TypeResolver.Compilation;
 
             manager.BaseState.TypeInstanceActivator.TryCreateInstance<pMixinAttribute>(
-                manager.ResolvedResult.AttributeDefiniton,
+                manager.ResolvedResult.AttributeDefinition,
                 pMixinAttributeInstance =>
                 {
                     try

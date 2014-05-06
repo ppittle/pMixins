@@ -19,10 +19,9 @@
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
-using EnvDTE80;
 using Ninject;
 
-namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
+namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public static class ServiceLocator
     {

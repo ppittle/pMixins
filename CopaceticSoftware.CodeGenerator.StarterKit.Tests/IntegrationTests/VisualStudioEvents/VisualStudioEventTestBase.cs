@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
@@ -109,6 +110,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             return fileWrapper;
         }
 
+        private static object projectLoaderLock = new object();
         protected virtual IMicrosoftBuildProjectLoader BuildMockMicrosoftBuildProjectLoader()
         {
             var loader = MockRepository.GenerateStub<IMicrosoftBuildProjectLoader>();
@@ -119,15 +121,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                     (Func<string, Project>)
                         (filename =>
                         {
-                            var loadedProjects = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename);
-
-                            foreach(var loadedProject in loadedProjects)
-                                ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
-                            
-                            return new Project(new XmlTextReader(new StringReader(MockFileWrapper.ReadAllText(filename))))
+                            lock (projectLoaderLock)
                             {
-                                FullPath = filename
-                            };
+                                var loadedProjects =
+                                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename).ToArray();
+
+                                foreach (var loadedProject in loadedProjects)
+                                    ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
+
+                                return
+                                    new Project(
+                                        new XmlTextReader(new StringReader(MockFileWrapper.ReadAllText(filename))))
+                                    {
+                                        FullPath = filename
+                                    };
+                            }
                         }));
             
             return loader;

@@ -38,7 +38,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 MockSolutionFileContents.MainProject.ProjectFileWithNoClasses;
 
             //Warm Caches by loading solution.
-            TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
+            var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
+
+            //Ensure Basic Class isn't yet in the solution
+            Assert.True(null == GetBasicFile(solution), "Basic File was already in Solution.  Test Environment is not valid.");
 
             //Simulate Project Item added (Basic Class)
             MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectFileName] =
@@ -62,12 +65,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             Assert.True(null != solution, "BuildCurrentSolution() returned a null solution.");
 
-            var csharpBasicFile = 
-                solution.AllFiles
-                    .FirstOrDefault(f => 
+            var csharpBasicFile = GetBasicFile(solution);
+               
+            Assert.True(null != csharpBasicFile, "Solution did not contain Basic Class File");
+        }
+
+        private CSharpFile GetBasicFile(Solution s)
+        {
+            return s.AllFiles
+                    .FirstOrDefault(f =>
                         f.FileName.Equals(MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName));
 
-            Assert.True(null != csharpBasicFile, "Solution did not contain Basic Class File");
         }
     }
 }

@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class OnProjectItemAddedToExistingProjectTest : VisualStudioEventTestBase
+    public class OnProjectItemAddedTest : VisualStudioEventTestBase
     {
         public override void MainSetup()
         {

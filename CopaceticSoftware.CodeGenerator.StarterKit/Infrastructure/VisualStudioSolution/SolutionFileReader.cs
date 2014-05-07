@@ -41,20 +41,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     public class SolutionFileReader : ISolutionFileReader
     {
         private readonly IFileReader _fileReader;
+        private readonly IFileWrapper _fileWrapper;
 
         private static readonly Regex ProjectLinePattern = new Regex(
             "Project\\(\"(?<TypeGuid>.*)\"\\)\\s+=\\s+\"(?<Title>.*)\",\\s*\"(?<Location>.*)\",\\s*\"(?<Guid>.*)\"");
 
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public SolutionFileReader(IFileReader fileReader)
+        public SolutionFileReader(IFileReader fileReader, IFileWrapper fileWrapper)
         {
             _fileReader = fileReader;
+            _fileWrapper = fileWrapper;
         }
 
         public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(string solutionFileName)
         {
-            if (!File.Exists(solutionFileName))
+            if (!_fileWrapper.Exists(solutionFileName))
                 throw new FileNotFoundException("Solution FileName", solutionFileName);
 
             Ensure.ArgumentNotNullOrEmpty(solutionFileName, "solutionFileName");

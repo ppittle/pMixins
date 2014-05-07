@@ -76,5 +76,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 solution.AllFiles.FirstOrDefault(
                     f => f.UnresolvedTypeSystemForFile.TopLevelTypeDefinitions.Any(td => td.FullName == type.FullName));
         }
+
+        [CanBeNull]
+        public static CSharpFile FindCSharpFileByFileName(this Solution solution, string filename)
+        {
+            return solution.AllFiles.FirstOrDefault(
+                f => f.FileName.Equals(filename, StringComparison.InvariantCultureIgnoreCase));
+        }
     }
 }

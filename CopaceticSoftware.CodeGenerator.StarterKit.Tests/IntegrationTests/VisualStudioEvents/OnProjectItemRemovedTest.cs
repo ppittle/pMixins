@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject;
@@ -42,7 +43,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
 
             //Ensure Basic Class is in the solution
-            Assert.True(null != GetBasicFile(solution), "Basic File was already in Solution.  Test Environment is not valid.");
+            Assert.True(null != solution.FindCSharpFileByFileName(_sourceFile.FileName),
+                "Basic File was already in Solution.  Test Environment is not valid.");
 
             //Simulate Project Item Removed (Basic Class)
             _MockSolution.Projects[0].MockSourceFiles.Clear();
@@ -62,16 +64,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             Assert.True(null != solution, "BuildCurrentSolution() returned a null solution.");
 
-            var csharpBasicFile = GetBasicFile(solution);
+            var csharpBasicFile = solution.FindCSharpFileByFileName(_sourceFile.FileName);
 
             Assert.True(null == csharpBasicFile, "Solution contained Basic Class File");
-        }
-
-        private CSharpFile GetBasicFile(Solution s)
-        {
-            return s.AllFiles
-                    .FirstOrDefault(f => f.FileName.Equals(_sourceFile.FileName));
-
         }
     }
 }

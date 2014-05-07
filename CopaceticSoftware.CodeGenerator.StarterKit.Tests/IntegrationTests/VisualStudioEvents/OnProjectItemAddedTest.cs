@@ -68,6 +68,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             var csharpBasicFile = GetBasicFile(solution);
                
             Assert.True(null != csharpBasicFile, "Solution did not contain Basic Class File");
+
+            Assert.True(
+                csharpBasicFile.ResolveTypes()
+                    .Any(x => x.FullName.EndsWith("BasicClass")),
+                "Failed to Resolve BasicClass IType");
         }
 
         private CSharpFile GetBasicFile(Solution s)

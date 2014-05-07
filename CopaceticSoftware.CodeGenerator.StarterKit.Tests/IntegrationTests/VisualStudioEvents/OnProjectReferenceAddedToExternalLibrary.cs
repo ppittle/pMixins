@@ -16,12 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Linq;
-using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using System.Threading;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.pMixins.VisualStudio;
 using Ninject;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
@@ -32,7 +35,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
         private const string _sourceFileClass = "SimpleObjectChild";
 
-
         public override void MainSetup()
         {
             base.MainSetup();
@@ -42,8 +44,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                     @"
                         namespace Testing
                         {{
-                            public class {0}  {{ 
-                                public void Method({1}){{}} 
+                            [ CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof({1}))]
+                            public partial class {0}  {{ 
+                                
                             }}
                         }}",
                     _sourceFileClass,
@@ -56,16 +59,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             });
 
             //Warm Caches by loading solution.
-            var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
+            TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
 
-            var blah = solution.FindCSharpFileByFileName(_sourceFile.FileName)
-                .ResolveTypes();
-
-            //Make sure _sourceFileClass does not resolve
-            Assert.True(
-                !solution.FindCSharpFileByFileName(_sourceFile.FileName)
-                    .ResolveTypes().Any(),
-                "Should not be able to resolve _sourceFileClass yet!  Was the file built correctly?");
+            //Code Generator should not be able to generate Mixin code yet
+            Assert.False(
+                CanGenerateMixinCodeForSourceFile(),
+                "Should not be able to generate Mixin code for _sourceFile yet!  Was the file built correctly?");
 
             //Simulate Project Reference Added
             var referencePath = 
@@ -80,17 +79,44 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 ProjectFullPath = _MockSolution.Projects[0].FileName,
                 ReferencePath = referencePath
             });
+
+            //Wait a Second for the Async reader to catch up.
+            Thread.Sleep(1000);
+
+            //Make sure the Project was evicted from cache and reloaded
+            MockMicrosoftBuildProjectLoader.AssertWasCalled(
+                x => x.LoadMicrosoftBuildProject(Arg.Is(_MockSolution.Projects[0].FileName)));
         }
 
         [Test]
         public void ClassWithExternalReferenceResolvesAfterReferencesHasBeenAdded()
         {
-            var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
+            //var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
 
             Assert.True(
-                solution.FindCSharpFileByFileName(_sourceFile.FileName)
-                    .ResolveTypes().Any(),
-                "Failed to resolve _sourceFileClass");
+                CanGenerateMixinCodeForSourceFile(),
+                "Failed to build Mixin code _sourceFile");
+        }
+
+        private bool CanGenerateMixinCodeForSourceFile()
+        {
+            var result =
+                TestSpecificKernel.Get<IVisualStudioCodeGenerator>()
+                    .GenerateCode(new[]
+                    {
+                        new RawSourceFile
+                        {
+                            FileContents = _sourceFile.Source,
+                            FileName = _sourceFile.FileName,
+                            ProjectFileName = _MockSolution.Projects[0].FileName
+                        }
+                    })
+                    .ToArray();
+
+            if (!result.Any())
+                return false;
+
+            return !string.IsNullOrEmpty(result.First().GeneratedCodeSyntaxTree.GetText());
         }
     }
 }

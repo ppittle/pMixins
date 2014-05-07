@@ -44,6 +44,90 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         public event EventHandler<EventArgs> OnSolutionOpening;
         public event EventHandler<CodeGeneratedEventArgs> OnCodeGenerated;
 
+        public void FireOnProjectAdded(object sender, ProjectAddedEventArgs eventArgs)
+        {
+            if (null != OnProjectAdded)
+                OnProjectAdded(sender, eventArgs);
+        }
+
+        public void FireOnProjectRemoved(object sender, ProjectRemovedEventArgs eventArgs)
+        {
+            if (null != OnProjectRemoved)
+                OnProjectRemoved(sender, eventArgs);
+        }
+
+        public void FireOnProjectReferenceAdded(object sender, ProjectReferenceAddedEventArgs eventArgs)
+        {
+            if (null != OnProjectReferenceAdded)
+                OnProjectReferenceAdded(sender, eventArgs);
+        }
+
+        public void FireOnProjectReferenceRemoved(object sender, ProjectReferenceRemovedEventArgs eventArgs)
+        {
+            if (null != OnProjectReferenceRemoved)
+                OnProjectReferenceRemoved(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemAdded(object sender, ProjectItemAddedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemAdded)
+                OnProjectItemAdded(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemRemoved(object sender, ProjectItemRemovedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemRemoved)
+                OnProjectItemRemoved(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemRenamed(object sender, ProjectItemRenamedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemRenamed)
+                OnProjectItemRenamed(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemOpened(object sender, ProjectItemOpenedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemOpened)
+                OnProjectItemOpened(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemClosed(object sender, ProjectItemClosedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemClosed)
+                OnProjectItemClosed(sender, eventArgs);
+        }
+
+        public void FireOnProjectItemSaved(object sender, ProjectItemSavedEventArgs eventArgs)
+        {
+            if (null != OnProjectItemSaved)
+                OnProjectItemSaved(sender, eventArgs);
+        }
+
+        public void FireOnBuildBegin(object sender, VisualStudioBuildEventArgs eventArgs)
+        {
+            if (null != OnBuildBegin)
+                OnBuildBegin(sender, eventArgs);
+        }
+
+        public void FireOnBuildDone(object sender, VisualStudioBuildEventArgs eventArgs)
+        {
+            if (null != OnBuildDone)
+                OnBuildDone(sender, eventArgs);
+        }
+
+        public void FireOnSolutionClosing(object sender, EventArgs eventArgs)
+        {
+            if (null != OnSolutionClosing)
+                OnSolutionClosing(sender, eventArgs);
+        }
+
+        public void FireOnSolutionOpening(object sender, EventArgs eventArgs)
+        {
+            if (null != OnSolutionOpening)
+                OnSolutionOpening(sender, eventArgs);
+        }
+        
         public void FireOnCodeGenerated(object sender, CodeGeneratorResponse response)
         {
            if (null != OnCodeGenerated)

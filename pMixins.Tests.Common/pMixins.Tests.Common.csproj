@@ -65,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DummyVisualStudioEventProxy.cs" />
+    <Compile Include="TestVisualStudioEventProxy.cs" />
     <Compile Include="TestVisualStudioWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />

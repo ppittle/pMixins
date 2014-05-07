@@ -46,7 +46,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                 new StandardModule(),
                 new pMixinsStandardModule());
 
-            Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
+            Kernel.Rebind<IVisualStudioEventProxy>().To<TestVisualStudioEventProxy>();
             Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
             Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
                 .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();

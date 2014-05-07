@@ -28,13 +28,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class MicrosoftBuildProjectLoader : IMicrosoftBuildProjectLoader
     {
+        private static readonly object _lock = new object();
+
         public Project LoadMicrosoftBuildProject(string projectFileName)
         {
-            var loadedProjects = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName);
+            lock (_lock)
+            {
+                var loadedProjects =
+                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName)
+                        //Create a copy incase the collection is modified externally during iteration
+                        .ToArray();
 
-            return loadedProjects.Any()
-                ? loadedProjects.First()
-                : new Project(projectFileName);
+                return loadedProjects.Any()
+                    ? loadedProjects.First()
+                    : new Project(projectFileName);
+            }
         }
     }
 }

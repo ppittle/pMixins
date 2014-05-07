@@ -40,6 +40,11 @@ namespace CopaceticSoftware.pMixins.Tests.Common
             _log.InfoFormat("[{0}] [{1}] [{2}]", line, column, message);
         }
 
+        public void ClearErrorList()
+        {
+            
+        }
+
         public void OutputString(string s)
         {
             _log.InfoFormat("Outputpane: {0}", s);

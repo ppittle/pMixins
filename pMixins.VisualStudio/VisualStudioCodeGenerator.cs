@@ -59,6 +59,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 
         public IEnumerable<CodeGeneratorResponse> GenerateCode(IEnumerable<ICodeGeneratorContext> codeGeneratorContexts)
         {
+            _visualStudioWriter.ClearErrorList();
+
             foreach (var context in codeGeneratorContexts)
             {
                 Log.InfoFormat("Generating Code for file [{0}] in [{1}]",

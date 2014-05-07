@@ -28,14 +28,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     {
         void GeneratorError(string message, uint line, uint column);
         void GeneratorWarning(string message, uint line, uint column);
-
         void GeneratorMessage(string message, uint line, uint column);
+        void ClearErrorList();
+
         void OutputString(string s);
 
         void WriteToStatusBar(string s);
-
         void SetStatusProgress(uint cookie, int progress, string label, uint complete, uint total);
-
         void ClearStatusBar();
     }
 

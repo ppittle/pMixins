@@ -103,6 +103,11 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
             AddTask(TaskErrorCategory.Message, message, (int)line, (int)column);
         }
 
+        public void ClearErrorList()
+        {
+            _errorListProvider.Tasks.Clear();
+        }
+
         private void AddTask(TaskErrorCategory category, string message, int line, int column)
         {
             _errorListProvider.Tasks.Add(

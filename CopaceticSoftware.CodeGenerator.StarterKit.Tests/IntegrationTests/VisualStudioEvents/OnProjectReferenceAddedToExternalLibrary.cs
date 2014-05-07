@@ -65,12 +65,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             Assert.False(
                 CanGenerateMixinCodeForSourceFile(),
                 "Should not be able to generate Mixin code for _sourceFile yet!  Was the file built correctly?");
-
+           
             //Simulate Project Reference Added
             var referencePath = 
                 ReferenceHelper.GetReferenceToDllInTestProject(
-                    typeof (SimpleObject).Assembly.FullName);
-
+                    typeof (SimpleObject).Assembly.Location);
+           
             _MockSolution.Projects[0].AssemblyReferences.Add(referencePath);
 
             //Fire Project Reference Added Event

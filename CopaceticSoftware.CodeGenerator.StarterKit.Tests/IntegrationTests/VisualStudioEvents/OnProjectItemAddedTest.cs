@@ -18,11 +18,13 @@
 
 using System.IO;
 using System.Linq;
+using System.Threading;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
@@ -64,6 +66,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 ClassFullPath = _sourceFileAdded.FileName,
                 ProjectFullPath = _MockSolution.Projects[0].FileName
             });
+            
+            //Wait a Second for the Async reader to catch up.
+            Thread.Sleep(1000);
+
+            MockFileWrapper.AssertWasCalled(f => f.ReadAllText(Arg.Is(_sourceFileAdded.FileName)));
         }
 
         [Test]

@@ -116,6 +116,10 @@
       <Project>{4d065750-f4e9-4bca-a3f4-c0e9e9176eda}</Project>
       <Name>pMixins.Tests.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pMixins\pMixins.csproj">
+      <Project>{f2d44224-b6db-4518-a017-2b3dc5f4c4ea}</Project>
+      <Name>pMixins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

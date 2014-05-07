@@ -20,11 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
+using Microsoft.Build.Evaluation;
 using Ninject;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -62,12 +64,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             #region public const string SolutionFileWithMainProject
             public const string SolutionFileWithMainProject = 
-                @"
-                    Microsoft Visual Studio Solution File, Format Version 12.00
+                @"  Microsoft Visual Studio Solution File, Format Version 12.00
                     # Visual Studio 2013
                     VisualStudioVersion = 12.0.30110.0
                     MinimumVisualStudioVersion = 10.0.40219.1
-                    Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""MainProject"", ""..\MainProject\MainProject.csproj"", ""{A95548D8-E945-49B9-B000-47F417F2114F}""
+                    Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""MainProject"", ""MainProject\MainProject.csproj"", ""{A95548D8-E945-49B9-B000-47F417F2114F}""
                     EndProject
                     Global
 	                    GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,8 +95,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             #region public static readonly string ProjectFileWithNoClasses
             public static readonly string ProjectFileWithNoClasses = 
-                @"
-                <?xml version=""1.0"" encoding=""utf-8""?>
+                @"<?xml version=""1.0"" encoding=""utf-8""?>
                 <Project ToolsVersion=""12.0"" DefaultTargets=""Build"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
                   <Import Project=""$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"" Condition=""Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"" />
                   <PropertyGroup>
@@ -151,8 +151,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             #region public static readonly string ProjectFileWithBasicClass
             public static readonly string ProjectFileWithBasicClass = 
-                @"
-                <?xml version=""1.0"" encoding=""utf-8""?>
+                @"<?xml version=""1.0"" encoding=""utf-8""?>
                 <Project ToolsVersion=""12.0"" DefaultTargets=""Build"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
                   <Import Project=""$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"" Condition=""Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"" />
                   <PropertyGroup>
@@ -233,6 +232,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         }
     }
 
+    public class TestMicrosoftBuildProjectLoader : IMicrosoftBuildProjectLoader
+    {
+        public Project LoadMicrosoftBuildProject(string projectFileName)
+        {
+            return new Project(projectFileName);
+        }
+    }
+
     public class VisualStudioEventTestBase : IntegrationTestBase
     {
         protected TestVisualStudioEventProxy EventProxy;
@@ -243,6 +250,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         protected IKernel TestSpecificKernel;
 
         protected IFileWrapper MockFileWrapper;
+
+        protected IMicrosoftBuildProjectLoader MockMicrosoftBuildProjectLoader;
 
         protected readonly Dictionary<string, string> MockFileWrapperBackingStore = 
             new Dictionary<string, string>();
@@ -259,11 +268,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         {
             TestSpecificKernel = KernelFactory.BuildDefaultKernelForTests();
 
+            TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().To<TestMicrosoftBuildProjectLoader>();
+
             EventProxy = TestSpecificKernel.Get<TestVisualStudioEventProxy>();
 
             MockFileWrapper = BuildMockFileReader();
-
             TestSpecificKernel.Rebind<IFileWrapper>().ToMethod(c => MockFileWrapper);
+
+            MockMicrosoftBuildProjectLoader = BuildMockMicrosoftBuildProjectLoader();
+            TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().ToMethod(c => MockMicrosoftBuildProjectLoader);
 
             //Set solution context
             TestSpecificKernel.Get<ISolutionContext>().SolutionFileName =
@@ -274,30 +287,64 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         {
             var fileWrapper = MockRepository.GenerateStub<IFileWrapper>();
 
-                //ReadAllText
-                fileWrapper
-                    .Stub(x => x.ReadAllText(Arg<string>.Is.Anything))
-                        .Do(
-                            (Func<string, string>)
-                            (filename =>
-                            {
-                                string result;
-                                if (MockFileWrapperBackingStore.TryGetValue(filename, out result))
-                                    return result;
+            //ReadAllText
+            fileWrapper
+                .Stub(x => x.ReadAllText(Arg<string>.Is.Anything))
+                    .Do(
+                        (Func<string, string>)
+                        (filename =>
+                        {
+                            string result;
+                            if (MockFileWrapperBackingStore.TryGetValue(filename, out result))
+                                return result;
 
-                                throw new Exception(
-                                    string.Format("Failed to read [{0}].  Key is not present in MockFileReaderBackingStore",
-                                        filename));
-                            }));
+                            throw new Exception(
+                                string.Format("Failed to read [{0}].  Key is not present in MockFileReaderBackingStore",
+                                    filename));
+                        }));
                 
-                //Exists
-                fileWrapper
-                    .Stub(x => x.Exists(Arg<string>.Is.Anything))
-                        .Do(
-                            (Func<string, bool>)
-                            (filename => MockFileWrapperBackingStore.ContainsKey(filename)));
+            //Exists
+            fileWrapper
+                .Stub(x => x.Exists(Arg<string>.Is.Anything))
+                    .Do(
+                        (Func<string, bool>)
+                        (filename => MockFileWrapperBackingStore.ContainsKey(filename)));
 
             return fileWrapper;
+        }
+
+        protected virtual IMicrosoftBuildProjectLoader BuildMockMicrosoftBuildProjectLoader()
+        {
+            var loader = MockRepository.GenerateStub<IMicrosoftBuildProjectLoader>();
+
+            //LoadMicrosoftBuildProject
+            loader.Stub(x => x.LoadMicrosoftBuildProject(Arg<string>.Is.Anything))
+                .Do(
+                    (Func<string, Project>)
+                    (filename =>
+                    {
+                        var loadedProjects = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename);
+
+                        foreach(var loadedProject in loadedProjects)
+                            ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
+
+                        string result;
+                        if (!MockFileWrapperBackingStore.TryGetValue(filename, out result))
+                            throw new Exception(
+                                string.Format(
+                                    "Failed to read [{0}].  Key is not present in MockFileReaderBackingStore",
+                                    filename));
+
+
+                        return new Project(new XmlTextReader(new StringReader(result)))
+                        {
+                            FullPath = filename
+                        };
+                    }));
+
+
+
+            return loader;
         }
     }
 

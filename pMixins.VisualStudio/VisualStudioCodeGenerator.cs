@@ -92,14 +92,17 @@ namespace CopaceticSoftware.pMixins.VisualStudio
                     {
                         case CodeGenerationError.SeverityOptions.Error:
                             _visualStudioWriter.GeneratorError(error.Message, error.Line, error.Column);
+                            Log.Error("Code Generator Registered Error: " + error.Message);
                             break;
 
                         case CodeGenerationError.SeverityOptions.Warning:
                             _visualStudioWriter.GeneratorWarning(error.Message, error.Line, error.Column);
+                            Log.Warn("Code Generator Registered Warning: " + error.Message);
                             break;
 
                         case CodeGenerationError.SeverityOptions.Message:
                             _visualStudioWriter.GeneratorMessage(error.Message, error.Line, error.Column);
+                            Log.InfoFormat("Code Generator Registered Message: " + error.Message);
                             break;
                     }
 

@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -59,6 +60,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             Ensure.ArgumentNotNullOrEmpty(solutionFileName, "solutionFileName");
 
             var directory = Path.GetDirectoryName(solutionFileName);
+
+            if (null == directory)
+                throw new FormatException(string.Format("Path.GetDirectoryName returned null for solution file [{0}]", solutionFileName));
 
             foreach (string line in _fileReader.ReadLines(solutionFileName))
             {

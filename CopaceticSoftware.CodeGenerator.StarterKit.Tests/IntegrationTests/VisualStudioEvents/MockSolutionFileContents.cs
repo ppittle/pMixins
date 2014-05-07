@@ -107,7 +107,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             AssemblyReferences = new List<string>();
             ProjectReferences = new List<MockProject>();
             MockSourceFiles = new List<MockSourceFile>();
-            
         }
 
         public readonly Guid Guid = System.Guid.NewGuid();
@@ -254,16 +253,26 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         }
     }
 
-public static class MockSolutionFileContents
+    public static class ReferenceHelper
     {
         public static string GetReferenceToDllInTestProject(string dllName)
         {
-            return 
+            return
                 Path.GetFullPath(
                     Path.Combine(
                         Directory.GetCurrentDirectory(),
                         dllName));
         }
+
+        public static string GetReferenceToPMixinsDll()
+        {
+            return ReferenceHelper.GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll");
+        }
+    }
+
+public static class MockSolutionFileContents
+    {
+       
 
         public static class Solution
         {
@@ -355,7 +364,7 @@ public static class MockSolutionFileContents
                   </PropertyGroup>
                     <ItemGroup>
                     <Reference Include=""CopaceticSoftware.pMixins"">
-                      <HintPath>" + GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll") +@"</HintPath>
+                      <HintPath>" + ReferenceHelper.GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll") + @"</HintPath>
                     </Reference>
                   </ItemGroup>
                   <Import Project=""$(MSBuildToolsPath)\Microsoft.CSharp.targets"" />
@@ -411,7 +420,7 @@ public static class MockSolutionFileContents
                   </PropertyGroup>
                     <ItemGroup>
                      <Reference Include=""CopaceticSoftware.pMixins"">
-                      <HintPath>" + GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll") + @"</HintPath>
+                      <HintPath>" + ReferenceHelper.GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll") + @"</HintPath>
                     </Reference>
                   </ItemGroup>
                 <ItemGroup>

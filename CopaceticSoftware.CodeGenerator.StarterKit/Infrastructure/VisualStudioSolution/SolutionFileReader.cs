@@ -77,7 +77,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                         case "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}": // C# project
                            yield return new SolutionFileProjectReference
                                         {
-                                            ProjectFileName = Path.Combine(directory, location),
+                                            ProjectFileName = Path.GetFullPath(Path.Combine(directory, location)),
                                             Title = title
                                         };
 

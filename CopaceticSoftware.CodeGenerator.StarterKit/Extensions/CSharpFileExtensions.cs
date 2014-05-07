@@ -30,7 +30,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             var resolver = file.CreateResolver();
 
             return file.SyntaxTree.GetClassDefinitions()
-                .Select(x => resolver.Resolve(x).Type)
+                .Select(x => resolver.Resolve(x))
+                .Where(x => !x.IsError)
+                .Select(x => x.Type)
                 .ToArray();
         }
     }

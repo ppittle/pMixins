@@ -38,7 +38,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         }
 
         /// <summary>
-        /// "global::" + <see cref="GetOriginalFullName"/>
+        /// "global::" + <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </summary>
         public static string GetOriginalFullNameWithGlobal(this IType type)
         {

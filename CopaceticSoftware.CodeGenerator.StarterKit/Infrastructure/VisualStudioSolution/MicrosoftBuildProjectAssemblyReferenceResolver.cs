@@ -106,6 +106,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 {
                     _log.InfoFormat("Eagerly Resolve References for [{0}]", filename);
 
+                    //TODO investigate
                     ResolveReferences(_buildProjectLoader.LoadMicrosoftBuildProject(filename));
                 });
         }

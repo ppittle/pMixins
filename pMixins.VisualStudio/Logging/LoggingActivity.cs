@@ -44,7 +44,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Logging
 
             _visualStudioWriter = ServiceLocator.Kernel.Get<IVisualStudioWriter>();
 
-            _visualStudioWriter.OutputString("\r\n\r\n        --- [" + activityName + "] BEGIN ---  ");
+            _visualStudioWriter.OutputString("\r\n\r\n        --- [" + activityName + "] BEGIN ---  \r\n");
         }
         
         public void Dispose()

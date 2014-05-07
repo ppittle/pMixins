@@ -61,7 +61,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         {
             TestSpecificKernel = KernelFactory.BuildDefaultKernelForTests();
 
-            EventProxy = TestSpecificKernel.Get<TestVisualStudioEventProxy>();
+            EventProxy = TestSpecificKernel.Get<IVisualStudioEventProxy>()
+                //This is important, if the casting isn't done, then EventProxy isn't returned via IoC
+                as TestVisualStudioEventProxy;
 
             MockFileWrapper = BuildMockFileReader();
             TestSpecificKernel.Rebind<IFileWrapper>().ToMethod(c => MockFileWrapper);

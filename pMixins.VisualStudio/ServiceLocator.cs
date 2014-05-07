@@ -25,7 +25,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio
 {
     public static class ServiceLocator
     {
-        public static IKernel Kernel { get; private set; }
+        public static IKernel Kernel { get; set; }
 
         public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy)
         {

@@ -16,14 +16,10 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
+using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using Ninject;
 
@@ -31,7 +27,7 @@ namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public static class KernelFactory
     {
-        public static IKernel BuildDefaultKernelForTests()
+        public static IKernel BuildDefaultKernelForTests(bool copyToServiceLocator = true)
         {
             var Kernel =  
                 new StandardKernel(
@@ -42,6 +38,9 @@ namespace CopaceticSoftware.pMixins.Tests.Common
             Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
             Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
                 .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+
+            if (copyToServiceLocator)
+                ServiceLocator.Kernel = Kernel;
 
             return Kernel;
         }

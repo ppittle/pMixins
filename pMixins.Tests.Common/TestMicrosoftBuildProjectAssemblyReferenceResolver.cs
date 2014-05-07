@@ -24,7 +24,7 @@ using CopaceticSoftware.pMixins.VisualStudio;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class TestMicrosoftBuildProjectAssemblyReferenceResolver :
         pMixinsMicrosoftBuildProjectAssemblyReferenceResolver

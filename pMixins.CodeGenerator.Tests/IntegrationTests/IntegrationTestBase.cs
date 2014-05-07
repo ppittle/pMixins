@@ -18,12 +18,8 @@
 
 using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Infrastructure;
 using CopaceticSoftware.pMixins.Tests.Common;
-using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
@@ -42,14 +38,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 
         static IntegrationTestBase()
         {
-            Kernel = new StandardKernel(
-                new StandardModule(),
-                new pMixinsStandardModule());
-
-            Kernel.Rebind<IVisualStudioEventProxy>().To<TestVisualStudioEventProxy>();
-            Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
-            Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
-                .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+            Kernel = KernelFactory.BuildDefaultKernelForTests();
 
             Kernel.Get<ISolutionContext>().SolutionFileName = solutionFile;
         }

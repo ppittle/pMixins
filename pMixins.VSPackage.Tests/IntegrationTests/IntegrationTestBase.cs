@@ -16,10 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.Tests.Common;
-using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
@@ -30,10 +27,7 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
 
         static IntegrationTestBase()
         {
-            Kernel = new StandardKernel(new StandardModule(), new pMixinsStandardModule());
-
-            Kernel.Rebind<IVisualStudioEventProxy>().To<TestVisualStudioEventProxy>();
-            Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
+            Kernel = KernelFactory.BuildDefaultKernelForTests();
         }
 
     }

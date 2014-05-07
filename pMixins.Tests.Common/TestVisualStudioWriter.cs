@@ -22,7 +22,7 @@ using log4net;
 
 namespace CopaceticSoftware.pMixins.Tests.Common
 {
-    public class DummyVisualStudioWriter : IVisualStudioWriter
+    public class TestVisualStudioWriter : IVisualStudioWriter
     {
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public void GeneratorError(string message, uint line, uint column)

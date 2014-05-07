@@ -33,7 +33,7 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
             Kernel = new StandardKernel(new StandardModule(), new pMixinsStandardModule());
 
             Kernel.Rebind<IVisualStudioEventProxy>().To<DummyVisualStudioEventProxy>();
-            Kernel.Rebind<IVisualStudioWriter>().To<DummyVisualStudioWriter>();
+            Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
         }
 
     }

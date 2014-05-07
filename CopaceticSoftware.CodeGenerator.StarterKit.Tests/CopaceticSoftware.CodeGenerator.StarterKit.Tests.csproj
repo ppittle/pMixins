@@ -98,7 +98,9 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemAddedToExistingProject.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\VisualStudioEventTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

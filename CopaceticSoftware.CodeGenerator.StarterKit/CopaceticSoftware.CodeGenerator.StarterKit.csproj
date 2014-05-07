@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\AstTypeExtensions.cs" />
+    <Compile Include="Extensions\CSharpFileExtensions.cs" />
     <Compile Include="Extensions\DeepCopyExtension.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\IAttributeExtensions.cs" />

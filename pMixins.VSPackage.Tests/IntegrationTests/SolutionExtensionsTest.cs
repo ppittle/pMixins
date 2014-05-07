@@ -62,12 +62,11 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
             Assert.True(null != _thisFile,
                 "Code Generated Files did not find SampleTarget file.");
 
-            var sampleTargetClassDefinition = _thisFile.SyntaxTree.GetPartialClasses().First();
+            _sampleTargetType =
+                _thisFile.ResolveTypes()
+                    .FirstOrDefault(x => x.FullName.EndsWith("SampleTarget"));
 
-            _sampleTargetType = _thisFile.CreateResolver().Resolve(sampleTargetClassDefinition).Type;
-
-            Assert.True(null != _sampleTargetType,
-               "Failed to resolve SampleTarget.");
+            Assert.True(null != _sampleTargetType, "Failed to Resolve SampleTarget IType");
         }
 
         [Test]

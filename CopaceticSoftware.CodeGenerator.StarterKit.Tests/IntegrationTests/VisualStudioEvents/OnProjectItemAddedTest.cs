@@ -16,26 +16,37 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using Ninject;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
+    public class OnProjectAddedTest : VisualStudioEventTestBase
+    {
+        
+    }
+
+    public class OnProjectReferenceAddedToProject : OnProjectAddedTest
+    {
+        
+    }
+
     public class OnProjectItemAddedTest : VisualStudioEventTestBase
     {
+        private static readonly MockSourceFile _sourceFileAdded = MockSourceFile.CreateDefaultFile();
+        private readonly string _sourceFileClass = Path.GetFileNameWithoutExtension(_sourceFileAdded.FileName);
+
         public override void MainSetup()
         {
             base.MainSetup();
 
             // Set Initial Solution State
-            MockFileWrapperBackingStore[MockSolutionFileContents.Solution.SolutionFileName] =
-                MockSolutionFileContents.Solution.SolutionFileWithMainProject;
-
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectFileName] =
-                MockSolutionFileContents.MainProject.ProjectFileWithNoClasses;
+            _MockSolution.Projects.Add(new MockProject());
 
             //Warm Caches by loading solution.
             var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
@@ -44,17 +55,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             Assert.True(null == GetBasicFile(solution), "Basic File was already in Solution.  Test Environment is not valid.");
 
             //Simulate Project Item added (Basic Class)
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectFileName] =
-                MockSolutionFileContents.MainProject.ProjectFileWithBasicClass;
-
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName] =
-                MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileContents;
+            _MockSolution.Projects[0].MockSourceFiles.Add(_sourceFileAdded);
 
             //Fire Project Item Event
             EventProxy.FireOnProjectItemAdded(this, new ProjectItemAddedEventArgs
             {
-                ClassFullPath = MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName,
-                ProjectFullPath = MockSolutionFileContents.MainProject.ProjectFileName
+                ClassFullPath = _sourceFileAdded.FileName,
+                ProjectFullPath = _MockSolution.Projects[0].FileName
             });
         }
 
@@ -71,15 +78,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             Assert.True(
                 csharpBasicFile.ResolveTypes()
-                    .Any(x => x.FullName.EndsWith("BasicClass")),
-                "Failed to Resolve BasicClass IType");
+                    .Any(x => x.FullName.EndsWith(_sourceFileClass)),
+                "Failed to Resolve " + _sourceFileClass + " IType");
         }
 
         private CSharpFile GetBasicFile(Solution s)
         {
             return s.AllFiles
-                    .FirstOrDefault(f =>
-                        f.FileName.Equals(MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName));
+                    .FirstOrDefault(f => f.FileName.Equals(_sourceFileAdded.FileName));
 
         }
     }

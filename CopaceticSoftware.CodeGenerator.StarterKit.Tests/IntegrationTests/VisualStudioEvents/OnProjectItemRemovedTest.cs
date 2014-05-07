@@ -26,20 +26,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 {
     public class OnProjectItemRemovedTest : VisualStudioEventTestBase
     {
+        private static readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
+
         public override void MainSetup()
         {
             base.MainSetup();
 
             // Set Initial Solution State
-            MockFileWrapperBackingStore[MockSolutionFileContents.Solution.SolutionFileName] =
-                MockSolutionFileContents.Solution.SolutionFileWithMainProject;
-
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectFileName] =
-                MockSolutionFileContents.MainProject.ProjectFileWithBasicClass;
-
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName] =
-                MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileContents;
-
+            _MockSolution.Projects.Add(new MockProject
+            {
+                MockSourceFiles = { _sourceFile }
+            });
+            
             //Warm Caches by loading solution.
             var solution = TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
 
@@ -47,16 +45,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             Assert.True(null != GetBasicFile(solution), "Basic File was already in Solution.  Test Environment is not valid.");
 
             //Simulate Project Item Removed (Basic Class)
-            MockFileWrapperBackingStore[MockSolutionFileContents.MainProject.ProjectFileName] =
-                MockSolutionFileContents.MainProject.ProjectFileWithNoClasses;
-
-            MockFileWrapperBackingStore.Remove(MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName);
-
+            _MockSolution.Projects[0].MockSourceFiles.Clear();
+            
             //Fire Project Item Event
             EventProxy.FireOnProjectItemRemoved(this, new ProjectItemRemovedEventArgs
             {
-                ClassFullPath = MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName,
-                ProjectFullPath = MockSolutionFileContents.MainProject.ProjectFileName
+                ClassFullPath = _sourceFile.FileName,
+                ProjectFullPath = _MockSolution.Projects[0].FileName
             });
         }
 
@@ -75,8 +70,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         private CSharpFile GetBasicFile(Solution s)
         {
             return s.AllFiles
-                .FirstOrDefault(f =>
-                    f.FileName.Equals(MockSolutionFileContents.MainProject.ProjectItems.BasicClass.ClassFileName));
+                    .FirstOrDefault(f => f.FileName.Equals(_sourceFile.FileName));
 
         }
     }

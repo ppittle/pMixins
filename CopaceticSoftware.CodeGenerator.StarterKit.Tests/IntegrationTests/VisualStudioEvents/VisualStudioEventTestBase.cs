@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
@@ -42,8 +43,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
         protected IMicrosoftBuildProjectLoader MockMicrosoftBuildProjectLoader;
 
+        /*
         protected readonly Dictionary<string, string> MockFileWrapperBackingStore = 
-            new Dictionary<string, string>();
+            new Dictionary<string, string>(); */
+
+        protected MockSolution _MockSolution;
 
         /// <summary>
         /// Got tired fo forgetting to use TestSpecificKernel, need a reminder.
@@ -65,9 +69,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             MockMicrosoftBuildProjectLoader = BuildMockMicrosoftBuildProjectLoader();
             TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().ToMethod(c => MockMicrosoftBuildProjectLoader);
 
+            _MockSolution = new MockSolution();
+
             //Set solution context
             TestSpecificKernel.Get<ISolutionContext>().SolutionFileName =
-                MockSolutionFileContents.Solution.SolutionFileName;
+                _MockSolution.FileName;
         }
 
         protected virtual IFileWrapper BuildMockFileReader()
@@ -81,13 +87,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                     (Func<string, string>)
                         (filename =>
                         {
-                            string result;
-                            if (MockFileWrapperBackingStore.TryGetValue(filename, out result))
-                                return result;
+                            var mockFile = _MockSolution.AllMockFiles().FirstOrDefault(x => x.FileName == filename);
 
-                            throw new Exception(
-                                string.Format("Failed to read [{0}].  Key is not present in MockFileReaderBackingStore",
-                                    filename));
+                            if (null == mockFile)
+                                throw new Exception(
+                                    string.Format("Failed to read [{0}].  File does not exist in _MockSolution",
+                                        filename));
+
+                            return mockFile.RenderFile();
                         }));
                 
             //Exists
@@ -95,7 +102,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 .Stub(x => x.Exists(Arg<string>.Is.Anything))
                 .Do(
                     (Func<string, bool>)
-                        (filename => MockFileWrapperBackingStore.ContainsKey(filename)));
+                        (filename => _MockSolution.AllMockFiles().Any(x => x.FileName == filename)));
 
             return fileWrapper;
         }
@@ -114,23 +121,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
                             foreach(var loadedProject in loadedProjects)
                                 ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
-
-                            string result;
-                            if (!MockFileWrapperBackingStore.TryGetValue(filename, out result))
-                                throw new Exception(
-                                    string.Format(
-                                        "Failed to read [{0}].  Key is not present in MockFileReaderBackingStore",
-                                        filename));
-
-
-                            return new Project(new XmlTextReader(new StringReader(result)))
+                            
+                            return new Project(new XmlTextReader(new StringReader(MockFileWrapper.ReadAllText(filename))))
                             {
                                 FullPath = filename
                             };
                         }));
-
-
-
+            
             return loader;
         }
     }

@@ -98,6 +98,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         private void EagerlyResolveReferences(string filename)
         {
+            if (string.IsNullOrEmpty(filename))
+                return;
+
             new TaskFactory().StartNew(
                 () =>
                 {

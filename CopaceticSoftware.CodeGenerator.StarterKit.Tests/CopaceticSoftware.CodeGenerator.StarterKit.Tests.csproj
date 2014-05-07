@@ -96,6 +96,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
+    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />
+    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject.cs" />
     <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />
@@ -116,6 +119,10 @@
     <ProjectReference Include="..\pMixins.Tests.Common\pMixins.Tests.Common.csproj">
       <Project>{4d065750-f4e9-4bca-a3f4-c0e9e9176eda}</Project>
       <Name>pMixins.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pMixins.VisualStudio\pMixins.VisualStudio.csproj">
+      <Project>{b2738273-42fa-4589-affc-610ce796d1f2}</Project>
+      <Name>pMixins.VisualStudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\pMixins\pMixins.csproj">
       <Project>{f2d44224-b6db-4518-a017-2b3dc5f4c4ea}</Project>

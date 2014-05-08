@@ -80,6 +80,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 _MockSolution.FileName;
         }
 
+        protected override void Cleanup()
+        {
+            base.Cleanup();
+
+            //Simulate a Solution Closing event so Cache classes clear their cache
+            EventProxy.FireOnSolutionClosing(this, new EventArgs());
+        }
+
         protected virtual IFileWrapper BuildMockFileReader()
         {
             var fileWrapper = MockRepository.GenerateStub<IFileWrapper>();

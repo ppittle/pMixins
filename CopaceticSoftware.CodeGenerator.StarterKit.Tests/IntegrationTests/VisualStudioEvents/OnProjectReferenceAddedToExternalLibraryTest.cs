@@ -30,7 +30,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 {
     public class SimpleObject { }
 
-    public class OnProjectReferenceAddedToExternalLibrary : VisualStudioEventTestBase
+    public class OnProjectReferenceAddedToExternalLibraryTest : VisualStudioEventTestBase
     {
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
         private const string _sourceFileClass = "SimpleObjectChild";

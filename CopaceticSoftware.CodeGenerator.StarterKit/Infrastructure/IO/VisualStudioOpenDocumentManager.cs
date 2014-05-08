@@ -51,7 +51,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     (x, y) => args.DocumentReader);
             };
 
-            eventProxy.OnProjectItemRemoved += (sender, args) =>
+            eventProxy.OnProjectItemClosed += (sender, args) =>
             {
                 _log.DebugFormat("Document Closed [{0}]", args.ClassFullPath);
 
@@ -79,7 +79,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         {
             IVisualStudioOpenDocumentReader dummy;
 
-            _openDocuments.TryRemove(filename, out dummy);
+            _openDocuments.TryGetValue(filename, out dummy);
 
             return dummy;
         }

@@ -72,7 +72,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 "Should be able to Generate Code at this point.  Does the _documentReader contain valid code like it should?");
 
             //Set Mock Expectations
-            _documentReader.Expect(x => x.GetDocumentText()).Repeat.Once();
+            _documentReader.Expect(x => x.GetDocumentText()).Repeat.Never();
 
             MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_sourceFile.FileName)))
                 .Repeat.Once();

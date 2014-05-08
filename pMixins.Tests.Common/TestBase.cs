@@ -22,11 +22,12 @@ using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
-using log4net.Repository.Hierarchy;
 using NBehave.Spec.NUnit;
+using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.Tests.Common
 {
+    [TestFixture]
     public abstract class TestBase : SpecBase
     {
         protected static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

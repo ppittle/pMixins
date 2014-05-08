@@ -25,6 +25,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
+using CopaceticSoftware.pMixins.VisualStudio;
 using Microsoft.Build.Evaluation;
 using Ninject;
 using Rhino.Mocks;
@@ -110,7 +111,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             return fileWrapper;
         }
 
-        private static object projectLoaderLock = new object();
+        private static readonly object projectLoaderLock = new object();
         protected virtual IMicrosoftBuildProjectLoader BuildMockMicrosoftBuildProjectLoader()
         {
             var loader = MockRepository.GenerateStub<IMicrosoftBuildProjectLoader>();
@@ -139,6 +140,40 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                         }));
             
             return loader;
+        }
+
+        protected bool CanGenerateMixinCodeForSourceFile(MockSourceFile sourceFile, MockProject project = null)
+        {
+            project = project ?? _MockSolution.Projects[0];
+
+            var result =
+                TestSpecificKernel.Get<IVisualStudioCodeGenerator>()
+                    .GenerateCode(new[]
+                    {
+                        new RawSourceFile
+                        {
+                            FileContents = sourceFile.Source,
+                            FileName = sourceFile.FileName,
+                            ProjectFileName = project.FileName
+                        }
+                    })
+                    .ToArray();
+
+            if (!result.Any())
+                return false;
+
+            var text = result.First().GeneratedCodeSyntaxTree.GetText();
+
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            Console.WriteLine();
+            Console.WriteLine("Mixin code behind:");
+            Console.WriteLine(text);
+            Console.WriteLine();
+            Console.WriteLine();
+
+            return true;
         }
     }
 }

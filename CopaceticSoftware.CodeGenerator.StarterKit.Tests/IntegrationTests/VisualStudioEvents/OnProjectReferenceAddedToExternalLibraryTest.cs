@@ -16,13 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Linq;
 using System.Threading;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.pMixins.VisualStudio;
-using Ninject;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -94,38 +89,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             Assert.True(
                 CanGenerateMixinCodeForSourceFile(),
                 "Failed to build Mixin code _sourceFile");
-        }
-
-        private bool CanGenerateMixinCodeForSourceFile()
-        {
-            var result =
-                TestSpecificKernel.Get<IVisualStudioCodeGenerator>()
-                    .GenerateCode(new[]
-                    {
-                        new RawSourceFile
-                        {
-                            FileContents = _sourceFile.Source,
-                            FileName = _sourceFile.FileName,
-                            ProjectFileName = _MockSolution.Projects[0].FileName
-                        }
-                    })
-                    .ToArray();
-
-            if (!result.Any())
-                return false;
-
-            var text = result.First().GeneratedCodeSyntaxTree.GetText();
-
-            if (string.IsNullOrEmpty(text))
-                return false;
-
-            Console.WriteLine();
-            Console.WriteLine("Mixin code behind:");
-            Console.WriteLine(text);
-            Console.WriteLine();
-            Console.WriteLine();
-
-            return true;
         }
     }
 }

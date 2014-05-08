@@ -55,7 +55,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             
             //Code Generator should not be able to generate Mixin code yet
             Assert.False(
-                CanGenerateMixinCodeForSourceFile(),
+                CanGenerateMixinCodeForSourceFile(_sourceFile),
                 "Should not be able to generate Mixin code for _sourceFile yet!  Was the file built correctly?");
            
             //Simulate Project Reference Added
@@ -84,7 +84,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         public void ClassWithExternalReferenceResolvesAfterReferencesHasBeenAdded()
         {
             Assert.True(
-                CanGenerateMixinCodeForSourceFile(),
+                CanGenerateMixinCodeForSourceFile(_sourceFile),
                 "Failed to build Mixin code _sourceFile");
         }
     }

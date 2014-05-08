@@ -114,7 +114,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             if (!result.Any())
                 return false;
 
-            return !string.IsNullOrEmpty(result.First().GeneratedCodeSyntaxTree.GetText());
+            var text = result.First().GeneratedCodeSyntaxTree.GetText();
+
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            Console.WriteLine();
+            Console.WriteLine("Mixin code behind:");
+            Console.WriteLine(text);
+            Console.WriteLine();
+            Console.WriteLine();
+
+            return true;
         }
     }
 }

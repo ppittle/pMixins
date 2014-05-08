@@ -38,30 +38,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IFileReader _fileReader;
+        private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
 
         private static ConcurrentDictionary<string, CSharpFile> _fileCache =
             new ConcurrentDictionary<string, CSharpFile>();
 
-        private ConcurrentList<string> _openClassFiles = new ConcurrentList<string>(); 
-
         private FileByProjectIndex _fileByProjectIndex = new FileByProjectIndex();
 
-        public CSharpFileFactory(IFileReader fileReader, IVisualStudioEventProxy visualStudioEventProxy)
+        public CSharpFileFactory(IFileReader fileReader, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioOpenDocumentManager openDocumentManager)
         {
             _fileReader = fileReader;
+            _openDocumentManager = openDocumentManager;
 
             WireUpCacheEvictionEvents(visualStudioEventProxy);
-
-            visualStudioEventProxy.OnProjectItemOpened +=
-                (s, a) => _openClassFiles.Add(a.ClassFullPath);
-
-            visualStudioEventProxy.OnProjectItemClosed +=
-                (s, a) => _openClassFiles.Remove(a.ClassFullPath);
         }
 
         public CSharpFile BuildCSharpFile(CSharpProject p, string filename)
         {
-            if (_openClassFiles.Contains(filename))
+            if (_openDocumentManager.IsDocumentOpen(filename))
             {
                 _log.InfoFormat("Class file is open and will not be cached: [{0}]", filename);
 
@@ -87,8 +81,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                 {
                     _log.Info("Solution closing.  Clearing cache");
                     _fileCache = new ConcurrentDictionary<string, CSharpFile>();
-
-                    _openClassFiles = new ConcurrentList<string>();
 
                     _fileByProjectIndex = new FileByProjectIndex();
                 };

@@ -16,12 +16,14 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Collections;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
@@ -113,12 +115,27 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                 };
                    
             visualStudioEventProxy.OnProjectRemoved +=
-                (sender, args) =>
-                {
-                    foreach (var fileInProject in _fileByProjectIndex.RemoveProjectFileList(args.ProjectFullPath))
-                        if (_fileCache.TryRemove(fileInProject, out dummy))
-                            _log.InfoFormat("Evicted [{0}]", fileInProject);
-                };
+                (sender, args) => EvictAllFilesInProject(args.ProjectFullPath);
+
+            //Evict files, their reference to the Project is no longer valid
+            visualStudioEventProxy.OnProjectReferenceAdded +=
+                (sender, args) => EvictAllFilesInProject(args.ProjectFullPath);
+
+            //Evict files, their reference to the Project is no longer valid
+            visualStudioEventProxy.OnProjectReferenceRemoved +=
+                (sender, args) => EvictAllFilesInProject(args.ProjectFullPath);
+        }
+
+        private void EvictAllFilesInProject(string projectFullPath)
+        {
+            using (var activity = new LoggingActivity("Evicting file for Project [" + projectFullPath + "]"))
+            {
+                CSharpFile dummy;
+
+                foreach (var fileInProject in _fileByProjectIndex.RemoveProjectFileList(projectFullPath))
+                    if (_fileCache.TryRemove(fileInProject, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", fileInProject);
+            }
         }
     }
 

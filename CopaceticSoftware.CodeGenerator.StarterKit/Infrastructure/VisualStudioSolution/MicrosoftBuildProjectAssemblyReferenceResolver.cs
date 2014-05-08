@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
 using log4net;
@@ -129,6 +130,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public virtual IAssemblyReference[] ResolveReferences(Project project)
         {
+            Ensure.ArgumentNotNull(project, "project");
+            Ensure.ArgumentNotNullOrEmpty(project.FullPath, "project.FullPath");
+
             var sw = Stopwatch.StartNew();
             try
             {

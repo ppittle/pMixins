@@ -38,7 +38,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
             Bind<IFileReader>().To<VisualStudioFileCache>().InSingletonScope();
             Bind<ICSharpFileFactory>().To<CSharpFileFactory>().InSingletonScope();
             Bind<ISolutionContext>().To<SolutionContext>().InSingletonScope();
-            Bind<IVisualStudioOpenDocumentManager>().To<VisualStudioOpenDocumentManager>();
+            Bind<IVisualStudioOpenDocumentManager>().To<VisualStudioOpenDocumentManager>().InSingletonScope();
         }
     }
 }

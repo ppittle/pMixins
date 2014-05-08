@@ -22,7 +22,7 @@ using System.Reflection;
 using EnvDTE;
 using log4net;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
     public interface IVisualStudioOpenDocumentReader
     {

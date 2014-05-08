@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using EnvDTE;
 using EnvDTE80;
 using VSLangProj;

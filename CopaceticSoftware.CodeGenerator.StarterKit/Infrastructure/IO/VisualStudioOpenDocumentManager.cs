@@ -21,7 +21,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using log4net;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
     public interface IVisualStudioOpenDocumentManager
     {

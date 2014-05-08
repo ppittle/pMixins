@@ -33,7 +33,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         private string _fileContents;
 
-        private string _fileName;
+        private readonly string _fileName;
 
         private IVisualStudioOpenDocumentReader _openDocumentReader = null;
 

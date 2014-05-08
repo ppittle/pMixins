@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
@@ -39,6 +40,9 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
 
             LoggingActivity.Initialize(visualStudioWriter);
+
+            //Make sure the VisualStudioOpenDocumentManager loads early
+            Kernel.Get<IVisualStudioOpenDocumentManager>();
         }
     }
 }

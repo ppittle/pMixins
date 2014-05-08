@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
@@ -44,6 +45,9 @@ namespace CopaceticSoftware.pMixins.Tests.Common
                 ServiceLocator.Kernel = Kernel;
 
             LoggingActivity.Initialize(Kernel.Get<IVisualStudioWriter>());
+
+            //Make sure the VisualStudioOpenDocumentManager loads early
+            Kernel.Get<IVisualStudioOpenDocumentManager>();
 
             return Kernel;
         }

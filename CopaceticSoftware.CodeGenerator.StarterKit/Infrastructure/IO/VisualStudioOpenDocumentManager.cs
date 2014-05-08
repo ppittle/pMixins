@@ -43,7 +43,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         {
             eventProxy.OnProjectItemOpened += (sender, args) =>
             {
-                _log.DebugFormat("Document Opened [{0}]", args.ClassFullPath);
+                _log.InfoFormat("Document Opened [{0}]", args.ClassFullPath);
 
                 _openDocuments.AddOrUpdate(
                     args.ClassFullPath,

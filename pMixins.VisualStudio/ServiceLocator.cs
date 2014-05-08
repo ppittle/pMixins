@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using Ninject;
@@ -36,6 +37,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter).InSingletonScope();
 
             Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
+
+            LoggingActivity.Initialize(visualStudioWriter);
         }
     }
 }

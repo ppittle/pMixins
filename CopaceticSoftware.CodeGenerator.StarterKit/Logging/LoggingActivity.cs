@@ -17,14 +17,10 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using Ninject;
 
-namespace CopaceticSoftware.pMixins.VisualStudio.Logging
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 {
     /// <summary>
     /// Adds some entry / exit text to the output window
@@ -32,17 +28,27 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Logging
     /// </summary>
     public class LoggingActivity : IDisposable
     {
+        private static IVisualStudioWriter _staticVisualStudioWriter;
+
+        public static void Initialize(IVisualStudioWriter visualStudioWriter)
+        {
+            _staticVisualStudioWriter = visualStudioWriter;
+        }
+
         private readonly string _activityName;
 
         private readonly Stopwatch _sw = Stopwatch.StartNew();
 
         private readonly IVisualStudioWriter _visualStudioWriter;
 
-        public LoggingActivity(string activityName)
+        public LoggingActivity(string activityName, IVisualStudioWriter visualStudioWriter = null)
         {
             _activityName = activityName;
 
-            _visualStudioWriter = ServiceLocator.Kernel.Get<IVisualStudioWriter>();
+            _visualStudioWriter = visualStudioWriter ?? _staticVisualStudioWriter;
+
+            if (null == _visualStudioWriter)
+                throw new Exception("Both _staticVisualStudioWriter and visualStudioWriter are null.  Call LoggingActivity.Initialize when creating the Kernel.");
 
             _visualStudioWriter.OutputString("\r\n\r\n        --- [" + activityName + "] BEGIN ---  \r\n");
         }

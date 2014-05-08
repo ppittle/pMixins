@@ -135,6 +135,7 @@
     <Compile Include="Infrastructure\VisualStudioSolution\SolutionFileReader.cs" />
     <Compile Include="Logging\LevelAndLoggerFilter.cs" />
     <Compile Include="Logging\Log4NetInitializer.cs" />
+    <Compile Include="Logging\LoggingActivity.cs" />
     <Compile Include="Logging\VisualStudioOutputWindowAppender.cs" />
     <Compile Include="Ninject\StandardModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,6 +18,7 @@
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
@@ -41,6 +42,8 @@ namespace CopaceticSoftware.pMixins.Tests.Common
 
             if (copyToServiceLocator)
                 ServiceLocator.Kernel = Kernel;
+
+            LoggingActivity.Initialize(Kernel.Get<IVisualStudioWriter>());
 
             return Kernel;
         }

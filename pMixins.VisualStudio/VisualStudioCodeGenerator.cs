@@ -24,7 +24,7 @@ using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.pMixins.VisualStudio.Logging;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio

@@ -39,7 +39,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         private readonly IFileReader _fileReader;
 
-        private ConcurrentDictionary<string, CSharpFile> _fileCache =
+        private static ConcurrentDictionary<string, CSharpFile> _fileCache =
             new ConcurrentDictionary<string, CSharpFile>();
 
         private ConcurrentList<string> _openClassFiles = new ConcurrentList<string>(); 

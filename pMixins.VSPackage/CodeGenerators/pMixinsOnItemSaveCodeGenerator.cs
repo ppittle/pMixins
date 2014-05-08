@@ -93,7 +93,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IpMixinsCodeGeneratorResponseFileWriter _responseFileWriter;
         
-        private ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
+        private static ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
             new ConcurrentDictionary<string, MixinDependency>();
 
         public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter)

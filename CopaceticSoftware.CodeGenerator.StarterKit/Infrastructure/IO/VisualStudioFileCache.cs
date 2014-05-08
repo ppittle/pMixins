@@ -37,7 +37,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private ConcurrentDictionary<string, FileReaderAsync> _fileCache = 
+        private static ConcurrentDictionary<string, FileReaderAsync> _fileCache = 
             new ConcurrentDictionary<string, FileReaderAsync>();
 
         private readonly IFileWrapper _fileWrapper;

@@ -40,7 +40,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class CachedMicrosoftBuildProjectAssemblyReferenceResolver : MicrosoftBuildProjectAssemblyReferenceResolver
     {
-        ConcurrentDictionary<string, IAssemblyReference[]> _cache =
+        private static ConcurrentDictionary<string, IAssemblyReference[]> _cache =
             new ConcurrentDictionary<string, IAssemblyReference[]>();
 
         private readonly IMicrosoftBuildProjectLoader _buildProjectLoader;

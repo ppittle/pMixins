@@ -36,7 +36,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         //string / document reader
-        private static readonly ConcurrentDictionary<string, IVisualStudioOpenDocumentReader> _openDocuments
+        private static ConcurrentDictionary<string, IVisualStudioOpenDocumentReader> _openDocuments
             = new ConcurrentDictionary<string, IVisualStudioOpenDocumentReader>();
 
         public VisualStudioOpenDocumentManager(IVisualStudioEventProxy eventProxy)
@@ -60,6 +60,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                 if (!_openDocuments.TryRemove(args.ClassFullPath, out dummy))
                     _log.WarnFormat("Recevied a Close event but Window was not in Cache [{0}]", 
                         args.ClassFullPath);
+            };
+
+            eventProxy.OnSolutionClosing += (sender, args) =>
+            {
+                _log.Info("Solution Closing.  Clearing Cache");
+
+                _openDocuments = new ConcurrentDictionary<string, IVisualStudioOpenDocumentReader>();
             };
         }
 

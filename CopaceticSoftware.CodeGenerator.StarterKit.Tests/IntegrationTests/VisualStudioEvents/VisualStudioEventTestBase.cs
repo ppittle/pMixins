@@ -32,7 +32,7 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class VisualStudioEventTestBase : IntegrationTestBase
+    public abstract class VisualStudioEventTestBase : IntegrationTestBase
     {
         protected TestVisualStudioEventProxy EventProxy;
         /// <summary>

@@ -28,16 +28,6 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class OnProjectAddedTest : VisualStudioEventTestBase
-    {
-        
-    }
-
-    public class OnProjectReferenceAddedToProject : OnProjectAddedTest
-    {
-        
-    }
-
     public class OnProjectItemAddedTest : VisualStudioEventTestBase
     {
         private static readonly MockSourceFile _sourceFileAdded = MockSourceFile.CreateDefaultFile();

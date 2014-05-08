@@ -102,10 +102,13 @@
     <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectAddedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemAddedTest.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemClosedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemOpenedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemRemovedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToExternalLibraryTest.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToProject.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\VisualStudioEventTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -41,11 +41,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             new ConcurrentDictionary<string, FileReaderAsync>();
 
         private readonly IFileWrapper _fileWrapper;
-        
+        private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
 
-        public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy, IFileWrapper fileWrapper, ISolutionContext solutionContext)
+        public VisualStudioFileCache(IVisualStudioEventProxy visualStudioEventProxy, IFileWrapper fileWrapper, ISolutionContext solutionContext, IVisualStudioOpenDocumentManager openDocumentManager)
         {
             _fileWrapper = fileWrapper;
+            _openDocumentManager = openDocumentManager;
 
             WireUpCacheEvictionEvents(visualStudioEventProxy, solutionContext);
         }
@@ -53,7 +54,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         public string ReadAllText(string filename)
         {
             return 
-                _fileCache.GetOrAdd(filename, f => new FileReaderAsync(_fileWrapper, f))
+                _fileCache.GetOrAdd(filename, f => new FileReaderAsync(_openDocumentManager, _fileWrapper, f))
                     .FileContents;
         }
 
@@ -151,33 +152,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                         ReadAllText(args.ClassFullPath);
                     }
                 };
-
-            visualStudioEventProxy.OnProjectItemOpened +=
-                (sender, args) =>
-                {
-                    FileReaderAsync fileReader;
-
-                    if (_fileCache.TryGetValue(args.ClassFullPath, out fileReader))
-                    {
-                        _log.InfoFormat("Document Opened [{0}]", args.ClassFullPath);
-
-                        fileReader.FileIsOpenInEditor(args.DocumentReader);
-                    }
-                };
-
-            visualStudioEventProxy.OnProjectItemClosed +=
-                (sender, args) =>
-                {
-                    FileReaderAsync fileReader;
-
-                    if (_fileCache.TryGetValue(args.ClassFullPath, out fileReader))
-                    {
-                        _log.InfoFormat("Document Closed [{0}]", args.ClassFullPath);
-
-                        fileReader.FileIsClosedInEditor();
-                    }
-                };
-            
         }
     }
 }

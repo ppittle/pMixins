@@ -35,11 +35,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         private readonly string _fileName;
 
-        private IVisualStudioOpenDocumentReader _openDocumentReader = null;
+        private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
 
-        public FileReaderAsync(IFileWrapper fileWrapper, string filename)
+        public FileReaderAsync(IVisualStudioOpenDocumentManager openDocumentManager, IFileWrapper fileWrapper, string filename)
         {
             _fileName = filename;
+            _openDocumentManager = openDocumentManager;
 
             _readFileTask = new TaskFactory().StartNew(() =>
             {
@@ -56,25 +57,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             });
         }
 
-        public void FileIsOpenInEditor(IVisualStudioOpenDocumentReader openDocumentReader)
-        {
-            _openDocumentReader = openDocumentReader;
-        }
-
-        public void FileIsClosedInEditor()
-        {
-            _openDocumentReader = null;
-        }
-
+        
         public string FileContents
         {
             get
             {
-                if (null != _openDocumentReader)
+                var openDocumentReader = _openDocumentManager.GetOpenDocument(_fileName);
+
+                if (null != openDocumentReader)
                 {
                     _log.InfoFormat("Document is open in editor [{0}]", _fileName);
 
-                    return _openDocumentReader.GetDocumentText();
+                    return openDocumentReader.GetDocumentText();
                 }
 
                 _readFileTask.Wait();

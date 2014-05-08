@@ -61,7 +61,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             _openDocumentReader = openDocumentReader;
         }
 
-        public void FileIsCloseedInEditor()
+        public void FileIsClosedInEditor()
         {
             _openDocumentReader = null;
         }

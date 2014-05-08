@@ -174,7 +174,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     {
                         _log.InfoFormat("Document Closed [{0}]", args.ClassFullPath);
 
-                        fileReader.FileIsCloseedInEditor();
+                        fileReader.FileIsClosedInEditor();
                     }
                 };
             

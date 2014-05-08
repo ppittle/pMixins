@@ -58,9 +58,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 MockSourceFiles = new []{_sourceFile}
             });
 
-            //Warm Caches by loading solution.
-            TestSpecificKernel.Get<ISolutionFactory>().BuildCurrentSolution();
-
+            
             //Code Generator should not be able to generate Mixin code yet
             Assert.False(
                 CanGenerateMixinCodeForSourceFile(),

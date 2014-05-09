@@ -97,6 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGeneratorTests.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanGenerateCodeWhenProjectHasReferenceToOldVersionOfPMixinsAssembly.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />

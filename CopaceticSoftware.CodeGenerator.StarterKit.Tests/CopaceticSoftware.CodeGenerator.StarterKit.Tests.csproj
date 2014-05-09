@@ -108,7 +108,7 @@
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemOpenedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemRemovedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToExternalLibraryTest.cs" />
-    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToProject.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToProjectTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\VisualStudioEventTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

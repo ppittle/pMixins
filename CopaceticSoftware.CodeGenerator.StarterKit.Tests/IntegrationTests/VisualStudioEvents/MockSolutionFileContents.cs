@@ -32,6 +32,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
     public class MockSolution : IMockFile
     {
         public const string MockSolutionFileName = @"c:\test\MockSolution.sln";
+        public const string MockSolutionFolder = @"c:\test\MockSolution";
 
         public MockSolution(string filename = MockSolutionFileName)
         {

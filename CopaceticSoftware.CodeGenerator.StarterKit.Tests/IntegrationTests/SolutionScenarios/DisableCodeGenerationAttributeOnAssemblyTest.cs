@@ -74,6 +74,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Solu
                 ClassFullPath = _MockSolution.Projects[0].MockSourceFiles[1].FileName,
                 ProjectFullPath = _MockSolution.Projects[0].FileName
             });
+
+            //Simulate a Project Reference Removed to force a reload of the project file
+            EventProxy.FireOnProjectReferenceRemoved(this, new ProjectReferenceRemovedEventArgs
+            {
+                ProjectFullPath = _MockSolution.Projects[0].FileName
+            });
         }
 
         [Test]

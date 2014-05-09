@@ -350,7 +350,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             _documentEvents.DocumentClosing += item =>
                 OnProjectItemClosed(this, new ProjectItemClosedEventArgs
                 {
-                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
+                    //ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
                     ClassFullPath = item.FullName
                 });
 

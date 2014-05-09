@@ -111,7 +111,6 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="ICodeGeneratorContextFactory.cs" />
     <Compile Include="Infrastructure\CodeGenerationError.cs" />
-    <Compile Include="Infrastructure\Collections\ConcurrentList.cs" />
     <Compile Include="Infrastructure\IO\CSharpFileFactory.cs" />
     <Compile Include="Infrastructure\IO\FileReaderAsync.cs" />
     <Compile Include="Infrastructure\IO\FileWrapper.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Infrastructure\IVisualStudioWriter.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
-    <Compile Include="Infrastructure\Collections\ConcurrentSpecializedList.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentManager.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentReader.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpFile.cs" />

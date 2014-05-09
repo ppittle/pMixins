@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.Utils;
@@ -30,7 +31,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 
         private static object _lock = new object();
 
-        public static void Initialize(IVisualStudioWriter visualStudioWriter)
+        public static void Initialize(IVisualStudioWriter visualStudioWriter, IServiceProvider serviceProvider)
         {
             if (_isInitialized)
                 return;
@@ -57,7 +58,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                         LoggerToMatch = typeof(IPipelineStep<>).Namespace
                     });
 
-                log4net.Config.BasicConfigurator.Configure(outputWindowAppender);
+                var activityLogAppender = new VisualStudioActivityLogAppender(serviceProvider)
+                {
+                    Threshold = Level.Error
+                };
+
+                log4net.Config.BasicConfigurator.Configure(
+                    outputWindowAppender,
+                    activityLogAppender);
 
                 _isInitialized = true;
             }

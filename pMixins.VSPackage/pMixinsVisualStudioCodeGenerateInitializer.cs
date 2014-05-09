@@ -66,7 +66,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
             _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In");
 
             //Initialize Logging
-            Log4NetInitializer.Initialize(_visualStudioWriter);
+            Log4NetInitializer.Initialize(_visualStudioWriter, this);
 
             //Get a logger for this class
             _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

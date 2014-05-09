@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject.cs" company="Copacetic Software"> 
+// <copyright file="CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
 // <date>Wednesday, May 7, 2014 7:50:10 PM</date> 
@@ -16,17 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.pMixins.Tests.Common;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.SolutionScenarios
 {
     [TestNotWrittenYet]
-    public class CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject : IntegrationTestBase
+    public class CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject : IntegrationTestBase
     {
     }
 }

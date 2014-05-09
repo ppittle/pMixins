@@ -97,10 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IntegrationTests\CanGenerateCodeWhenProjectHasReferenceToOldVersionOfPMixinsAssembly.cs" />
-    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
-    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />
-    <Compile Include="IntegrationTests\CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\CanGenerateCodeWhenProjectHasReferenceToOldVersionOfPMixinsAssembly.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject.cs" />
     <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />

@@ -57,7 +57,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         public string GetDocumentText()
         {
-            if (null == _textDocument)
+            if (null == _textDocument || null == _textDocument.StartPoint)
                 return string.Empty;
 
             try

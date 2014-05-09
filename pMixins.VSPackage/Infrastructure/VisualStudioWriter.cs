@@ -83,31 +83,37 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
         /// <summary>
         /// http://mhusseini.wordpress.com/2013/05/30/write-to-visual-studios-error-list/
         /// </summary>
+        [DebuggerStepThrough]
         private ErrorListProvider LoadErrorListPane(System.IServiceProvider serviceProvider)
         {
             return new ErrorListProvider(serviceProvider);
         }
 
+        [DebuggerStepThrough]
         public void GeneratorError(string message, uint line, uint column)
         {
             AddTask(TaskErrorCategory.Error, message, (int)line, (int)column);
         }
 
+        [DebuggerStepThrough]
         public void GeneratorWarning(string message, uint line, uint column)
         {
             AddTask(TaskErrorCategory.Warning, message, (int)line, (int)column);
         }
 
+        [DebuggerStepThrough]
         public void GeneratorMessage(string message, uint line, uint column)
         {
             AddTask(TaskErrorCategory.Message, message, (int)line, (int)column);
         }
 
+        [DebuggerStepThrough]
         public void ClearErrorList()
         {
             _errorListProvider.Tasks.Clear();
         }
 
+        [DebuggerStepThrough]
         private void AddTask(TaskErrorCategory category, string message, int line, int column)
         {
             _errorListProvider.Tasks.Add(
@@ -121,11 +127,13 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
                 });
         }
 
+        [DebuggerStepThrough]
         public void OutputString(string s)
         {
             _outputWindowPane.OutputString(s);
         }
 
+        [DebuggerStepThrough]
         public void WriteToStatusBar(string s)
         {
             if (null == _statusbar)
@@ -139,6 +147,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
                 _statusbar.SetText(s);
         }
 
+        [DebuggerStepThrough]
         public void SetStatusProgress(uint cookie, int progress, string label, uint complete, uint total)
         {
             if (null == _statusbar)
@@ -146,7 +155,8 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 
             _statusbar.Progress(cookie, progress, label, complete, total);
         }
-        
+
+        [DebuggerStepThrough]
         public void ClearStatusBar()
         {
             if (null == _statusbar)

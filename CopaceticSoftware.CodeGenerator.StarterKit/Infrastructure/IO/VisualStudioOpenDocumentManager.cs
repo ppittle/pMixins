@@ -53,7 +53,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
             eventProxy.OnProjectItemClosed += (sender, args) =>
             {
-                _log.DebugFormat("Document Closed [{0}]", args.ClassFullPath);
+                _log.InfoFormat("Document Closed [{0}]", args.ClassFullPath);
 
                 IVisualStudioOpenDocumentReader dummy;
 

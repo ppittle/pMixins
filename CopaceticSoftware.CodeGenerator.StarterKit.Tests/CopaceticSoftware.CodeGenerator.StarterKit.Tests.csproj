@@ -103,6 +103,8 @@
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInTheSameProject.cs" />
     <Compile Include="IntegrationTests\Infrastructure\SolutionFactoryTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\DisableCodeGenerationAttributeOnAssemblyTest.cs" />
+    <Compile Include="IntegrationTests\SolutionScenarios\DisableCodeGenerationAttributeOnClassTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectAddedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemAddedTest.cs" />

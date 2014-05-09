@@ -42,8 +42,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         public VisualStudioOpenDocumentReader(Document document)
         {
-            //http://msdn.microsoft.com/en-us/library/ms228776.aspx
-            _textDocument = (EnvDTE.TextDocument)(document.Object("TextDocument"));
+            try
+            {
+                //http://msdn.microsoft.com/en-us/library/ms228776.aspx
+                _textDocument = (EnvDTE.TextDocument) (document.Object("TextDocument"));
+            }
+            catch (Exception e)
+            {
+                _log.Warn("Failed to create a TextDocument from Document: " + e.Message, e);
+            }
+           
             _classFileName = document.FullName;
         }
 

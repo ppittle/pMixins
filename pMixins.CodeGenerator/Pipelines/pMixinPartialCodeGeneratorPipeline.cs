@@ -37,6 +37,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 
         private readonly IPipelineStep<IParseSourceFilePipelineState>[] _sourceValidationPipeline =
             {
+                new StopIfDisableCodeGenerationAttributeIsPresentInAssembly(), 
+                new PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute(),
                 new StopIfSourceCodeDoesNotHaveAPartialClassDefinition(), 
                 new WarnIfMixinAttributeIsOnANonPartialClass(), 
                 new WarnIfNoMixinAttributeInSourceFile() 

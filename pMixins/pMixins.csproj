@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DisableCodeGenerationAttribute.cs" />
     <Compile Include="Attributes\DoNotMixinAttribute.cs" />
     <Compile Include="Attributes\InterceptorMixinRequirementAttribute.cs" />
     <Compile Include="Attributes\IPMixinAttribute.cs" />

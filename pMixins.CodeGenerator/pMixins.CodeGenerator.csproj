@@ -132,6 +132,8 @@
     <Compile Include="Pipelines\ResolveAttributes\IResolveAttributesPipelineState.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\ResolveAttributes.cs" />
     <Compile Include="Pipelines\ResolveAttributes\TypeInstanceActivator.cs" />
+    <Compile Include="Pipelines\ValidateSourceFile\PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute.cs" />
+    <Compile Include="Pipelines\ValidateSourceFile\StopIfDisableCodeGenerationAttributeIsPresentInAssembly.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\StopIfSourceCodeDoesNotHaveAPartialClassDefinition.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\WarnIfMixinAttributeIsOnANonPartialClass.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\WarnIfNoMixinAttributeInSourceFile.cs" />

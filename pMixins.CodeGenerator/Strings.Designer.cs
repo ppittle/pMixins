@@ -187,6 +187,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code Generation is Disabled for Project because a DisableCodeGeneration Attribute is present in Project [{0}].
+        /// </summary>
+        internal static string MessageDisableCodeGenerationAttributePresentInAssembly {
+            get {
+                return ResourceManager.GetString("MessageDisableCodeGenerationAttributePresentInAssembly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code Generation is Disabled for Class because a DisableCodeGeneration Attribute is present on Class [{0}].
+        /// </summary>
+        internal static string MessageDisableCodeGenerationAttributePresentOnClass {
+            get {
+                return ResourceManager.GetString("MessageDisableCodeGenerationAttributePresentOnClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to Resolve Class: {0}.
         /// </summary>
         internal static string WarningFailedToResolveClass {

@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
 
         /// <summary>
         /// Dictionary of <see cref="pMixinAttributeResolvedResultBase"/> representing
-        /// the <see cref="IpMixinAttribute"/>s parsed in the source, and mapped to each
+        /// the <see cref="IPMixinAttribute"/>s parsed in the source, and mapped to each
         /// parsed class.
         /// </summary>
         Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> 

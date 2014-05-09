@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DoNotMixinAttribute.cs" />
     <Compile Include="Attributes\InterceptorMixinRequirementAttribute.cs" />
-    <Compile Include="Attributes\IpMixinAttribute.cs" />
+    <Compile Include="Attributes\IPMixinAttribute.cs" />
     <Compile Include="Attributes\LoggingVerbosity.cs" />
     <Compile Include="Attributes\pMixinAttribute.cs" />
     <Compile Include="ConversionOperators\AsIsHelper.cs" />

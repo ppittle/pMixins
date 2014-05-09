@@ -22,7 +22,7 @@ using ICSharpCode.NRefactory.TypeSystem;
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure
 {
     /// <summary>
-    /// Base class for a resolved result for ANY <see cref="IpMixinAttribute"/>,
+    /// Base class for a resolved result for ANY <see cref="IPMixinAttribute"/>,
     /// NOT just <see cref="pMixinAttribute"/>
     /// </summary>
     public abstract class pMixinAttributeResolvedResultBase

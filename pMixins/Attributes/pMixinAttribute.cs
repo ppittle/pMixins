@@ -57,7 +57,7 @@ namespace CopaceticSoftware.pMixins.Attributes
     /// ]]></code>
     /// </example>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public class pMixinAttribute : Attribute, IpMixinAttribute
+    public class pMixinAttribute : Attribute, IPMixinAttribute
     {
         public pMixinAttribute()
         {

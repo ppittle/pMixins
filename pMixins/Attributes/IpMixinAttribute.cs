@@ -25,5 +25,5 @@ namespace CopaceticSoftware.pMixins.Attributes
     /// The sole purpose of this interface is to make it easier to identify
     /// pMixin Attributes.  It has no functional purpose.
     /// </remarks>
-    public interface IpMixinAttribute{}
+    public interface IPMixinAttribute{}
 }

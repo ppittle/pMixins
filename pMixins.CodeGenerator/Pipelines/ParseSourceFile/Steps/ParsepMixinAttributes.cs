@@ -35,7 +35,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile.Step
             manager.AssemblyAttributes.AddRange(
                 manager.Context.TypeResolver.Compilation.MainAssembly
                        .AssemblyAttributes
-                       .Where(x => x.AttributeType.Implements<IpMixinAttribute>()));
+                       .Where(x => x.AttributeType.Implements<IPMixinAttribute>()));
             #endregion
 
             #region Class Attributes
@@ -66,7 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile.Step
                 manager.SourcePartialClassAttributes[classDef].AddRange(
                         resolvedClass.Type
                         .GetAttributes()
-                        .Where(x => x.AttributeType.Implements<IpMixinAttribute>()));
+                        .Where(x => x.AttributeType.Implements<IPMixinAttribute>()));
             }
             #endregion
 

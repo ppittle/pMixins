@@ -31,7 +31,7 @@ namespace CopaceticSoftware.pMixins.Attributes
     /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface,
         AllowMultiple = true, Inherited = true)]
-    public class InterceptorMixinRequirementAttribute : Attribute, IpMixinAttribute
+    public class InterceptorMixinRequirementAttribute : Attribute, IPMixinAttribute
     {
         /// <summary>
         /// Sets the type to be Mixed in

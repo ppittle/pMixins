@@ -28,6 +28,6 @@ namespace CopaceticSoftware.pMixins.Attributes
     /// </example>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Event | AttributeTargets.Property,
         AllowMultiple = true, Inherited = true)]
-    public class DoNotMixinAttribute : Attribute, IpMixinAttribute
+    public class DoNotMixinAttribute : Attribute, IPMixinAttribute
     {}
 }

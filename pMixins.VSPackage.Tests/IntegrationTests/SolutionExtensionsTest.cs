@@ -77,7 +77,7 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
 
             var sampleTargetTypeAttributes =
                 _sampleTargetType.GetAttributes()
-                .Where(x => x.AttributeType.Implements<IpMixinAttribute>());
+                .Where(x => x.AttributeType.Implements<IPMixinAttribute>());
 
             sampleTargetTypeAttributes.Count().ShouldEqual(1);
         }

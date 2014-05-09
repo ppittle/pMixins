@@ -43,7 +43,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Extensions
 
                             return
                                 resolvedClass.Type.GetAttributes()
-                                    .Any(x => x.AttributeType.Implements<IpMixinAttribute>());
+                                    .Any(x => x.AttributeType.Implements<IPMixinAttribute>());
                         }));
         }
     }

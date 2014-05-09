@@ -60,7 +60,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 
                 var activityLogAppender = new VisualStudioActivityLogAppender(serviceProvider)
                 {
-                    Threshold = Level.Error
+                    Threshold = Level.Info
                 };
 
                 log4net.Config.BasicConfigurator.Configure(

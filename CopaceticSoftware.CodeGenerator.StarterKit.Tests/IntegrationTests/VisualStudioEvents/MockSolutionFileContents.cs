@@ -221,6 +221,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
     public class MockSourceFile : IMockFile
     {
+        public const string DefaultMockFileName = @"c:\test\MockSolution\MockFile.cs";
         public MockSourceFile() { Source = string.Empty;}
 
         public string FileName { get; set; }
@@ -229,7 +230,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         public string RenderFile() { return Source;}
 
         public static MockSourceFile CreateDefaultFile(
-            string filename = @"c:\test\MockSolution\MockFile.cs")
+            string filename = DefaultMockFileName)
         {
             return new MockSourceFile
             {

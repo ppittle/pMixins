@@ -23,19 +23,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
-using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
 
-namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
+namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
     public class MixinDependency
     {
@@ -140,7 +138,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
             _pMixinDependencies.AddOrUpdate(
                 response.CodeGeneratorContext.Source.FileName,
-                (f) => new MixinDependency(response),
+                f => new MixinDependency(response),
                 (f, m) => new MixinDependency(response));
         }
 

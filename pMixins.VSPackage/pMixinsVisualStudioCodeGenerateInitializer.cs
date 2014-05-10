@@ -25,7 +25,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.VisualStudio;
-using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
 using EnvDTE80;
@@ -49,8 +49,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private IVisualStudioEventProxy _visualStudioEventProxy;
 
         //Keep references to code generators so they don't get garbage collected
+        // ReSharper disable NotAccessedField.Local
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
+        // ReSharper restore NotAccessedField.Local
 
         protected override void Initialize()
         {

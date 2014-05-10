@@ -181,12 +181,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerators\pMixinsOnBuildCodeGenerator.cs" />
-    <Compile Include="CodeGenerators\pMixinsOnItemSaveCodeGenerator.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGenerator.cs" />
-    <Compile Include="Infrastructure\BaseCodeGenerator\BaseCodeGeneratorWithSite.cs" />
-    <Compile Include="CodeGenerators\pMixinsSingleFileCodeGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="pMixins.VSPackagePackage.cs" />
     <Compile Include="pMixinsVisualStudioCodeGenerateInitializer.cs" />
@@ -256,9 +251,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ItemTemplates\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

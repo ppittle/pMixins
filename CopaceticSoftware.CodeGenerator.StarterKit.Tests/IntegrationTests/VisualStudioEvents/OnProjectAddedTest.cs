@@ -21,7 +21,7 @@ using CopaceticSoftware.pMixins.Tests.Common;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
     [TestNotWrittenYet]
-    public class OnProjectAddedTest : VisualStudioEventTestBase
+    public class OnProjectAddedTest : MockSolutionTestBase
     {
         
     }

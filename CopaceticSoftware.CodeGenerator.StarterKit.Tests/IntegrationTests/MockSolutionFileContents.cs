@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
     public interface IMockFile
     {

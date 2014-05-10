@@ -24,7 +24,7 @@ using Rhino.Mocks;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
     [TestFixture]
-    public class OnProjectReferenceAddedToProjectTest : VisualStudioEventTestBase
+    public class OnProjectReferenceAddedToProjectTest : MockSolutionTestBase
     {
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
 
@@ -87,7 +87,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             });
 
             //Expect Project File will be reread (by test AssemblyResolver)
-            MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_MockSolution.Projects[0].FileName)));
+            _MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_MockSolution.Projects[0].FileName)));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 CanGenerateMixinCodeForSourceFile(_sourceFile),
                 "Failed to build Mixin code _sourceFile");
 
-            MockFileWrapper.VerifyAllExpectations();
+            _MockFileWrapper.VerifyAllExpectations();
         }
     }
 }

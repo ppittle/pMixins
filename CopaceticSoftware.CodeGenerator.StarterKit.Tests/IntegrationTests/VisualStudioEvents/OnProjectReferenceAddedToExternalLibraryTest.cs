@@ -25,7 +25,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 {
     public class SimpleObject { }
 
-    public class OnProjectReferenceAddedToExternalLibraryTest : VisualStudioEventTestBase
+    public class OnProjectReferenceAddedToExternalLibraryTest : MockSolutionTestBase
     {
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
         private const string _sourceFileClass = "SimpleObjectChild";
@@ -76,7 +76,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             Thread.Sleep(1000);
 
             //Make sure the Project was evicted from cache and reloaded
-            MockMicrosoftBuildProjectLoader.AssertWasCalled(
+            _MockMicrosoftBuildProjectLoader.AssertWasCalled(
                 x => x.LoadMicrosoftBuildProject(Arg.Is(_MockSolution.Projects[0].FileName)));
         }
 

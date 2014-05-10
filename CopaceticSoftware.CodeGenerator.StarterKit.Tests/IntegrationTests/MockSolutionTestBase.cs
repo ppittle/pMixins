@@ -1,5 +1,5 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="VisualStudioEventTestBase.cs" company="Copacetic Software"> 
+// <copyright file="MockSolutionTestBase.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
 // <date>Wednesday, May 7, 2014 2:07:06 PM</date> 
@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -25,15 +24,14 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
-using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using Microsoft.Build.Evaluation;
 using Ninject;
 using Rhino.Mocks;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
-    public abstract class VisualStudioEventTestBase : IntegrationTestBase
+    public abstract class MockSolutionTestBase : IntegrationTestBase
     {
         protected TestVisualStudioEventProxy EventProxy;
         /// <summary>
@@ -42,9 +40,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
         /// </summary>
         protected IKernel TestSpecificKernel;
 
-        protected IFileWrapper MockFileWrapper;
+        protected IFileWrapper _MockFileWrapper;
 
-        protected IMicrosoftBuildProjectLoader MockMicrosoftBuildProjectLoader;
+        protected IMicrosoftBuildProjectLoader _MockMicrosoftBuildProjectLoader;
 
         /*
         protected readonly Dictionary<string, string> MockFileWrapperBackingStore = 
@@ -68,11 +66,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 //This is important, if the casting isn't done, then EventProxy isn't returned via IoC
                 as TestVisualStudioEventProxy;
 
-            MockFileWrapper = BuildMockFileReader();
-            TestSpecificKernel.Rebind<IFileWrapper>().ToMethod(c => MockFileWrapper);
+            _MockFileWrapper = BuildMockFileReader();
+            TestSpecificKernel.Rebind<IFileWrapper>().ToMethod(c => _MockFileWrapper);
 
-            MockMicrosoftBuildProjectLoader = BuildMockMicrosoftBuildProjectLoader();
-            TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().ToMethod(c => MockMicrosoftBuildProjectLoader);
+            _MockMicrosoftBuildProjectLoader = BuildMockMicrosoftBuildProjectLoader();
+            TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().ToMethod(c => _MockMicrosoftBuildProjectLoader);
 
             _MockSolution = new MockSolution();
 
@@ -141,7 +139,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
                                 return
                                     new Project(
-                                        new XmlTextReader(new StringReader(MockFileWrapper.ReadAllText(filename))))
+                                        new XmlTextReader(new StringReader(_MockFileWrapper.ReadAllText(filename))))
                                     {
                                         FullPath = filename
                                     };

@@ -25,7 +25,7 @@ using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class OnProjectItemRemovedTest : VisualStudioEventTestBase
+    public class OnProjectItemRemovedTest : MockSolutionTestBase
     {
         private static readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
 

@@ -26,6 +26,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolu
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
 using EnvDTE80;
@@ -114,10 +115,6 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     else
                     {
                         _solutionContext.SolutionFileName = dte.Solution.FileName;
-
-                        //Warm caches
-                        new TaskFactory().StartNew(
-                            () => ServiceLocator.Kernel.Get<ISolutionFactory>().BuildCurrentSolution());
 
                         _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                     }

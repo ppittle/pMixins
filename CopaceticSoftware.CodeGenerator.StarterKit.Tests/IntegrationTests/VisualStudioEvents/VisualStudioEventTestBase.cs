@@ -26,6 +26,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using Microsoft.Build.Evaluation;
 using Ninject;
 using Rhino.Mocks;

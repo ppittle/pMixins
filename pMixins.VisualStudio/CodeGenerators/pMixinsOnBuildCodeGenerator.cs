@@ -23,6 +23,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators

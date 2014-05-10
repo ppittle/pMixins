@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -26,63 +25,24 @@ using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.CodeGenerator;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
-using ICSharpCode.NRefactory.TypeSystem;
+using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
-    public class MixinDependency
-    {
-        public CSharpFile TargetFile { get; private set; }
-
-        public List<CSharpFile> FileDependencies { get; private set; }
-
-        public List<IType> MixinTypeDependencies { get; private set; }
-
-        public MixinDependency(pMixinPartialCodeGeneratorResponse response)
-        {
-            TargetFile = response.CodeGeneratorContext.Source;
-            
-            MixinTypeDependencies = GetTypeDependencies(response).ToList();
-
-            FileDependencies =
-                MixinTypeDependencies
-                    .Select(t =>
-                        response.CodeGeneratorContext.Solution.FindFileForIType(t))
-                    .ToList();
-        }
-
-        private IEnumerable<IType> GetTypeDependencies(pMixinPartialCodeGeneratorResponse response)
-        {
-            var classMixinAttributes = response.CodeGeneratorPipelineState.PartialClassLevelResolvedpMixinAttributes;
-
-            foreach (var partialClass in classMixinAttributes.Keys)
-            {
-                foreach (
-                    var pMixinResolvedResult in
-                        classMixinAttributes[partialClass].OfType<pMixinAttributeResolvedResult>())
-                {
-                    yield return pMixinResolvedResult.Mixin;
-
-                    if (null != pMixinResolvedResult.Interceptors)
-                        foreach (var interceptor in pMixinResolvedResult.Interceptors)
-                            yield return interceptor; 
-                }
-            }
-        }
-        
-    }
-
     /// <summary>
     /// Listens for <see cref="IVisualStudioEventProxy.OnProjectItemSaved"/>
     /// events.  If the save event is for a file containing a Mixin,
     /// this class regenerates the code behind for all Targets using
     /// the Mixins
     /// </summary>
+    /// <remarks>
+    /// Should be singleton.
+    /// </remarks>
     public class pMixinsOnItemSaveCodeGenerator
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

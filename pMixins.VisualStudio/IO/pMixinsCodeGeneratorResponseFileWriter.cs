@@ -24,7 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using log4net;
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.pMixins.VisualStudio.IO
 {
     public interface IpMixinsCodeGeneratorResponseFileWriter
     {

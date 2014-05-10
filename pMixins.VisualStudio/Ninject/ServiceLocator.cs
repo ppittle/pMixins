@@ -20,10 +20,9 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
-using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using Ninject;
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
 {
     public static class ServiceLocator
     {

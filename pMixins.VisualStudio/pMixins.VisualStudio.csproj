@@ -79,16 +79,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\MixinDependency.cs" />
     <Compile Include="CodeGenerators\pMixinsOnBuildCodeGenerator.cs" />
     <Compile Include="CodeGenerators\pMixinsOnItemSaveCodeGenerator.cs" />
-    <Compile Include="pMixinsCodeGeneratorResponseFileWriter.cs" />
+    <Compile Include="IO\pMixinsCodeGeneratorResponseFileWriter.cs" />
     <Compile Include="Extensions\Constants.cs" />
     <Compile Include="Extensions\SolutionExtensions.cs" />
     <Compile Include="Ninject\pMixinsStandardModule.cs" />
-    <Compile Include="pMixinsMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
+    <Compile Include="Infrastructure\pMixinsMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceLocator.cs" />
-    <Compile Include="VisualStudioCodeGenerator.cs" />
+    <Compile Include="Ninject\ServiceLocator.cs" />
+    <Compile Include="CodeGenerators\VisualStudioCodeGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CopaceticSoftware.CodeGenerator.StarterKit\CopaceticSoftware.CodeGenerator.StarterKit.csproj">

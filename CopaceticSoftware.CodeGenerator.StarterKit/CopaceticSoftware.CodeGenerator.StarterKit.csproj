@@ -103,9 +103,11 @@
     <Compile Include="Extensions\IMethodExtenstions.cs" />
     <Compile Include="Extensions\IParametersExtensions.cs" />
     <Compile Include="Extensions\MemberExtensions.cs" />
+    <Compile Include="Extensions\PathExtensions.cs" />
     <Compile Include="Extensions\ProjectItemExtensions.cs" />
     <Compile Include="Extensions\ResolveResultExtensions.cs" />
     <Compile Include="Extensions\SolutionExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeDefinitionExtensions.cs" />
     <Compile Include="ICodeGeneratorContext.cs" />
     <Compile Include="Extensions\SyntaxTreeExtensions.cs" />

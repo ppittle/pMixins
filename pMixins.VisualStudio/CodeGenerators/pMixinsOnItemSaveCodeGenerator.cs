@@ -54,13 +54,14 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         private static ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
             new ConcurrentDictionary<string, MixinDependency>();
 
+        private Task OnSolutionOpeningTask;
+        
         public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
             _responseFileWriter = responseFileWriter;
 
-            
             WireUpVisualStudioProxyEvents(visualStudioEventProxy);
         }
 
@@ -104,7 +105,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private void HandleSolutionOpening(object sender, EventArgs e)
         {
-            new TaskFactory().StartNew(() =>
+            OnSolutionOpeningTask = 
+                new TaskFactory().StartNew(() =>
             {
                 var sw = Stopwatch.StartNew();
 
@@ -137,41 +139,43 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private void HandleProjectItemSaved(object sender, ProjectItemSavedEventArgs args)
         {
-            new TaskFactory().StartNew(() =>
-            {
-                var sw = Stopwatch.StartNew();
-
-                try
+            OnSolutionOpeningTask.ContinueWith( task => 
+                new TaskFactory().StartNew(() =>
                 {
-                    _log.InfoFormat("HandleProjectItemSaved started.");
+                    using (var activity = new LoggingActivity("HandleProjectItemSaved"))
+                    try
+                    {
+                        //Generate code for the file saved
+                        _visualStudioCodeGenerator
+                            .GenerateCode(
+                                _codeGeneratorContextFactory.GenerateContext(
+                                    s => s.AllFiles.Where(f => f.FileName.Equals(args.ClassFullPath))))
+                            .Map(_responseFileWriter.WriteCodeGeneratorResponse);
 
-                    var filesToUpdate =
-                        _pMixinDependencies.Values
-                            .Where(d => 
-                                d.FileDependencies.Any(
-                                    f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
-                            .Select(d => d.TargetFile)
-                            .ToList();
+                        //Generate code for dependencies
+                        var filesToUpdate =
+                            _pMixinDependencies.Values
+                                .Where(d => 
+                                    d.FileDependencies.Any(
+                                        f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
+                                .Select(d => d.TargetFile)
+                                .ToList();
 
-                    if (_log.IsDebugEnabled)
-                        _log.DebugFormat("Will update [{0}]",
-                            string.Join(Environment.NewLine,
-                                filesToUpdate.Select(x => x.FileName)));
+                        if (_log.IsDebugEnabled)
+                            _log.DebugFormat("Will update [{0}]",
+                                string.Join(Environment.NewLine,
+                                    filesToUpdate.Select(x => x.FileName)));
 
-                     _visualStudioCodeGenerator
-                        .GenerateCode(
-                            _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
-                        .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
-                }
-                catch (Exception exc)
-                {
-                    _log.Error("Exception in HandleProjectItemSaved", exc);
-                }
-                finally
-                {
-                    _log.InfoFormat("HandleProjectItemSaved Completed in [{0}] ms", sw.ElapsedMilliseconds);
-                }
-            });
+                         _visualStudioCodeGenerator
+                            .GenerateCode(
+                                _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
+                            .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
+                    }
+                    catch (Exception exc)
+                    {
+                        _log.Error("Exception in HandleProjectItemSaved", exc);
+                    }
+                }));
         }
     }
 }

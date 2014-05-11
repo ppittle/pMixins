@@ -206,6 +206,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         }
 
         [Test]
+        public void OnlyClassesContainingPMixinAttributesHaveCodeBehindSaved()
+        { }
+
+        [Test]
         public void NewDependenciesAreDiscovered() { }
 
         [Test]

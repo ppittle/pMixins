@@ -108,12 +108,9 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             OnSolutionOpeningTask = 
                 new TaskFactory().StartNew(() =>
             {
-                var sw = Stopwatch.StartNew();
-
+                using (var activity = new LoggingActivity("HandleSolutionOpening"))
                 try
                 {
-                    _log.InfoFormat("HandleSolutionOpening Load pMixin Files started.");
-
                     var generator = new pMixinPartialCodeGenerator();
 
                     _codeGeneratorContextFactory
@@ -129,10 +126,6 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                 catch (Exception exc)
                 {
                     _log.Error("Exception in HandleSolutionOpening", exc);
-                }
-                finally
-                {
-                    _log.InfoFormat("HandleSolutionOpening Load pMixin Files Completed in [{0}] ms", sw.ElapsedMilliseconds);
                 }
             });
         }

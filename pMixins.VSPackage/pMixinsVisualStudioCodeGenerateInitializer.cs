@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -57,6 +58,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         protected override void Initialize()
         {
+            var sw = Stopwatch.StartNew();
+
             base.Initialize();
 
             //Get copy of current DTE
@@ -89,6 +92,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
             InitializeFileGenerators();
 
             _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In ... Complete");
+
+            _log.InfoFormat("Initialization Complete in [{0}] ms", sw.ElapsedMilliseconds);
         }
 
         private void InitializeSolutionContext(DTE dte)

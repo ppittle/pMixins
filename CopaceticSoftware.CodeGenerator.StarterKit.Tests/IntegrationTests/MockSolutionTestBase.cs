@@ -155,24 +155,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             loader.Stub(x => x.LoadMicrosoftBuildProject(Arg<string>.Is.Anything))
                 .Do(
                     (Func<string, Project>)
-                        (filename =>
+                    (filename =>
+                    {
+                        lock (projectLoaderLock)
                         {
-                            lock (projectLoaderLock)
-                            {
-                                var loadedProjects =
-                                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename).ToArray();
+                            var loadedProjects =
+                                ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename).ToArray();
 
-                                foreach (var loadedProject in loadedProjects)
-                                    ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
+                            foreach (var loadedProject in loadedProjects)
+                                ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
 
-                                return
-                                    new Project(
-                                        new XmlTextReader(new StringReader(_MockFileWrapper.ReadAllText(filename))))
-                                    {
-                                        FullPath = filename
-                                    };
-                            }
-                        }));
+                            return
+                                new Project(
+                                    new XmlTextReader(new StringReader(_MockFileWrapper.ReadAllText(filename))))
+                                {
+                                    FullPath = filename
+                                };
+                        }
+                    }));
             
             return loader;
         }

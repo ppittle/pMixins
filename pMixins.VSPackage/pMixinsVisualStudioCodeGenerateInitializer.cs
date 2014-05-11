@@ -27,6 +27,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolu
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
@@ -49,6 +50,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private IVisualStudioWriter _visualStudioWriter;
         private ISolutionContext _solutionContext;
         private IVisualStudioEventProxy _visualStudioEventProxy;
+        private ICodeBehindFileHelper _codeBehindFileHelper;
 
         //Keep references to code generators so they don't get garbage collected
         // ReSharper disable NotAccessedField.Local
@@ -64,7 +66,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
             //Get copy of current DTE
             var dte = (DTE) GetService(typeof (DTE));
-            var dte2 = GetGlobalService(typeof (DTE)) as DTE2;
+            var dte2 = dte as DTE2;
             
             //Create a Visual Studio Writer
             _visualStudioWriter = new VisualStudioWriter(dte, this);
@@ -82,8 +84,11 @@ namespace CopaceticSoftware.pMixins_VSPackage
             //create Visual Studio Event Proxy
             _visualStudioEventProxy = new VisualStudioEventProxy(dte2);
 
+            //Create CodeBehindFileHelper
+            _codeBehindFileHelper = new CodeBehindFileHelper(dte2, typeof(pMixinsEmptySingleFileCodeGenerator).Name);
+
             //Initialize the IoC Kernel
-            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy);
+            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy, _codeBehindFileHelper);
 
             _log.Info("Initialized Kernel");
 

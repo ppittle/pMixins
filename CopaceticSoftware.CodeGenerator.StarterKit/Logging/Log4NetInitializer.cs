@@ -60,6 +60,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
 
                 var activityLogAppender = new VisualStudioActivityLogAppender(serviceProvider)
                 {
+                    Layout =
+                           new PatternLayout(@"%date{HH:mm:ss,fff} %thread% %-5level [%logger{2}] %message%newline"),
                     Threshold = Level.Info
                 };
 

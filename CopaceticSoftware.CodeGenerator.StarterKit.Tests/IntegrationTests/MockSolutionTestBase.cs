@@ -26,6 +26,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using Microsoft.Build.Evaluation;
 using Ninject;
 using Rhino.Mocks;
@@ -44,6 +45,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         protected IFileWrapper _MockFileWrapper;
 
         protected IMicrosoftBuildProjectLoader _MockMicrosoftBuildProjectLoader;
+
+        protected ICodeBehindFileHelper _MockCodeBehindFileHelper;
 
         /*
         protected readonly Dictionary<string, string> MockFileWrapperBackingStore = 
@@ -73,13 +76,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             _MockMicrosoftBuildProjectLoader = BuildMockMicrosoftBuildProjectLoader();
             TestSpecificKernel.Rebind<IMicrosoftBuildProjectLoader>().ToMethod(c => _MockMicrosoftBuildProjectLoader);
 
+            _MockCodeBehindFileHelper = BuildMockCodeBehindFileHelper();
+            TestSpecificKernel.Rebind<ICodeBehindFileHelper>().ToMethod(c => _MockCodeBehindFileHelper);
+
+
             _MockSolution = new MockSolution();
 
             //Set solution context
             TestSpecificKernel.Get<ISolutionContext>().SolutionFileName =
                 _MockSolution.FileName;
         }
-
+        
         protected override void Cleanup()
         {
             base.Cleanup();
@@ -87,6 +94,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             //Simulate a Solution Closing event so Cache classes clear their cache
             EventProxy.FireOnSolutionClosing(this, new EventArgs());
         }
+
+        #region Mock Builders
 
         protected virtual IFileWrapper BuildMockFileReader()
         {
@@ -132,21 +141,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                          {
                              var existingFile = _MockSolution.AllMockSourceFiles.FirstOrDefault(x => x.FileName == filename);
 
-                             if (null != existingFile)
-                                 existingFile.Source = text;
-                             else
-                             {
-                                 //Store file in the Queue, it will be added by IMicrosoftBuildProjectLoader
-                                 _newFileWriteQueue.AddOrUpdate(filename, f => text, (x, y) => text);
-                             }
+                             if (null == existingFile)
+                                 throw new Exception("File does not exist [" + filename + "]");
+
+                            existingFile.Source = text;
                          }));
 
             return fileWrapper;
         }
 
         private static readonly object projectLoaderLock = new object();
-        private static readonly ConcurrentDictionary<string, string > _newFileWriteQueue = 
-            new ConcurrentDictionary<string, string>();
         protected virtual IMicrosoftBuildProjectLoader BuildMockMicrosoftBuildProjectLoader()
         {
             var loader = MockRepository.GenerateStub<IMicrosoftBuildProjectLoader>();
@@ -176,6 +180,42 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             
             return loader;
         }
+
+        protected virtual ICodeBehindFileHelper BuildMockCodeBehindFileHelper()
+        {
+            var codeBehindFileHelper = MockRepository.GenerateStub<ICodeBehindFileHelper>();
+
+            codeBehindFileHelper.Stub(x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Anything))
+                .Do(
+                    (Func<string, string>)
+                    (filename =>
+                     {
+                         var project =
+                             _MockSolution.Projects
+                                 .FirstOrDefault(
+                                     x => x.MockSourceFiles.Any(
+                                         f => f.FileName.Equals(
+                                             filename,
+                                             StringComparison.InvariantCultureIgnoreCase)));
+
+                         if (null == project)
+                             throw new Exception("Failed to Find Project containing file [" + filename + "]");
+
+                         var codeBehindFile = filename.Replace(".cs", ".mixin.cs");
+
+                         project.MockSourceFiles.Add(
+                             new MockSourceFile
+                             {
+                                 FileName = codeBehindFile
+                             });
+
+                         return codeBehindFile;
+                     }));
+
+            return codeBehindFileHelper;
+        }
+
+        #endregion
 
         protected bool CanGenerateMixinCodeForSourceFile(MockSourceFile sourceFile, MockProject project = null)
         {

@@ -68,7 +68,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     if (_cache.TryRemove(args.ProjectFullPath, out dummy))
                         _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
 
-                    EagerlyResolveReferences(args.ProjectFullPath);
+                    //This can cause problems if the project added event is in response to 
+                    //a project reload.
+                    //EagerlyResolveReferences(args.ProjectFullPath);
                 };
 
             visualStudioEventProxy.OnProjectReferenceAdded +=

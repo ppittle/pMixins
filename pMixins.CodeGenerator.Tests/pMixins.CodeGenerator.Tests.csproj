@@ -136,6 +136,9 @@
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicMethodsAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicPropertiesAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\ChildOfTargetCanAccessProtectedMembers.cs" />
+    <Compile Include="IntegrationTests\ExpectedErrors\ExpectedErrorsTestBase.cs" />
+    <Compile Include="IntegrationTests\ExpectedErrors\NoPartialClassTest.cs" />
+    <Compile Include="IntegrationTests\ExpectedErrors\SimpleCircularReferenceTest.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -21,6 +21,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using Microsoft.CSharp;
 using NUnit.Framework;
 
@@ -63,13 +64,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
             CompilerResults = csc.CompileAssemblyFromSource(parameters,
                 SourceCode + GeneratedCode);
 
-            var errors =
-               string.Join("\r\n",
-               CompilerResults.Errors
-                   .Cast<CompilerError>()
-                   .Where(e => !e.IsWarning)
-                   .ToList()
-                   .Select(e => e.ErrorText +"\r\n\t Line:" + e.Line));
+            var errors = CompilerResults.PrettyPrintErrorList();
 
             if (!string.IsNullOrEmpty(errors))
             {

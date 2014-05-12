@@ -108,6 +108,22 @@ namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
                     compilerResults.TryLoadCompiledType(typeName, constructorArgs),
                     methodName, bindingFlags, args);
         }
+
+        public static string PrettyPrintErrorList(this CompilerResults compilerResults)
+        {
+            return
+                string.Join(Environment.NewLine,
+                    compilerResults.Errors
+                        .Cast<CompilerError>()
+                        .Where(e => !e.IsWarning)
+                        .ToList()
+                        .Select(e =>
+                            string.Format("{0}{1}\t File: {2} - {3}",
+                                e.ErrorText,
+                                Environment.NewLine,
+                                e.FileName,
+                                e.Line)));
+        }
         #endregion
 
         #region Properties

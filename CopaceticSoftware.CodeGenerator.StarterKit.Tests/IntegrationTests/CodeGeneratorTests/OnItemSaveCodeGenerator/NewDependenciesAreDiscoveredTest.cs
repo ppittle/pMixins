@@ -26,6 +26,12 @@ using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
 {
+    /// <summary>
+    /// This functionality should be moved to OnitemSAveForDependecnies test and this 
+    /// test should be updated so that _target adds a dependency to a new _sourceFile after
+    /// compile.  _target is saved.  then new _soureceFile is updated and saved.
+    /// 
+    /// </summary>
     public class NewDependenciesAreDiscoveredTest : OnItemSaveCodeGeneratorTestBase
     {
         private const string _updatedMixinFileSource =

@@ -25,19 +25,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     public class OnItemSave : OnItemSaveCodeGeneratorTestBase
     {
         [Test]
-        public void CodeIsGenerated()
-        {
-            
-        }
-
-        [Test]
-        public void OnlyClassesContainingPMixinAttributesHaveCodeBehindSaved()
-        { }
-
-        [Test]
-        public void NewDependenciesAreDiscovered() { }
-
-        [Test]
         public void HandlesCircularReference() { }
     }
 }

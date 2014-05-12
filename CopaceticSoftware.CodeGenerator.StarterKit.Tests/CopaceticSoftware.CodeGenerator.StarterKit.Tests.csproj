@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\MixinCodeBehindFileIsRecreatedOnItmeSave.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\NewDependenciesAreDiscoveredTest.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSave.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveCodeGeneratorTestBase.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForDependency.cs" />

@@ -98,7 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGeneratorTests.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSave.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveCodeGeneratorTestBase.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForNonPMixinFileWithNoDependencies.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForPMixinFileWithNoDependencies.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectRemoved.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnSolutionOpeningTest.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanGenerateCodeWhenProjectHasReferenceToOldVersionOfPMixinsAssembly.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />
@@ -107,7 +112,7 @@
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\DisableCodeGenerationAttributeOnAssemblyTest.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\DisableCodeGenerationAttributeOnClassTest.cs" />
-    <Compile Include="IntegrationTests\VisualStudioEvents\MockSolutionFileContents.cs" />
+    <Compile Include="IntegrationTests\MockSolutionFileContents.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectAddedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemAddedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemClosedTest.cs" />
@@ -115,7 +120,7 @@
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectItemRemovedTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToExternalLibraryTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToProjectTest.cs" />
-    <Compile Include="IntegrationTests\VisualStudioEvents\VisualStudioEventTestBase.cs" />
+    <Compile Include="IntegrationTests\MockSolutionTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

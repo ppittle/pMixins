@@ -21,6 +21,7 @@ using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
 

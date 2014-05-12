@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
     public interface IMockFile
     {
@@ -222,7 +222,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
     public class MockSourceFile : IMockFile
     {
         public const string DefaultMockFileName = @"c:\test\MockSolution\MockFile.cs";
-        public MockSourceFile() { Source = string.Empty;}
+
+        public MockSourceFile(string filename = DefaultMockFileName)
+        {
+            FileName = filename;
+            Source = string.Empty;
+        }
 
         public string FileName { get; set; }
         public string Source { get; set; }

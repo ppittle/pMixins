@@ -18,17 +18,15 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
-using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
 
-namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
+namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
     /// <summary>
     /// Listens for <see cref="IVisualStudioEventProxy.OnBuildBegin"/>

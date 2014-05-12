@@ -23,7 +23,7 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class OnProjectItemClosedTest : VisualStudioEventTestBase
+    public class OnProjectItemClosedTest : MockSolutionTestBase
     {
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
 
@@ -74,7 +74,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             //Set Mock Expectations
             _documentReader.Expect(x => x.GetDocumentText()).Repeat.Never();
 
-            MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_sourceFile.FileName)))
+            _MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_sourceFile.FileName)))
                 .Repeat.Once();
 
            //Fire Document Closing Event
@@ -92,7 +92,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 CanGenerateMixinCodeForSourceFile(_sourceFile),
                 "Should not be able to Generate Code!  Does the _sourceFile contain invalid code like it should?");
 
-            MockFileWrapper.VerifyAllExpectations();
+            _MockFileWrapper.VerifyAllExpectations();
 
             _documentReader.VerifyAllExpectations();
         }

@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -25,7 +26,9 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.VisualStudio;
-using CopaceticSoftware.pMixins_VSPackage.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
+using CopaceticSoftware.pMixins.VisualStudio.Ninject;
 using CopaceticSoftware.pMixins_VSPackage.Infrastructure;
 using EnvDTE;
 using EnvDTE80;
@@ -47,18 +50,23 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private IVisualStudioWriter _visualStudioWriter;
         private ISolutionContext _solutionContext;
         private IVisualStudioEventProxy _visualStudioEventProxy;
+        private ICodeBehindFileHelper _codeBehindFileHelper;
 
         //Keep references to code generators so they don't get garbage collected
+        // ReSharper disable NotAccessedField.Local
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
+        // ReSharper restore NotAccessedField.Local
 
         protected override void Initialize()
         {
+            var sw = Stopwatch.StartNew();
+
             base.Initialize();
 
             //Get copy of current DTE
             var dte = (DTE) GetService(typeof (DTE));
-            var dte2 = GetGlobalService(typeof (DTE)) as DTE2;
+            var dte2 = dte as DTE2;
             
             //Create a Visual Studio Writer
             _visualStudioWriter = new VisualStudioWriter(dte, this);
@@ -76,8 +84,11 @@ namespace CopaceticSoftware.pMixins_VSPackage
             //create Visual Studio Event Proxy
             _visualStudioEventProxy = new VisualStudioEventProxy(dte2);
 
+            //Create CodeBehindFileHelper
+            _codeBehindFileHelper = new CodeBehindFileHelper(dte2, typeof(pMixinsEmptySingleFileCodeGenerator).Name);
+
             //Initialize the IoC Kernel
-            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy);
+            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy, _codeBehindFileHelper);
 
             _log.Info("Initialized Kernel");
 
@@ -86,6 +97,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
             InitializeFileGenerators();
 
             _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In ... Complete");
+
+            _log.InfoFormat("Initialization Complete in [{0}] ms", sw.ElapsedMilliseconds);
         }
 
         private void InitializeSolutionContext(DTE dte)
@@ -112,10 +125,6 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     else
                     {
                         _solutionContext.SolutionFileName = dte.Solution.FileName;
-
-                        //Warm caches
-                        new TaskFactory().StartNew(
-                            () => ServiceLocator.Kernel.Get<ISolutionFactory>().BuildCurrentSolution());
 
                         _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                     }

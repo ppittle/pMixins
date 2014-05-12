@@ -28,7 +28,7 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
-    public class OnProjectItemAddedTest : VisualStudioEventTestBase
+    public class OnProjectItemAddedTest : MockSolutionTestBase
     {
         private static readonly MockSourceFile _sourceFileAdded = MockSourceFile.CreateDefaultFile();
         private readonly string _sourceFileClass = Path.GetFileNameWithoutExtension(_sourceFileAdded.FileName);
@@ -60,7 +60,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             //Wait a Second for the Async reader to catch up.
             Thread.Sleep(1000);
 
-            MockFileWrapper.AssertWasCalled(f => f.ReadAllText(Arg.Is(_sourceFileAdded.FileName)));
+            _MockFileWrapper.AssertWasCalled(f => f.ReadAllText(Arg.Is(_sourceFileAdded.FileName)));
         }
 
         [Test]

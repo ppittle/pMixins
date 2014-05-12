@@ -19,6 +19,9 @@
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.CodeGenerator;
+using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
+using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using Ninject.Modules;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.Ninject

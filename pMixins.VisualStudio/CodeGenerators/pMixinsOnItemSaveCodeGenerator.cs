@@ -18,73 +18,31 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.CodeGenerator;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
-using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
-using ICSharpCode.NRefactory.TypeSystem;
+using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
 
-namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
+namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
-    public class MixinDependency
-    {
-        public CSharpFile TargetFile { get; private set; }
-
-        public List<CSharpFile> FileDependencies { get; private set; }
-
-        public List<IType> MixinTypeDependencies { get; private set; }
-
-        public MixinDependency(pMixinPartialCodeGeneratorResponse response)
-        {
-            TargetFile = response.CodeGeneratorContext.Source;
-            
-            MixinTypeDependencies = GetTypeDependencies(response).ToList();
-
-            FileDependencies =
-                MixinTypeDependencies
-                    .Select(t =>
-                        response.CodeGeneratorContext.Solution.FindFileForIType(t))
-                    .ToList();
-        }
-
-        private IEnumerable<IType> GetTypeDependencies(pMixinPartialCodeGeneratorResponse response)
-        {
-            var classMixinAttributes = response.CodeGeneratorPipelineState.PartialClassLevelResolvedpMixinAttributes;
-
-            foreach (var partialClass in classMixinAttributes.Keys)
-            {
-                foreach (
-                    var pMixinResolvedResult in
-                        classMixinAttributes[partialClass].OfType<pMixinAttributeResolvedResult>())
-                {
-                    yield return pMixinResolvedResult.Mixin;
-
-                    if (null != pMixinResolvedResult.Interceptors)
-                        foreach (var interceptor in pMixinResolvedResult.Interceptors)
-                            yield return interceptor; 
-                }
-            }
-        }
-        
-    }
-
     /// <summary>
     /// Listens for <see cref="IVisualStudioEventProxy.OnProjectItemSaved"/>
     /// events.  If the save event is for a file containing a Mixin,
     /// this class regenerates the code behind for all Targets using
     /// the Mixins
     /// </summary>
+    /// <remarks>
+    /// Should be singleton.
+    /// </remarks>
     public class pMixinsOnItemSaveCodeGenerator
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -96,13 +54,14 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
         private static ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
             new ConcurrentDictionary<string, MixinDependency>();
 
+        private Task OnSolutionOpeningTask;
+        
         public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
             _responseFileWriter = responseFileWriter;
 
-            
             WireUpVisualStudioProxyEvents(visualStudioEventProxy);
         }
 
@@ -140,20 +99,18 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
 
             _pMixinDependencies.AddOrUpdate(
                 response.CodeGeneratorContext.Source.FileName,
-                (f) => new MixinDependency(response),
+                f => new MixinDependency(response),
                 (f, m) => new MixinDependency(response));
         }
 
         private void HandleSolutionOpening(object sender, EventArgs e)
         {
-            new TaskFactory().StartNew(() =>
+            OnSolutionOpeningTask = 
+                new TaskFactory().StartNew(() =>
             {
-                var sw = Stopwatch.StartNew();
-
+                using (var activity = new LoggingActivity("HandleSolutionOpening"))
                 try
                 {
-                    _log.InfoFormat("HandleSolutionOpening Load pMixin Files started.");
-
                     var generator = new pMixinPartialCodeGenerator();
 
                     _codeGeneratorContextFactory
@@ -170,50 +127,48 @@ namespace CopaceticSoftware.pMixins_VSPackage.CodeGenerators
                 {
                     _log.Error("Exception in HandleSolutionOpening", exc);
                 }
-                finally
-                {
-                    _log.InfoFormat("HandleSolutionOpening Load pMixin Files Completed in [{0}] ms", sw.ElapsedMilliseconds);
-                }
             });
         }
 
         private void HandleProjectItemSaved(object sender, ProjectItemSavedEventArgs args)
         {
-            new TaskFactory().StartNew(() =>
-            {
-                var sw = Stopwatch.StartNew();
-
-                try
+            OnSolutionOpeningTask.ContinueWith( task => 
+                new TaskFactory().StartNew(() =>
                 {
-                    _log.InfoFormat("HandleProjectItemSaved started.");
+                    using (var activity = new LoggingActivity("HandleProjectItemSaved"))
+                    try
+                    {
+                        //Generate code for the file saved
+                        _visualStudioCodeGenerator
+                            .GenerateCode(
+                                _codeGeneratorContextFactory.GenerateContext(
+                                    s => s.AllFiles.Where(f => f.FileName.Equals(args.ClassFullPath))))
+                            .Map(_responseFileWriter.WriteCodeGeneratorResponse);
 
-                    var filesToUpdate =
-                        _pMixinDependencies.Values
-                            .Where(d => 
-                                d.FileDependencies.Any(
-                                    f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
-                            .Select(d => d.TargetFile)
-                            .ToList();
+                        //Generate code for dependencies
+                        var filesToUpdate =
+                            _pMixinDependencies.Values
+                                .Where(d => 
+                                    d.FileDependencies.Any(
+                                        f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
+                                .Select(d => d.TargetFile)
+                                .ToList();
 
-                    if (_log.IsDebugEnabled)
-                        _log.DebugFormat("Will update [{0}]",
-                            string.Join(Environment.NewLine,
-                                filesToUpdate.Select(x => x.FileName)));
+                        if (_log.IsDebugEnabled)
+                            _log.DebugFormat("Will update [{0}]",
+                                string.Join(Environment.NewLine,
+                                    filesToUpdate.Select(x => x.FileName)));
 
-                     _visualStudioCodeGenerator
-                        .GenerateCode(
-                            _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
-                        .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
-                }
-                catch (Exception exc)
-                {
-                    _log.Error("Exception in HandleProjectItemSaved", exc);
-                }
-                finally
-                {
-                    _log.InfoFormat("HandleProjectItemSaved Completed in [{0}] ms", sw.ElapsedMilliseconds);
-                }
-            });
+                         _visualStudioCodeGenerator
+                            .GenerateCode(
+                                _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
+                            .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
+                    }
+                    catch (Exception exc)
+                    {
+                        _log.Error("Exception in HandleProjectItemSaved", exc);
+                    }
+                }));
         }
     }
 }

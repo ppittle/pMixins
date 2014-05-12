@@ -24,7 +24,7 @@ using CopaceticSoftware.pMixins.Attributes;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.pMixins.VisualStudio.Infrastructure
 {
     public class pMixinsMicrosoftBuildProjectAssemblyReferenceResolver :
         CachedMicrosoftBuildProjectAssemblyReferenceResolver

@@ -24,7 +24,7 @@ using Rhino.Mocks;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents
 {
     [TestFixture]
-    public class OnProjectItemOpenedTest : VisualStudioEventTestBase
+    public class OnProjectItemOpenedTest : MockSolutionTestBase
     {
         private readonly MockSourceFile _sourceFile = MockSourceFile.CreateDefaultFile();
 
@@ -67,8 +67,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             //Verify _documentReader has not been called.
             _documentReader.AssertWasNotCalled(x => x.GetDocumentText());
 
-            //Make sure MockFileWrapper is not called to read _sourceFile
-            MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_sourceFile.FileName)))
+            //Make sure _MockFileWrapper is not called to read _sourceFile
+            _MockFileWrapper.Expect(x => x.ReadAllText(Arg.Is(_sourceFile.FileName)))
                 .Repeat.Never();
 
             //Simulate firing Document Open Event
@@ -87,7 +87,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 CanGenerateMixinCodeForSourceFile(_sourceFile),
                 "Failed to build Mixin code _sourceFile");
 
-            MockFileWrapper.VerifyAllExpectations();
+            _MockFileWrapper.VerifyAllExpectations();
 
             //Make sure the file was loaded from document
             _documentReader.AssertWasCalled(x => x.GetDocumentText());

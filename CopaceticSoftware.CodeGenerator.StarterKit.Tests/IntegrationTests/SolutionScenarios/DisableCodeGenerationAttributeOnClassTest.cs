@@ -23,7 +23,7 @@ using NUnit.Framework;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.SolutionScenarios
 {
     [TestFixture]
-    public class DisableCodeGenerationAttributeOnClassTest : VisualStudioEventTestBase
+    public class DisableCodeGenerationAttributeOnClassTest : MockSolutionTestBase
     {
         private const string _sourceFormat =
             @"

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="OnBuildCodeGeneratorTests.cs" company="Copacetic Software"> 
+// <copyright file="OnProjectRemoved.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Saturday, May 10, 2014 8:00:47 PM</date> 
+// <date>Sunday, May 11, 2014 7:41:39 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,11 +17,17 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.pMixins.Tests.Common;
+using NUnit.Framework;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
 {
     [TestNotWrittenYet]
-    public class OnBuildCodeGeneratorTests : IntegrationTestBase
+    public class OnProjectRemoved : OnItemSaveCodeGeneratorTestBase
     {
+        [Test]
+        public void DependenciesAreUpdated()
+        {
+        }
+
     }
 }

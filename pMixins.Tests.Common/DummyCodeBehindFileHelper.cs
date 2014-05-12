@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="OnBuildCodeGeneratorTests.cs" company="Copacetic Software"> 
+// <copyright file="DummyCodeBehindFileHelper.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Saturday, May 10, 2014 8:00:47 PM</date> 
+// <date>Sunday, May 11, 2014 5:14:06 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,12 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.pMixins.Tests.Common;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests
+namespace CopaceticSoftware.pMixins.Tests.Common
 {
-    [TestNotWrittenYet]
-    public class OnBuildCodeGeneratorTests : IntegrationTestBase
+    public class DummyCodeBehindFileHelper : ICodeBehindFileHelper
     {
+        public string GetOrAddCodeBehindFile(string classFileName)
+        {
+            return classFileName.Replace(".cs", ".mixin.cs");
+        }
     }
 }

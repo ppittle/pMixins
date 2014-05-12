@@ -68,7 +68,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                     if (_cache.TryRemove(args.ProjectFullPath, out dummy))
                         _log.InfoFormat("Evicted [{0}]", args.ProjectFullPath);
 
-                    EagerlyResolveReferences(args.ProjectFullPath);
+                    //This can cause problems if the project added event is in response to 
+                    //a project reload.
+                    //EagerlyResolveReferences(args.ProjectFullPath);
                 };
 
             visualStudioEventProxy.OnProjectReferenceAdded +=
@@ -128,6 +130,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         private static readonly ConcurrentDictionary<string, IUnresolvedAssembly> _assemblyDict =
                 new ConcurrentDictionary<string, IUnresolvedAssembly>(Platform.FileNameComparer);
 
+        private static object _ResolveAssemblyReferencesLock = new object();
+
         public virtual IAssemblyReference[] ResolveReferences(Project project)
         {
             Ensure.ArgumentNotNull(project, "project");
@@ -150,18 +154,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         protected virtual IEnumerable<IUnresolvedAssembly> ResolveAssemblyReferences(Project project)
         {
-            string baseDirectory = Path.GetDirectoryName(project.FullPath);
+            lock (_ResolveAssemblyReferencesLock)
+            {
+                string baseDirectory = Path.GetDirectoryName(project.FullPath);
 
-            // Use MSBuild to figure out the full path of the referenced assemblies
-            var projectInstance = project.CreateProjectInstance();
-            projectInstance.SetProperty("BuildingProject", "false");
-            project.SetProperty("DesignTimeBuild", "true");
+                // Use MSBuild to figure out the full path of the referenced assemblies
+                var projectInstance = project.CreateProjectInstance();
+                projectInstance.SetProperty("BuildingProject", "false");
+                project.SetProperty("DesignTimeBuild", "true");
 
-            projectInstance.Build("ResolveAssemblyReferences", new[] { new ConsoleLogger(LoggerVerbosity.Minimal) });
+                projectInstance.Build("ResolveAssemblyReferences", new[] {new ConsoleLogger(LoggerVerbosity.Minimal)});
 
-            var items = projectInstance.GetItems("_ResolveAssemblyReferenceResolvedFiles");
+                var items = projectInstance.GetItems("_ResolveAssemblyReferenceResolvedFiles");
 
-            return items.Select(i => LoadAssembly(Path.Combine(baseDirectory, i.GetMetadataValue("Identity"))));
+                return 
+                    items.Select(
+                        i => LoadAssembly(Path.Combine(baseDirectory, i.GetMetadataValue("Identity"))))
+                    .ToArray();
+            }
         }
 
         protected virtual IEnumerable<ProjectReference> ResolveProjectReferences(Project project)

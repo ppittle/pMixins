@@ -18,18 +18,20 @@
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
-using CopaceticSoftware.pMixins.VisualStudio.Ninject;
+using CopaceticSoftware.pMixins.VisualStudio.IO;
+using EnvDTE80;
 using Ninject;
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
 {
     public static class ServiceLocator
     {
         public static IKernel Kernel { get; set; }
 
-        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy)
+        public static void Initialize(IVisualStudioWriter visualStudioWriter, IVisualStudioEventProxy visualStudioEventProxy, ICodeBehindFileHelper codeBehindFileHelper)
         {
             Kernel = new StandardKernel(
                 new StandardModule(),
@@ -38,6 +40,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio
             Kernel.Bind<IVisualStudioWriter>().ToMethod(c => visualStudioWriter).InSingletonScope();
 
             Kernel.Bind<IVisualStudioEventProxy>().ToMethod(c => visualStudioEventProxy).InSingletonScope();
+
+            Kernel.Bind<ICodeBehindFileHelper>().ToMethod(c => codeBehindFileHelper);
 
             LoggingActivity.Initialize(visualStudioWriter);
 

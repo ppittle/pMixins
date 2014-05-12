@@ -16,8 +16,13 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Linq;
+using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using log4net;
 using Microsoft.Build.Evaluation;
+using Project = Microsoft.Build.Evaluation.Project;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -28,6 +33,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class MicrosoftBuildProjectLoader : IMicrosoftBuildProjectLoader
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private static readonly object _lock = new object();
 
         public Project LoadMicrosoftBuildProject(string projectFileName)

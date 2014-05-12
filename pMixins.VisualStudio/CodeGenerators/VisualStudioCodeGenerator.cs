@@ -20,14 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using log4net;
 
-namespace CopaceticSoftware.pMixins.VisualStudio
+namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
     public interface IVisualStudioCodeGenerator
     {

@@ -17,10 +17,6 @@
       </Reference>
     </References>
     <ProjectItem ReplaceParameters="true">Class.cs</ProjectItem>
-    <CustomParameters>
-      <CustomParameter Name="$itemproperties$" Value="CustomTool" />
-      <CustomParameter Name="$CustomTool$" Value="pMixinsSingleFileCodeGenerator" />
-    </CustomParameters>
   </TemplateContent>
   <WizardExtension>
     <Assembly>Microsoft.VSDesigner, Version=8.0.0.0, Culture=Neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>

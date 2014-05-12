@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="OnBuildCodeGeneratorTests.cs" company="Copacetic Software"> 
+// <copyright file="StringExtensions.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Saturday, May 10, 2014 8:00:47 PM</date> 
+// <date>Sunday, May 11, 2014 1:49:49 AM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,12 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.pMixins.Tests.Common;
-
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
-    [TestNotWrittenYet]
-    public class OnBuildCodeGeneratorTests : IntegrationTestBase
+    public static class StringExtensions
     {
+        public static string IfEmpty(this string s, string defaultValue)
+        {
+            return string.IsNullOrEmpty(s)
+                ? defaultValue
+                : s;
+        }
     }
 }

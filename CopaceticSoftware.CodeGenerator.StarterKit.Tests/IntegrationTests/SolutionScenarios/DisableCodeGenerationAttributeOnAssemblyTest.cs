@@ -25,7 +25,7 @@ using NUnit.Framework;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.SolutionScenarios
 {
     [TestFixture]
-    public class DisableCodeGenerationAttributeOnAssemblyTest : VisualStudioEventTestBase
+    public class DisableCodeGenerationAttributeOnAssemblyTest : MockSolutionTestBase
     {
         public override void MainSetup()
         {

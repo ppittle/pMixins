@@ -135,43 +135,44 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private void HandleProjectItemSaved(object sender, ProjectItemSavedEventArgs args)
         {
-            OnSolutionOpeningTask.ContinueWith( task =>
-                _taskFactory.StartNew(() =>
+            _taskFactory.StartNew(() =>
+            {
+                OnSolutionOpeningTask.Wait();
+
+                using (var activity = new LoggingActivity("HandleProjectItemSaved"))
+                try
                 {
-                    using (var activity = new LoggingActivity("HandleProjectItemSaved"))
-                    try
-                    {
-                        //Generate code for the file saved
+                    //Generate code for the file saved
+                    _visualStudioCodeGenerator
+                        .GenerateCode(
+                            _codeGeneratorContextFactory.GenerateContext(
+                                s => s.AllFiles.Where(f => f.FileName.Equals(args.ClassFullPath))))
+                        .Map(_responseFileWriter.WriteCodeGeneratorResponse);
+
+                    //Generate code for dependencies
+                    var filesToUpdate =
+                        _pMixinDependencies.Values
+                            .Where(d => 
+                                d.FileDependencies.Any(
+                                    f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
+                            .Select(d => d.TargetFile)
+                            .ToList();
+
+                    if (_log.IsDebugEnabled)
+                        _log.DebugFormat("Will update [{0}]",
+                            string.Join(Environment.NewLine,
+                                filesToUpdate.Select(x => x.FileName)));
+
                         _visualStudioCodeGenerator
-                            .GenerateCode(
-                                _codeGeneratorContextFactory.GenerateContext(
-                                    s => s.AllFiles.Where(f => f.FileName.Equals(args.ClassFullPath))))
-                            .Map(_responseFileWriter.WriteCodeGeneratorResponse);
-
-                        //Generate code for dependencies
-                        var filesToUpdate =
-                            _pMixinDependencies.Values
-                                .Where(d => 
-                                    d.FileDependencies.Any(
-                                        f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
-                                .Select(d => d.TargetFile)
-                                .ToList();
-
-                        if (_log.IsDebugEnabled)
-                            _log.DebugFormat("Will update [{0}]",
-                                string.Join(Environment.NewLine,
-                                    filesToUpdate.Select(x => x.FileName)));
-
-                         _visualStudioCodeGenerator
-                            .GenerateCode(
-                                _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
-                            .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
-                    }
-                    catch (Exception exc)
-                    {
-                        _log.Error("Exception in HandleProjectItemSaved", exc);
-                    }
-                }));
+                        .GenerateCode(
+                            _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
+                        .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);
+                }
+                catch (Exception exc)
+                {
+                    _log.Error("Exception in HandleProjectItemSaved", exc);
+                }
+            });
         }
     }
 }

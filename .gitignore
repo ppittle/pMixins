@@ -110,3 +110,5 @@ UpgradeLog*.XML
 #Generated Nuget Packages
 *.nupkg
 
+#Ignore Code Coverage Reports
+/CodeCoverageReports

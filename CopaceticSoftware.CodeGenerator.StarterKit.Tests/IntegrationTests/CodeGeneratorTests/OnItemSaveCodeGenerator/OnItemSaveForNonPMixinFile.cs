@@ -24,7 +24,7 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
 {
-    public class OnItemSaveForNonPMixinFileWithNoDependencies : OnItemSaveCodeGeneratorTestBase
+    public class OnItemSaveForNonPMixinFile : OnItemSaveCodeGeneratorTestBase
     {
         public override void MainSetup()
         {

@@ -100,7 +100,7 @@
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSave.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveCodeGeneratorTestBase.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForNonPMixinFileWithNoDependencies.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForNonPMixinFile.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveForPMixinFileWithNoDependencies.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectRemoved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnSolutionOpeningTest.cs" />

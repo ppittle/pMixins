@@ -17,9 +17,12 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using Microsoft.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
@@ -217,6 +220,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                                 Path.GetFileNameWithoutExtension(p.FileName))
                         )));
         }
+
+        public CompilerResults Compile()
+        {
+            var csc = new CSharpCodeProvider(
+                new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } });
+
+            var referencedAssemblies =
+                AssemblyReferences
+                .Union(ProjectReferences.Select(p => p.Compile().PathToAssembly))
+                    .ToArray();
+
+            var parameters = new CompilerParameters(
+                referencedAssemblies);
+
+            return csc.CompileAssemblyFromSource(
+                parameters,
+                MockSourceFiles.Select(x => x.RenderFile()).ToArray());
+        }
     }
 
     public class MockSourceFile : IMockFile
@@ -274,6 +295,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         public static string GetReferenceToPMixinsDll()
         {
             return ReferenceHelper.GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll");
+        }
+
+        public static IEnumerable<string> GetDefaultSystemReferences()
+        {
+            return new[]
+            {
+                typeof (int).Assembly.Location,
+                typeof(System.CodeDom.Compiler.CodeCompiler).Assembly.Location,
+                typeof(System.Linq.Enumerable).Assembly.Location
+            };
         }
     }
 

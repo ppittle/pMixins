@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
@@ -25,10 +26,12 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using Microsoft.Build.Evaluation;
 using Ninject;
+using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
@@ -249,6 +252,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             Console.WriteLine();
 
             return true;
+        }
+
+        protected CompilerResults AssertProjectCompiles(MockProject project)
+        {
+            var compilerResults = _MockSolution.Projects[1].Compile();
+
+            Assert.False(compilerResults.Errors.HasErrors,
+                "Project does not compile: " +
+                compilerResults.PrettyPrintErrorList());
+
+            return compilerResults;
         }
     }
 }

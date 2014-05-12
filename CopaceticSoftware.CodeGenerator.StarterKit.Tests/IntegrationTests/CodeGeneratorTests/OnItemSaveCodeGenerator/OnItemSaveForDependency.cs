@@ -20,6 +20,8 @@ using System;
 using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
+using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -33,7 +35,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
                 FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin2.cs"),
                 Source =
                     @"namespace Testing{
-                            public class MixinOtherProject{ public void AMethod(){} }
+                            public class MixinOtherProject{ public int AMethod(){return 1;} }
                         }"
             };
 
@@ -88,7 +90,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         }
 
         [Test]
-        public void CodeBehindFileIsGenerated()
+        public void CodeBehindFileIsGeneratedAndCompiles()
         {
             Assert.True(
                 _MockSolution.AllMockFiles().Any(x => x.FileName.EndsWith("mixin.cs")),
@@ -101,6 +103,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
             _MockFileWrapper.AssertWasCalled(
                 x => x.WriteAllText(Arg<string>.Is.Equal(_targetSourceFile.FileName), Arg<string>.Is.Anything),
                 options => options.Repeat.Twice());
+
+            var compilerResults =
+               AssertProjectCompiles(_MockSolution.Projects[1]);
+
+            compilerResults
+               .ExecuteMethod<int>(
+                   "Testing.Target",
+                   "AMethod")
+               .ShouldEqual(1); 
         }
     }
 }

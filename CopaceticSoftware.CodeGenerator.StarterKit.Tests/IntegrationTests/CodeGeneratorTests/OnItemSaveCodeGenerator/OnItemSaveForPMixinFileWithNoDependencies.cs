@@ -84,7 +84,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
                 options => options.Repeat.AtLeastOnce());
 
             var compilerResults =
-              AssertProjectCompiles(_MockSolution.Projects[1]);
+              AssertProjectCompiles(_MockSolution.Projects[0]);
 
             compilerResults
                .ExecuteMethod<int>(

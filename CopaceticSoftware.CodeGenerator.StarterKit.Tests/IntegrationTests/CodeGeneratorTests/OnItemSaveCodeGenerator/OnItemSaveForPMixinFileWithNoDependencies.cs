@@ -62,11 +62,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
                     ClassFullPath = _sourceFile.FileName,
                     ProjectFullPath = _MockSolution.Projects[0].FileName
                 });
-
         }
 
         [Test]
-        public void CodeBehindFileIsNotGenerated()
+        public void CodeBehindFileIsGenerated()
         {
             Assert.True(
                 _MockSolution.AllMockFiles().Any(x => x.FileName.EndsWith("mixin.cs")),

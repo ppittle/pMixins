@@ -24,7 +24,7 @@ using JetBrains.Annotations;
 using log4net;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions
+namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
 {
     public static class CompilerResultsExtensions
     {

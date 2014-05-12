@@ -17,8 +17,8 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions;
 using CopaceticSoftware.pMixins.Infrastructure;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 

@@ -16,8 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions;
 using CopaceticSoftware.pMixins.Interceptors;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 

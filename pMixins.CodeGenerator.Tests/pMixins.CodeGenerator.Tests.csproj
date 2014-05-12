@@ -88,7 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\CompilerResultsExtensions.cs" />
     <Compile Include="Helpers\SourceCodeHelper.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\Decorator.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinDoesNotHaveParameterlessConstructor.cs" />

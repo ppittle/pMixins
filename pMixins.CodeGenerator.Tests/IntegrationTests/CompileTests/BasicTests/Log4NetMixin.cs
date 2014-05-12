@@ -17,7 +17,7 @@
 //-----------------------------------------------------------------------
 
 
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.BasicTests

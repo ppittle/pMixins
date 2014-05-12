@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 using CopaceticSoftware.pMixins.Attributes;
-using CopaceticSoftware.pMixins.CodeGenerator.Tests.Extensions;
 using CopaceticSoftware.pMixins.ConversionOperators;
 using CopaceticSoftware.pMixins.Interceptors;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.Interceptors

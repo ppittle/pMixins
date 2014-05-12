@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -67,6 +68,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         [Test]
         public void CodeBehindFileIsNotGenerated()
         {
+            Assert.True(
+                _MockSolution.AllMockFiles().Any(x => x.FileName.EndsWith("mixin.cs")),
+                "Found a mixin.cs code behind file.");
+
             _MockCodeBehindFileHelper.AssertWasCalled(
                 x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Equal(_sourceFile.FileName)),
                 options => options.Repeat.Twice());

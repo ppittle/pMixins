@@ -96,6 +96,7 @@
     <Compile Include="DummyCodeBehindFileHelper.cs" />
     <Compile Include="KernelFactory.cs" />
     <Compile Include="TestMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
+    <Compile Include="TestTaskFactoryWrapper.cs" />
     <Compile Include="TestVisualStudioEventProxy.cs" />
     <Compile Include="TestVisualStudioWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

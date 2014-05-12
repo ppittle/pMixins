@@ -26,6 +26,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
+using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
@@ -50,17 +51,19 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         private readonly IVisualStudioCodeGenerator _visualStudioCodeGenerator;
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IpMixinsCodeGeneratorResponseFileWriter _responseFileWriter;
+        private readonly ITaskFactory _taskFactory;
         
         private static ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
             new ConcurrentDictionary<string, MixinDependency>();
 
         private Task OnSolutionOpeningTask;
         
-        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter)
+        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter, ITaskFactory taskFactory)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
             _responseFileWriter = responseFileWriter;
+            _taskFactory = taskFactory;
 
             WireUpVisualStudioProxyEvents(visualStudioEventProxy);
         }
@@ -106,7 +109,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         private void HandleSolutionOpening(object sender, EventArgs e)
         {
             OnSolutionOpeningTask = 
-                new TaskFactory().StartNew(() =>
+                _taskFactory.StartNew(() =>
             {
                 using (var activity = new LoggingActivity("HandleSolutionOpening"))
                 try
@@ -132,8 +135,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private void HandleProjectItemSaved(object sender, ProjectItemSavedEventArgs args)
         {
-            OnSolutionOpeningTask.ContinueWith( task => 
-                new TaskFactory().StartNew(() =>
+            OnSolutionOpeningTask.ContinueWith( task =>
+                _taskFactory.StartNew(() =>
                 {
                     using (var activity = new LoggingActivity("HandleProjectItemSaved"))
                     try

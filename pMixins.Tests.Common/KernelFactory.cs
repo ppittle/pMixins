@@ -21,6 +21,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Ninject;
+using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
@@ -41,6 +42,7 @@ namespace CopaceticSoftware.pMixins.Tests.Common
             Kernel.Rebind<IVisualStudioWriter>().To<TestVisualStudioWriter>();
             Kernel.Rebind<IMicrosoftBuildProjectAssemblyReferenceResolver>()
                 .To<TestMicrosoftBuildProjectAssemblyReferenceResolver>().InSingletonScope();
+            Kernel.Rebind<ITaskFactory>().To<TestTaskFactoryWrapper>();
 
             Kernel.Bind<ICodeBehindFileHelper>().To<DummyCodeBehindFileHelper>();
 

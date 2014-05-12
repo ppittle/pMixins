@@ -149,6 +149,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Threading\TaskFactoryWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

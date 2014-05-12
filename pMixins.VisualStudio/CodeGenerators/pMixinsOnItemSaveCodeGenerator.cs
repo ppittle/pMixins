@@ -146,7 +146,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                     _visualStudioCodeGenerator
                         .GenerateCode(
                             _codeGeneratorContextFactory.GenerateContext(
-                                s => s.AllFiles.Where(f => f.FileName.Equals(args.ClassFullPath))))
+                                s => s.GetValidPMixinFiles().Where(f => f.FileName.Equals(args.ClassFullPath))))
                         .Map(_responseFileWriter.WriteCodeGeneratorResponse);
 
                     //Generate code for dependencies

@@ -26,7 +26,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public class OnItemSaveForPMixinFileWithNoDependencies : OnItemSaveCodeGeneratorTestBase
     {
-        private readonly MockSourceFile _sourceFile =
+        protected readonly MockSourceFile _sourceFile =
             new MockSourceFile
             {
                 Source = @"
@@ -73,11 +73,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 
             _MockCodeBehindFileHelper.AssertWasCalled(
                 x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Equal(_sourceFile.FileName)),
-                options => options.Repeat.Twice());
+                options => options.Repeat.AtLeastOnce());
 
-            _MockFileWrapper.AssertWasNotCalled(
-                x => x.WriteAllText(Arg<string>.Is.Equal(_sourceFile.FileName), Arg<string>.Is.Anything),
-                options => options.Repeat.Twice());
+            var mixinFileName = _sourceFile.FileName.Replace(".cs", ".mixin.cs");
+
+            _MockFileWrapper.AssertWasCalled(
+                x => x.WriteAllText(Arg<string>.Is.Equal(mixinFileName), Arg<string>.Is.Anything),
+                options => options.Repeat.AtLeastOnce());
         }
     }
 }

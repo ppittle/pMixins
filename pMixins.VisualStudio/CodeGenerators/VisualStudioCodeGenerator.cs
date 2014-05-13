@@ -75,7 +75,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private CodeGeneratorResponse GenerateCode(ICodeGeneratorContext context)
         {
-            using (var activity = new LoggingActivity("GenerateCode " + context.Source.FileName))
+            using (new LoggingActivity("GenerateCode " + context.Source.FileName))
             try
             {
                 _visualStudioWriter.WriteToStatusBar("pMixin - Generating Code Behind for " + context.Source.FileName);

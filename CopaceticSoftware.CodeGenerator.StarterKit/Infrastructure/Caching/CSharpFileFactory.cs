@@ -105,7 +105,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 
         private void EvictAllFilesInProject(string projectFullPath)
         {
-            using (var activity = new LoggingActivity("Evicting file for Project [" + projectFullPath + "]"))
+            using (new LoggingActivity("Evicting file for Project [" + projectFullPath + "]"))
             {
                 CSharpFile dummy;
 

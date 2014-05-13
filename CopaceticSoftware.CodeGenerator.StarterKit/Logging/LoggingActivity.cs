@@ -57,7 +57,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
         {
             _visualStudioWriter.OutputString(
                 string.Format(
-                    "        --- [{0}] COMPLETE [{1}] ms ---  \r\n\r\n",
+                    "\r\n\r\n        --- [{0}] COMPLETE [{1}] ms ---  \r\n\r\n",
                     _activityName,
                     _sw.ElapsedMilliseconds));
         }

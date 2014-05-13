@@ -103,7 +103,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             {
                 OnSolutionOpeningTask.Wait();
 
-                using (var activity = new LoggingActivity("HandleProjectItemSaved"))
+                using (new LoggingActivity("HandleProjectItemSaved"))
                 try
                 {
                     //Generate code for the file saved

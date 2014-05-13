@@ -122,7 +122,6 @@
     <Compile Include="Infrastructure\CodeGeneratorResponse.cs" />
     <Compile Include="Infrastructure\IVisualStudioWriter.cs" />
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
-    <Compile Include="Infrastructure\VisualStudioEventProxyFactory.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentManager.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentReader.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpFile.cs" />

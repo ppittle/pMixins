@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using log4net;

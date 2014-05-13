@@ -17,19 +17,17 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
-using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
 
@@ -52,66 +50,34 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         private readonly ICodeGeneratorContextFactory _codeGeneratorContextFactory;
         private readonly IpMixinsCodeGeneratorResponseFileWriter _responseFileWriter;
         private readonly ITaskFactory _taskFactory;
-        
-        private static ConcurrentDictionary<string, MixinDependency> _pMixinDependencies =
-            new ConcurrentDictionary<string, MixinDependency>();
+        private readonly ICodeGeneratorDependencyManager _codeGeneratorDependencyManager;
 
         private Task OnSolutionOpeningTask;
         
-        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter, ITaskFactory taskFactory)
+        public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter, ITaskFactory taskFactory, ICodeGeneratorDependencyManager codeGeneratorDependencyManager)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
             _codeGeneratorContextFactory = codeGeneratorContextFactory;
             _responseFileWriter = responseFileWriter;
             _taskFactory = taskFactory;
+            _codeGeneratorDependencyManager = codeGeneratorDependencyManager;
 
             WireUpVisualStudioProxyEvents(visualStudioEventProxy);
         }
 
         private void WireUpVisualStudioProxyEvents(IVisualStudioEventProxy visualStudioEventProxy)
         {
-            visualStudioEventProxy.OnSolutionOpening += HandleSolutionOpening;
+            visualStudioEventProxy.OnSolutionOpening += (s,a) => WarmUpCodeGeneratorDependencyManager();
 
             visualStudioEventProxy.OnProjectItemSaveComplete += HandleProjectItemSaveComplete;
-
-            visualStudioEventProxy.OnCodeGenerated += HandleOnCodeGenerated;
-
-            visualStudioEventProxy.OnProjectItemRemoved +=
-                (sender, args) =>
-                {
-                    MixinDependency dummy;
-
-                    if (_pMixinDependencies.TryRemove(args.ClassFullPath, out dummy))
-                        _log.InfoFormat("Evicted [{0}]", args.ClassFullPath);
-                };
-
-            visualStudioEventProxy.OnSolutionClosing +=
-                (sender, args) =>
-                {
-                    _log.Info("Solution closing.  Clearing cache");
-                    _pMixinDependencies = new ConcurrentDictionary<string, MixinDependency>();
-                };
-        }
-        
-        private void HandleOnCodeGenerated(object sender, CodeGeneratedEventArgs args)
-        {
-            var response = args.Response as pMixinPartialCodeGeneratorResponse;
-
-            if (null == response)
-                return;
-
-            _pMixinDependencies.AddOrUpdate(
-                response.CodeGeneratorContext.Source.FileName,
-                f => new MixinDependency(response),
-                (f, m) => new MixinDependency(response));
         }
 
-        private void HandleSolutionOpening(object sender, EventArgs e)
+        private void WarmUpCodeGeneratorDependencyManager()
         {
             OnSolutionOpeningTask = 
                 _taskFactory.StartNew(() =>
             {
-                using (var activity = new LoggingActivity("HandleSolutionOpening"))
+                using (new LoggingActivity("HandleSolutionOpening"))
                 try
                 {
                     var generator = new pMixinPartialCodeGenerator();
@@ -122,13 +88,11 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                         //Process each file in parallel
                         .AsParallel()
                         //Run the Generate Code Pipeline
-                        .Select(context => generator.GeneratePartialCode(context))
-                        //Process the Response
-                        .Map(respose => HandleOnCodeGenerated(this, new CodeGeneratedEventArgs {Response = respose}));
+                        .Select(context => generator.GeneratePartialCode(context));
                 }
                 catch (Exception exc)
                 {
-                    _log.Error("Exception in HandleSolutionOpening", exc);
+                    _log.Error("Exception in WarmUpCodeGeneratorDependencyManager", exc);
                 }
             });
         }
@@ -151,12 +115,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
                     //Generate code for dependencies
                     var filesToUpdate =
-                        _pMixinDependencies.Values
-                            .Where(d => 
-                                d.FileDependencies.Any(
-                                    f => f.FileName.Equals(args.ClassFullPath, StringComparison.InvariantCultureIgnoreCase)))
-                            .Select(d => d.TargetFile)
-                            .ToList();
+                        _codeGeneratorDependencyManager.GetFilesThatDependOn(args.ClassFullPath);
 
                     if (_log.IsDebugEnabled)
                         _log.DebugFormat("Will update [{0}]",

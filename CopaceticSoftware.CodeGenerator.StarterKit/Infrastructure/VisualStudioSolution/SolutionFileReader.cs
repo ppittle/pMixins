@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using log4net;

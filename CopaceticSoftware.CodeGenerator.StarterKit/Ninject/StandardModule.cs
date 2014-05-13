@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
@@ -40,6 +41,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Ninject
             Bind<ICSharpFileFactory>().To<CSharpFileFactory>().InSingletonScope();
             Bind<ISolutionContext>().To<SolutionContext>().InSingletonScope();
             Bind<IVisualStudioOpenDocumentManager>().To<VisualStudioOpenDocumentManager>().InSingletonScope();
+            Bind<ICacheEventHelper>().To<CacheEventHelper>().InSingletonScope();
+            Bind<ICodeGeneratorDependencyManager>().To<CodeGeneratorDependencyManager>().InSingletonScope();
 
             Bind<ITaskFactory>().To<TaskFactoryWrapper>();
         }

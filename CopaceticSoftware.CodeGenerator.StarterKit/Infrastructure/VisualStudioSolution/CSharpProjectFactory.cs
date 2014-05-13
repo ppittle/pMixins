@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution

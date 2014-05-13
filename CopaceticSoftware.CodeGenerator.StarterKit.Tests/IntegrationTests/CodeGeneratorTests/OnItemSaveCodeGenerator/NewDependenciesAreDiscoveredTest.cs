@@ -20,8 +20,10 @@ using System;
 using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
+using Ninject;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
@@ -71,9 +73,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
             base.MainSetup();
 
             _MockSolution.Projects.Add(
-                new MockProject
+                new MockProject(Path.Combine(MockSolution.MockSolutionFolder, "OtherProject.csproj"))
                 {
-                    FileName = Path.Combine(MockSolution.MockSolutionFolder, "OtherProject.csproj"),
                     MockSourceFiles =
                     {
                         _mixinSourceFile
@@ -131,6 +132,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
                     ClassFullPath = _mixinSourceFile.FileName,
                     ProjectFullPath = _MockSolution.Projects[0].FileName
                 });
+
+            var solution = TestSpecificKernel.Get<ISolutionFactory>()
+                .BuildCurrentSolution();
+
+            Assert.True(null != solution);
+
+            
         }
 
         [Test]

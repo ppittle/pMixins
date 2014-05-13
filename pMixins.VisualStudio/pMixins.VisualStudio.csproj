@@ -86,7 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\MixinDependency.cs" />
+    <Compile Include="Infrastructure\MixinCodeGeneratorDependencyFactory.cs" />
     <Compile Include="CodeGenerators\pMixinsOnBuildCodeGenerator.cs" />
     <Compile Include="CodeGenerators\pMixinsOnItemSaveCodeGenerator.cs" />
     <Compile Include="IO\CodeBehindFileHelper.cs" />

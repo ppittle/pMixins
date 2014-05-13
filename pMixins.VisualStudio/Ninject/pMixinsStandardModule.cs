@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
@@ -37,6 +38,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Ninject
             Bind<IVisualStudioCodeGenerator>().To<VisualStudioCodeGenerator>();
 
             Bind<IpMixinsCodeGeneratorResponseFileWriter>().To<pMixinsCodeGeneratorResponseFileWriter>();
+
+            Bind<ICodeGeneratorDependencyFactory>().To<MixinCodeGeneratorDependencyFactory>();
         }
     }
 }

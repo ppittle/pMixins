@@ -16,16 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using log4net;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 {
     public interface ICSharpFileFactory
     {
@@ -44,12 +43,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         private FileByProjectIndex _fileByProjectIndex = new FileByProjectIndex();
 
-        public CSharpFileFactory(IFileReader fileReader, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioOpenDocumentManager openDocumentManager)
+        public CSharpFileFactory(IFileReader fileReader, ICacheEventHelper cacheEventHelper, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioOpenDocumentManager openDocumentManager)
         {
             _fileReader = fileReader;
             _openDocumentManager = openDocumentManager;
 
-            WireUpCacheEvictionEvents(visualStudioEventProxy);
+            WireUpCacheEvictionEvents(cacheEventHelper, visualStudioEventProxy);
         }
 
         public CSharpFile BuildCSharpFile(CSharpProject p, string filename)
@@ -67,15 +66,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     _log.DebugFormat("Build CSharpFile [{0}]", filename);
 
                     _fileByProjectIndex.Add(p.FileName, f);
+
                     return new CSharpFile(p, f, _fileReader.ReadAllText(f));
                 });
         }
 
-        private void WireUpCacheEvictionEvents(IVisualStudioEventProxy visualStudioEventProxy)
+        private void WireUpCacheEvictionEvents(ICacheEventHelper cacheEventHelper, IVisualStudioEventProxy visualStudioEventProxy)
         {
-            CSharpFile dummy;
-
-            visualStudioEventProxy.OnSolutionClosing +=
+            cacheEventHelper.OnClearCache +=
                 (sender, args) =>
                 {
                     _log.Info("Solution closing.  Clearing cache");
@@ -84,27 +82,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
                     _fileByProjectIndex = new FileByProjectIndex();
                 };
 
-            visualStudioEventProxy.OnProjectItemSaved +=
+            cacheEventHelper.OnEvictFromCache += 
                 (sender, args) =>
                 {
-                    if (_fileCache.TryRemove(args.ClassFullPath, out dummy))
-                        _log.InfoFormat("Evicted [{0}]", args.ClassFullPath);
+                    CSharpFile dummy;
+
+                    if (_fileCache.TryRemove(args.FileName, out dummy))
+                        _log.InfoFormat("Evicted [{0}]", args.FileName);
                 };
             
-            visualStudioEventProxy.OnProjectItemRemoved +=
-                (sender, args) =>
-                {
-                    if (_fileCache.TryRemove(args.ClassFullPath, out dummy))
-                        _log.InfoFormat("Evicted [{0}]", args.ClassFullPath);
-                }; 
-
-            visualStudioEventProxy.OnProjectItemRenamed +=
-                (sender, args) =>
-                {
-                    if (_fileCache.TryRemove(args.OldClassFileName, out dummy))
-                        _log.InfoFormat("Evicted [{0}]", args.OldClassFileName);
-                };
-                   
             visualStudioEventProxy.OnProjectRemoved +=
                 (sender, args) => EvictAllFilesInProject(args.ProjectFullPath);
 

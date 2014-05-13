@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Extensions;
 using ICSharpCode.NRefactory.CSharp;

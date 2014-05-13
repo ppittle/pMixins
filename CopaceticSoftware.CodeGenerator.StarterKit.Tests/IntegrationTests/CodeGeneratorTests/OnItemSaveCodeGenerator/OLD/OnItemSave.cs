@@ -24,6 +24,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     [TestNotWrittenYet]
     public class OnItemSave : OnItemSaveCodeGeneratorTestBase
     {
+        /// <summary>
+        /// Should be a Code Generator Test - IT should return an empty Code Behind
+        /// </summary>
         [Test]
         public void HandlesCircularReference() { }
     }

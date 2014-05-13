@@ -38,6 +38,7 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         public event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
         public event EventHandler<ProjectItemClosedEventArgs> OnProjectItemClosed;
         public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
+        public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaveComplete;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
         public event EventHandler<EventArgs> OnSolutionClosing;
@@ -102,6 +103,9 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         {
             if (null != OnProjectItemSaved)
                 OnProjectItemSaved(sender, eventArgs);
+
+            if (null != OnProjectItemSaved)
+                OnProjectItemSaveComplete(sender, eventArgs);
         }
 
         public void FireOnBuildBegin(object sender, VisualStudioBuildEventArgs eventArgs)

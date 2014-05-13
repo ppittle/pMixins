@@ -40,6 +40,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
         event EventHandler<ProjectItemClosedEventArgs> OnProjectItemClosed;
         event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
+        event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaveComplete;
 
         event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
@@ -262,6 +263,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         public event EventHandler<ProjectItemOpenedEventArgs> OnProjectItemOpened;
         public event EventHandler<ProjectItemClosedEventArgs> OnProjectItemClosed;
         public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaved;
+        public event EventHandler<ProjectItemSavedEventArgs> OnProjectItemSaveComplete;
 
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildBegin;
         public event EventHandler<VisualStudioBuildEventArgs> OnBuildDone;
@@ -355,7 +357,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
                 });
 
             _documentEvents.DocumentSaved += item =>
-                OnProjectItemSaved(this, new ProjectItemSavedEventArgs { ProjectFullPath = item.ProjectItem.ContainingProject.FullName, ClassFullPath = item.FullName });
+            {
+                var args = new ProjectItemSavedEventArgs
+                {
+                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
+                    ClassFullPath = item.FullName
+                };
+
+                OnProjectItemSaved(this, args);
+
+                OnProjectItemSaveComplete(this, args);
+            };
 
             _buildEvents.OnBuildBegin += (scope, action) =>
                 OnBuildBegin(this, new VisualStudioBuildEventArgs {Scope = scope, BuildAction = action});
@@ -411,6 +423,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemOpened += (s, a) => { };
             OnProjectItemClosed += (s, a) => { };
             OnProjectItemSaved += (s, a) => { };
+            OnProjectItemSaveComplete += (s, a) => { };
             OnBuildBegin += (s, a) => { };
             OnBuildDone += (s, a) => { };
             OnSolutionClosing += (s, a) => { };
@@ -435,6 +448,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             OnProjectItemOpened.GetInvocationList().Map(del => OnProjectItemOpened -= (EventHandler<ProjectItemOpenedEventArgs>)del);
             OnProjectItemClosed.GetInvocationList().Map(del => OnProjectItemClosed -= (EventHandler<ProjectItemClosedEventArgs>)del);
             OnProjectItemSaved.GetInvocationList().Map(del => OnProjectItemSaved -= (EventHandler<ProjectItemSavedEventArgs>)del);
+            OnProjectItemSaveComplete.GetInvocationList().Map(del => OnProjectItemSaveComplete -= (EventHandler<ProjectItemSavedEventArgs>)del);
             OnBuildBegin.GetInvocationList().Map(del => OnBuildBegin -= (EventHandler<VisualStudioBuildEventArgs>)del);
             OnBuildDone.GetInvocationList().Map(del => OnBuildDone -= (EventHandler<VisualStudioBuildEventArgs>)del);
             OnSolutionClosing.GetInvocationList().Map(del => OnSolutionClosing -= (EventHandler<EventArgs>)del);

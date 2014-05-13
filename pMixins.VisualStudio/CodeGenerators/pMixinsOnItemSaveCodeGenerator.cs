@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         {
             visualStudioEventProxy.OnSolutionOpening += HandleSolutionOpening;
 
-            visualStudioEventProxy.OnProjectItemSaved += HandleProjectItemSaved;
+            visualStudioEventProxy.OnProjectItemSaveComplete += HandleProjectItemSaveComplete;
 
             visualStudioEventProxy.OnCodeGenerated += HandleOnCodeGenerated;
 
@@ -133,7 +133,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             });
         }
 
-        private void HandleProjectItemSaved(object sender, ProjectItemSavedEventArgs args)
+        private void HandleProjectItemSaveComplete(object sender, ProjectItemSavedEventArgs args)
         {
             _taskFactory.StartNew(() =>
             {

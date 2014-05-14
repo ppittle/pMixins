@@ -26,7 +26,6 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
-using CopaceticSoftware.pMixins.CodeGenerator;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using log4net;
@@ -52,8 +51,6 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
         private readonly ITaskFactory _taskFactory;
         private readonly ICodeGeneratorDependencyManager _codeGeneratorDependencyManager;
 
-        private Task OnSolutionOpeningTask;
-        
         public pMixinsOnItemSaveCodeGenerator(IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioCodeGenerator visualStudioCodeGenerator, ICodeGeneratorContextFactory codeGeneratorContextFactory, IpMixinsCodeGeneratorResponseFileWriter responseFileWriter, ITaskFactory taskFactory, ICodeGeneratorDependencyManager codeGeneratorDependencyManager)
         {
             _visualStudioCodeGenerator = visualStudioCodeGenerator;
@@ -62,46 +59,14 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             _taskFactory = taskFactory;
             _codeGeneratorDependencyManager = codeGeneratorDependencyManager;
 
-            WireUpVisualStudioProxyEvents(visualStudioEventProxy);
-        }
-
-        private void WireUpVisualStudioProxyEvents(IVisualStudioEventProxy visualStudioEventProxy)
-        {
-            visualStudioEventProxy.OnSolutionOpening += (s,a) => WarmUpCodeGeneratorDependencyManager();
-
             visualStudioEventProxy.OnProjectItemSaveComplete += HandleProjectItemSaveComplete;
-        }
-
-        private void WarmUpCodeGeneratorDependencyManager()
-        {
-            OnSolutionOpeningTask = 
-                _taskFactory.StartNew(() =>
-            {
-                using (new LoggingActivity("HandleSolutionOpening"))
-                try
-                {
-                    var generator = new pMixinPartialCodeGenerator();
-
-                    _codeGeneratorContextFactory
-                        //Load up all PMixin Files
-                        .GenerateContext(s => s.GetValidPMixinFiles())
-                        //Process each file in parallel
-                        .AsParallel()
-                        //Run the Generate Code Pipeline
-                        .Select(context => generator.GeneratePartialCode(context));
-                }
-                catch (Exception exc)
-                {
-                    _log.Error("Exception in WarmUpCodeGeneratorDependencyManager", exc);
-                }
-            });
         }
 
         private void HandleProjectItemSaveComplete(object sender, ProjectItemSavedEventArgs args)
         {
             _taskFactory.StartNew(() =>
             {
-                OnSolutionOpeningTask.Wait();
+                pMixinsOnSolutionOpenCodeGenerator.OnSolutionOpeningTask.Wait();
 
                 using (new LoggingActivity("HandleProjectItemSaved"))
                 try

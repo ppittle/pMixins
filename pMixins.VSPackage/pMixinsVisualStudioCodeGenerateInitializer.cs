@@ -54,6 +54,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
 
         //Keep references to code generators so they don't get garbage collected
         // ReSharper disable NotAccessedField.Local
+        private pMixinsOnSolutionOpenCodeGenerator _onSolutionOpenCodeGenerator;
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
         // ReSharper restore NotAccessedField.Local
@@ -142,6 +143,8 @@ namespace CopaceticSoftware.pMixins_VSPackage
         {
             try
             {
+                _onSolutionOpenCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnSolutionOpenCodeGenerator>();
+
                 _onBuildCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnBuildCodeGenerator>();
 
                 _onItemSaveCodeGenerator = ServiceLocator.Kernel.Get<pMixinsOnItemSaveCodeGenerator>();

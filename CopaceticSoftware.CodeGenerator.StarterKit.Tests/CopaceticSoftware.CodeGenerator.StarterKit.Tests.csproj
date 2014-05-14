@@ -107,6 +107,7 @@
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSaveForPMixinFileWithNoDependencies.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnProjectRemoved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnSolutionOpeningTest.cs" />
+    <Compile Include="IntegrationTests\MockSolutionCommonTests.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanGenerateCodeWhenProjectHasReferenceToOldVersionOfPMixinsAssembly.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnExternalLibrary.cs" />
     <Compile Include="IntegrationTests\SolutionScenarios\CanResolveTypeThatHasDependencyOnAnotherFileInAnotherProject.cs" />

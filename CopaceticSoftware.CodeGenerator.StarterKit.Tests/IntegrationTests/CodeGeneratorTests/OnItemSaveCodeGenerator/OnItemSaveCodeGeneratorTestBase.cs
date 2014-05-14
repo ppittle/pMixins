@@ -18,22 +18,79 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using Ninject;
+using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
 {
+
+    public abstract class OnSolutionOpenWithValidTargetFile : OnItemSaveCodeGeneratorTestBase
+    {
+        protected abstract MockSolution InitializeSolution();
+
+        protected virtual IEnumerable<MockSourceFile> GetTargetFiles
+        {
+            get { return _MockSolution.AllMockSourceFiles.Where(f => f.ContainsPMixinAttribute); }
+        }
+
+        public override void MainSetup()
+        {
+            base.MainSetup();
+
+            InitializeSolution();
+
+            this.FireSolutionOpen();
+        }
+
+        [Test]
+        public virtual void CodeBehindFilesAreGenerated()
+        {
+            GetTargetFiles.Map(
+                f => this.AssertCodeBehindFileWasGenerated(f.FileName));
+        }
+
+        [Test]
+        public virtual void CanExecuteMixedInMethod()
+        {
+            GetTargetFiles.Map(
+                f => f.AssertCompilesAndCanExecuteMethod(
+                    _MockSolution.Projects.FirstOrDefault(p => p.ContainsFile(f))));
+        }
+    }
+
+    public class OnSolutionOpenWithNoTargetFile : OnItemSaveCodeGeneratorTestBase
+    {
+        public override void MainSetup()
+        {
+            base.MainSetup();
+
+            _MockSolution.InitializeWithNormalClassFile();
+
+            this.FireSolutionOpen();
+        }
+
+        [Test]
+        public void NoCodeBehindFileIsGenerated()
+        {
+            this.AssertCodeBehindFileWasNotGenerated();
+        }
+    }
+
     
+
     public abstract class OnItemSaveCodeGeneratorTestBase : MockSolutionTestBase
     {
         protected pMixinsOnItemSaveCodeGenerator _PMixinsOnItemSaveCodeGenerator;
 
-        private IVisualStudioCodeGenerator _mockVisualStudioCodeGenerator;
+        public IVisualStudioCodeGenerator _mockVisualStudioCodeGenerator;
 
-        private VisualStudioCodeGenerator _actualVisualStudioCodeGenerator;
+        public VisualStudioCodeGenerator _actualVisualStudioCodeGenerator;
 
         public override void MainSetup()
         {

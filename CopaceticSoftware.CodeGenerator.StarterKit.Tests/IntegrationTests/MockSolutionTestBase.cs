@@ -38,24 +38,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
     public abstract class MockSolutionTestBase : IntegrationTestBase
     {
-        protected TestVisualStudioEventProxy EventProxy;
+        public TestVisualStudioEventProxy EventProxy;
         /// <summary>
         /// <see cref="IKernel"/> specific to the test class.
         /// It's ok to rebind this Kernel without side effects.
         /// </summary>
-        protected IKernel TestSpecificKernel;
+        public IKernel TestSpecificKernel;
 
-        protected IFileWrapper _MockFileWrapper;
+        public IFileWrapper _MockFileWrapper;
 
-        protected IMicrosoftBuildProjectLoader _MockMicrosoftBuildProjectLoader;
+        public IMicrosoftBuildProjectLoader _MockMicrosoftBuildProjectLoader;
 
-        protected ICodeBehindFileHelper _MockCodeBehindFileHelper;
+        public ICodeBehindFileHelper _MockCodeBehindFileHelper;
 
-        /*
-        protected readonly Dictionary<string, string> MockFileWrapperBackingStore = 
-            new Dictionary<string, string>(); */
-
-        protected MockSolution _MockSolution;
+        public MockSolution _MockSolution;
 
         /// <summary>
         /// Got tired fo forgetting to use TestSpecificKernel, need a reminder.

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using ICSharpCode.NRefactory.CSharp.Refactoring;
 using Microsoft.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
@@ -238,6 +239,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 parameters,
                 MockSourceFiles.Select(x => x.RenderFile()).ToArray());
         }
+
+        public bool ContainsFile(MockSourceFile sourceFile)
+        {
+            return MockSourceFiles.Any(f => f.FileName.Equals(sourceFile.FileName, StringComparison.InvariantCulture));
+        }
     }
 
     public class MockSourceFile : IMockFile
@@ -255,6 +261,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public string RenderFile() { return Source;}
 
+        public string Classname { get { return Path.GetFileNameWithoutExtension(FileName); } }
+
+        public bool ContainsPMixinAttribute
+        {
+            get { return Source.Contains("[CopaceticSoftware.pMixins.Attributes.pMixin(Mixin)"); }
+        }
+
         public static MockSourceFile CreateDefaultFile(
             string filename = DefaultMockFileName)
         {
@@ -270,7 +283,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         using System.Text;
                         using System.Threading.Tasks;
 
-                        namespace CreateDefaultFile
+                        namespace Testing
                         {{
                             public class {0}
                             {{

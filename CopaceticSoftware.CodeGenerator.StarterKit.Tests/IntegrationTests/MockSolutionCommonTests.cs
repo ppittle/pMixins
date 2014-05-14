@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
+using NBehave.Narrator.Framework.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -37,6 +38,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             s.Projects.Add(
                 new MockProject
                 {
+                    AssemblyReferences = 
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .ToList(),
                     MockSourceFiles =
                     {
                         MockSourceFile.CreateDefaultFile()
@@ -51,10 +55,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             s.Projects.Add(
                 new MockProject
                 {
+                    AssemblyReferences =
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new[] { ReferenceHelper.GetReferenceToPMixinsDll() })
+                        .ToList(),
                     MockSourceFiles =
                     {
                         new MockSourceFile
                         {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     public class Mixin{ public int TestMethod(){return 42;} }
@@ -62,7 +71,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
                                     public partial class Target  {}
                                 }
-                                "
+                                ",
                         }
                     }
                 });
@@ -75,6 +84,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             s.Projects.Add(
                 new MockProject
                 {
+                    AssemblyReferences =
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new[] { ReferenceHelper.GetReferenceToPMixinsDll() })
+                        .ToList(),
                     MockSourceFiles =
                     {
                         new MockSourceFile
@@ -101,12 +114,105 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             return s;
         }
 
+        public static MockSolution InitializeWithTwoTargetsAndMixinInSeparateClass(this MockSolution s)
+        {
+            s.Projects.Add(
+                new MockProject
+                {
+                    AssemblyReferences =
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new[] { ReferenceHelper.GetReferenceToPMixinsDll() })
+                        .ToList(),
+                    MockSourceFiles =
+                    {
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin.cs"),
+                            Source = 
+                             @"
+                                namespace Testing{
+                                    public class Mixin{ public int TestMethod(){return 42;} }
+                                }"
+                        },
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            Source = @"
+                                namespace Testing{
+                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
+                                    public partial class Target  {}
+                                }"
+                        },
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target2.cs"),
+                            Source = @"
+                                namespace Testing{
+                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
+                                    public partial class Target2  {}
+                                }"
+                        }
+                    }
+                });
+
+            return s;
+        }
+
+        public static MockSolution InitializeWithTargetWithTwoMixins(this MockSolution s)
+        {
+            s.Projects.Add(
+                new MockProject
+                {
+                    AssemblyReferences =
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new[] { ReferenceHelper.GetReferenceToPMixinsDll() })
+                        .ToList(),
+                    MockSourceFiles =
+                    {
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin1.cs"),
+                            Source = 
+                             @"
+                                namespace Testing{
+                                    public class Mixin1{ public int TestMethod1(){return 42;} }
+                                }"
+                        },
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin2.cs"),
+                            Source = 
+                             @"
+                                namespace Testing{
+                                    public class Mixin2{ public int TestMethod2(){return 42;} }
+                                }"
+                        },
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            Source = @"
+                                namespace Testing{
+                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin1))]                                        
+                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin2))]  
+                                    public partial class Target  {}
+                                }"
+                        }
+                    }
+                });
+
+            return s;
+        }
+
         public static MockSolution InitializeWithTargetAndMixinInSeparateProjects(this MockSolution s)
         {
             s.Projects = new List<MockProject>
             {
                 new MockProject
                 {
+                    AssemblyReferences = 
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new []{ReferenceHelper.GetReferenceToPMixinsDll()})
+                        .ToList(),
                     MockSourceFiles =
                     {
                         new MockSourceFile
@@ -131,15 +237,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                             Source = 
                              @"
                                 namespace Testing{
-                                    public class Mixin{ public int TestMethod(){return 32;} }
-
-                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
-                                    public partial class Target  {}
+                                    public class Mixin{ public int TestMethod(){return 42;} }                                    
                                 }"
                         }
                     }
                 },
             };
+
+            s.Projects[1].ProjectReferences.Add(s.Projects[0]);
 
             return s;
         }
@@ -156,13 +261,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         #endregion
 
-        public static void AssertCompilesAndCanExecuteMethod(this MockSourceFile file, MockProject project)
+        public static void AssertCompilesAndCanExecuteMethod(
+            this MockSourceFile file, 
+            MockSolution solution,
+            string methodName = MockSolutionInitializer.DefaultMixinMethodName,
+            int returnValue = MockSolutionInitializer.DefaultMixinMethodReturnValue)
         {
+            MockProject project = solution.Projects.FirstOrDefault(p => p.ContainsFile(file));
+
+            Assert.NotNull(project, "Failed to find Project for File [" + file.FileName + "]");
+
             AssertCompilesAndCanExecuteMethod<int>(
                 project,
                 "Testing." + file.Classname,
-                MockSolutionInitializer.DefaultMixinMethodName,
-                MockSolutionInitializer.DefaultMixinMethodReturnValue);
+                methodName,
+                returnValue);
         }
 
         public static void AssertCompilesAndCanExecuteMethod<T>(
@@ -208,7 +321,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 "Failed to find code behind file [" + codeBehindFile + "]");
 
             mockSolutionTest._MockCodeBehindFileHelper.AssertWasCalled(
-                x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Equal(codeBehindFile)));
+                x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Equal(targetFile)));
 
             mockSolutionTest._MockFileWrapper.AssertWasCalled(
                 x => x.WriteAllText(Arg<string>.Is.Equal(codeBehindFile), Arg<string>.Is.Anything));

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="OnItemSaveCodeGeneratorTestBase.cs" company="Copacetic Software"> 
+// <copyright file="OnSolutionOpenWithNoTargetFile.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Saturday, May 10, 2014 8:00:47 PM</date> 
+// <date>Wednesday, May 14, 2014 11:13:18 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,21 +16,26 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator;
-using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
-using Ninject;
+using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator;
+using NUnit.Framework;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator
 {
-    public abstract class OnItemSaveCodeGeneratorTestBase : OnSolutionItemOpenCodeGeneratorTestBase
+    public class OnSolutionOpenWithNoTargetFile : OnItemSaveCodeGeneratorTestBase
     {
-        protected pMixinsOnItemSaveCodeGenerator _PMixinsOnItemSaveCodeGenerator;
-
         public override void MainSetup()
         {
             base.MainSetup();
 
-            _PMixinsOnItemSaveCodeGenerator = TestSpecificKernel.Get<pMixinsOnItemSaveCodeGenerator>();
+            _MockSolution.InitializeWithNormalClassFile();
+
+            this.FireSolutionOpen();
+        }
+
+        [Test]
+        public void NoCodeBehindFileIsGenerated()
+        {
+            this.AssertCodeBehindFileWasNotGenerated();
         }
     }
 }

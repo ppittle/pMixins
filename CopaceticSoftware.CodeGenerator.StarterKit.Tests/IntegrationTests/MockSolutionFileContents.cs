@@ -19,6 +19,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -33,6 +34,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         string RenderFile();
     }
 
+    [DebuggerDisplay("{FileName} - {Projects.Length} Projects")]
     public class MockSolution : IMockFile
     {
         public const string MockSolutionFileName = @"c:\test\MockSolution.sln";
@@ -102,6 +104,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         }
     }
 
+    [DebuggerDisplay("{FileName} - {MockSourceFiles.Length} Files")]
     public class MockProject : IMockFile
     {
         public MockProject(string filename = @"c:\test\MockSolution\MockProject.csproj")
@@ -246,6 +249,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         }
     }
 
+    [DebuggerDisplay("{FileName} - {Classname}")]
     public class MockSourceFile : IMockFile
     {
         public const string DefaultMockFileName = @"c:\test\MockSolution\MockFile.cs";
@@ -265,7 +269,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public bool ContainsPMixinAttribute
         {
-            get { return Source.Contains("[CopaceticSoftware.pMixins.Attributes.pMixin(Mixin)"); }
+            get { return Source.Contains("[CopaceticSoftware.pMixins.Attributes.pMixin(Mixin"); }
         }
 
         public static MockSourceFile CreateDefaultFile(

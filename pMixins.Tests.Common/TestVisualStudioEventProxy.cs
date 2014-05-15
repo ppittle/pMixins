@@ -17,12 +17,16 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using log4net;
 
 namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class TestVisualStudioEventProxy : IVisualStudioEventProxy
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public void Dispose()
         {
             
@@ -47,93 +51,125 @@ namespace CopaceticSoftware.pMixins.Tests.Common
 
         public void FireOnProjectAdded(object sender, ProjectAddedEventArgs eventArgs)
         {
+            _log.Info("OnProjectAdded");
+
             if (null != OnProjectAdded)
                 OnProjectAdded(sender, eventArgs);
         }
 
         public void FireOnProjectRemoved(object sender, ProjectRemovedEventArgs eventArgs)
         {
+            _log.Info("OnProjectRemoved");
+
             if (null != OnProjectRemoved)
                 OnProjectRemoved(sender, eventArgs);
         }
 
         public void FireOnProjectReferenceAdded(object sender, ProjectReferenceAddedEventArgs eventArgs)
         {
+            _log.Info("OnProjectReferenceAdded");
+
             if (null != OnProjectReferenceAdded)
                 OnProjectReferenceAdded(sender, eventArgs);
         }
 
         public void FireOnProjectReferenceRemoved(object sender, ProjectReferenceRemovedEventArgs eventArgs)
         {
+            _log.Info("OnProjectReferenceRemoved");
+
             if (null != OnProjectReferenceRemoved)
                 OnProjectReferenceRemoved(sender, eventArgs);
         }
 
         public void FireOnProjectItemAdded(object sender, ProjectItemAddedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemAdded");
+
             if (null != OnProjectItemAdded)
                 OnProjectItemAdded(sender, eventArgs);
         }
 
         public void FireOnProjectItemRemoved(object sender, ProjectItemRemovedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemRemoved");
+
             if (null != OnProjectItemRemoved)
                 OnProjectItemRemoved(sender, eventArgs);
         }
 
         public void FireOnProjectItemRenamed(object sender, ProjectItemRenamedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemRenamed");
+
             if (null != OnProjectItemRenamed)
                 OnProjectItemRenamed(sender, eventArgs);
         }
 
         public void FireOnProjectItemOpened(object sender, ProjectItemOpenedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemOpened");
+
             if (null != OnProjectItemOpened)
                 OnProjectItemOpened(sender, eventArgs);
         }
 
         public void FireOnProjectItemClosed(object sender, ProjectItemClosedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemClosed");
+
             if (null != OnProjectItemClosed)
                 OnProjectItemClosed(sender, eventArgs);
         }
 
         public void FireOnProjectItemSaved(object sender, ProjectItemSavedEventArgs eventArgs)
         {
+            _log.Info("OnProjectItemSaved");
+
             if (null != OnProjectItemSaved)
                 OnProjectItemSaved(sender, eventArgs);
 
-            if (null != OnProjectItemSaved)
+            _log.Info("OnProjectItemSaveComplete");
+
+            if (null != OnProjectItemSaveComplete)
                 OnProjectItemSaveComplete(sender, eventArgs);
         }
 
         public void FireOnBuildBegin(object sender, VisualStudioBuildEventArgs eventArgs)
         {
+            _log.Info("OnBuildBegin");
+
             if (null != OnBuildBegin)
                 OnBuildBegin(sender, eventArgs);
         }
 
         public void FireOnBuildDone(object sender, VisualStudioBuildEventArgs eventArgs)
         {
+            _log.Info("OnBuildDone");
+
             if (null != OnBuildDone)
                 OnBuildDone(sender, eventArgs);
         }
 
         public void FireOnSolutionClosing(object sender, EventArgs eventArgs)
         {
+            _log.Info("OnSolutionClosing");
+
             if (null != OnSolutionClosing)
                 OnSolutionClosing(sender, eventArgs);
         }
 
         public void FireOnSolutionOpening(object sender, EventArgs eventArgs)
         {
+            _log.Info("OnSolutionOpening");
+
             if (null != OnSolutionOpening)
                 OnSolutionOpening(sender, eventArgs);
         }
         
         public void FireOnCodeGenerated(object sender, CodeGeneratorResponse response)
         {
+            _log.Info("OnCodeGenerated");
+
            if (null != OnCodeGenerated)
                OnCodeGenerated(sender, new CodeGeneratedEventArgs { Response = response });
         }

@@ -251,7 +251,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 },
             };
 
-            s.Projects[1].ProjectReferences.Add(s.Projects[0]);
+            s.Projects[0].ProjectReferences.Add(s.Projects[1]);
 
             return s;
         }

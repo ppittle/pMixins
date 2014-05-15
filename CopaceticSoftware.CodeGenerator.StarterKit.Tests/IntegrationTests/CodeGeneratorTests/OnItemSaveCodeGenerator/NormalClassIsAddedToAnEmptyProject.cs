@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
@@ -42,5 +43,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         {
             this.AssertCodeBehindFileWasNotGenerated();
         }
+    }
+
+    public class NormalClassIsUpdatedInProjectWithNoMixins : NormalClassIsAddedToAnEmptyProject
+    {
+        public override void MainSetup()
+        {
+            base.MainSetup();
+
+            //Update Normal Class (add a space to the source)
+            this.UpdateMockSourceFileSource(
+                s => s.AllMockSourceFiles.First(),
+                f => f.Source += " ");
+        }
+
+        //[Test] - Base class test is still valid in this context
+        //public void NoCodeBehindFileWasGenerated()
     }
 }

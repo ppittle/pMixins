@@ -302,6 +302,42 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 });
         }
 
+        public static void UpdateMockSourceFileSource
+            (this MockSolutionTestBase mockSolutionTest,
+                Func<MockSolution, MockSourceFile> mockSourceFileSelector,
+                Func<MockSourceFile, string> updatedSourceFunc )
+        {
+            var sourceFile = mockSourceFileSelector(mockSolutionTest._MockSolution);
+
+            Assert.NotNull(sourceFile, "mockSourceFileSelector returned null");
+
+            UpdateMockSourceFileSource(
+                mockSolutionTest,
+                mockSourceFileSelector(mockSolutionTest._MockSolution),
+                updatedSourceFunc(sourceFile));
+        }
+
+        public static void UpdateMockSourceFileSource
+            (this MockSolutionTestBase mockSolutionTest,
+                MockSourceFile mockSourceFile,
+                string updatedSource)
+        {
+            mockSourceFile.Source = updatedSource;
+
+            var project = mockSolutionTest._MockSolution.Projects.FirstOrDefault(
+                p => p.ContainsFile(mockSourceFile));
+
+            Assert.IsNotNull(project, 
+                "Could not find Project that has Source File [{0}", mockSourceFile.FileName );
+
+            mockSolutionTest.EventProxy.FireOnProjectItemSaved(mockSolutionTest,
+                new ProjectItemSavedEventArgs
+                {
+                    ClassFullPath = mockSourceFile.FileName,
+                    ProjectFullPath = project.FileName
+                });
+        }
+
         #region Asserts
         public static void AssertCompilesAndCanExecuteMethod(
             this MockSourceFile file, 

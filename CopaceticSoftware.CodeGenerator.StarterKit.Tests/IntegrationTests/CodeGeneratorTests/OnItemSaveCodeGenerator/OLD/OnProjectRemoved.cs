@@ -19,7 +19,7 @@
 using CopaceticSoftware.pMixins.Tests.Common;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OLD
 {
     [TestNotWrittenYet]
     public class OnProjectRemoved : OnItemSaveCodeGeneratorTestBase

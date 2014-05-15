@@ -24,7 +24,7 @@ using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OLD
 {
     public class OnItemSaveForPMixinFileWithNoDependencies : OnItemSaveCodeGeneratorTestBase
     {

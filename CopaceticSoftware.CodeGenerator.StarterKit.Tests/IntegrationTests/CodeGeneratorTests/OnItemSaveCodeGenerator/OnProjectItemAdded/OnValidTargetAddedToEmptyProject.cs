@@ -16,42 +16,14 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnProjectItemAdded
 {
-    public abstract class OnValidTargetAddedToEmptyProject : OnItemSaveCodeGeneratorTestBase
-    {
-        protected virtual IEnumerable<MockSourceFile> GetTargetFiles
-        {
-            get { return _MockSolution.AllMockSourceFiles.Where(f => f.ContainsPMixinAttribute); }
-        }
-
-        [Test]
-        public virtual void CodeBehindFilesAreGenerated()
-        {
-            GetTargetFiles.Map(
-                f => this.AssertCodeBehindFileWasGenerated(f.FileName));
-        }
-
-        protected virtual void CanExecuteMixedInMethodImpl()
-        {
-            GetTargetFiles.Map(
-               f => f.AssertCompilesAndCanExecuteMethod(_MockSolution));
-        }
-
-        [Test]
-        public void CanExecuteMixedInMethod()
-        {
-            CanExecuteMixedInMethodImpl();
-        }
-    }
-
     [TestFixture]
-    public class OnValidTargetWithMixinInSameClassAddedToEmptyProject : OnValidTargetAddedToEmptyProject
+    public class OnValidTargetWithMixinInSameClassAddedToEmptyProject : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
         private MockSourceFile _sourceFileWithTarget;
 
@@ -75,7 +47,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     }
 
     [TestFixture]
-    public class OnValidTargetFileWithMixinInSameProjectAddedToProject : OnValidTargetAddedToEmptyProject
+    public class OnValidTargetFileWithMixinInSameProjectAddedToProject : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
         private MockSourceFile _sourceFileWithTarget;
 
@@ -99,7 +71,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     }
 
     [TestFixture]
-    public class OnValidTargetFileWithTwoTargetsAndMixinInSeparateClassAddedToProject : OnValidTargetAddedToEmptyProject
+    public class OnValidTargetFileWithTwoTargetsAndMixinInSeparateClassAddedToProject : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
         private MockSourceFile[] _sourceFilesWithTargets;
 
@@ -123,7 +95,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         //[Test] - Use Tests from Base Class - OnItemSaveWithValidTargetFile
     }
 
-    public class OnValidTargetFileWithTwoMixinsAddedToProject : OnValidTargetAddedToEmptyProject
+    public class OnValidTargetFileWithTwoMixinsAddedToProject : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
         private MockSourceFile _sourceFileWithTarget;
 
@@ -155,7 +127,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         //[Test] - Use Tests from Base Class - OnItemSaveWithValidTargetFile
     }
 
-    public class OnValidTargetFileWithMixinInSeparateProjectAddedToProject : OnValidTargetAddedToEmptyProject
+    public class OnValidTargetFileWithMixinInSeparateProjectAddedToProject : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
         private MockSourceFile _sourceFileWithTarget;
 

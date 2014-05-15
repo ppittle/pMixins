@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="NormalClassIsSavedInProjectWithNoMixins.cs" company="Copacetic Software"> 
+// <copyright file="OnMixinRemovedFromTargetClass.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Thursday, May 15, 2014 1:18:04 PM</date> 
+// <date>Thursday, May 15, 2014 3:49:24 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,25 +17,41 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
-using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnProjectItemAdded;
+using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnItemSaved
 {
     [TestFixture]
-    public class OnNormalClassSavedInProjectWithNoMixins : OnNormalClassAddedToEmptyProject
+    public class OnMixinRemovedFromTargetClass : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
     {
+        protected override void MainSetupInitializeSolution()
+        {
+            _MockSolution.InitializeWithTargetAndMixinInSameClass();
+        }
+
         public override void MainSetup()
         {
             base.MainSetup();
 
-            //Update Normal Class (add a space to the source)
+            var updatedSource =
+                new MockSolution().InitializeWithNormalClassFile()
+                    .AllMockSourceFiles.First()
+                    .Source;
+
+
             this.UpdateMockSourceFileSource(
-                s => s.AllMockSourceFiles.First(),
-                f => f.Source += " ");
+                _MockSolution.Projects[0].MockSourceFiles[0],
+                updatedSource);
         }
 
-        //[Test] - Base class test is still valid in this context
-        //public void NoCodeBehindFileWasGenerated()
+        [Test]
+        public void EmptyCodeBehindFileIsGenerated()
+        {
+            this.AssertCodeBehindFileWasGenerated(_MockSolution.Projects[0].MockSourceFiles[0]);
+
+            //Code Behind File should be empty
+            _MockSolution.Projects[0].MockSourceFiles[1].Source.ShouldBeEmpty();
+        }
     }
 }

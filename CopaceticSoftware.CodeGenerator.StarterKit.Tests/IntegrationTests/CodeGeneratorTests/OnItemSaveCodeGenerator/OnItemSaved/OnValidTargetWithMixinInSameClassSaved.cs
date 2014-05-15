@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="NormalClassIsSavedInProjectWithNoMixins.cs" company="Copacetic Software"> 
+// <copyright file="OnValidTargetWithMixinInSameClassSaved.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Thursday, May 15, 2014 1:18:04 PM</date> 
+// <date>Thursday, May 15, 2014 3:49:24 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -23,7 +23,7 @@ using NUnit.Framework;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnItemSaved
 {
     [TestFixture]
-    public class OnNormalClassSavedInProjectWithNoMixins : OnNormalClassAddedToEmptyProject
+    public class OnValidTargetWithMixinInSameClassSaved : OnValidTargetWithMixinInSameClassAddedToEmptyProject
     {
         public override void MainSetup()
         {
@@ -35,7 +35,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
                 f => f.Source += " ");
         }
 
-        //[Test] - Base class test is still valid in this context
-        //public void NoCodeBehindFileWasGenerated()
+        //[Test] - Base class tests are still valid in this context
+        //public void CanExecuteMixedInMethod()
     }
 }

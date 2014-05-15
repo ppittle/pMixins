@@ -101,17 +101,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGenerator\OnBuildCodeGeneratorTests.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnErrorAddToTargetClass.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinAddedToTargetClass.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinRemovedFromTargetClass.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnValidTargetWithMixinInSameClassSaved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnInvalidTargetAddedToEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnNormalClassIsAddedToAnEmptyProject.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\MixinCodeBehindFileIsRecreatedOnItmeSave.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\NewDependenciesAreDiscoveredTest.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSave.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaveCodeGeneratorTestBase.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSaveForDependency.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSaveForNonPMixinFile.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSaveForPMixinFileWithNoDependencies.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnProjectRemoved.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnSolutionOpeningTest.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\NormalClassIsSavedInProjectWithNoMixins.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnValidTargetAddedToEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionItemOpenCodeGeneratorTestBase.cs" />

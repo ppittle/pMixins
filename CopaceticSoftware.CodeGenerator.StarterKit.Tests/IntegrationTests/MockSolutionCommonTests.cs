@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Narrator.Framework.Extensions;
 using NBehave.Spec.NUnit;
@@ -267,6 +268,39 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         }
 
         #endregion
+
+        public static void AddMockSourceFile(
+            this MockSolutionTestBase mockSolutionTest,
+            Func<MockSolution, MockProject> projectSelector,
+            string initialSource,
+            string fileName = MockSourceFile.DefaultMockFileName)
+        {
+            AddMockSourceFile(
+                mockSolutionTest,
+                projectSelector,
+                new MockSourceFile(fileName)
+                {
+                    Source = initialSource
+                });
+        }
+
+        public static void AddMockSourceFile(
+            this MockSolutionTestBase mockSolutionTest,
+            Func<MockSolution, MockProject> projectSelector,
+            MockSourceFile mockSourceFile)
+        {
+            var project = projectSelector(mockSolutionTest._MockSolution);
+
+            project.MockSourceFiles.Add(mockSourceFile);
+
+            //FireOnItemCreated
+            mockSolutionTest.EventProxy.FireOnProjectItemAdded(mockSolutionTest,
+                new ProjectItemAddedEventArgs
+                {
+                    ClassFullPath = mockSourceFile.FileName,
+                    ProjectFullPath = project.FileName
+                });
+        }
 
         #region Asserts
         public static void AssertCompilesAndCanExecuteMethod(

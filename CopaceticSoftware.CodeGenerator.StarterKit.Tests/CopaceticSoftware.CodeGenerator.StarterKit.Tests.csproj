@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\NormalClassIsAddedToAnEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\MixinCodeBehindFileIsRecreatedOnItmeSave.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\NewDependenciesAreDiscoveredTest.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSave.cs" />

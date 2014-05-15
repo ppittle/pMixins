@@ -108,6 +108,7 @@
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnProjectRemoved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnSolutionOpeningTest.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionItemOpenCodeGeneratorTestBase.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenWithNoTargetFile.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenWithValidTargetFile.cs" />
     <Compile Include="IntegrationTests\MockSolutionCommonTests.cs" />

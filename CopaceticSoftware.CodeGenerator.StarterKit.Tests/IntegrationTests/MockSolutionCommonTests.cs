@@ -33,6 +33,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         public const string DefaultMixinMethodName = "TestMethod";
         public const int DefaultMixinMethodReturnValue = 42;
 
+        public static MockSolution InitializeWithEmptyProject(this MockSolution s)
+        {
+            s.Projects.Add(new MockProject());
+
+            return s;
+        }
+
         public static MockSolution InitializeWithNormalClassFile(this MockSolution s)
         {
             s.Projects.Add(

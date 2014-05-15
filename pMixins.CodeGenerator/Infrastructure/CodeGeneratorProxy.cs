@@ -20,10 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps;
 using CopaceticSoftware.pMixins.Infrastructure;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.CSharp;
@@ -60,6 +62,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         private readonly Dictionary<string, List<string>> _dataMemberVariableNames =
             new Dictionary<string, List<string>>();
 
+        private static string ToolVersion =
+            Assembly.GetAssembly(typeof(CodeGeneratorProxy)).GetName().Version.ToString();
+
         public CSharpParser CSharpParser { get; set; }
 
         private AttributeSection BuildCodeGeneratedAttributeSection()
@@ -70,10 +75,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
             };
 
             attribute.Arguments.Add(new PrimitiveExpression("pMixin"));
-            attribute.Arguments.Add(new PrimitiveExpression(
-                FileVersionInfo.GetVersionInfo(
-                    typeof(CodeGeneratorProxy).Assembly.Location)
-                .FileVersion));
+            attribute.Arguments.Add(new PrimitiveExpression(ToolVersion));
 
             return new AttributeSection(attribute);
         }

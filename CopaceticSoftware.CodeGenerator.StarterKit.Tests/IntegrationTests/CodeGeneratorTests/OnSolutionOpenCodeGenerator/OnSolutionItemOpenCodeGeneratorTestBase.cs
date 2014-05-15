@@ -28,7 +28,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public abstract class OnSolutionItemOpenCodeGeneratorTestBase : MockSolutionTestBase
     {
+        // ReSharper disable NotAccessedField.Global
+        //Instantiate the OnSolutionOpenCodeGenerator so it will subscribe to events
         protected pMixinsOnSolutionOpenCodeGenerator _PMixinsOnSolutionOpenCodeGenerator;
+        // ReSharper restore NotAccessedField.Global
 
         public IVisualStudioCodeGenerator _mockVisualStudioCodeGenerator;
 

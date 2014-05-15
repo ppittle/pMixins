@@ -24,7 +24,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public abstract class OnItemSaveCodeGeneratorTestBase : OnSolutionItemOpenCodeGeneratorTestBase
     {
+// ReSharper disable NotAccessedField.Global
+        //Instantiate the OnItemSaveCodeGenerator so it will subscribe to events
         protected pMixinsOnItemSaveCodeGenerator _PMixinsOnItemSaveCodeGenerator;
+// ReSharper restore NotAccessedField.Global
 
         public override void MainSetup()
         {

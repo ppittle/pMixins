@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -408,6 +409,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         }
 
         #region Asserts
+        public static CompilerResults AssertCompiles(this MockProject project)
+        {
+            var compilerResults = project.Compile();
+
+            Assert.False(compilerResults.Errors.HasErrors,
+                "Project does not compile: " +
+                compilerResults.PrettyPrintErrorList());
+
+            return compilerResults;
+        }
+
         public static void AssertCompilesAndCanExecuteMethod(
             this MockSourceFile file, 
             MockSolution solution,
@@ -431,11 +443,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             string methodName,
             T expectedReturnValue)
         {
-            var compilerResults = project.Compile();
-
-            Assert.False(compilerResults.Errors.HasErrors,
-                "Project does not compile: " +
-                compilerResults.PrettyPrintErrorList());
+            var compilerResults = AssertCompiles(project);
 
             compilerResults
                .ExecuteMethod<T>(

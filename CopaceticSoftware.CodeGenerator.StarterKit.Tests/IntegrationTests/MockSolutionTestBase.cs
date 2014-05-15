@@ -250,15 +250,5 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             return true;
         }
 
-        protected CompilerResults AssertProjectCompiles(MockProject project)
-        {
-            var compilerResults = _MockSolution.Projects[1].Compile();
-
-            Assert.False(compilerResults.Errors.HasErrors,
-                "Project does not compile: " +
-                compilerResults.PrettyPrintErrorList());
-
-            return compilerResults;
-        }
     }
 }

@@ -35,5 +35,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 
             _PMixinsOnItemSaveCodeGenerator = TestSpecificKernel.Get<pMixinsOnItemSaveCodeGenerator>();
         }
+
+        protected override void MainSetupInitializeSolution()
+        {
+            throw new System.NotImplementedException("New Tests must override MainSetupInitializeSolution");
+        }
     }
 }

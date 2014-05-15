@@ -25,20 +25,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public abstract class OnSolutionOpenWithValidTargetFile : OnSolutionItemOpenCodeGeneratorTestBase
     {
-        protected abstract MockSolution InitializeSolution();
-
         protected virtual IEnumerable<MockSourceFile> GetTargetFiles
         {
             get { return _MockSolution.AllMockSourceFiles.Where(f => f.ContainsPMixinAttribute); }
-        }
-
-        public override void MainSetup()
-        {
-            base.MainSetup();
-
-            InitializeSolution();
-
-            this.FireSolutionOpen();
         }
 
         [Test]
@@ -64,36 +53,36 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     [TestFixture]
     public class OnSolutionOpenWithValidTargetFileWithMixinInSameClassFile : OnSolutionOpenWithValidTargetFile
     {
-        protected override MockSolution InitializeSolution()
+        protected override void MainSetupInitializeSolution()
         {
-            return _MockSolution.InitializeWithTargetAndMixinInSameClass();
+            _MockSolution.InitializeWithTargetAndMixinInSameClass();
         }
     }
 
     [TestFixture]
     public class OnSolutionOpenWithValidTargetFileWithMixinInSameProject : OnSolutionOpenWithValidTargetFile
     {
-        protected override MockSolution InitializeSolution()
+        protected override void MainSetupInitializeSolution()
         {
-            return _MockSolution.InitializeWithTargetAndMixinInSeparateClass();
+            _MockSolution.InitializeWithTargetAndMixinInSeparateClass();
         }
     }
 
     [TestFixture]
     public class OnSolutionOpenWithValidTargetFileWithTwoTargetsAndMixinInSeparateClass : OnSolutionOpenWithValidTargetFile
     {
-        protected override MockSolution InitializeSolution()
+        protected override void MainSetupInitializeSolution()
         {
-            return _MockSolution.InitializeWithTwoTargetsAndMixinInSeparateClass();
+            _MockSolution.InitializeWithTwoTargetsAndMixinInSeparateClass();
         }
     }
 
     [TestFixture]
     public class OnSolutionOpenWithValidTargetFileWithTargetWithTwoMixins : OnSolutionOpenWithValidTargetFile
     {
-        protected override MockSolution InitializeSolution()
+        protected override void MainSetupInitializeSolution()
         {
-            return _MockSolution.InitializeWithTargetWithTwoMixins();
+            _MockSolution.InitializeWithTargetWithTwoMixins();
         }
 
         protected override void CanExecuteMixedInMethodImpl()
@@ -109,9 +98,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
     [TestFixture]
     public class OnSolutionOpenWithValidTargetFileWithMixinInSeparateProject : OnSolutionOpenWithValidTargetFile
     {
-        protected override MockSolution InitializeSolution()
+        protected override void MainSetupInitializeSolution()
         {
-            return _MockSolution.InitializeWithTargetAndMixinInSeparateProjects();
+            _MockSolution.InitializeWithTargetAndMixinInSeparateProjects();
         }
     }
 

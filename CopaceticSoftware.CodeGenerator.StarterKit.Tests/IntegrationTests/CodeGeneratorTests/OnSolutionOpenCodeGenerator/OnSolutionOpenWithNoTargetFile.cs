@@ -23,13 +23,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public class OnSolutionOpenWithNoTargetFile : OnItemSaveCodeGeneratorTestBase
     {
-        public override void MainSetup()
+        protected override void MainSetupInitializeSolution()
         {
-            base.MainSetup();
-
             _MockSolution.InitializeWithNormalClassFile();
-
-            this.FireSolutionOpen();
         }
 
         [Test]

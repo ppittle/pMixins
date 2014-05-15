@@ -46,7 +46,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
             SetupCodeGeneratorMock();
 
             TestSpecificKernel.Rebind<IVisualStudioCodeGenerator>().ToMethod(x => _mockVisualStudioCodeGenerator);
+
+            MainSetupInitializeSolution();
+
+            this.FireSolutionOpen();
         }
+
+        protected abstract void MainSetupInitializeSolution();
 
         private void SetupCodeGeneratorMock()
         {

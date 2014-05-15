@@ -23,13 +23,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 {
     public class OnSolutionOpenEmptyProject : OnItemSaveCodeGeneratorTestBase
     {
-        public override void MainSetup()
+        protected override void MainSetupInitializeSolution()
         {
-            base.MainSetup();
-
             _MockSolution.InitializeWithEmptyProject();
-
-            this.FireSolutionOpen();
         }
 
         [Test]

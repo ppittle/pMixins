@@ -18,6 +18,7 @@
 
 using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator;
 using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents;
 using Mono.CSharp;
 using NUnit.Framework;
@@ -25,20 +26,16 @@ using NUnit.Framework;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.SolutionScenarios
 {
     [TestFixture]
-    public class DisableCodeGenerationAttributeOnAssemblyTest : MockSolutionTestBase
+    public class DisableCodeGenerationAttributeOnAssemblyTest : OnSolutionOpenCodeGeneratorTestBase
     {
-        public override void MainSetup()
+        protected override void MainSetupInitializeSolution()
         {
-            base.MainSetup();
-
-            _MockSolution.Projects.Add(new MockProject
-            {
-                MockSourceFiles =
-                {
-                    new MockSourceFile
-                    {
-                        FileName = MockSourceFile.DefaultMockFileName,
-                        Source = @"
+            _MockSolution.InitializeWithTargetAndMixinInSameClass()
+               .Projects[0].MockSourceFiles.Add(
+                   new MockSourceFile
+                   {
+                       FileName = MockSourceFile.DefaultMockFileName,
+                       Source = @"
                                 namespace Testing{
                                     
                                     public class Mixin{
@@ -49,42 +46,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Solu
                                     public partial class Target{}
 
                                 }"
-                    }
-                }
-            });
-
-            Assert.True(
-                CanGenerateMixinCodeForSourceFile(
-                    _MockSolution.Projects[0].MockSourceFiles[0],
-                    _MockSolution.Projects[0]),
-                    "Should be able to generate Mixin Code at this point!");
-
-            _MockSolution.Projects[0].MockSourceFiles.Add(
-                    new MockSourceFile
-                    {
-                        FileName = Path.Combine(MockSolution.MockSolutionFolder, "\\Properties\\AssemblyInfo.cs"),
-                        Source = @"
-                                 [assembly: CopaceticSoftware.pMixins.Attributes.DisableCodeGeneration]
-                                    "
-                    });
-
-            //Simulate a File Added event
-            EventProxy.FireOnProjectItemAdded(this, new ProjectItemAddedEventArgs
-            {
-                ClassFullPath = _MockSolution.Projects[0].MockSourceFiles[1].FileName,
-                ProjectFullPath = _MockSolution.Projects[0].FileName
-            });
-
-            //Simulate a Project Reference Removed to force a reload of the project file
-            EventProxy.FireOnProjectReferenceRemoved(this, new ProjectReferenceRemovedEventArgs
-            {
-                ProjectFullPath = _MockSolution.Projects[0].FileName
-            });
+                   });
         }
 
         [Test]
         public void CodeGenerationIsCancelledWhenDisableCodeAttributeIsPresentInAssemblyInfo()
         {
+            this.AssertCodeBehindFileWasNotGenerated();
+
             Assert.False(
                 CanGenerateMixinCodeForSourceFile(
                     _MockSolution.Projects[0].MockSourceFiles[0],

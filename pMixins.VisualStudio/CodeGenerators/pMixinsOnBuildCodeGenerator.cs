@@ -24,6 +24,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
+using EnvDTE;
 using log4net;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
@@ -51,6 +52,13 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
         private void HandleBuild(object sender, VisualStudioBuildEventArgs e)
         {
+            if (e.BuildAction == vsBuildAction.vsBuildActionClean ||
+                e.BuildAction == vsBuildAction.vsBuildActionDeploy)
+            {
+                _log.InfoFormat("Build Action is Clean or Deploy.  No Code Generation will occur");
+                return;
+            }
+
             var sw = Stopwatch.StartNew();
 
             try

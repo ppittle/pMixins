@@ -194,7 +194,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             if (includeBaseTypes)
             {
                 var baseTypeAttributes =
-                    type.GetAllBaseTypes()
+                    (type.GetAllBaseTypes() ?? new IType[]{})
                         .Where(bt => bt.FullName != type.FullName && !bt.IsKnownType(KnownTypeCode.Object))
                         .SelectMany(baseType => baseType.GetAttributes(true, includeNonInheritedAttributes));
 

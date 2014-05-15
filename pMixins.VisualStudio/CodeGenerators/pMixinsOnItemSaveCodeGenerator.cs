@@ -59,35 +59,38 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             _taskFactory = taskFactory;
             _codeGeneratorDependencyManager = codeGeneratorDependencyManager;
 
-            visualStudioEventProxy.OnProjectItemSaveComplete += HandleProjectItemSaveComplete;
+            visualStudioEventProxy.OnProjectItemSaveComplete += (s,a) => GenerateCode(a.ClassFullPath, "ProjectItemSaveComplete");
+            
+            //Generate code on a Project Item Added incase it's an existing file.
+            visualStudioEventProxy.OnProjectItemAdded += (s, a) => GenerateCode(a.ClassFullPath, "OnProjectItemAdded");
         }
 
-        private void HandleProjectItemSaveComplete(object sender, ProjectItemSavedEventArgs args)
+        private void GenerateCode(string classFullPath, string eventName)
         {
             _taskFactory.StartNew(() =>
             {
                 pMixinsOnSolutionOpenCodeGenerator.OnSolutionOpeningTask.Wait();
 
-                using (new LoggingActivity("HandleProjectItemSaved"))
+                using (new LoggingActivity("GenerateCode - " + eventName))
                 try
                 {
                     //Generate code for the file saved
                     _visualStudioCodeGenerator
                         .GenerateCode(
                             _codeGeneratorContextFactory.GenerateContext(
-                                s => s.GetValidPMixinFiles().Where(f => f.FileName.Equals(args.ClassFullPath))))
+                                s => s.GetValidPMixinFiles().Where(f => f.FileName.Equals(classFullPath))))
                         .Map(_responseFileWriter.WriteCodeGeneratorResponse);
 
                     //Generate code for dependencies
                     var filesToUpdate =
-                        _codeGeneratorDependencyManager.GetFilesThatDependOn(args.ClassFullPath);
+                        _codeGeneratorDependencyManager.GetFilesThatDependOn(classFullPath);
 
                     if (_log.IsDebugEnabled)
                         _log.DebugFormat("Will update [{0}]",
                             string.Join(Environment.NewLine,
                                 filesToUpdate.Select(x => x.FileName)));
 
-                        _visualStudioCodeGenerator
+                    _visualStudioCodeGenerator
                         .GenerateCode(
                             _codeGeneratorContextFactory.GenerateContext(filesToUpdate))
                         .MapParallel(_responseFileWriter.WriteCodeGeneratorResponse);

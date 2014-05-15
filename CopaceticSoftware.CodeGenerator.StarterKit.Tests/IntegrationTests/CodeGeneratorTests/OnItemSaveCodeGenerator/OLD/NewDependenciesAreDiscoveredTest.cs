@@ -26,7 +26,7 @@ using NBehave.Spec.NUnit;
 using Ninject;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OLD
 {
     /// <summary>
     /// This functionality should be moved to OnitemSAveForDependecnies test and this 

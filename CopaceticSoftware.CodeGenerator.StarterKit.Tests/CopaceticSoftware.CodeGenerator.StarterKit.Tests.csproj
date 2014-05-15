@@ -97,8 +97,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGeneratorTests.cs" />
-    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\NormalClassIsAddedToAnEmptyProject.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGenerator\OnBuildCodeGeneratorTests.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnInvalidTargetAddedToEmptyProject.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnNormalClassIsAddedToAnEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\MixinCodeBehindFileIsRecreatedOnItmeSave.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\NewDependenciesAreDiscoveredTest.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSave.cs" />
@@ -108,8 +109,11 @@
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnItemSaveForPMixinFileWithNoDependencies.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnProjectRemoved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OLD\OnSolutionOpeningTest.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\NormalClassIsSavedInProjectWithNoMixins.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnValidTargetAddedToEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionItemOpenCodeGeneratorTestBase.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenEmptyProject.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenWithInvalidTargetFile.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenWithNoTargetFile.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnSolutionOpenCodeGenerator\OnSolutionOpenWithValidTargetFile.cs" />
     <Compile Include="IntegrationTests\MockSolutionCommonTests.cs" />

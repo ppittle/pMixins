@@ -23,7 +23,7 @@ using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator
 {
-    public abstract class OnSolutionOpenWithValidTargetFile : OnSolutionItemOpenCodeGeneratorTestBase
+    public abstract class OnSolutionOpenWithValidTargetFile : OnSolutionOpenCodeGeneratorTestBase
     {
         protected virtual IEnumerable<MockSourceFile> GetTargetFiles
         {

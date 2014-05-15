@@ -22,7 +22,7 @@ using Ninject;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
 {
-    public abstract class OnItemSaveCodeGeneratorTestBase : OnSolutionItemOpenCodeGeneratorTestBase
+    public abstract class OnItemSaveCodeGeneratorTestBase : OnSolutionOpenCodeGeneratorTestBase
     {
 // ReSharper disable NotAccessedField.Global
         //Instantiate the OnItemSaveCodeGenerator so it will subscribe to events

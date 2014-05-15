@@ -87,6 +87,33 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             return s;
         }
 
+        public static MockSolution InitializeWithInvalidTargetFile(this MockSolution s)
+        {
+            s.Projects.Add(
+                new MockProject
+                {
+                    AssemblyReferences =
+                        ReferenceHelper.GetDefaultSystemReferences()
+                        .Union(new[] { ReferenceHelper.GetReferenceToPMixinsDll() })
+                        .ToList(),
+                    MockSourceFiles =
+                    {
+                        new MockSourceFile
+                        {
+                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            Source = @"
+                                namespace Testing{
+                                    [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(MixinDoesNotExist))]                                        
+                                    public partial class Target  {}
+                                }
+                                ",
+                        }
+                    }
+                });
+
+            return s;
+        }
+
         public static MockSolution InitializeWithTargetAndMixinInSeparateClass(this MockSolution s)
         {
             s.Projects.Add(
@@ -258,6 +285,48 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         }
     }
 
+    public static class MockSolutionManipulator
+    {
+        public static MockSourceFile[] RemoveFiles(this MockSolution solution,
+            Func<MockSolution, IEnumerable<MockSourceFile>> sourceFilesFunc)
+        {
+            var files = sourceFilesFunc(solution);
+
+            return 
+                null == files 
+                ? new MockSourceFile[0] 
+                : files
+                    .Select(f => RemoveFile(solution, f))
+                    .ToArray();
+        }
+
+        public static MockSourceFile RemoveFile(this MockSolution solution,
+            Func<MockSolution, MockSourceFile> sourceFileFunc)
+        {
+            return RemoveFile(solution, sourceFileFunc(solution));
+        }
+
+        public static MockSourceFile RemoveFile(this MockSolution solution,
+            MockSourceFile sourceFile)
+        {
+            if (null == sourceFile)
+                return null;
+
+            //Load Project
+            var project = solution.Projects.FirstOrDefault(p => p.ContainsFile(sourceFile));
+
+            Assert.NotNull(project, "Could not find Project that contains [{0}]", sourceFile.FileName);
+
+            //Remove File from Project
+            project.MockSourceFiles =
+                project.MockSourceFiles
+                    .Where(f => !f.FileName.Equals(sourceFile.FileName, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+
+            return sourceFile;
+        }
+    }
+
     public static class MockSolutionCommonTestHelper
     {
         #region Events
@@ -386,6 +455,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
             mockSolutionTest._MockFileWrapper.AssertWasNotCalled(
                 x => x.WriteAllText(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
+        }
+
+        public static void AssertCodeBehindFileWasGenerated(this MockSolutionTestBase mockSolutionTest,
+            MockSourceFile targetFile)
+        {
+            mockSolutionTest.AssertCodeBehindFileWasGenerated(targetFile.FileName);
         }
 
         public static void AssertCodeBehindFileWasGenerated(this MockSolutionTestBase mockSolutionTest, string targetFile)

@@ -26,7 +26,7 @@ using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator
 {
-    public abstract class OnSolutionItemOpenCodeGeneratorTestBase : MockSolutionTestBase
+    public abstract class OnSolutionOpenCodeGeneratorTestBase : MockSolutionTestBase
     {
         // ReSharper disable NotAccessedField.Global
         //Instantiate the OnSolutionOpenCodeGenerator so it will subscribe to events

@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="NormalClassIsAddedToAnEmptyProject.cs" company="Copacetic Software"> 
+// <copyright file="NormalClassIsSavedInProjectWithNoMixins.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Thursday, May 15, 2014 11:10:07 AM</date> 
+// <date>Thursday, May 15, 2014 1:18:04 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,35 +17,11 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
-using NUnit.Framework;
+using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnProjectItemAdded;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator
+namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnItemSaved
 {
-    public class NormalClassIsAddedToAnEmptyProject : OnItemSaveCodeGeneratorTestBase
-    {
-        protected override void MainSetupInitializeSolution()
-        {
-            _MockSolution.InitializeWithEmptyProject();
-        }
-
-        public override void MainSetup()
-        {
-            base.MainSetup();
-
-            this.AssertCodeBehindFileWasNotGenerated();
-            
-            //Add Normal Class
-            this.AddMockSourceFile(s => s.Projects[0], MockSourceFile.CreateDefaultFile());
-        }
-        
-        [Test]
-        public void NoCodeBehindFileWasGenerated()
-        {
-            this.AssertCodeBehindFileWasNotGenerated();
-        }
-    }
-
-    public class NormalClassIsUpdatedInProjectWithNoMixins : NormalClassIsAddedToAnEmptyProject
+    public class OnNormalClassSavedInProjectWithNoMixins : OnNormalClassAddedToEmptyProject
     {
         public override void MainSetup()
         {

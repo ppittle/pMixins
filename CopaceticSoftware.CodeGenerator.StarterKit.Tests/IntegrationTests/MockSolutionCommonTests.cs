@@ -268,6 +268,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         #endregion
 
+        #region Asserts
         public static void AssertCompilesAndCanExecuteMethod(
             this MockSourceFile file, 
             MockSolution solution,
@@ -303,8 +304,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                    methodName)
                .ShouldEqual(expectedReturnValue);
         }
-
-        #region Asserts
+        
         public static void AssertCodeBehindFileWasNotGenerated(this MockSolutionTestBase mockSolutionTest)
         {
             Assert.True(

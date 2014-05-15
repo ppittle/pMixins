@@ -16,11 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.IO;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator;
-using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.VisualStudioEvents;
-using Mono.CSharp;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.SolutionScenarios

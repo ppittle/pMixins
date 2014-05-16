@@ -16,7 +16,6 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
@@ -44,7 +43,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             //Ensure Basic Class is in the solution
             Assert.True(null != solution.FindCSharpFileByFileName(_sourceFile.FileName),
-                "Basic File was already in Solution.  Test Environment is not valid.");
+                "Basic File was not found in Solution.  Test Environment is not valid.");
 
             //Simulate Project Item Removed (Basic Class)
             _MockSolution.Projects[0].MockSourceFiles.Clear();

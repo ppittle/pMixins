@@ -57,7 +57,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                         LevelMax = Level.Fatal,
                         LevelMin = 
                         #if DEBUG
-                        Level.All,
+                        Level.Debug,
                         #else
                         Level.Warn, 
                         #endif

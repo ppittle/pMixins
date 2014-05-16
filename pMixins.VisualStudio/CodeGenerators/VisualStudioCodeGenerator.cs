@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
@@ -68,8 +69,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
                 if (Log.IsDebugEnabled)
                 {
-                    Log.DebugFormat("Solution Dump: {1}{1}{0}{1}{1}", 
-                        context.Solution.DumpToString("Solution"),
+                    Log.DebugFormat("Solution Dump: {1}{1}{0}{1}{1}",
+                        context.Solution.DumpForLogging(),
                         Environment.NewLine);
                 }
                 

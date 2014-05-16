@@ -83,5 +83,40 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return solution.AllFiles.FirstOrDefault(
                 f => f.FileName.Equals(filename, StringComparison.InvariantCultureIgnoreCase));
         }
+
+        public static string DumpForLogging(this Solution solution)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendFormat("File: {0}", solution.FileName).AppendLine();
+            sb.AppendLine("Projects:").AppendLine();
+
+            foreach (var proj in solution.Projects)
+            {
+                sb.Append("\t");
+                sb.AppendFormat("\tFilename: {0}", proj.FileName).AppendLine();
+
+                if (null != proj.Compilation)
+                {
+                    sb.AppendFormat("\tAssembly References:").AppendLine();
+
+                    foreach (var assRef in proj.Compilation.Assemblies)
+                        sb.AppendFormat("\t\t{0}", assRef.AssemblyName).AppendLine();
+                }
+
+                sb.AppendLine();
+
+                sb.AppendLine("\t Files:");
+                foreach (var file in proj.Files)
+                {
+                    sb.AppendFormat("\t\tFileName: {0}", file.FileName).AppendLine();
+                    sb.AppendFormat("\t\tSource: ").AppendLine();
+                    sb.AppendLine(file.OriginalText);
+                    sb.AppendLine();
+                }
+            }
+
+            return sb.ToString();
+        }
     }
 }

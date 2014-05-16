@@ -37,6 +37,31 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         private static readonly object _lock = new object();
 
+        public MicrosoftBuildProjectLoader(IVisualStudioEventProxy visualStudioEventProxy)
+        {
+            //Make sure there aren't any latent project references
+            visualStudioEventProxy.OnProjectRemoved += (sender, args) =>
+                RemoveAllReferencesToProject(args.ProjectFullPath);
+        }
+
+        private void RemoveAllReferencesToProject(string projectFileName)
+        {
+            lock (_lock)
+                try
+                {
+                    _log.InfoFormat("OnProjectAdded: Clear ProjectCollection for [{0}]", projectFileName);
+
+                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName)
+                        .Map(p => ProjectCollection.GlobalProjectCollection.UnloadProject(p));
+                }
+                catch (Exception e)
+                {
+                    _log.Error(string.Format("Exception trying to unload Project [{0}] : {1}",
+                        projectFileName,
+                        e.Message));
+                }
+        }
+
         public Project LoadMicrosoftBuildProject(string projectFileName)
         {
             lock (_lock)

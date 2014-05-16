@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="DummyCodeBehindFileHelper.cs" />
     <Compile Include="Extensions\CompilerResultsExtensions.cs" />
+    <Compile Include="FutureReleaseAttribute.cs" />
     <Compile Include="KernelFactory.cs" />
     <Compile Include="TestMicrosoftBuildProjectAssemblyReferenceResolver.cs" />
     <Compile Include="TestTaskFactoryWrapper.cs" />

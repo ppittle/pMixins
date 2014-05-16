@@ -19,9 +19,11 @@
 using System;
 using System.Collections.Generic;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.pMixins.Tests.Common;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.ExpectedErrors
 {
+    [FutureRelease]
     public class SimpleCircularReferenceTest : ExpectedErrorsTestBase
     {
         protected override string SourceCode

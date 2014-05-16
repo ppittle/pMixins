@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.IO;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
@@ -30,6 +31,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
     public class FileWrapper : IFileWrapper
     {
+        private readonly ICacheEventHelper _cacheEventHelper;
+
+        public FileWrapper(ICacheEventHelper cacheEventHelper)
+        {
+            _cacheEventHelper = cacheEventHelper;
+        }
+
         public string ReadAllText(string filename)
         {
             return File.ReadAllText(filename);
@@ -48,6 +56,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         public void WriteAllText(string filename, string s)
         {
             File.WriteAllText(filename, s);
+
+            _cacheEventHelper.EvictFromCache(this, filename);
         }
 
     }

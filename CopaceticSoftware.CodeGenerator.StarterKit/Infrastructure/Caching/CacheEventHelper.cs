@@ -31,6 +31,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
     {
         event EventHandler<EvictFromCacheEventArgs> OnEvictFromCache;
         event EventHandler<EventArgs> OnClearCache;
+
+        void EvictFromCache(object sender, string filename);
     }
 
     public class EvictFromCacheEventArgs : EventArgs
@@ -58,6 +60,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 
         public event EventHandler<EvictFromCacheEventArgs> OnEvictFromCache;
         public event EventHandler<EventArgs> OnClearCache;
+
+        public void EvictFromCache(object sender, string filename)
+        {
+            _log.InfoFormat("[{0}] requested file be evicted [{1}]",
+                null == sender
+                    ? "<unknown>"
+                    : sender.GetType().Name,
+                filename);
+
+            OnEvictFromCache(this, new EvictFromCacheEventArgs(filename));
+        }
 
         public CacheEventHelper(IVisualStudioEventProxy visualStudioEventProxy, ICodeGeneratorDependencyManager codeGeneratorDependencyManager, ISolutionContext solutionContext)
         {

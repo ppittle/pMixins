@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -51,7 +52,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                     typeDependencies
                         .Select(t =>
                             response.CodeGeneratorContext.Solution.FindFileForIType(t))
-                        .Where(f => null != f)
+                        .Where(f => null != f && 
+                            !f.FileName.Equals(
+                                response.CodeGeneratorContext.Source.FileName, StringComparison.InvariantCultureIgnoreCase))
                         .ToList()
             };
         }

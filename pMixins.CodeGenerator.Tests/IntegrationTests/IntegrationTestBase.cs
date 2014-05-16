@@ -30,7 +30,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             Path.GetFullPath(
                 Path.Combine(
                     Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj"));
+                    @"..\..\..\pMixins.CodeGenerator\pMixins.CodeGenerator.csproj"));
 
         public static IKernel Kernel { get; private set; }
 

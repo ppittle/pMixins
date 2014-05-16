@@ -118,6 +118,10 @@
       <Project>{b2738273-42fa-4589-affc-610ce796d1f2}</Project>
       <Name>pMixins.VisualStudio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\pMixins\pMixins.csproj">
+      <Project>{f2d44224-b6db-4518-a017-2b3dc5f4c4ea}</Project>
+      <Name>pMixins</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

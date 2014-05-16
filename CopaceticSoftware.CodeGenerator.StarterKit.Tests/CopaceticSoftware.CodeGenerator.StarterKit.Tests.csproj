@@ -135,6 +135,7 @@
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToExternalLibraryTest.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectReferenceAddedToProjectTest.cs" />
     <Compile Include="IntegrationTests\MockSolutionTestBase.cs" />
+    <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectRemovedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

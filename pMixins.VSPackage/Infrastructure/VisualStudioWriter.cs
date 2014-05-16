@@ -53,7 +53,7 @@ namespace CopaceticSoftware.pMixins_VSPackage.Infrastructure
 
         private EnvDTE.OutputWindowPane LoadOutputWindowPane(DTE dte)
         {
-            string windowName = GetType().Name;
+            const string windowName = "pMixins Code Generator";
             EnvDTE.OutputWindowPane pane = null;
             EnvDTE.Window window = dte.Windows.Item(EnvDTE.Constants.vsWindowKindOutput);
             if (window != null)

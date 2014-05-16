@@ -25,6 +25,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using log4net;
+using ObjectDumper;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 {
@@ -65,10 +66,13 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                 Log.InfoFormat("Generating Code for file [{0}] in [{1}]",
                         context.Source.FileName, context.Source.Project.FileName);
 
-                Log.DebugFormat("Input File Contents: {0}{1}",
-                    Environment.NewLine,
-                    context.Source.OriginalText);
-
+                if (Log.IsDebugEnabled)
+                {
+                    Log.DebugFormat("Solution Dump: {1}{1}{0}{1}{1}", 
+                        context.Solution.DumpToString("Solution"),
+                        Environment.NewLine);
+                }
+                
                 yield return GenerateCode(context);
             }
         }
@@ -107,7 +111,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
 
                 #endregion
 
-                Log.DebugFormat("Generated Code for File [{0}]: {1}{2}{1}",
+                Log.DebugFormat("Generated Code for File [{0}]: {1}{1}{2}{1}{1}",
                     context.Source.FileName,
                     Environment.NewLine,
                     response.GeneratedCodeSyntaxTree.GetText());

@@ -20,6 +20,7 @@ using System;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.Utils;
+using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 
@@ -65,8 +66,23 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                     Threshold = Level.Info
                 };
 
+#if DEBUG
+                var debugFileAppender = new RollingFileAppender
+                {
+                    AppendToFile = true,
+                    Threshold = Level.All,
+                    Layout = new PatternLayout(@"%date{HH:mm:ss,fff} %thread% %-5level [%logger{2}] %message%newline"),
+                    File = @"c:\temp\pMixinsCodeGenerator.log",
+                    DatePattern = "yyyyMMdd'.log'",
+                    RollingStyle = RollingFileAppender.RollingMode.Date
+                };
+#endif
+
                 log4net.Config.BasicConfigurator.Configure(
                     outputWindowAppender,
+#if DEBUG
+                    debugFileAppender,
+#endif
                     activityLogAppender);
 
                 _isInitialized = true;

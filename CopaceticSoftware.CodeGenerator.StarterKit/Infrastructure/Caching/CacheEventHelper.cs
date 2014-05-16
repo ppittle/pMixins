@@ -87,11 +87,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
             visualStudioEventProxy.OnProjectRemoved +=
                 (sender, args) =>
                 {
-                    _log.InfoFormat("OnProjectAdded - Evict [{0}]", args.ProjectFullPath);
+                    _log.InfoFormat("OnProjectRemoved - Evict [{0}]", args.ProjectFullPath);
 
                     OnEvictFromCache(this, new EvictFromCacheEventArgs(args.ProjectFullPath));
 
-                    _log.InfoFormat("OnProjectAdded - Evict [{0}]", solutionContext.SolutionFileName);
+                    _log.InfoFormat("OnProjectRemoved - Evict [{0}]", solutionContext.SolutionFileName);
 
                     OnEvictFromCache(this, new EvictFromCacheEventArgs(solutionContext.SolutionFileName));
                 };

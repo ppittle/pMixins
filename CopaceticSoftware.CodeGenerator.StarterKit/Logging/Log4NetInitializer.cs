@@ -1,4 +1,4 @@
-﻿//----------------------------------------------------------------------- 
+//----------------------------------------------------------------------- 
 // <copyright file="Log4NetInitializer.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
@@ -55,7 +55,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                     new LevelAndLoggerFilter
                     {
                         LevelMax = Level.Fatal,
-                        LevelMin = Level.Warn, 
+                        LevelMin = 
+                        #if DEBUG
+                        Level.All
+                        #else
+                        Level.Warn, 
+                        #endif
                         LoggerToMatch = typeof(IPipelineStep<>).Namespace
                     });
 

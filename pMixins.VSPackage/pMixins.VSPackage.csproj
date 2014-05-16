@@ -193,6 +193,7 @@
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -211,9 +212,6 @@
     <Content Include="logoSmall.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="packages\pMixins.0.1.7.nupkg">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -223,7 +221,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CopaceticSoftware.CodeGenerator.StarterKit\CopaceticSoftware.CodeGenerator.StarterKit.csproj">
@@ -234,13 +231,6 @@
       <Project>{0b3b811b-d400-4144-a655-81bbff88e858}</Project>
       <Name>pMixins.CodeGenerator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\pMixins.ItemTemplate\pMixins.ItemTemplate.csproj">
-      <Project>{07B8D0B7-3395-4EC5-91C7-3482C8336A2C}</Project>
-      <Name>pMixins.ItemTemplate</Name>
-      <VSIXSubPath>ItemTemplates</VSIXSubPath>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-    </ProjectReference>
     <ProjectReference Include="..\pMixins.VisualStudio\pMixins.VisualStudio.csproj">
       <Project>{b2738273-42fa-4589-affc-610ce796d1f2}</Project>
       <Name>pMixins.VisualStudio</Name>
@@ -250,9 +240,7 @@
       <Name>pMixins</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ItemTemplates\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>

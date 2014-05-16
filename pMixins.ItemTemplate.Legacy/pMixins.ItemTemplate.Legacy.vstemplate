@@ -3,8 +3,8 @@
   <TemplateData>
     <Name>pMixins Class File</Name>
     <Description>An empty class definition configured to be used with the pMixins Code Generator</Description>
-    <Icon>pMixins.ItemTemplate.ico</Icon>
-    <TemplateID>423a0cc3-8056-489b-acdb-af01c7752af4</TemplateID>
+    <Icon>pMixins.ItemTemplate.Legacy.ico</Icon>
+    <TemplateID>dcf2c6c5-01f2-4983-aa5c-9c688b8dcf1b</TemplateID>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
@@ -28,7 +28,7 @@
   </WizardExtension>
   <WizardData>
     <packages repository="extension"
-          repositoryId="f570ab75-84bd-49bc-96a3-16a0363f16c1">
+          repositoryId="d6a02897-c610-4296-91ed-80b016e372ab">
       <package id="pMixins" version="0.1.7" />
     </packages>
   </WizardData>

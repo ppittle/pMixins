@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                 return
                     Path.Combine(
                         Path.GetDirectoryName(classFileName),
-                        codeBehindFile);
+                        codeBehindFile.ToString());
             }
             catch (Exception e)
             {

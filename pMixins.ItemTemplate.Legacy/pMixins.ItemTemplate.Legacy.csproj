@@ -8,6 +8,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>12.0</OldToolsVersion>
     <UpgradeBackupLocation />
+    <DesignTimeBuild>true</DesignTimeBuild>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,18 +24,17 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <DesignTimeBuild>true</DesignTimeBuild>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{07B8D0B7-3395-4EC5-91C7-3482C8336A2C}</ProjectGuid>
+    <ProjectGuid>{2BBFDADB-13C2-4727-8184-92BE70BDF0B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pMixins.ItemTemplate</RootNamespace>
-    <AssemblyName>pMixins.ItemTemplate</AssemblyName>
+    <RootNamespace>pMixins.ItemTemplate.Legacy</RootNamespace>
+    <AssemblyName>pMixins.ItemTemplate.Legacy</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -64,7 +64,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CreateVsixContainer>False</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.CoreUtility">
@@ -79,8 +78,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pMixins.ItemTemplate.ico" />
     <None Include="Class.cs" />
+    <None Include="pMixins.ItemTemplate.Legacy.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSTemplate Include="pMixins.ItemTemplate.Legacy.vstemplate" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -98,14 +100,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <VSTemplate Include="pMixins.ItemTemplate.vstemplate">
-      <SubType>Designer</SubType>
-    </VSTemplate>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="pMixins.ItemTemplate.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

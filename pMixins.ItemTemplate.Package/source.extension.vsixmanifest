@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="f570ab75-84bd-49bc-96a3-16a0363f16c1" Version="0.1.7" Language="en-US" Publisher="Copacetic Software / Philip Pittle" />
+    <DisplayName>pMixins Code Generator - Item Template</DisplayName>
+    <Description xml:space="preserve">Adds a pMixin Template to make it even easier to use the pMixins Code Generator.</Description>
+    <MoreInfo>http://pmixins.com</MoreInfo>
+    <License>ApacheLicense.txt</License>
+    <Icon>logoSmall.png</Icon>
+    <PreviewImage>logo.png</PreviewImage>
+    <Tags>pMixins Code Generator Mixin Aspect AOP Copacetic</Tags>
+  </Metadata>
+  <Installation InstalledByMsi="false">
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0, 13.0)" />
+    <InstallationTarget Version="[12.0,13.0)" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Version="[12.0,13.0)" Id="Microsoft.VisualStudio.Ultimate" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="[12.0]" />
+    <Dependency d:Source="Installed" Id="NuGet.67e54e40-0ae3-42c5-a949-fddf5739e6a5" DisplayName="NuGet Package Manager for Visual Studio 2013" Version="[2.8.50313.46,3.0)" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="pMixins.ItemTemplate" d:TargetPath="|pMixins.ItemTemplate;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+  </Assets>
+</PackageManifest>

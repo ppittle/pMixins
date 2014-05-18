@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
@@ -28,6 +29,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
     public interface IpMixinsCodeGeneratorResponseFileWriter
     {
         void WriteCodeGeneratorResponse(CodeGeneratorResponse response);
+        void ClearCodeBehindForSourceFile(FilePath sourceFullPath);
     }
 
     public class pMixinsCodeGeneratorResponseFileWriter : IpMixinsCodeGeneratorResponseFileWriter
@@ -78,6 +80,35 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                 _log.Error(
                     string.Format("Exception writing Generated Code for Source Class [{0}]: {1}",
                         response.CodeGeneratorContext.Source.FileName,
+                        e.Message), e);
+            }
+        }
+
+        public void ClearCodeBehindForSourceFile(FilePath sourceFullPath)
+        {
+            try
+            {
+                var codeBehind = _codeBehindFileHelper.GetCodeBehindFile(sourceFullPath);
+
+                if (null == codeBehind)
+                {
+                    _log.InfoFormat("No Code Behind found to clear for [{0}]", sourceFullPath);
+                    return;
+                }
+
+                if (_fileWrapper.Exists(codeBehind))
+                {
+                    _log.DebugFormat("Deleting file [{0}]", codeBehind);
+                    _fileWrapper.Delete(codeBehind);
+                }
+
+                _fileWrapper.WriteAllText(codeBehind, string.Empty);
+            }
+            catch (Exception e)
+            {
+                _log.Error(
+                    string.Format("Exception clearing Code Behind for Source Class [{0}]: {1}",
+                        sourceFullPath,
                         e.Message), e);
             }
         }

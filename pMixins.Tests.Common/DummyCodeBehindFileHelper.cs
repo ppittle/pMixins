@@ -28,5 +28,10 @@ namespace CopaceticSoftware.pMixins.Tests.Common
             return new FilePath(
                     classFileName.FullPath.ToLower().Replace(".cs", ".mixin.cs"));
         }
+
+        public FilePath GetCodeBehindFile(FilePath classFileName)
+        {
+            return GetOrAddCodeBehindFile(classFileName);
+        }
     }
 }

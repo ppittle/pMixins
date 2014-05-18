@@ -77,12 +77,24 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                 try
                 {
                     //Generate code for the file saved
-                    _visualStudioCodeGenerator
-                        .GenerateCode(
-                            _codeGeneratorContextFactory.GenerateContext(
-                                s => s.GetValidPMixinFiles()
-                                    .Where(f => f.FileName.Equals(classFullPath))))
-                        .Map(_responseFileWriter.WriteCodeGeneratorResponse);
+                    var currentFileContext =
+                        _codeGeneratorContextFactory.GenerateContext(
+                            s => s.GetValidPMixinFiles()
+                                .Where(f => f.FileName.Equals(classFullPath)))
+                            .ToArray();
+
+                    if (currentFileContext.Length == 0)
+                    {
+                        _log.InfoFormat("No code will be genereated for [{0}]", classFullPath);
+
+                        _responseFileWriter.ClearCodeBehindForSourceFile(classFullPath);
+                    }
+                    else
+                    {
+                        _visualStudioCodeGenerator
+                            .GenerateCode(currentFileContext)
+                            .Map(_responseFileWriter.WriteCodeGeneratorResponse);
+                    }
 
                     //Generate code for dependencies
                     var filesToUpdate =

@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using EnvDTE;
 using EnvDTE80;
 using JetBrains.Annotations;
 using log4net;
@@ -34,6 +35,9 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
         /// </summary>
         [CanBeNull]
         FilePath GetOrAddCodeBehindFile(FilePath classFileName);
+
+        [CanBeNull]
+        FilePath GetCodeBehindFile(FilePath classFileName);
     }
 
     public class CodeBehindFileHelper : ICodeBehindFileHelper
@@ -52,13 +56,10 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
 
         public FilePath GetOrAddCodeBehindFile(FilePath classFileName)
         {
-            var target = _dte2.Solution.FindProjectItem(classFileName.FullPath);
+            var target = LoadProjectItem(classFileName);
 
             if (null == target)
-            {
-                _log.ErrorFormat("Failed to find Project Item [{0}]", classFileName);
                 return null;
-            }
 
             var previousCodeGenerator = target.Properties.Item("CustomTool").Value;
 
@@ -68,12 +69,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
 
                 (target.Object as VSProjectItem).RunCustomTool();
 
-                var codeBehindFile = target.Properties.Item("CustomToolOutput").Value;
-
-                return
-                    new FilePath(
-                        Path.GetDirectoryName(classFileName.FullPath),
-                        codeBehindFile.ToString());
+                return GetCodeBehindFile(classFileName, target);
             }
             catch (Exception e)
             {
@@ -91,6 +87,40 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                 //This line causes Visual Studio to exclude the code behind file
                 //target.Properties.Item("CustomTool").Value = previousCodeGenerator;
             }
+        }
+
+        public FilePath GetCodeBehindFile(FilePath classFileName)
+        {
+            return GetCodeBehindFile(classFileName, LoadProjectItem(classFileName));
+        }
+
+        private FilePath GetCodeBehindFile(FilePath classFileName, ProjectItem target)
+        {
+            if (null == target)
+                return null;
+
+            var codeBehindFile = target.Properties.Item("CustomToolOutput").Value;
+
+            if (null == codeBehindFile)
+                return null;
+
+            return
+                new FilePath(
+                    Path.GetDirectoryName(classFileName.FullPath),
+                    codeBehindFile.ToString());
+        }
+
+        private ProjectItem LoadProjectItem(FilePath classFileName)
+        {
+            var target = _dte2.Solution.FindProjectItem(classFileName.FullPath);
+
+            if (null == target)
+            {
+                _log.ErrorFormat("Failed to find Project Item [{0}]", classFileName);
+                return null;
+            }
+
+            return target;
         }
     }
 }

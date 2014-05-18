@@ -17,13 +17,9 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.pMixins.Attributes;
-using CopaceticSoftware.pMixins.Tests.Common;
 using NBehave.Spec.NUnit;
 using Ninject;
 using NUnit.Framework;
@@ -41,6 +37,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
     /// Tests running the compilation on a Source file (this source file)
     /// that is part of a project
     /// </summary>
+    [Ignore("The subject tested in this test has been moved to  CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests")]
     public class ExistingMixinFileTest : IntegrationTestBase
     {
         private pMixinPartialCodeGeneratorResponse _response;

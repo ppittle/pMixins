@@ -50,7 +50,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
 
             //Delete the code behind
             _MockSolution.RemoveFile(s =>
-                s.AllMockSourceFiles.First(f => f.FileName.EndsWith(".mixin.cs")));
+                s.AllMockSourceFiles.First(f => f.FileName.FullPath.ToLower().EndsWith(".mixin.cs")));
 
             //Fire OnBuild
             EventProxy.FireOnBuildBegin(this, 

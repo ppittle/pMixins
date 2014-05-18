@@ -44,7 +44,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         /// <summary>
         /// Full path to the .csproj file.
         /// </summary>
-        public readonly string FileName;
+        public readonly FilePath FileName;
 
         public readonly CompilerSettings CompilerSettings;
 
@@ -85,11 +85,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             ProjectContent = new CSharpProjectContent();
             ProjectContent = ProjectContent.SetAssemblyName(msBuildProject.AssemblyName);
-            ProjectContent = ProjectContent.SetProjectFileName(msBuildProject.FileName);
+            ProjectContent = ProjectContent.SetProjectFileName(msBuildProject.FileName.FullPath);
             ProjectContent = ProjectContent.SetCompilerSettings(CompilerSettings);
 
             Files = msBuildProject.CompiledFileNames.Select(
-                f => cSharpFileFactory.BuildCSharpFile(this, f)).ToList();
+                f => cSharpFileFactory.BuildCSharpFile(this, new FilePath(f))).ToList();
 
             ProjectContent = ProjectContent.AddOrUpdateFiles(
                 Files.Select(f => f.UnresolvedTypeSystemForFile));

@@ -20,6 +20,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using log4net;
 using Microsoft.Build.Evaluation;
 using Project = Microsoft.Build.Evaluation.Project;
@@ -28,7 +29,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface IMicrosoftBuildProjectLoader
     {
-        Project LoadMicrosoftBuildProject(string projectFileName);
+        Project LoadMicrosoftBuildProject(FilePath projectFileName);
     }
 
     public class MicrosoftBuildProjectLoader : IMicrosoftBuildProjectLoader
@@ -44,14 +45,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 RemoveAllReferencesToProject(args.ProjectFullPath);
         }
 
-        private void RemoveAllReferencesToProject(string projectFileName)
+        private void RemoveAllReferencesToProject(FilePath projectFileName)
         {
             lock (_lock)
                 try
                 {
                     _log.InfoFormat("OnProjectAdded: Clear ProjectCollection for [{0}]", projectFileName);
 
-                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName)
+                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName.FullPath)
                         .Map(p => ProjectCollection.GlobalProjectCollection.UnloadProject(p));
                 }
                 catch (Exception e)
@@ -62,18 +63,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 }
         }
 
-        public Project LoadMicrosoftBuildProject(string projectFileName)
+        public Project LoadMicrosoftBuildProject(FilePath projectFileName)
         {
             lock (_lock)
             {
                 var loadedProjects =
-                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName)
+                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName.FullPath)
                         //Create a copy incase the collection is modified externally during iteration
                         .ToArray();
 
                 return loadedProjects.Any()
                     ? loadedProjects.First()
-                    : new Project(projectFileName);
+                    : new Project(projectFileName.FullPath);
             }
         }
     }

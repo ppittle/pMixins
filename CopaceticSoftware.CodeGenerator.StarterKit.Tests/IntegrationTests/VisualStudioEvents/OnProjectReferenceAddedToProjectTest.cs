@@ -16,8 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -35,7 +35,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             #region Source Files
             var newProjectSourceFile = new MockSourceFile
             {
-                FileName = Path.Combine(MockSolution.MockSolutionFolder, "NewProjectSourceFile.cs"),
+                FileName = new FilePath(MockSolution.MockSolutionFolder, "NewProjectSourceFile.cs"),
                 Source =
                     @"namespace Testing{
                         public class NewProjectClass{ public void AMethod(){} }
@@ -67,7 +67,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
             _MockSolution.Projects.Add(
                 new MockProject
                 {
-                    FileName = Path.Combine(MockSolution.MockSolutionFolder, "NewProject.csproj"),
+                    FileName = new FilePath(MockSolution.MockSolutionFolder, "NewProject.csproj"),
                     MockSourceFiles = new[] { newProjectSourceFile }
                 });
 

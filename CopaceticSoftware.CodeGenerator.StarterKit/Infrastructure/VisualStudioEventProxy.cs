@@ -59,7 +59,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     [Serializable]
     public abstract class VisualStudioEventArgs : EventArgs
     {
-        public string ProjectFullPath { get; set; }
+        public FilePath ProjectFullPath { get; set; }
         public abstract string GetDebugString();
     }
 
@@ -69,31 +69,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     [Serializable]
     public abstract class VisualStudioProjectReferenceEventArgs : VisualStudioEventArgs
     {
-        public string ReferencePath { get; set; }
+        public FilePath ReferencePath { get; set; }
     }
 
     [Serializable]
     public abstract class VisualStudioClassEventArgs : VisualStudioEventArgs
     {
-        public string ClassFullPath { get; set; }
+        public FilePath ClassFullPath { get; set; }
 
         public bool IsCSharpFile()
         {
-            if (string.IsNullOrEmpty(ClassFullPath))
+            if (ClassFullPath.IsEmpty())
                 return false;
 
-            try
-            {
-                var ext = Path.GetExtension(ClassFullPath);
-
-                return null == ext
-                    ? false
-                    : ext.Equals("cs", StringComparison.InvariantCultureIgnoreCase);
-            }
-            catch
-            {
-                return false;
-            }
+            return ClassFullPath.Extension == "cs";
         }
     }
     #endregion
@@ -174,7 +163,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
     [Serializable]
     public class ProjectItemRenamedEventArgs : VisualStudioClassEventArgs
     {
-        public string OldClassFileName { get; set; }
+        public FilePath OldClassFileName { get; set; }
 
         public override string GetDebugString()
         {
@@ -284,8 +273,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
         private BuildEvents _buildEvents;
         
 
-        private readonly Dictionary<string, ReferencesEvents> _projectSpecificReferenceEvents = 
-            new Dictionary<string, ReferencesEvents>();
+        private readonly Dictionary<FilePath, ReferencesEvents> _projectSpecificReferenceEvents =
+            new Dictionary<FilePath, ReferencesEvents>();
         
         public VisualStudioEventProxy(DTE2 dte)
         {
@@ -311,7 +300,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             _solutionEvents.ProjectAdded += project =>
                     {
                         RegisterForProjectLevelEvents(project.Object as VSProject);
-                        OnProjectAdded(this, new ProjectAddedEventArgs {ProjectFullPath = project.FullName});
+                        OnProjectAdded(this, new ProjectAddedEventArgs
+                        {
+                            ProjectFullPath = new FilePath(project.FullName)
+                        });
                     };
 
             _solutionEvents.ProjectRemoved += project =>
@@ -320,7 +312,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
                         return;
 
                     UnregisterForProjectLevelEvents(project as VSProject);
-                    OnProjectRemoved(this, new ProjectRemovedEventArgs { ProjectFullPath = project.FullName });
+                    OnProjectRemoved(this, new ProjectRemovedEventArgs { ProjectFullPath = new FilePath(project.FullName) });
                 };
 
             _solutionEvents.BeforeClosing += () => OnSolutionClosing(this, new EventArgs());
@@ -328,40 +320,48 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             _solutionEvents.Opened += () => OnSolutionOpening(this, new EventArgs());
 
            _projectItemsEvents.ItemAdded += item =>
-                OnProjectItemAdded(this, new ProjectItemAddedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.GetFullName() });
+                OnProjectItemAdded(this, new ProjectItemAddedEventArgs
+                {
+                    ProjectFullPath = new FilePath(item.ContainingProject.FullName),
+                    ClassFullPath = new FilePath(item.GetFullName())
+                });
 
             _projectItemsEvents.ItemRemoved += item =>
-                OnProjectItemRemoved(this, new ProjectItemRemovedEventArgs { ProjectFullPath = item.ContainingProject.FullName, ClassFullPath = item.GetFullName() });
+                OnProjectItemRemoved(this, new ProjectItemRemovedEventArgs
+                {
+                    ProjectFullPath = new FilePath(item.ContainingProject.FullName),
+                    ClassFullPath = new FilePath(item.GetFullName())
+                });
 
             _projectItemsEvents.ItemRenamed += (item, name) =>
                 OnProjectItemRenamed(this, new ProjectItemRenamedEventArgs
                     {
-                        ProjectFullPath = item.ContainingProject.FullName,
-                        ClassFullPath = item.GetFullName(),
-                        OldClassFileName = Path.Combine(Path.GetDirectoryName(item.GetFullName()) ?? "", name)
+                        ProjectFullPath = new FilePath(item.ContainingProject.FullName),
+                        ClassFullPath = new FilePath(item.GetFullName()),
+                        OldClassFileName = new FilePath(Path.GetDirectoryName(item.GetFullName()), name)
                     });
 
             _documentEvents.DocumentOpened += item =>
                 OnProjectItemOpened(this, new ProjectItemOpenedEventArgs
                 {
                     DocumentReader = new VisualStudioOpenDocumentReader(item),
-                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
-                    ClassFullPath = item.FullName
+                    ProjectFullPath = new FilePath(item.ProjectItem.ContainingProject.FullName),
+                    ClassFullPath = new FilePath(item.FullName)
                 });
 
             _documentEvents.DocumentClosing += item =>
                 OnProjectItemClosed(this, new ProjectItemClosedEventArgs
                 {
                     //ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
-                    ClassFullPath = item.FullName
+                    ClassFullPath = new FilePath(item.FullName)
                 });
 
             _documentEvents.DocumentSaved += item =>
             {
                 var args = new ProjectItemSavedEventArgs
                 {
-                    ProjectFullPath = item.ProjectItem.ContainingProject.FullName,
-                    ClassFullPath = item.FullName
+                    ProjectFullPath = new FilePath(item.ProjectItem.ContainingProject.FullName),
+                    ClassFullPath = new FilePath(item.FullName)
                 };
 
                 OnProjectItemSaved(this, args);
@@ -378,31 +378,38 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         private void RegisterForProjectLevelEvents(VSProject project)
         {
-
-            if (null == project || _projectSpecificReferenceEvents.ContainsKey(project.Project.FullName))
+            if (null == project || _projectSpecificReferenceEvents.ContainsKey(new FilePath(project.Project.FullName)))
                 return;
 
-            var projectFullName = project.Project.FullName;
+            var projectFullName = project.Project.FullName.SafeToLower();
             
             #region Reference Events
             var referenceEvents = project.Events.ReferencesEvents;
 
             referenceEvents.ReferenceAdded += reference =>
-                OnProjectReferenceAdded(this, new ProjectReferenceAddedEventArgs { ReferencePath = reference.Path, ProjectFullPath = projectFullName });
+                OnProjectReferenceAdded(this, new ProjectReferenceAddedEventArgs
+                {
+                    ReferencePath = new FilePath(reference.Path), 
+                    ProjectFullPath = new FilePath(projectFullName)
+                });
             
             referenceEvents.ReferenceRemoved += reference =>
-                OnProjectReferenceRemoved(this, new ProjectReferenceRemovedEventArgs { ReferencePath = reference.Path, ProjectFullPath = projectFullName });
+                OnProjectReferenceRemoved(this, new ProjectReferenceRemovedEventArgs
+                {
+                    ReferencePath = new FilePath(reference.Path),
+                    ProjectFullPath = new FilePath(projectFullName)
+                });
 
-            _projectSpecificReferenceEvents.Add(projectFullName, referenceEvents);
+            _projectSpecificReferenceEvents.Add(new FilePath(project.Project.FullName), referenceEvents);
             #endregion
         }
 
         private void UnregisterForProjectLevelEvents(VSProject project)
         {
-            if (null == project || !_projectSpecificReferenceEvents.ContainsKey(project.Project.FullName))
+            if (null == project || !_projectSpecificReferenceEvents.ContainsKey(new FilePath(project.Project.FullName)))
                 return;
 
-            _projectSpecificReferenceEvents.Remove(project.Project.FullName);
+            _projectSpecificReferenceEvents.Remove(new FilePath(project.Project.FullName));
         }
 
         public void FireOnCodeGenerated(object sender, CodeGeneratorResponse response)

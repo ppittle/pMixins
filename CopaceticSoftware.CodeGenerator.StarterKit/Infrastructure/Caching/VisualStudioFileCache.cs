@@ -28,18 +28,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 {
     public interface IFileReader
     {
-        string ReadAllText(string filename);
-        IEnumerable<string> ReadLines(string filename);
+        string ReadAllText(FilePath filename);
+        IEnumerable<string> ReadLines(FilePath filename);
 
-        void EvictFromCache(string filename);
+        void EvictFromCache(FilePath filename);
     }
 
     public class VisualStudioFileCache : IFileReader
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static ConcurrentDictionary<string, FileReaderAsync> _fileCache = 
-            new ConcurrentDictionary<string, FileReaderAsync>();
+        private static ConcurrentDictionary<FilePath, FileReaderAsync> _fileCache =
+            new ConcurrentDictionary<FilePath, FileReaderAsync>();
 
         private readonly IFileWrapper _fileWrapper;
         private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
@@ -52,20 +52,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
             WireUpCacheEvictionEvents(cacheEventHelper, visualStudioEventProxy);
         }
 
-        public string ReadAllText(string filename)
+        public string ReadAllText(FilePath filename)
         {
             return 
                 _fileCache.GetOrAdd(filename, f => new FileReaderAsync(_openDocumentManager, _fileWrapper, f))
                     .FileContents;
         }
 
-        public IEnumerable<string> ReadLines(string filename)
+        public IEnumerable<string> ReadLines(FilePath filename)
         {
             return ReadAllText(filename)
                 .Split(new [] {Environment.NewLine}, StringSplitOptions.None);
         }
 
-        public void EvictFromCache(string filename)
+        public void EvictFromCache(FilePath filename)
         {
             FileReaderAsync dummy;
 
@@ -88,7 +88,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 
             cacheEventHelper.OnClearCache += (sender, args) =>
             {
-                _fileCache = new ConcurrentDictionary<string, FileReaderAsync>();
+                _fileCache = new ConcurrentDictionary<FilePath, FileReaderAsync>();
 
                 _log.InfoFormat("Cleared Cache");
             };
@@ -100,9 +100,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                 (sender, args) => TryEagerlyLoadFile(args.ClassFullPath);
         }
 
-        private void TryEagerlyLoadFile(string filename)
+        private void TryEagerlyLoadFile(FilePath filename)
         {
-            if ((Path.GetExtension(filename) ?? "").ToLower().Equals(".cs"))
+            if (filename.Extension.Equals(".cs"))
             {
                 _log.InfoFormat("Eagerly adding file to cache [{0}]", filename);
                 ReadAllText(filename);

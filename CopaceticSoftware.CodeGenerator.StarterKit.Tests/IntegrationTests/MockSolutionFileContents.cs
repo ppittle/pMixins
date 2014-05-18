@@ -22,15 +22,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using ICSharpCode.NRefactory.CSharp.Refactoring;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using Microsoft.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 {
     public interface IMockFile
     {
-        string FileName { get; }
+        FilePath FileName { get; }
         string RenderFile();
     }
 
@@ -42,11 +41,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public MockSolution(string filename = MockSolutionFileName)
         {
-            FileName = filename;
+            FileName = new FilePath(filename);
             Projects = new List<MockProject>();
         }
 
-        public string FileName { get; set; }
+        public FilePath FileName { get; set; }
 
         public IList<MockProject> Projects { get; set; }
 
@@ -109,7 +108,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
     {
         public MockProject(string filename = @"c:\test\MockSolution\MockProject.csproj")
         {
-            FileName = filename;
+            FileName = new FilePath(filename);
             Title = Path.GetFileNameWithoutExtension(filename);
 
             AssemblyReferences = new List<string>();
@@ -117,8 +116,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             MockSourceFiles = new List<MockSourceFile>();
         }
 
-        public readonly Guid Guid = System.Guid.NewGuid();
-        public string FileName { get; set; }
+        public readonly Guid Guid = Guid.NewGuid();
+        public FilePath FileName { get; set; }
         public string Title { get; set; }
         public IList<string> AssemblyReferences { get; set; }
         public IList<MockProject> ProjectReferences { get; set; }
@@ -221,14 +220,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                                     </ProjectReference>",
                                 p.FileName,
                                 p.Guid,
-                                Path.GetFileNameWithoutExtension(p.FileName))
+                                Path.GetFileNameWithoutExtension(p.FileName.FullPath))
                         )));
         }
 
         public CompilerResults Compile()
         {
             var csc = new CSharpCodeProvider(
-                new Dictionary<string, string>() { { "CompilerVersion", "v4.0" } });
+                new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
 
             var referencedAssemblies =
                 AssemblyReferences
@@ -245,7 +244,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public bool ContainsFile(MockSourceFile sourceFile)
         {
-            return MockSourceFiles.Any(f => f.FileName.Equals(sourceFile.FileName, StringComparison.InvariantCulture));
+            return MockSourceFiles.Any(f => f.FileName.Equals(sourceFile.FileName));
         }
     }
 
@@ -256,16 +255,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public MockSourceFile(string filename = DefaultMockFileName)
         {
-            FileName = filename;
+            FileName = new FilePath(filename);
             Source = string.Empty;
         }
 
-        public string FileName { get; set; }
+        public FilePath FileName { get; set; }
         public string Source { get; set; }
 
         public string RenderFile() { return Source;}
 
-        public string Classname { get { return Path.GetFileNameWithoutExtension(FileName); } }
+        public string Classname { get { return Path.GetFileNameWithoutExtension(FileName.FullPath); } }
 
         public bool ContainsPMixinAttribute
         {
@@ -277,7 +276,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         {
             return new MockSourceFile
             {
-                FileName = filename,
+                FileName = new FilePath(filename),
                 Source =
                     string.Format(
                         @"
@@ -311,7 +310,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
         public static string GetReferenceToPMixinsDll()
         {
-            return ReferenceHelper.GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll");
+            return GetReferenceToDllInTestProject("CopaceticSoftware.pMixins.dll");
         }
 
         public static IEnumerable<string> GetDefaultSystemReferences()
@@ -319,8 +318,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             return new[]
             {
                 typeof (int).Assembly.Location,
-                typeof(System.CodeDom.Compiler.CodeCompiler).Assembly.Location,
-                typeof(System.Linq.Enumerable).Assembly.Location
+                typeof(CodeCompiler).Assembly.Location,
+                typeof(Enumerable).Assembly.Location
             };
         }
     }

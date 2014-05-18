@@ -18,6 +18,7 @@
 
 using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
 using Ninject;
@@ -26,11 +27,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
 {
     public abstract class IntegrationTestBase : TestBase
     {
-        public readonly static string ProjectFile =
-            Path.GetFullPath(
-                Path.Combine(
+        public readonly static FilePath ProjectFile =
+                new FilePath(
                     Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.CodeGenerator\pMixins.CodeGenerator.csproj"));
+                    @"..\..\..\pMixins.CodeGenerator\pMixins.CodeGenerator.csproj");
 
         public static IKernel Kernel { get; private set; }
 

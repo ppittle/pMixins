@@ -18,6 +18,7 @@
 
 using System.Threading;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -60,10 +61,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
            
             //Simulate Project Reference Added
             var referencePath = 
-                ReferenceHelper.GetReferenceToDllInTestProject(
-                    typeof (SimpleObject).Assembly.Location);
+                new FilePath(
+                    ReferenceHelper.GetReferenceToDllInTestProject(
+                        typeof (SimpleObject).Assembly.Location));
            
-            _MockSolution.Projects[0].AssemblyReferences.Add(referencePath);
+            _MockSolution.Projects[0].AssemblyReferences.Add(referencePath.FullPath);
 
             //Fire Project Reference Added Event
             EventProxy.FireOnProjectReferenceAdded(this, new ProjectReferenceAddedEventArgs

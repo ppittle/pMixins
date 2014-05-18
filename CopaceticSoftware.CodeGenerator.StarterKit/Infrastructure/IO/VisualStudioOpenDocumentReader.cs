@@ -19,6 +19,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using EnvDTE;
 using log4net;
 
@@ -51,8 +52,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             {
                 _log.Warn("Failed to create a TextDocument from Document: " + e.Message, e);
             }
-           
-            _classFileName = document.FullName;
+
+            _classFileName = document.FullName.SafeToLower();
         }
 
         public string GetDocumentText()

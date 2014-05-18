@@ -19,6 +19,7 @@
 using System;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using NUnit.Framework;
 using Ninject;
@@ -58,10 +59,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
                     CodeGeneratorContextFactory
                         .GenerateContext(
                             new []{
-                            new RawSourceFile()
+                            new RawSourceFile
                             {
                                 FileContents = SourceCode,
-                                FileName = "testFile.cs",
+                                FileName = new FilePath(@"c:\testing\testFile.cs"),
                                 ProjectFileName = ProjectFile
                             }})
                         .First();

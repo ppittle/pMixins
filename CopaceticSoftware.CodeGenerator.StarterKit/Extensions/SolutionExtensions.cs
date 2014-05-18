@@ -17,12 +17,11 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 using JetBrains.Annotations;
@@ -43,7 +42,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             try
             {
                 var project = solution.Projects.FirstOrDefault(
-                    p => p.FileName.Equals(rawSourceFile.ProjectFileName, StringComparison.InvariantCultureIgnoreCase));
+                    p => p.FileName.Equals(rawSourceFile.ProjectFileName));
 
                 if (null == project)
                 {
@@ -78,10 +77,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         }
 
         [CanBeNull]
-        public static CSharpFile FindCSharpFileByFileName(this Solution solution, string filename)
+        public static CSharpFile FindCSharpFileByFileName(this Solution solution, FilePath filename)
         {
             return solution.AllFiles.FirstOrDefault(
-                f => f.FileName.Equals(filename, StringComparison.InvariantCultureIgnoreCase));
+                f => f.FileName.Equals(filename));
         }
 
         public static string DumpForLogging(this Solution solution)

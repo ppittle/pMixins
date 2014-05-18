@@ -30,7 +30,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Solu
                .Projects[0].MockSourceFiles.Add(
                    new MockSourceFile
                    {
-                       FileName = MockSourceFile.DefaultMockFileName,
                        Source = @"
                                 namespace Testing{
                                     

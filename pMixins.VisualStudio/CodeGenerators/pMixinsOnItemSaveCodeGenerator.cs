@@ -19,11 +19,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.VisualStudio.Extensions;
@@ -59,13 +59,15 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             _taskFactory = taskFactory;
             _codeGeneratorDependencyManager = codeGeneratorDependencyManager;
 
-            visualStudioEventProxy.OnProjectItemSaveComplete += (s,a) => GenerateCode(a.ClassFullPath, "ProjectItemSaveComplete");
+            visualStudioEventProxy.OnProjectItemSaveComplete += (s,a) => 
+                GenerateCode(a.ClassFullPath, "ProjectItemSaveComplete");
             
             //Generate code on a Project Item Added incase it's an existing file.
-            visualStudioEventProxy.OnProjectItemAdded += (s, a) => GenerateCode(a.ClassFullPath, "OnProjectItemAdded");
+            visualStudioEventProxy.OnProjectItemAdded += (s, a) => 
+                GenerateCode(a.ClassFullPath, "OnProjectItemAdded");
         }
 
-        private void GenerateCode(string classFullPath, string eventName)
+        private void GenerateCode(FilePath classFullPath, string eventName)
         {
             _taskFactory.StartNew(() =>
             {
@@ -78,7 +80,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
                     _visualStudioCodeGenerator
                         .GenerateCode(
                             _codeGeneratorContextFactory.GenerateContext(
-                                s => s.GetValidPMixinFiles().Where(f => f.FileName.Equals(classFullPath))))
+                                s => s.GetValidPMixinFiles()
+                                    .Where(f => f.FileName.Equals(classFullPath))))
                         .Map(_responseFileWriter.WriteCodeGeneratorResponse);
 
                     //Generate code for dependencies

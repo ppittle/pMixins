@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
 
@@ -32,7 +33,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public readonly string FileName;
+        public readonly FilePath FileName;
         public readonly string AssemblyName;
         public readonly bool AllowUnsafeBlocks;
         public readonly bool CheckForOverflowUnderflow;
@@ -43,11 +44,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         public MicrosoftBuildProject(
             IMicrosoftBuildProjectLoader microsoftBuildProjectLoader,
             IMicrosoftBuildProjectAssemblyReferenceResolver assemblyReferenceResolver,
-            string projectFileName)
+            FilePath projectFileName)
         {
             var sw = Stopwatch.StartNew();
 
-            FileName = projectFileName ?? "";
+            FileName = projectFileName;
 
             var msBuildProject = microsoftBuildProjectLoader.LoadMicrosoftBuildProject(projectFileName);
             
@@ -68,7 +69,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 assemblyReferenceResolver.ResolveReferences(msBuildProject);
                 
 
-            _log.DebugFormat("Project [{0}] built in [{1}] ms", Path.GetFileName(FileName), sw.ElapsedMilliseconds);
+            _log.DebugFormat("Project [{0}] built in [{1}] ms", Path.GetFileName(FileName.FullPath), sw.ElapsedMilliseconds);
         }
     }
 }

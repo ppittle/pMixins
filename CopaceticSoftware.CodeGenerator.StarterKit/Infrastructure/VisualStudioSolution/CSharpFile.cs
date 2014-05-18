@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.Resolver;
@@ -29,14 +30,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     [DebuggerDisplay("{FileName}")]
     public class CSharpFile
     {
-        public readonly string FileName;
+        public readonly FilePath FileName;
         public readonly string OriginalText;
         public readonly SyntaxTree SyntaxTree;
         public readonly CSharpUnresolvedFile UnresolvedTypeSystemForFile;
         public readonly CSharpProject Project;
         public readonly IEnumerable<Error> Errors;
 
-        public CSharpFile(CSharpProject project, string fileName, string sourceCode)
+        public CSharpFile(CSharpProject project, FilePath fileName, string sourceCode)
         {
             Ensure.ArgumentNotNull(project, "project");
 
@@ -46,7 +47,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             var parser = new CSharpParser(Project.CompilerSettings);
             
-            SyntaxTree = parser.Parse(sourceCode, fileName);
+            SyntaxTree = parser.Parse(sourceCode, fileName.FullPath);
 
             Errors = parser.HasErrors
                 ? parser.ErrorsAndWarnings

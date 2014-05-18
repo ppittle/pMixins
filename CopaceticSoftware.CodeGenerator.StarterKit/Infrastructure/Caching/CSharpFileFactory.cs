@@ -28,7 +28,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 {
     public interface ICSharpFileFactory
     {
-        CSharpFile BuildCSharpFile(CSharpProject p, string filename);
+        CSharpFile BuildCSharpFile(CSharpProject p, FilePath filename);
     }
 
     public class CSharpFileFactory : ICSharpFileFactory
@@ -38,10 +38,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
         private readonly IFileReader _fileReader;
         private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
 
-        private static ConcurrentDictionary<string, CSharpFile> _fileCache =
-            new ConcurrentDictionary<string, CSharpFile>();
+        private static ConcurrentDictionary<FilePath, CSharpFile> _fileCache =
+            new ConcurrentDictionary<FilePath, CSharpFile>();
 
         private FileByProjectIndex _fileByProjectIndex = new FileByProjectIndex();
+       
 
         public CSharpFileFactory(IFileReader fileReader, ICacheEventHelper cacheEventHelper, IVisualStudioEventProxy visualStudioEventProxy, IVisualStudioOpenDocumentManager openDocumentManager)
         {
@@ -51,7 +52,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
             WireUpCacheEvictionEvents(cacheEventHelper, visualStudioEventProxy);
         }
 
-        public CSharpFile BuildCSharpFile(CSharpProject p, string filename)
+        public CSharpFile BuildCSharpFile(CSharpProject p, FilePath filename)
         {
             if (_openDocumentManager.IsDocumentOpen(filename))
             {
@@ -77,7 +78,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                 (sender, args) =>
                 {
                     _log.Info("Solution closing.  Clearing cache");
-                    _fileCache = new ConcurrentDictionary<string, CSharpFile>();
+                    _fileCache = new ConcurrentDictionary<FilePath, CSharpFile>();
 
                     _fileByProjectIndex = new FileByProjectIndex();
                 };
@@ -103,7 +104,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                 (sender, args) => EvictAllFilesInProject(args.ProjectFullPath);
         }
 
-        private void EvictAllFilesInProject(string projectFullPath)
+        private void EvictAllFilesInProject(FilePath projectFullPath)
         {
             using (new LoggingActivity("Evicting file for Project [" + projectFullPath + "]"))
             {
@@ -118,32 +119,32 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 
     public class FileByProjectIndex
     {
-        private Dictionary<string, IList<string>> _cache =
-            new Dictionary<string, IList<string>>();
+        private Dictionary<FilePath, IList<FilePath>> _cache =
+            new Dictionary<FilePath, IList<FilePath>>();
 
         private static object _lock = new object();
 
-        public void Add(string projectFilePath, string filePath)
+        public void Add(FilePath projectFilePath, FilePath filePath)
         {
             lock (_lock)
             {
-                IList<string> value;
+                IList<FilePath> value;
                 if (_cache.TryGetValue(projectFilePath, out value))
                 {
                     value.Add(filePath);
                 }
                 else
                 {
-                    _cache.Add(projectFilePath, new List<string>{ filePath });
+                    _cache.Add(projectFilePath, new List<FilePath> { filePath });
                 }
             }
         }
 
-        public IList<string> RemoveProjectFileList(string projetFilePath)
+        public IList<FilePath> RemoveProjectFileList(FilePath projetFilePath)
         {
             lock (_lock)
             {
-                IList<string> value;
+                IList<FilePath> value;
                 if (_cache.TryGetValue(projetFilePath, out value))
                 {
                     _cache.Remove(projetFilePath);
@@ -151,7 +152,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                 }
                 else
                 {
-                    return new string[0];
+                    return new FilePath[0];
                 }
             }
 

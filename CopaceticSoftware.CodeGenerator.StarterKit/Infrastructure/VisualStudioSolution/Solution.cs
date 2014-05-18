@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
 
@@ -30,7 +31,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public readonly string FileName;
+        public readonly FilePath FileName;
         public readonly IList<CSharpProject> Projects;
 
         public IEnumerable<CSharpFile> AllFiles
@@ -38,7 +39,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             get { return Projects.SelectMany(p => p.Files); }
         }
 
-        public Solution(string fileName, IEnumerable<CSharpProject> projects)
+        public Solution(FilePath fileName, IEnumerable<CSharpProject> projects)
         {
             var sw = Stopwatch.StartNew();
 

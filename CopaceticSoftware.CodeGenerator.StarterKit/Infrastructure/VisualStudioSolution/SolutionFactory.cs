@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using JetBrains.Annotations;
 using log4net;
@@ -54,7 +55,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         {
             _visualStudioWriter.WriteToStatusBar("pMixin - Building Current Solution");
 
-            if (string.IsNullOrEmpty(_solutionContext.SolutionFileName))
+            if (_solutionContext.SolutionFileName.IsNullOrEmpty())
             { 
                 _log.Warn("There is not a valid Solution in the Solution Context (_solutionContext.SolutionFileName is null or empty).  Returning a null Solution");
                 return null;
@@ -66,7 +67,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 _log.InfoFormat("Start BuildCurrentSolution on [{0}]", _solutionContext.SolutionFileName);
 
                 return new Solution(
-                    Path.GetFileName(_solutionContext.SolutionFileName),
+                    _solutionContext.SolutionFileName,
                     _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
                         .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
                     );

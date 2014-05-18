@@ -28,7 +28,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
         public bool PerformTask(ICodeGenerationPipelineState manager)
         {
             var commentNode = new Comment(
-                FormatHeader(manager.Context.Source.FileName),
+                FormatHeader(manager.Context.Source.FileName.FullPath),
                 CommentType.MultiLineDocumentation);
 
             manager.GeneratedCodeSyntaxTree.AddChild(commentNode, Roles.Comment);

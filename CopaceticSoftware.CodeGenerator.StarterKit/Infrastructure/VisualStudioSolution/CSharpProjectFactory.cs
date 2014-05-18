@@ -23,7 +23,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 {
     public interface ICSharpProjectFactory
     {
-        CSharpProject BuildProject(string projectFileName, string title);
+        CSharpProject BuildProject(FilePath projectFileName, string title);
     }
 
     public class CSharpProjectFactory : ICSharpProjectFactory
@@ -39,7 +39,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             _microsoftBuildProjectLoader = microsoftBuildProjectLoader;
         }
 
-        public CSharpProject BuildProject(string projectFileName, string title)
+        public CSharpProject BuildProject(FilePath projectFileName, string title)
         {
             return new CSharpProject(
                 _cSharpFileFactory,

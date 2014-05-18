@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using EnvDTE80;
 using JetBrains.Annotations;
 using log4net;
@@ -32,7 +33,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
         /// Returns the full path to a code behind file added for <paramref name="classFileName"/>.
         /// </summary>
         [CanBeNull]
-        string GetOrAddCodeBehindFile(string classFileName);
+        FilePath GetOrAddCodeBehindFile(FilePath classFileName);
     }
 
     public class CodeBehindFileHelper : ICodeBehindFileHelper
@@ -49,9 +50,9 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
             _singleFileCodeGenerator = singleFileCodeGenerator;
         }
 
-        public string GetOrAddCodeBehindFile(string classFileName)
+        public FilePath GetOrAddCodeBehindFile(FilePath classFileName)
         {
-            var target = _dte2.Solution.FindProjectItem(classFileName);
+            var target = _dte2.Solution.FindProjectItem(classFileName.FullPath);
 
             if (null == target)
             {
@@ -70,8 +71,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                 var codeBehindFile = target.Properties.Item("CustomToolOutput").Value;
 
                 return
-                    Path.Combine(
-                        Path.GetDirectoryName(classFileName),
+                    new FilePath(
+                        Path.GetDirectoryName(classFileName.FullPath),
                         codeBehindFile.ToString());
             }
             catch (Exception e)

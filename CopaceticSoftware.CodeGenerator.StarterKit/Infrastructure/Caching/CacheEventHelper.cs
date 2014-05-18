@@ -19,6 +19,7 @@
 using System;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
@@ -32,12 +33,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
         event EventHandler<EvictFromCacheEventArgs> OnEvictFromCache;
         event EventHandler<EventArgs> OnClearCache;
 
-        void EvictFromCache(object sender, string filename);
+        void EvictFromCache(object sender, FilePath filename);
     }
 
     public class EvictFromCacheEventArgs : EventArgs
     {
-        public string FileName { get; set; }
+        public FilePath FileName { get; set; }
 
         /// <summary>
         /// Gets or Sets a value indicating if the file on disk
@@ -47,7 +48,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
         /// </summary>
         public bool FileOnDiskHasChanged { get; set; }
 
-        public EvictFromCacheEventArgs(string filename)
+        public EvictFromCacheEventArgs(FilePath filename)
         {
             FileName = filename;
             FileOnDiskHasChanged = true;
@@ -61,7 +62,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
         public event EventHandler<EvictFromCacheEventArgs> OnEvictFromCache;
         public event EventHandler<EventArgs> OnClearCache;
 
-        public void EvictFromCache(object sender, string filename)
+        public void EvictFromCache(object sender, FilePath filename)
         {
             _log.InfoFormat("[{0}] requested file be evicted [{1}]",
                 null == sender

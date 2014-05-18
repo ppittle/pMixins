@@ -16,17 +16,17 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit
 {
     public interface ISolutionContext
     {
-        string SolutionFileName { get; set; }
+        FilePath SolutionFileName { get; set; }
     }
 
     public class SolutionContext : ISolutionContext
     {
-        public string SolutionFileName { get; set; }
+        public FilePath SolutionFileName { get; set; }
     }
 }

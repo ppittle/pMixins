@@ -17,8 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.CodeDom.Compiler;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -26,12 +24,10 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
-using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using Microsoft.Build.Evaluation;
 using Ninject;
-using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
@@ -102,12 +98,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
             //ReadAllText
             fileWrapper
-                .Stub(x => x.ReadAllText(Arg<string>.Is.Anything))
+                .Stub(x => x.ReadAllText(Arg<FilePath>.Is.Anything))
                 .Do(
-                    (Func<string, string>)
+                    (Func<FilePath, string>)
                         (filename =>
                         {
-                            var mockFile = _MockSolution.AllMockFiles().FirstOrDefault(x => x.FileName == filename);
+                            var mockFile = _MockSolution.AllMockFiles().FirstOrDefault(x => x.FileName.Equals(filename));
 
                             if (null == mockFile)
                                 throw new Exception(
@@ -119,26 +115,26 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 
             //Exists
             fileWrapper
-                .Stub(x => x.Exists(Arg<string>.Is.Anything))
+                .Stub(x => x.Exists(Arg<FilePath>.Is.Anything))
                 .Do(
-                    (Func<string, bool>)
-                        (filename => _MockSolution.AllMockFiles().Any(x => x.FileName == filename)));
+                    (Func<FilePath, bool>)
+                        (filename => _MockSolution.AllMockFiles().Any(x => x.FileName.Equals(filename))));
 
             //Delete
             fileWrapper
-                .Stub(x => x.Delete(Arg<string>.Is.Anything))
+                .Stub(x => x.Delete(Arg<FilePath>.Is.Anything))
                 .Do(
-                    (Action<string>)
+                    (Action<FilePath>)
                         (x => { }));
 
             //WriteAllText
             fileWrapper
-                .Stub(x => x.WriteAllText(Arg<string>.Is.Anything, Arg<string>.Is.Anything))
+                .Stub(x => x.WriteAllText(Arg<FilePath>.Is.Anything, Arg<string>.Is.Anything))
                 .Do(
-                    (Action<string, string>)
+                    (Action<FilePath, string>)
                         ((filename, text) =>
                          {
-                             var existingFile = _MockSolution.AllMockSourceFiles.FirstOrDefault(x => x.FileName == filename);
+                             var existingFile = _MockSolution.AllMockSourceFiles.FirstOrDefault(x => x.FileName.Equals(filename));
 
                              if (null == existingFile)
                                  throw new Exception("File does not exist [" + filename + "]");
@@ -155,15 +151,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             var loader = MockRepository.GenerateStub<IMicrosoftBuildProjectLoader>();
 
             //LoadMicrosoftBuildProject
-            loader.Stub(x => x.LoadMicrosoftBuildProject(Arg<string>.Is.Anything))
+            loader.Stub(x => x.LoadMicrosoftBuildProject(Arg<FilePath>.Is.Anything))
                 .Do(
-                    (Func<string, Project>)
+                    (Func<FilePath, Project>)
                     (filename =>
                     {
                         lock (projectLoaderLock)
                         {
                             var loadedProjects =
-                                ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename).ToArray();
+                                ProjectCollection.GlobalProjectCollection.GetLoadedProjects(filename.FullPath).ToArray();
 
                             foreach (var loadedProject in loadedProjects)
                                 ProjectCollection.GlobalProjectCollection.UnloadProject(loadedProject);
@@ -172,7 +168,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                                 new Project(
                                     new XmlTextReader(new StringReader(_MockFileWrapper.ReadAllText(filename))))
                                 {
-                                    FullPath = filename
+                                    FullPath = filename.FullPath
                                 };
                         }
                     }));
@@ -184,23 +180,21 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         {
             var codeBehindFileHelper = MockRepository.GenerateStub<ICodeBehindFileHelper>();
 
-            codeBehindFileHelper.Stub(x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Anything))
+            codeBehindFileHelper.Stub(x => x.GetOrAddCodeBehindFile(Arg<FilePath>.Is.Anything))
                 .Do(
-                    (Func<string, string>)
+                    (Func<FilePath, FilePath>)
                     (filename =>
                      {
                          var project =
                              _MockSolution.Projects
                                  .FirstOrDefault(
                                      x => x.MockSourceFiles.Any(
-                                         f => f.FileName.Equals(
-                                             filename,
-                                             StringComparison.InvariantCultureIgnoreCase)));
+                                         f => f.FileName.Equals(filename)));
 
                          if (null == project)
                              throw new Exception("Failed to Find Project containing file [" + filename + "]");
 
-                         var codeBehindFile = filename.Replace(".cs", ".mixin.cs");
+                         var codeBehindFile = new FilePath(filename.FullPath.Replace(".cs", ".mixin.cs"));
 
                          project.MockSourceFiles.Add(
                              new MockSourceFile
@@ -210,6 +204,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
                          return codeBehindFile;
                      }));
+
+            codeBehindFileHelper.Stub(x => x.GetCodeBehindFile(Arg<FilePath>.Is.Anything))
+                .Do(
+                    (Func<FilePath, FilePath>)
+                    (filename =>
+                    {
+                        var codeBehindFile = new FilePath(filename.FullPath.Replace(".cs", ".mixin.cs"));
+
+                        return
+                            _MockSolution.AllMockSourceFiles
+                                .Where(f => f.FileName.Equals(codeBehindFile))
+                                .Select(f => f.FileName)
+                                .FirstOrDefault();
+                    }));
 
             return codeBehindFileHelper;
         }

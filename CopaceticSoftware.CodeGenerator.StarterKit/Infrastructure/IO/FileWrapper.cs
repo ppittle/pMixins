@@ -23,10 +23,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
     public interface IFileWrapper
     {
-        string ReadAllText(string filename);
-        bool Exists(string filename);
-        void Delete(string filename);
-        void WriteAllText(string filename, string s);
+        string ReadAllText(FilePath filename);
+        bool Exists(FilePath filename);
+        void Delete(FilePath filename);
+        void WriteAllText(FilePath filename, string s);
     }
 
     public class FileWrapper : IFileWrapper
@@ -38,24 +38,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             _cacheEventHelper = cacheEventHelper;
         }
 
-        public string ReadAllText(string filename)
+        public string ReadAllText(FilePath filename)
         {
-            return File.ReadAllText(filename);
+            return File.ReadAllText(filename.FullPath);
         }
 
-        public bool Exists(string filename)
+        public bool Exists(FilePath filename)
         {
-            return File.Exists(filename);
+            return File.Exists(filename.FullPath);
         }
 
-        public void Delete(string filename)
+        public void Delete(FilePath filename)
         {
-            File.Delete(filename);
+            File.Delete(filename.FullPath);
         }
 
-        public void WriteAllText(string filename, string s)
+        public void WriteAllText(FilePath filename, string s)
         {
-            File.WriteAllText(filename, s);
+            File.WriteAllText(filename.FullPath, s);
 
             _cacheEventHelper.EvictFromCache(this, filename);
         }

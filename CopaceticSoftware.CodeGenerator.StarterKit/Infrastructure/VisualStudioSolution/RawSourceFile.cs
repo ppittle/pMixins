@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -29,8 +30,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     /// </summary>
     public class RawSourceFile
     {
-        public string FileName { get; set; }
-        public string ProjectFileName { get; set; }
+        public FilePath FileName { get; set; }
+        public FilePath ProjectFileName { get; set; }
         public string FileContents { get; set; }
     }
 }

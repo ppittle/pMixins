@@ -49,7 +49,6 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Solu
                 {
                     new MockSourceFile
                     {
-                        FileName = MockSourceFile.DefaultMockFileName,
                         Source = string.Format(
                             _sourceFormat,
                             //Don't add DisableCodeGenerator attribute yet

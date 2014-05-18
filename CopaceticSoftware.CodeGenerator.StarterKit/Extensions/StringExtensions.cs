@@ -26,5 +26,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 ? defaultValue
                 : s;
         }
+
+        public static string SafeToLower(this string s)
+        {
+            return (null == s)
+                ? null
+                : s.ToLower();
+        }
     }
 }

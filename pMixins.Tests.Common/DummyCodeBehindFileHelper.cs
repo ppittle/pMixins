@@ -16,15 +16,17 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 
 namespace CopaceticSoftware.pMixins.Tests.Common
 {
     public class DummyCodeBehindFileHelper : ICodeBehindFileHelper
     {
-        public string GetOrAddCodeBehindFile(string classFileName)
+        public FilePath GetOrAddCodeBehindFile(FilePath classFileName)
         {
-            return classFileName.Replace(".cs", ".mixin.cs");
+            return new FilePath(
+                    classFileName.FullPath.ToLower().Replace(".cs", ".mixin.cs"));
         }
     }
 }

@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.Common.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.Utils;
@@ -40,8 +41,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class CachedMicrosoftBuildProjectAssemblyReferenceResolver : MicrosoftBuildProjectAssemblyReferenceResolver
     {
-        private static ConcurrentDictionary<string, IAssemblyReference[]> _cache =
-            new ConcurrentDictionary<string, IAssemblyReference[]>();
+        private static ConcurrentDictionary<FilePath, IAssemblyReference[]> _cache =
+            new ConcurrentDictionary<FilePath, IAssemblyReference[]>();
 
         private readonly IMicrosoftBuildProjectLoader _buildProjectLoader;
 
@@ -59,7 +60,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 (sender, args) =>
                 {
                     _log.Info("Solution closing.  Clearing cache");
-                    _cache = new ConcurrentDictionary<string, IAssemblyReference[]>();
+                    _cache = new ConcurrentDictionary<FilePath, IAssemblyReference[]>();
                 };
 
             visualStudioEventProxy.OnProjectAdded +=
@@ -99,9 +100,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 };
         }
 
-        private void EagerlyResolveReferences(string filename)
+        private void EagerlyResolveReferences(FilePath filename)
         {
-            if (string.IsNullOrEmpty(filename))
+            if (filename.IsNullOrEmpty())
                 return;
 
             new TaskFactory().StartNew(
@@ -116,7 +117,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public override IAssemblyReference[] ResolveReferences(Project project)
         {
-            return _cache.GetOrAdd(project.FullPath, (f) =>
+            return _cache.GetOrAdd(new FilePath(project.FullPath), f =>
                         base.ResolveReferences(project));
         }
     }
@@ -156,7 +157,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         {
             lock (_ResolveAssemblyReferencesLock)
             {
-                string baseDirectory = Path.GetDirectoryName(project.FullPath);
+                var baseDirectory = Path.GetDirectoryName(project.FullPath);
+
+                if (null == baseDirectory)
+                {
+                    _log.WarnFormat("Failed to get Directory Name from [{0}]", project.FullPath);
+                    return Enumerable.Empty<IUnresolvedAssembly>();
+                }
 
                 // Use MSBuild to figure out the full path of the referenced assemblies
                 var projectInstance = project.CreateProjectInstance();

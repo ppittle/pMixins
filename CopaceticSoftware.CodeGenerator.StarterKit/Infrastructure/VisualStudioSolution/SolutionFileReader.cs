@@ -17,14 +17,12 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
-using CopaceticSoftware.Common.Infrastructure;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
@@ -32,11 +30,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
     public class SolutionFileProjectReference
     {
         public string Title;
-        public string ProjectFileName;
+        public FilePath ProjectFileName;
     }
     public interface ISolutionFileReader
     {
-        IEnumerable<SolutionFileProjectReference> ReadProjectReferences(string solutionFileName);
+        IEnumerable<SolutionFileProjectReference> ReadProjectReferences(FilePath solutionFileName);
     }
 
     public class SolutionFileReader : ISolutionFileReader
@@ -55,14 +53,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             _fileWrapper = fileWrapper;
         }
 
-        public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(string solutionFileName)
+        public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(FilePath solutionFileName)
         {
             if (!_fileWrapper.Exists(solutionFileName))
-                throw new FileNotFoundException("Solution FileName", solutionFileName);
+                throw new FileNotFoundException("Solution FileName", solutionFileName.FullPath);
 
-            Ensure.ArgumentNotNullOrEmpty(solutionFileName, "solutionFileName");
+            if (solutionFileName.IsNullOrEmpty())
+                throw new ArgumentNullException("solutionFileName");
 
-            var directory = Path.GetDirectoryName(solutionFileName);
+            var directory = Path.GetDirectoryName(solutionFileName.FullPath);
 
             if (null == directory)
                 throw new FormatException(string.Format("Path.GetDirectoryName returned null for solution file [{0}]", solutionFileName));
@@ -84,7 +83,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                         case "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}": // C# project
                            yield return new SolutionFileProjectReference
                                         {
-                                            ProjectFileName = Path.GetFullPath(Path.Combine(directory, location)),
+                                            ProjectFileName = new FilePath(directory, location),
                                             Title = title
                                         };
 

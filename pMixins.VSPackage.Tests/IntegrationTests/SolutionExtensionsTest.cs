@@ -57,7 +57,7 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
             _thisFile = 
                 _solution
                     .GetValidPMixinFiles()
-                    .FirstOrDefault(c => c.FileName.EndsWith(filenameMatchingString));
+                    .FirstOrDefault(c => c.FileName.FullPath.EndsWith(filenameMatchingString));
 
             Assert.True(null != _thisFile,
                 "Code Generated Files did not find SampleTarget file.");
@@ -89,7 +89,7 @@ namespace CopaceticSoftware.pMixins.VSPackage.Tests.IntegrationTests
 
             Assert.True(null != file, "Failed to load CSharpFile for SampleTarget");
 
-            Assert.True(file.FileName.EndsWith(filenameMatchingString));
+            Assert.True(file.FileName.FullPath.EndsWith(filenameMatchingString));
         }
     }
 }

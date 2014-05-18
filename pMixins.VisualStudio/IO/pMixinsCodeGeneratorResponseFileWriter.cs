@@ -17,14 +17,11 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.IO;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
-using CopaceticSoftware.pMixins.VisualStudio.Extensions;
 using log4net;
-using Microsoft.Build.Evaluation;
 
 namespace CopaceticSoftware.pMixins.VisualStudio.IO
 {
@@ -58,7 +55,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                 var codeBehindFileName = _codeBehindFileHelper.GetOrAddCodeBehindFile(
                     response.CodeGeneratorContext.Source.FileName);
 
-                if (string.IsNullOrEmpty(codeBehindFileName))
+                if (codeBehindFileName.IsNullOrEmpty())
                 {
                     _log.Error("Code Behind File Helper returned a null or empty CodeBehindFileName. Can not write file.");
                     return;

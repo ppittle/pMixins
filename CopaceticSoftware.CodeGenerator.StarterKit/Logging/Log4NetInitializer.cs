@@ -48,19 +48,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Logging
                     {
                         Layout =
                             new PatternLayout(@"%date{HH:mm:ss,fff} %thread% %-5level [%logger{2}] %message%newline"),
-                        Threshold = Level.Info
+                        Threshold =
+                        #if DEBUG
+                         Level.Debug
+                         #else
+                        Level.Info
+                            #endif
                     };
 
                 outputWindowAppender.AddFilter(
                     new LevelAndLoggerFilter
                     {
                         LevelMax = Level.Fatal,
-                        LevelMin = 
-                        #if DEBUG
-                        Level.Debug,
-                        #else
-                        Level.Warn, 
-                        #endif
+                        LevelMin = Level.Warn, 
+                        
                         LoggerToMatch = typeof(IPipelineStep<>).Namespace
                     });
 

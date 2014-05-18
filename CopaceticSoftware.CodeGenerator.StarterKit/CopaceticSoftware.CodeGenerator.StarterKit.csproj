@@ -119,6 +119,7 @@
     <Compile Include="Infrastructure\Caching\CodeGeneratorDependencyFactory.cs" />
     <Compile Include="Infrastructure\Caching\CodeGeneratorDependencyManager.cs" />
     <Compile Include="Infrastructure\Caching\CSharpFileFactory.cs" />
+    <Compile Include="Infrastructure\IO\FilePath.cs" />
     <Compile Include="Infrastructure\IO\FileReaderAsync.cs" />
     <Compile Include="Infrastructure\IO\FileWrapper.cs" />
     <Compile Include="Infrastructure\Caching\VisualStudioFileCache.cs" />

@@ -16,7 +16,6 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.IO;
 using System.Linq;
 using System.Threading;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
@@ -31,8 +30,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
     public class OnProjectItemAddedTest : MockSolutionTestBase
     {
         private static readonly MockSourceFile _sourceFileAdded = MockSourceFile.CreateDefaultFile();
-        private readonly string _sourceFileClass = Path.GetFileNameWithoutExtension(_sourceFileAdded.FileName);
-
+        
         public override void MainSetup()
         {
             base.MainSetup();
@@ -76,8 +74,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
 
             Assert.True(
                 csharpBasicFile.ResolveTypes()
-                    .Any(x => x.FullName.EndsWith(_sourceFileClass)),
-                "Failed to Resolve " + _sourceFileClass + " IType");
+                    .Any(x => x.FullName.EndsWith(_sourceFileAdded.Classname)),
+                "Failed to Resolve " + _sourceFileAdded.Classname + " IType");
         }
     }
 }

@@ -20,12 +20,10 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
-using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
-using CopaceticSoftware.pMixins.VisualStudio;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
 using CopaceticSoftware.pMixins.VisualStudio.Ninject;
@@ -114,7 +112,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
                     _log.Warn("dte.Solution.FileName is null or empty");
                 else
                 {
-                    _solutionContext.SolutionFileName = dte.Solution.FileName;
+                    _solutionContext.SolutionFileName = new FilePath(dte.Solution.FileName);
 
                     _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                 }
@@ -125,7 +123,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
                         _log.Warn("dte.Solution.FileName is null or empty");
                     else
                     {
-                        _solutionContext.SolutionFileName = dte.Solution.FileName;
+                        _solutionContext.SolutionFileName = new FilePath(dte.Solution.FileName);
 
                         _log.InfoFormat("Set Solution Context to [{0}]", dte.Solution.FileName);
                     }

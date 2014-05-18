@@ -19,11 +19,10 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
-using NBehave.Narrator.Framework.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -72,7 +71,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     public class Mixin{ public int TestMethod(){return 42;} }
@@ -101,7 +100,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(MixinDoesNotExist))]                                        
@@ -128,7 +127,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Mixin.cs"),
                             Source = 
                              @"
                                 namespace Testing{
@@ -137,7 +136,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         },
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
@@ -163,7 +162,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Mixin.cs"),
                             Source = 
                              @"
                                 namespace Testing{
@@ -172,7 +171,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         },
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
@@ -181,7 +180,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         },
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target2.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target2.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
@@ -207,7 +206,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin1.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Mixin1.cs"),
                             Source = 
                              @"
                                 namespace Testing{
@@ -216,7 +215,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         },
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin2.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Mixin2.cs"),
                             Source = 
                              @"
                                 namespace Testing{
@@ -225,7 +224,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                         },
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin1))]                                        
@@ -253,7 +252,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Target.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Target.cs"),
                             Source = @"
                                 namespace Testing{
                                     [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Mixin))]                                        
@@ -264,12 +263,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
                 },
                 new MockProject
                 {
-                    FileName = Path.Combine(MockSolution.MockSolutionFolder, "OtherProject.csproj"),
+                    FileName = new FilePath(MockSolution.MockSolutionFolder, "OtherProject.csproj"),
                     MockSourceFiles =
                     {
                         new MockSourceFile
                         {
-                            FileName = Path.Combine(MockSolution.MockSolutionFolder, "Mixin.cs"),
+                            FileName = new FilePath(MockSolution.MockSolutionFolder, "Mixin.cs"),
                             Source = 
                              @"
                                 namespace Testing{
@@ -321,7 +320,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             //Remove File from Project
             project.MockSourceFiles =
                 project.MockSourceFiles
-                    .Where(f => !f.FileName.Equals(sourceFile.FileName, StringComparison.InvariantCultureIgnoreCase))
+                    .Where(f => !f.FileName.Equals(sourceFile.FileName))
                     .ToList();
 
             return sourceFile;
@@ -455,14 +454,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
         public static void AssertCodeBehindFileWasNotGenerated(this MockSolutionTestBase mockSolutionTest)
         {
             Assert.True(
-                mockSolutionTest._MockSolution.AllMockFiles().All(x => !x.FileName.EndsWith("mixin.cs")),
+                mockSolutionTest._MockSolution.AllMockFiles().All(x => !x.FileName.Extension.Equals("mixin.cs")),
                 "Found a mixin.cs code behind file.");
 
             mockSolutionTest._MockCodeBehindFileHelper.AssertWasNotCalled(
-                x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Anything));
+                x => x.GetOrAddCodeBehindFile(Arg<FilePath>.Is.Anything));
 
             mockSolutionTest._MockFileWrapper.AssertWasNotCalled(
-                x => x.WriteAllText(Arg<string>.Is.Anything, Arg<string>.Is.Anything));
+                x => x.WriteAllText(Arg<FilePath>.Is.Anything, Arg<string>.Is.Anything));
         }
 
         public static void AssertCodeBehindFileWasGenerated(this MockSolutionTestBase mockSolutionTest,
@@ -471,20 +470,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
             mockSolutionTest.AssertCodeBehindFileWasGenerated(targetFile.FileName);
         }
 
-        public static void AssertCodeBehindFileWasGenerated(this MockSolutionTestBase mockSolutionTest, string targetFile)
+        public static void AssertCodeBehindFileWasGenerated(this MockSolutionTestBase mockSolutionTest, FilePath targetFile)
         {
-            var codeBehindFile = targetFile.Replace(".cs", ".mixin.cs");
+            var codeBehindFile = new FilePath(targetFile.FullPath.ToLower().Replace(".cs", ".mixin.cs"));
 
             Assert.True(
                 mockSolutionTest._MockSolution.AllMockFiles().Any(
-                    x => x.FileName.Equals(codeBehindFile, StringComparison.InvariantCultureIgnoreCase)),
+                    x => x.FileName.Equals(codeBehindFile)),
                 "Failed to find code behind file [" + codeBehindFile + "]");
 
             mockSolutionTest._MockCodeBehindFileHelper.AssertWasCalled(
-                x => x.GetOrAddCodeBehindFile(Arg<string>.Is.Equal(targetFile)));
+                x => x.GetOrAddCodeBehindFile(Arg<FilePath>.Is.Equal(targetFile)));
 
             mockSolutionTest._MockFileWrapper.AssertWasCalled(
-                x => x.WriteAllText(Arg<string>.Is.Equal(codeBehindFile), Arg<string>.Is.Anything));
+                x => x.WriteAllText(Arg<FilePath>.Is.Equal(codeBehindFile), Arg<string>.Is.Anything));
         }
         #endregion
     }

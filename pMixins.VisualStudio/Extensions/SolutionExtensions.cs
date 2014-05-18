@@ -31,8 +31,8 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Extensions
         {
             return s.AllFiles
                     .Where(f =>
-                        //TODO: Hard coded constant
-                        !f.FileName.EndsWith(Constants.PMixinFileExtension, StringComparison.InvariantCultureIgnoreCase) &&
+                        !f.FileName.FullPath.EndsWith(Constants.PMixinFileExtension, 
+                            StringComparison.InvariantCultureIgnoreCase) &&
                         f.SyntaxTree.GetPartialClasses().Any(
                         c =>
                         {

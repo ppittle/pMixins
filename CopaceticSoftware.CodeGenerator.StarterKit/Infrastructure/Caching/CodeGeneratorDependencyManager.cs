@@ -16,11 +16,11 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using log4net;
 
@@ -28,15 +28,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
 {
     public interface ICodeGeneratorDependencyManager
     {
-        List<CSharpFile> GetFilesThatDependOn(string classFileName);
+        List<CSharpFile> GetFilesThatDependOn(FilePath classFileName);
     }
 
     public class CodeGeneratorDependencyManager : ICodeGeneratorDependencyManager
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static ConcurrentDictionary<string, CodeGeneratorDependency> _codeGeneratorDependencies =
-            new ConcurrentDictionary<string, CodeGeneratorDependency>(StringComparer.InvariantCultureIgnoreCase);
+        private static ConcurrentDictionary<FilePath, CodeGeneratorDependency> _codeGeneratorDependencies =
+            new ConcurrentDictionary<FilePath, CodeGeneratorDependency>();
 
         public CodeGeneratorDependencyManager(IVisualStudioEventProxy visualStudioEventProxy, ICodeGeneratorDependencyFactory codeGeneratorDependencyFactory)
         {
@@ -63,7 +63,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                     null != args.Response &&
                     null != args.Response.CodeGeneratorContext &&
                     null != args.Response.CodeGeneratorContext.Source &&
-                    !string.IsNullOrEmpty(args.Response.CodeGeneratorContext.Source.FileName))
+                    !args.Response.CodeGeneratorContext.Source.FileName.IsNullOrEmpty())
                     //Remove Dependency
                     _codeGeneratorDependencies.TryRemove(
                         args.Response.CodeGeneratorContext.Source.FileName,
@@ -86,18 +86,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
                     _log.Info("Solution closing.  Clearing cache");
 
                     _codeGeneratorDependencies = 
-                        new ConcurrentDictionary<string, CodeGeneratorDependency>(StringComparer.InvariantCultureIgnoreCase);
+                        new ConcurrentDictionary<FilePath, CodeGeneratorDependency>();
                 };
         }
 
-        public List<CSharpFile> GetFilesThatDependOn(string classFileName)
+        public List<CSharpFile> GetFilesThatDependOn(FilePath classFileName)
         {
             return
                 _codeGeneratorDependencies.Values
                     .Where(
                         d =>
                             d.FileDependencies.Any(
-                                f => f.FileName.Equals(classFileName, StringComparison.InvariantCultureIgnoreCase)))
+                                f => f.FileName.Equals(classFileName)))
                     .Select(d => d.TargetFile)
                     .ToList();
         }

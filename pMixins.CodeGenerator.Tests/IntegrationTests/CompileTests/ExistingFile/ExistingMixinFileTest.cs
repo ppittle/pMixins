@@ -55,7 +55,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                 Kernel.Get<ICodeGeneratorContextFactory>()
                     .GenerateContext(
                         Solution.AllFiles
-                            .Where(f => f.FileName.EndsWith("ExistingMixinFileTest.cs")))
+                            .Where(f => f.FileName.FullPath.EndsWith("ExistingMixinFileTest.cs")))
                     .First();
 
             _response = generator.GeneratePartialCode(context);

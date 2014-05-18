@@ -40,7 +40,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         {
             base.MainSetup();
 
-            var project = Solution.Projects.FirstOrDefault(x => x.FileName == ProjectFile);
+            var project = Solution.Projects.FirstOrDefault(x => x.FileName.Equals(ProjectFile));
 
             Assert.True(null != project, "Failed to load project from Solution.Projects.  This is a bug with the Test");
 

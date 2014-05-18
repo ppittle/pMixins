@@ -25,10 +25,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
     public interface IVisualStudioOpenDocumentManager
     {
-        bool IsDocumentOpen(string filename);
+        bool IsDocumentOpen(FilePath filename);
 
         [CanBeNull]
-        IVisualStudioOpenDocumentReader GetOpenDocument(string filename);
+        IVisualStudioOpenDocumentReader GetOpenDocument(FilePath filename);
     }
 
     public class VisualStudioOpenDocumentManager : IVisualStudioOpenDocumentManager
@@ -36,8 +36,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         //string / document reader
-        private static ConcurrentDictionary<string, IVisualStudioOpenDocumentReader> _openDocuments
-            = new ConcurrentDictionary<string, IVisualStudioOpenDocumentReader>();
+        private static ConcurrentDictionary<FilePath, IVisualStudioOpenDocumentReader> _openDocuments
+            = new ConcurrentDictionary<FilePath, IVisualStudioOpenDocumentReader>();
 
         public VisualStudioOpenDocumentManager(IVisualStudioEventProxy eventProxy)
         {
@@ -66,16 +66,16 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             {
                 _log.Info("Solution Closing.  Clearing Cache");
 
-                _openDocuments = new ConcurrentDictionary<string, IVisualStudioOpenDocumentReader>();
+                _openDocuments = new ConcurrentDictionary<FilePath, IVisualStudioOpenDocumentReader>();
             };
         }
 
-        public bool IsDocumentOpen(string filename)
+        public bool IsDocumentOpen(FilePath filename)
         {
             return _openDocuments.ContainsKey(filename);
         }
 
-        public IVisualStudioOpenDocumentReader GetOpenDocument(string filename)
+        public IVisualStudioOpenDocumentReader GetOpenDocument(FilePath filename)
         {
             IVisualStudioOpenDocumentReader dummy;
 

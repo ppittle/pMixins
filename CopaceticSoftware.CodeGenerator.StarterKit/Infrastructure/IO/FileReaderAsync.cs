@@ -33,11 +33,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         private string _fileContents;
 
-        private readonly string _fileName;
+        private readonly FilePath _fileName;
 
         private readonly IVisualStudioOpenDocumentManager _openDocumentManager;
 
-        public FileReaderAsync(IVisualStudioOpenDocumentManager openDocumentManager, IFileWrapper fileWrapper, string filename)
+        public FileReaderAsync(IVisualStudioOpenDocumentManager openDocumentManager, IFileWrapper fileWrapper, FilePath filename)
         {
             _fileName = filename;
             _openDocumentManager = openDocumentManager;

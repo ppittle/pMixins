@@ -18,6 +18,7 @@
 
 using System.IO;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
@@ -32,11 +33,10 @@ namespace CopaceticSoftware.pMixins.Tests.Common
     {
         protected static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected static readonly string solutionFile =
-            Path.GetFullPath(
-                Path.Combine(
+        protected static readonly FilePath solutionFile =
+            new FilePath(
                     Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.sln"));
+                    @"..\..\..\pMixins.sln");
 
         static TestBase()
         {

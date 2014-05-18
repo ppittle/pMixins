@@ -29,22 +29,31 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Extensions
     {
         public static IEnumerable<CSharpFile> GetValidPMixinFiles(this Solution s)
         {
-            return s.AllFiles
-                    .Where(f =>
-                        !f.FileName.FullPath.EndsWith(Constants.PMixinFileExtension, 
-                            StringComparison.InvariantCultureIgnoreCase) &&
-                        f.SyntaxTree.GetPartialClasses().Any(
-                        c =>
-                        {
-                            var resolvedClass = f.CreateResolver().Resolve(c);
+            return s.AllFiles.Where(f => f.IsValidPMixinFile());
+        }
 
-                            if (resolvedClass.IsError)
-                                return false;
+        public static bool IsValidPMixinFile(this CSharpFile file)
+        {
+            //skip code behind files.
+            if (file.FileName.FullPath.EndsWith(Constants.PMixinFileExtension,
+                    StringComparison.InvariantCultureIgnoreCase))
+                return false;
 
-                            return
-                                resolvedClass.Type.GetAttributes()
-                                    .Any(x => x.AttributeType.Implements<IPMixinAttribute>());
-                        }));
+            var partialClasses = file.SyntaxTree.GetPartialClasses();
+            var resolver = file.CreateResolver();
+
+            return partialClasses.Any(
+                c =>
+                {
+                    var resolvedClass = resolver.Resolve(c);
+
+                    if (resolvedClass.IsError)
+                        return false;
+
+                    return
+                        resolvedClass.Type.GetAttributes()
+                            .Any(x => x.AttributeType.Implements<IPMixinAttribute>());
+                });
         }
     }
 }

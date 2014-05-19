@@ -108,14 +108,14 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (filename.IsNullOrEmpty())
                 return;
 
-            _taskFactory.StartNew(
-                () =>
-                {
-                    _log.InfoFormat("Eagerly Resolve References for [{0}]", filename);
-
-                    //TODO investigate
-                    ResolveReferences(_buildProjectLoader.LoadMicrosoftBuildProject(filename));
-                });
+            //TODO: Fix race condition on ResoleReferences method before re-enabling
+            //_taskFactory.StartNew(
+            //    () =>
+            //    {
+            //        _log.InfoFormat("Eagerly Resolve References for [{0}]", filename);
+            //
+            //        ResolveReferences(_buildProjectLoader.LoadMicrosoftBuildProject(filename));
+            //    });
         }
 
         public override IAssemblyReference[] ResolveReferences(Project project)

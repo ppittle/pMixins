@@ -18,9 +18,11 @@
 
 using System.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.pMixins.Tests.Common;
+using ICSharpCode.NRefactory.Editor;
 using Ninject;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
@@ -30,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
         public readonly static FilePath ProjectFile =
                 new FilePath(
                     Directory.GetCurrentDirectory(),
-                    @"..\..\..\pMixins.CodeGenerator\pMixins.CodeGenerator.csproj");
+                    @"..\..\..\pMixins.CodeGenerator.Tests\pMixins.CodeGenerator.Tests.csproj");
 
         public static IKernel Kernel { get; private set; }
 
@@ -41,6 +43,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             Kernel = KernelFactory.BuildDefaultKernelForTests();
 
             Kernel.Get<ISolutionContext>().SolutionFileName = solutionFile;
+
+            Kernel.Rebind<IFileWrapper>().To<CodeGeneratorFileWrapper>();
         }
 
         public override void MainSetup()
@@ -48,6 +52,23 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             base.MainSetup();
 
             Solution = Kernel.Get<ISolutionFactory>().BuildCurrentSolution();
+        }
+    }
+
+    public class CodeGeneratorFileWrapper : FileWrapper
+    {
+        public CodeGeneratorFileWrapper(ICacheEventHelper cacheEventHelper) : base(cacheEventHelper)
+        {
+        }
+
+        //Return empty text for AssemblyInfo, so the code generator doesn't read the
+        //DisableCodeGeneration attribute.
+        public override string ReadAllText(FilePath filename)
+        {
+            if (filename.FullPath.ToLower().EndsWith("assemblyinfo.cs"))
+                return string.Empty;
+
+            return base.ReadAllText(filename);
         }
     }
 }

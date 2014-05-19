@@ -38,7 +38,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             _cacheEventHelper = cacheEventHelper;
         }
 
-        public string ReadAllText(FilePath filename)
+        public virtual string ReadAllText(FilePath filename)
         {
             return File.ReadAllText(filename.FullPath);
         }

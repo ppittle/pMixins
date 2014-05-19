@@ -58,6 +58,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Visu
                 MockSourceFiles = new[] { _sourceFile }
             });
 
+            this.FireSolutionOpen();
+
             //Code Generator should not be able to generate Mixin code yet
             Assert.False(
                 CanGenerateMixinCodeForSourceFile(_sourceFile),

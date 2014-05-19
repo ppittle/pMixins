@@ -31,6 +31,7 @@ using log4net;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Logging;
+using ITaskFactory = CopaceticSoftware.CodeGenerator.StarterKit.Threading.ITaskFactory;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -45,10 +46,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             new ConcurrentDictionary<FilePath, IAssemblyReference[]>();
 
         private readonly IMicrosoftBuildProjectLoader _buildProjectLoader;
+        private readonly ITaskFactory _taskFactory;
 
-        public CachedMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader)
+        public CachedMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader, ITaskFactory taskFactory)
         {
             _buildProjectLoader = buildProjectLoader;
+            _taskFactory = taskFactory;
             WireUpVisualStudioEvents(visualStudioEventProxy);
         }
 
@@ -105,7 +108,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (filename.IsNullOrEmpty())
                 return;
 
-            new TaskFactory().StartNew(
+            _taskFactory.StartNew(
                 () =>
                 {
                     _log.InfoFormat("Eagerly Resolve References for [{0}]", filename);

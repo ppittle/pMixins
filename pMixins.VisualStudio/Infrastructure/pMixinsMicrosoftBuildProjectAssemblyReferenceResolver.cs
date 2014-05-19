@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
+using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.Attributes;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
@@ -31,7 +32,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Infrastructure
     {
         private static readonly string pMixinsAssemblyName = typeof (pMixinAttribute).Assembly.GetName().Name;
 
-        public pMixinsMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader) : base(visualStudioEventProxy, buildProjectLoader)
+        public pMixinsMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader, ITaskFactory taskFactory) : base(visualStudioEventProxy, buildProjectLoader, taskFactory)
         {
         }
 

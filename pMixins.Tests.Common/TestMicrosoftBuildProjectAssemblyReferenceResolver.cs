@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
-using CopaceticSoftware.pMixins.VisualStudio;
+using CopaceticSoftware.CodeGenerator.StarterKit.Threading;
 using CopaceticSoftware.pMixins.VisualStudio.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 using Microsoft.Build.Evaluation;
@@ -33,7 +33,7 @@ namespace CopaceticSoftware.pMixins.Tests.Common
         private const string projectMatchingString =
             "\\pMixins\\pMixins\\pMixins.csproj]";
 
-        public TestMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader) : base(visualStudioEventProxy, buildProjectLoader)
+        public TestMicrosoftBuildProjectAssemblyReferenceResolver(IVisualStudioEventProxy visualStudioEventProxy, IMicrosoftBuildProjectLoader buildProjectLoader, ITaskFactory taskFactory) : base(visualStudioEventProxy, buildProjectLoader, taskFactory)
         {
         }
 

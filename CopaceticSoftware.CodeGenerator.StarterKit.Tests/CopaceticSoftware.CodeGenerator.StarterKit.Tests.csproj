@@ -137,6 +137,7 @@
     <Compile Include="IntegrationTests\MockSolutionTestBase.cs" />
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectRemovedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\FilePathTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

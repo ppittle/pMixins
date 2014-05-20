@@ -73,7 +73,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.CodeGenerators
             {
                 pMixinsOnSolutionOpenCodeGenerator.OnSolutionOpeningTask.Wait();
 
-                using (new LoggingActivity("GenerateCode - " + eventName))
+                using (new LoggingActivity("GenerateCode - " + eventName + " -- " + classFullPath))
                 try
                 {
                     //Generate code for the file saved

@@ -56,7 +56,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching
         {
             if (_openDocumentManager.IsDocumentOpen(filename))
             {
-                _log.InfoFormat("Class file is open and will not be cached: [{0}]", filename);
+                _log.DebugFormat("Class file is open and will not be cached: [{0}]", filename);
 
                 return new CSharpFile(p, filename, _fileReader.ReadAllText(filename));
             }

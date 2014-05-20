@@ -66,7 +66,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
                 if (null != openDocumentReader)
                 {
-                    _log.InfoFormat("Document is open in editor [{0}]", _fileName);
+                    _log.DebugFormat("Document is open in editor [{0}]", _fileName);
 
                     return openDocumentReader.GetDocumentText();
                 }

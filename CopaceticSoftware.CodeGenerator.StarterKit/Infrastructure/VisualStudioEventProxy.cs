@@ -378,10 +378,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
 
         private void RegisterForProjectLevelEvents(VSProject project)
         {
-            if (null == project || _projectSpecificReferenceEvents.ContainsKey(new FilePath(project.Project.FullName)))
+            if (null == project)
                 return;
 
-            var projectFullName = project.Project.FullName.SafeToLower();
+            var projectFilePath = new FilePath(project.Project.FullName);
+
+            if (_projectSpecificReferenceEvents.ContainsKey(projectFilePath))
+                return;
             
             #region Reference Events
             var referenceEvents = project.Events.ReferencesEvents;
@@ -389,18 +392,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure
             referenceEvents.ReferenceAdded += reference =>
                 OnProjectReferenceAdded(this, new ProjectReferenceAddedEventArgs
                 {
-                    ReferencePath = new FilePath(reference.Path), 
-                    ProjectFullPath = new FilePath(projectFullName)
+                    ReferencePath = new FilePath(reference.Path),
+                    ProjectFullPath = projectFilePath
                 });
             
             referenceEvents.ReferenceRemoved += reference =>
                 OnProjectReferenceRemoved(this, new ProjectReferenceRemovedEventArgs
                 {
                     ReferencePath = new FilePath(reference.Path),
-                    ProjectFullPath = new FilePath(projectFullName)
+                    ProjectFullPath = projectFilePath
                 });
 
-            _projectSpecificReferenceEvents.Add(new FilePath(project.Project.FullName), referenceEvents);
+            _projectSpecificReferenceEvents.Add(projectFilePath, referenceEvents);
             #endregion
         }
 

@@ -101,7 +101,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
 
             var codeBehindFile = target.Properties.Item("CustomToolOutput").Value;
 
-            if (null == codeBehindFile)
+            if (null == codeBehindFile || string.IsNullOrEmpty(codeBehindFile.ToString()) )
                 return null;
 
             return

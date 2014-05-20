@@ -16,7 +16,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Company.pMixins_ItemTemplate_Legacy_Package</RootNamespace>
-    <AssemblyName>pMixins.ItemTemplate.Legacy.Package</AssemblyName>
+    <AssemblyName>CopaceticSoftware.pMixins.ItemTemplate.Legacy.Package</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>

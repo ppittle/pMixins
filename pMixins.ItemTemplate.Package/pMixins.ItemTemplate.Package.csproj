@@ -16,7 +16,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Company.pMixins_ItemTemplate_Package</RootNamespace>
-    <AssemblyName>pMixins.ItemTemplate.Package</AssemblyName>
+    <AssemblyName>CopaceticSoftware.pMixins.ItemTemplate.Package</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>

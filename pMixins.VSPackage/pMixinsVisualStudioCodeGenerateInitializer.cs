@@ -42,7 +42,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
     [Guid("B77F7C65-0F9F-422A-A897-C06FDAEC9603")]
     [ProvideObject(typeof(pMixinsVisualStudioCodeGenerateInitializer))]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
-    public class pMixinsVisualStudioCodeGenerateInitializer : Package
+    public class pMixinsVisualStudioCodeGenerateInitializer : Package, IDisposable
     {
         private ILog _log;
 
@@ -182,6 +182,11 @@ namespace CopaceticSoftware.pMixins_VSPackage
             }
 
             base.Dispose(disposing);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

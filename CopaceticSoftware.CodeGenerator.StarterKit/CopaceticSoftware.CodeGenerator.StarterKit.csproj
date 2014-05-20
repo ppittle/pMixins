@@ -129,6 +129,7 @@
     <Compile Include="Infrastructure\VisualStudioEventProxy.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentManager.cs" />
     <Compile Include="Infrastructure\IO\VisualStudioOpenDocumentReader.cs" />
+    <Compile Include="Infrastructure\VisualStudioEventProxyLogger.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpFile.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpProject.cs" />
     <Compile Include="Infrastructure\VisualStudioSolution\CSharpProjectFactory.cs" />

@@ -55,6 +55,11 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private pMixinsOnSolutionOpenCodeGenerator _onSolutionOpenCodeGenerator;
         private pMixinsOnBuildCodeGenerator _onBuildCodeGenerator;
         private pMixinsOnItemSaveCodeGenerator _onItemSaveCodeGenerator;
+
+        #if DEBUG
+        private VisualStudioEventProxyLogger _eventProxyLogger;
+        #endif
+
         // ReSharper restore NotAccessedField.Local
 
         protected override void Initialize()
@@ -94,6 +99,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
             InitializeSolutionContext(dte);
 
             InitializeFileGenerators();
+
+            #if DEBUG
+            _eventProxyLogger = ServiceLocator.Kernel.Get<VisualStudioEventProxyLogger>();
+            #endif
 
             _visualStudioWriter.WriteToStatusBar("Initializing pMixins Code Generator Plug-In ... Complete");
 

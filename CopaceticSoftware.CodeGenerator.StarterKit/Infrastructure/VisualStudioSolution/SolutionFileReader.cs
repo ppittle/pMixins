@@ -19,10 +19,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using EnvDTE;
+using EnvDTE80;
 using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
@@ -37,10 +40,40 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         IEnumerable<SolutionFileProjectReference> ReadProjectReferences(FilePath solutionFileName);
     }
 
+    public class SolutionDTEReader : ISolutionFileReader
+    {
+        private readonly DTE2 _dte;
+
+        public SolutionDTEReader(DTE2 dte)
+        {
+            _dte = dte;
+        }
+
+        public IEnumerable<SolutionFileProjectReference> ReadProjectReferences(FilePath solutionFileName)
+        {
+            var projectReferences = new List<SolutionFileProjectReference>();
+
+            foreach (var p in _dte.Solution.Projects.OfType<Project>())
+            {
+                if (string.IsNullOrEmpty(p.FullName))
+                    continue;
+
+                projectReferences.Add(new SolutionFileProjectReference
+                {
+                    ProjectFileName = new FilePath(p.FullName),
+                    Title = p.Name
+                });
+            }
+
+            return projectReferences;
+        }
+    }
+
     public class SolutionFileReader : ISolutionFileReader
     {
         private readonly IFileReader _fileReader;
         private readonly IFileWrapper _fileWrapper;
+       
 
         private static readonly Regex ProjectLinePattern = new Regex(
             "Project\\(\"(?<TypeGuid>.*)\"\\)\\s+=\\s+\"(?<Title>.*)\",\\s*\"(?<Location>.*)\",\\s*\"(?<Guid>.*)\"");

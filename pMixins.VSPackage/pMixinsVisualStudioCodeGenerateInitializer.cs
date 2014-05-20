@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.CodeGenerator.StarterKit.Logging;
 using CopaceticSoftware.pMixins.VisualStudio.CodeGenerators;
 using CopaceticSoftware.pMixins.VisualStudio.IO;
@@ -49,6 +50,7 @@ namespace CopaceticSoftware.pMixins_VSPackage
         private ISolutionContext _solutionContext;
         private IVisualStudioEventProxy _visualStudioEventProxy;
         private ICodeBehindFileHelper _codeBehindFileHelper;
+        private ISolutionFileReader _dteSolutionFileReader;
 
         //Keep references to code generators so they don't get garbage collected
         // ReSharper disable NotAccessedField.Local
@@ -91,8 +93,10 @@ namespace CopaceticSoftware.pMixins_VSPackage
             //Create CodeBehindFileHelper
             _codeBehindFileHelper = new CodeBehindFileHelper(dte2, typeof(pMixinsEmptySingleFileCodeGenerator).Name);
 
+            _dteSolutionFileReader = new SolutionDTEReader(dte2);
+
             //Initialize the IoC Kernel
-            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy, _codeBehindFileHelper);
+            ServiceLocator.Initialize(_visualStudioWriter, _visualStudioEventProxy, _codeBehindFileHelper, _dteSolutionFileReader);
 
             _log.Info("Initialized Kernel");
 
@@ -172,6 +176,9 @@ namespace CopaceticSoftware.pMixins_VSPackage
             {
                 if (null != _visualStudioWriter)
                     _visualStudioWriter.Dispose();
+
+                if (null != _visualStudioEventProxy)
+                    _visualStudioEventProxy.Dispose();
             }
 
             base.Dispose(disposing);

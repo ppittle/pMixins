@@ -28,6 +28,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
     public interface IVisualStudioOpenDocumentReader
     {
         string GetDocumentText();
+
+        void WriteText(string s);
     }
 
     /// <summary>
@@ -75,6 +77,26 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
                 return string.Empty;
             }
+        }
+
+        public void WriteText(string s)
+        {
+            if (null == _textDocument || null == _textDocument.StartPoint)
+                return;
+
+            try
+            {
+                var editPoint = _textDocument.StartPoint.CreateEditPoint();
+
+                editPoint.Insert(s);
+            }
+            catch (Exception e)
+            {
+                _log.Error(
+                    string.Format("Exception reading TextDocument for file [{0}]: {1}",
+                        _classFileName, e.Message), e);
+            }
+
         }
     }
 }

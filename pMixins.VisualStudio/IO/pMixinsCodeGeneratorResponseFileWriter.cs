@@ -39,12 +39,14 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
         private readonly IFileWrapper _fileWrapper;
         private readonly IFileReader _fileReader;
         private readonly ICodeBehindFileHelper _codeBehindFileHelper;
+        private readonly IVisualStudioOpenDocumentManager _visualStudioOpenDocumentManager;
 
-        public pMixinsCodeGeneratorResponseFileWriter(IFileWrapper fileWrapper, IFileReader fileReader, ICodeBehindFileHelper codeBehindFileHelper)
+        public pMixinsCodeGeneratorResponseFileWriter(IFileWrapper fileWrapper, IFileReader fileReader, ICodeBehindFileHelper codeBehindFileHelper, IVisualStudioOpenDocumentManager visualStudioOpenDocumentManager)
         {
             _fileWrapper = fileWrapper;
             _fileReader = fileReader;
             _codeBehindFileHelper = codeBehindFileHelper;
+            _visualStudioOpenDocumentManager = visualStudioOpenDocumentManager;
         }
 
         public void WriteCodeGeneratorResponse(CodeGeneratorResponse response)
@@ -71,9 +73,19 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
                     _fileWrapper.Delete(codeBehindFileName);
                 }
 
-                _fileWrapper.WriteAllText(codeBehindFileName, response.GeneratedCodeSyntaxTree.GetText());
+                var codeBehindFileSource = response.GeneratedCodeSyntaxTree.GetText();
+
+                if (string.IsNullOrEmpty(codeBehindFileSource))
+                    _log.WarnFormat("Writing Empty Code Behind File for [{0}]", codeBehindFileName);
+
+                _fileWrapper.WriteAllText(codeBehindFileName, codeBehindFileSource);
 
                 _fileReader.EvictFromCache(codeBehindFileName);
+
+                var openWindow = _visualStudioOpenDocumentManager.GetOpenDocument(codeBehindFileName);
+
+                if (null != openWindow)
+                    openWindow.WriteText(codeBehindFileSource);
             }
             catch (Exception e)
             {

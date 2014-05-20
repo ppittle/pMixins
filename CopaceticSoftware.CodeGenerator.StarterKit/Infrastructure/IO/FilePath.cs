@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -27,8 +26,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
     /// <summary>
     /// Helper class for dealing with File Paths
     /// </summary>
+    /// <remarks>
+    /// http://stackoverflow.com/questions/23757210/c-sharp-dictionary-file-path-custom-equalitycomparer
+    /// </remarks>
     [DebuggerDisplay("{FullPath}")]
-    public class FilePath : IEqualityComparer<FilePath>, IComparer, IEqualityComparer, IComparer<FilePath>
+    public class FilePath : EqualityComparer<FilePath>, IComparable<FilePath>, IEquatable<FilePath>
     {
         public string FullPath { get; private set; }
 
@@ -58,12 +60,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             return string.IsNullOrEmpty(FullPath);
         }
 
+        public bool Equals(FilePath other)
+        {
+            return Equals(this, other);
+        }
+
+        public int CompareTo(FilePath other)
+        {
+            return Compare(this, other);
+        }
+
         public override string ToString()
         {
             return FullPath;
         }
 
-        public bool Equals(FilePath x, FilePath y)
+        public override bool Equals(FilePath x, FilePath y)
         {
             if (x == null || null == y)
                 return false;
@@ -71,19 +83,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             return 0 == Compare(x, y);
         }
 
-        public int GetHashCode(FilePath obj)
+        public override int GetHashCode(FilePath obj)
         {
             return obj.FullPath.GetHashCode();
-        }
-
-        public int Compare(object x, object y)
-        {
-            return Compare(x as FilePath, y as FilePath);
-        }
-
-        bool IEqualityComparer.Equals(object x, object y)
-        {
-           return 0 == Compare(x, y);
         }
 
         public override bool Equals(object obj)
@@ -93,17 +95,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 
         public override int GetHashCode()
         {
-            return FullPath.GetHashCode();
+            return FullPath.ToLower().GetHashCode();
         }
-
-        public int GetHashCode(object obj)
-        {
-            return 
-                (obj is FilePath)
-                ? GetHashCode(obj as FilePath)
-                : obj.GetHashCode();
-        }
-
+       
         public int Compare(FilePath x, FilePath y)
         {
             if (null == x && null == y)
@@ -123,6 +117,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             return 1;
         }
     }
+
 
     public static class FilePathExtensions
     {

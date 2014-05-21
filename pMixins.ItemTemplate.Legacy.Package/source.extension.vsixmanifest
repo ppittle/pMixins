@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="d6a02897-c610-4296-91ed-80b016e372ab" Version="0.1.7" Language="en-US" Publisher="Copacetic Software / Philip Pittle" />
+    <Identity Id="d6a02897-c610-4296-91ed-80b016e372ab" Version="0.1.7.1" Language="en-US" Publisher="Copacetic Software / Philip Pittle" />
     <DisplayName>pMixins Code Generator - Item Template</DisplayName>
     <Description xml:space="preserve">Adds a pMixin Template to make it even easier to use the pMixins Code Generator.</Description>
     <MoreInfo>http://pmixins.com</MoreInfo>
@@ -11,9 +11,9 @@
     <Tags>pMixins Code Generator Mixin Aspect AOP Copacetic</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[10.0, 12.0)" />
-    <InstallationTarget Version="[10.0, 12.0)" Id="Microsoft.VisualStudio.Premium" />
-    <InstallationTarget Version="[10.0, 12.0)" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0, 12.0)" />
+    <InstallationTarget Version="[11.0, 12.0)" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Version="[11.0, 12.0)" Id="Microsoft.VisualStudio.Ultimate" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />

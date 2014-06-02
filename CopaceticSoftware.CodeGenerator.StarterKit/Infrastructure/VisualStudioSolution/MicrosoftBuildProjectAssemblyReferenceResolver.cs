@@ -171,8 +171,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
                 // Use MSBuild to figure out the full path of the referenced assemblies
                 var projectInstance = project.CreateProjectInstance();
                 projectInstance.SetProperty("BuildingProject", "false");
-                project.SetProperty("DesignTimeBuild", "true");
-
+              
                 projectInstance.Build("ResolveAssemblyReferences", new[] {new ConsoleLogger(LoggerVerbosity.Minimal)});
 
                 var items = projectInstance.GetItems("_ResolveAssemblyReferenceResolvedFiles");

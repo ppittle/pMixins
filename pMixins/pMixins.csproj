@@ -71,7 +71,8 @@
     <PreBuildEvent>powershell.exe -file "$(SolutionDir)\scripts\AddCopyrightToAllClasses.ps1" -target $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)tools\nuget pack -sym  $(ProjectPath) -OutputDirectory ..\..\..\  -Properties Configuration=Release</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

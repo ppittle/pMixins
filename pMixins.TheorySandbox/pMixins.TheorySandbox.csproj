@@ -109,6 +109,7 @@
     <Compile Include="COVERED\HostCanAccessProtectedMembersInMixin\HostCanAccessProtectedMembersInMixinSpecTest.cs" />
     <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpec.cs" />
     <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpecTest.cs" />
+    <Compile Include="DoNotMixinAttribute.cs" />
     <Compile Include="GenericDecorator\GenericDecorator.cs" />
     <Compile Include="GenericDecorator\GenericDecoratorSpecTest.cs" />
     <Compile Include="HostCanUseMixinExtensionMethods\HostCanUseMixinExtensionMethodsSpec.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="COVERED\HostInheritsMethodsMixinBaseClassMethods\HostInheritsMethodsMixinBaseClassMethodsSpecTest.cs" />
     <Compile Include="COVERED\HostInheritsStaticMembersInMixin\HostInheritsStaticMembersInMixinSpec.cs" />
     <Compile Include="COVERED\HostInheritsStaticMembersInMixin\HostInheritsStaticMembersInMixinSpecTest.cs" />
+    <Compile Include="IMixinDependency.cs" />
     <Compile Include="IMixinInterceptor.cs" />
     <Compile Include="InterceptorMixinRequirementAttribute.cs" />
     <Compile Include="COVERED\Interceptors\BasicInterceptor\BasicInterceptorSpec.cs" />
@@ -137,6 +139,8 @@
     <Compile Include="MasterWrapperBase.cs" />
     <Compile Include="COVERED\MixinIsTargetsNestedClass\MixinIsTargetsNestedClassSpec.cs" />
     <Compile Include="COVERED\MixinIsTargetsNestedClass\MixinIsTargetsNestedClassSpecTest.cs" />
+    <Compile Include="MixinDependency\MixinDependencySpec.cs" />
+    <Compile Include="MixinDependency\MixinDependencySpecTest.cs" />
     <Compile Include="MultipleMixinsMethodPriority\MultipleMixinsMethodPrioritySpec.cs" />
     <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpec.cs" />
     <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpecTest.cs" />

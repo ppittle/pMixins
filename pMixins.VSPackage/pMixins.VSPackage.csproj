@@ -11,7 +11,6 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <DesignTimeBuild>true</DesignTimeBuild>
     <VsSDKInstall>..\tools\vssdk_tools</VsSDKInstall>
     <VsSDKIncludes>$(VsSDKInstall)\inc</VsSDKIncludes>
     <VsSDKToolsPath>$(VsSDKInstall)\bin</VsSDKToolsPath>

@@ -779,6 +779,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	<Message Importance="High" Text="ReferencePath" />
 	<Message Importance="High" Text="$(ReferencePath)" />
 	
+	<Message Importance="High" Text="VsSDKToolsPath" />
+	<Message Importance="High" Text="$(VsSDKToolsPath)" />
+	
 	
     <CreatePkgDef AssemblyToProcess="$(TargetPath)"
               ProductVersion="$(TargetVSVersion)"

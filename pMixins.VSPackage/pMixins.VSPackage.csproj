@@ -268,18 +268,19 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
+ 
   <UsingTask TaskName="SetVsSDKEnvironmentVariables" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
     <ParameterGroup>
       <VsSDKToolsPath Required="true" />
     </ParameterGroup>
     <Task>
       <Code Type="Fragment" Language="cs">
-        throw new Exception(System.IO.Path.GetFullPath(VsSDKToolsPath));
+        System.Environment.SetEnvironmentVariable("VsSDKToolsPath", System.IO.Path.GetFullPath(VsSDKToolsPath));
       </Code>
     </Task>
   </UsingTask>
   <Target Name="SetVsSDKEnvironmentVariables" BeforeTargets="VSCTCompile">
     <SetVsSDKEnvironmentVariables VsSDKToolsPath="$(VsSDKToolsPath)" />
   </Target>
+   -->
 </Project>

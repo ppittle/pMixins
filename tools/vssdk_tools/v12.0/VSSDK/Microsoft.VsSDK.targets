@@ -735,6 +735,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
                                          Generating PkgDef File
     =======================================================================================================
   -->
+  
+  
   <PropertyGroup>
     <PrepareForRunDependsOn>
       $(PrepareForRunDependsOn);
@@ -750,6 +752,17 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <UseCodebase Condition="'$(UseCodebase)' == ''">$(RegisterWithCodebase)</UseCodebase>
   </PropertyGroup>
 
+   <UsingTask TaskName="SetVsSDKEnvironmentVariables" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <VsSDKToolsPath Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs">
+        System.Environment.SetEnvironmentVariable("VsSDKToolsPath", System.IO.Path.GetFullPath(VsSDKToolsPath));
+      </Code>
+    </Task>
+  </UsingTask>
+  
   <Target Name="GeneratePkgDef"
           Inputs="$(TargetPath)"
           Outputs="$(IntermediateOutputPath)$(TargetName).pkgdef"
@@ -757,6 +770,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
           DependsOnTargets="$(GeneratePkgDefDependsOn)">
 
     <Message Importance="High" Text="Creating intermediate PkgDef file." />
+	
+    <SetVsSDKEnvironmentVariables VsSDKToolsPath="$(VsSDKToolsPath)" />
 	
 	<Message Importance="High" Text="TargetPath" />
 	<Message Importance="High" Text="$(TargetPath)" />

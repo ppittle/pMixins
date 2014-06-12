@@ -773,31 +773,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	
     <SetVsSDKEnvironmentVariables VsSDKToolsPath="$(VsSDKToolsPath)" />
 	
-	<Message Importance="High" Text="TargetPath" />
-	<Message Importance="High" Text="$(TargetPath)" />
-	
-	<Message Importance="High" Text="TargetVSVersion" />
-	<Message Importance="High" Text="$(TargetVSVersion)" />
-	
-	<Message Importance="High" Text="VsSDKVersion" />
-	<Message Importance="High" Text="$(VsSDKVersion)" />
-	
-	<Message Importance="High" Text="IntermediateOutputPath" />
-	<Message Importance="High" Text="$(IntermediateOutputPath)" />
-	
-	<Message Importance="High" Text="TargetName" />
-	<Message Importance="High" Text="$(TargetName)" />
-	
-	<Message Importance="High" Text="UseCodebase" />
-	<Message Importance="High" Text="$(UseCodebase)" />
-	
-	<Message Importance="High" Text="ReferencePath" />
-	<Message Importance="High" Text="$(ReferencePath)" />
-	
-	<Message Importance="High" Text="VsSDKToolsPath" />
-	<Message Importance="High" Text="$(VsSDKToolsPath)" />
-	
-	
     <CreatePkgDef AssemblyToProcess="$(TargetPath)"
               ProductVersion="$(TargetVSVersion)"
               SDKVersion="$(VsSDKVersion)"

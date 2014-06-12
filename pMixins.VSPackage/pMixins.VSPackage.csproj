@@ -49,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DeployExtension>False</DeployExtension>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CopaceticSoftware.Common, Version=0.2.5010.18016, Culture=neutral, PublicKeyToken=cb24be53a247b8ec, processorArchitecture=MSIL">

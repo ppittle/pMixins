@@ -757,7 +757,29 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
           DependsOnTargets="$(GeneratePkgDefDependsOn)">
 
     <Message Importance="High" Text="Creating intermediate PkgDef file." />
-
+	
+	<Message Importance="High" Text="TargetPath" />
+	<Message Importance="High" Text="$(TargetPath)" />
+	
+	<Message Importance="High" Text="TargetVSVersion" />
+	<Message Importance="High" Text="$(TargetVSVersion)" />
+	
+	<Message Importance="High" Text="VsSDKVersion" />
+	<Message Importance="High" Text="$(VsSDKVersion)" />
+	
+	<Message Importance="High" Text="IntermediateOutputPath" />
+	<Message Importance="High" Text="$(IntermediateOutputPath)" />
+	
+	<Message Importance="High" Text="TargetName" />
+	<Message Importance="High" Text="$(TargetName)" />
+	
+	<Message Importance="High" Text="UseCodebase" />
+	<Message Importance="High" Text="$(UseCodebase)" />
+	
+	<Message Importance="High" Text="ReferencePath" />
+	<Message Importance="High" Text="$(ReferencePath)" />
+	
+	
     <CreatePkgDef AssemblyToProcess="$(TargetPath)"
               ProductVersion="$(TargetVSVersion)"
               SDKVersion="$(VsSDKVersion)"

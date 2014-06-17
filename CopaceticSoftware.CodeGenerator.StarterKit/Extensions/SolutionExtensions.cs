@@ -50,6 +50,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                         rawSourceFile.FileName,
                         rawSourceFile.ProjectFileName);
 
+                    //TODO: Should this throw an exception instead?
                     return null;
                 }
 

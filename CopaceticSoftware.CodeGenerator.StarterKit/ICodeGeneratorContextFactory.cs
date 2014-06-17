@@ -57,6 +57,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit
             var csharpFiles = 
                 rawSourceFiles
                 .Select(f => solution.AddOrUpdateProjectItemFile(f))
+                .Where(x => null != x)
                 .ToList();
             
             return GenerateContext(solution, csharpFiles);

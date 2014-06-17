@@ -55,6 +55,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests
             {
                 CodeGeneratorContextFactory = Kernel.Get<ICodeGeneratorContextFactory>();
 
+                Assert.NotNull(CodeGeneratorContextFactory, "Kernel returned a null ICodeGeneratorContextFactory.");
+
                 CodeGenerationContext =
                     CodeGeneratorContextFactory
                         .GenerateContext(

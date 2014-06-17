@@ -62,15 +62,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
 
             var sw = Stopwatch.StartNew();
+            int projectCount = 0;
             try
             {
                 _log.InfoFormat("Start BuildCurrentSolution on [{0}]", _solutionContext.SolutionFileName);
 
-                return new Solution(
-                    _solutionContext.SolutionFileName,
-                    _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
-                        .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
-                    );
+                var solution = 
+                    new Solution(
+                        _solutionContext.SolutionFileName,
+                        _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
+                            .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
+                        );
+
+                if (null != solution)
+                    projectCount = solution.Projects.Count;
             }
             catch (Exception e)
             {
@@ -80,7 +85,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
             finally
             {
-                _log.InfoFormat("BuildCurrentSolution completed in [{0}] ms", sw.ElapsedMilliseconds);
+                _log.InfoFormat("BuildCurrentSolution completed wiht [{0}] Projects in [{1}] ms", 
+                    projectCount,
+                    sw.ElapsedMilliseconds);
 
                 _visualStudioWriter.WriteToStatusBar("pMixin - Building Current Solution ... Complete");
             }

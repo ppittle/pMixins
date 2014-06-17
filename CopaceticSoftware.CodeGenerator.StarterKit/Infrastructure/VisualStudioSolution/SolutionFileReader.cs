@@ -101,9 +101,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             _log.InfoFormat("Reading Projects from Solution File [{0}]", solutionFileName.FullPath);
 
-            foreach (string line in _fileReader.ReadLines(solutionFileName))
+            foreach (Match match in ProjectLinePattern.Matches(_fileReader.ReadAllText(solutionFileName)))
             {
-                Match match = ProjectLinePattern.Match(line);
                 if (match.Success)
                 {
                     string typeGuid = match.Groups["TypeGuid"].Value;

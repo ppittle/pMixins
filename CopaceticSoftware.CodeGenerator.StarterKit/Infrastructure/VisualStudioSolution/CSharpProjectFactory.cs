@@ -16,8 +16,10 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution
 {
@@ -28,6 +30,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
     public class CSharpProjectFactory : ICSharpProjectFactory
     {
+        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly IMicrosoftBuildProjectAssemblyReferenceResolver _assemblyReferenceResolver;
         private readonly ICSharpFileFactory _cSharpFileFactory;
         private readonly IMicrosoftBuildProjectLoader _microsoftBuildProjectLoader;
@@ -41,6 +45,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
         public CSharpProject BuildProject(FilePath projectFileName, string title)
         {
+            _log.InfoFormat("Building Project [{0}]", projectFileName.FullPath);
+
             return new CSharpProject(
                 _cSharpFileFactory,
                 new MicrosoftBuildProject(_microsoftBuildProjectLoader, _assemblyReferenceResolver, projectFileName),

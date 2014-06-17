@@ -103,29 +103,29 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             foreach (Match match in ProjectLinePattern.Matches(_fileReader.ReadAllText(solutionFileName)))
             {
-                if (match.Success)
-                {
-                    string typeGuid = match.Groups["TypeGuid"].Value;
-                    string title = match.Groups["Title"].Value;
-                    string location = match.Groups["Location"].Value;
-                    
-                    switch (typeGuid.ToUpperInvariant())
-                    {
-                        case "{2150E333-8FDC-42A3-9474-1A3956D46DE8}": // Solution Folder
-                            // ignore folders
-                            break;
-                        case "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}": // C# project
-                           yield return new SolutionFileProjectReference
-                                        {
-                                            ProjectFileName = new FilePath(directory, location),
-                                            Title = title
-                                        };
+                if (!match.Success) 
+                    continue;
 
-                            break;
-                        default:
-                            _log.InfoFormat("Project {0} has unsupported type {1}", location, typeGuid);
-                            break;
-                    }
+                string typeGuid = match.Groups["TypeGuid"].Value;
+                string title = match.Groups["Title"].Value;
+                string location = match.Groups["Location"].Value;
+                    
+                switch (typeGuid.ToUpperInvariant())
+                {
+                    case "{2150E333-8FDC-42A3-9474-1A3956D46DE8}": // Solution Folder
+                        // ignore folders
+                        break;
+                    case "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}": // C# project
+                        yield return new SolutionFileProjectReference
+                        {
+                            ProjectFileName = new FilePath(directory, location),
+                            Title = title
+                        };
+
+                        break;
+                    default:
+                        _log.InfoFormat("Project {0} has unsupported type {1}", location, typeGuid);
+                        break;
                 }
             }
         }

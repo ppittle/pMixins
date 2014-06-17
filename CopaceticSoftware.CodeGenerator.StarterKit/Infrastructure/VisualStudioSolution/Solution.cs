@@ -48,7 +48,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
             RecreateCompilations();
 
-            _log.DebugFormat("Solution created in [{0}] ms", sw.ElapsedMilliseconds);
+            _log.InfoFormat("Solution [{0}] with [{1}] Projects created in [{2}] ms", 
+                FileName,
+                Projects.Count,
+                sw.ElapsedMilliseconds);
         }
 
         /// <summary>

@@ -76,6 +76,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
 
                 if (null != solution)
                     projectCount = solution.Projects.Count;
+
+                return solution;
             }
             catch (Exception e)
             {

@@ -99,6 +99,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             if (null == directory)
                 throw new FormatException(string.Format("Path.GetDirectoryName returned null for solution file [{0}]", solutionFileName));
 
+            _log.InfoFormat("Reading Projects from Solution File [{0}]", solutionFileName.FullPath);
+
             foreach (string line in _fileReader.ReadLines(solutionFileName))
             {
                 Match match = ProjectLinePattern.Match(line);

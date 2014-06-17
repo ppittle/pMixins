@@ -63,7 +63,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             }
             catch (Exception e)
             {
-                _log.Error("Excpetion in AddOrUpdateCodeGeneratorFileSource: " + e.Message, e);
+                _log.Error("Exception in AddOrUpdateCodeGeneratorFileSource: " + e.Message, e);
                 throw;
             }
         }

@@ -87,7 +87,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
             finally
             {
-                _log.InfoFormat("BuildCurrentSolution completed wiht [{0}] Projects in [{1}] ms", 
+                _log.InfoFormat("BuildCurrentSolution completed with [{0}] Projects in [{1}] ms", 
                     projectCount,
                     sw.ElapsedMilliseconds);
 

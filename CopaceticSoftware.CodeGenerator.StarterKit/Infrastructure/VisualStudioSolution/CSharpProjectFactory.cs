@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
@@ -47,10 +48,19 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         {
             _log.InfoFormat("Building Project [{0}]", projectFileName.FullPath);
 
-            return new CSharpProject(
-                _cSharpFileFactory,
-                new MicrosoftBuildProject(_microsoftBuildProjectLoader, _assemblyReferenceResolver, projectFileName),
-                title);
+            try
+            {
+                return new CSharpProject(
+                    _cSharpFileFactory,
+                    new MicrosoftBuildProject(_microsoftBuildProjectLoader, _assemblyReferenceResolver, projectFileName),
+                    title);
+            }
+            catch (Exception e)
+            {
+                _log.Error("Exception Building Project [" + projectFileName.FullPath + "]", e);
+
+                throw;
+            }
         }
     }
 }

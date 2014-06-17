@@ -67,14 +67,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         {
             lock (_lock)
             {
-                var loadedProjects =
-                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName.FullPath)
-                        //Create a copy incase the collection is modified externally during iteration
-                        .ToArray();
+                try
+                {
+                    var loadedProjects =
+                        ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectFileName.FullPath)
+                            //Create a copy incase the collection is modified externally during iteration
+                            .ToArray();
 
-                return loadedProjects.Any()
-                    ? loadedProjects.First()
-                    : new Project(projectFileName.FullPath);
+                    return loadedProjects.Any()
+                        ? loadedProjects.First()
+                        : new Project(projectFileName.FullPath);
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Exception Loading Microsoft Build Project for [" + projectFileName.FullPath + "]", e);
+                    throw;
+                }
             }
         }
     }

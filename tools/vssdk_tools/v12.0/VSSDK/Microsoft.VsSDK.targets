@@ -1159,5 +1159,17 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
              Value="$(VSIXVersion)"/>
   </Target>
   
+  <Target Name="UpdateVSIXVersion2" BeforeTargets="PrepareForBuild" >
+    <Message Text= "Updating VSIX Version2 "/>
+	
+	
+    <XmlPeek XmlInputPath="$(MSBuildProjectDirectory)\source.extension.vsixmanifest"
+             Query="PackageManifest/Metadata/Identity/@Version"
+             >
+			 <Output TaskParameter="Result" ItemName="Peeked" />
+	 </XmlPeek>
+	 <Message Text="@(Peeked)"/>
+  </Target>
+  
   
 </Project>

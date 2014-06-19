@@ -1151,4 +1151,13 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <MakeDir Directories="$(ZipProjectOutput);$(ZipItemOutput)"/>
   </Target>
 
+   <!-- Custom for pMixins --> 
+  <Target Name="UpdateVSIXVersion" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And='' $(VSIXVersion) != '*Undefined*'">
+    <Message Text= "Updaging VSIX Version" />
+    <XmlPoke XmlInputPath="$(MSBuildProjectDirectory)\source.extension.vsixmanifest"
+             Query="//Identity/@Version"
+             Value="$(VSIXVersion)"/>
+  </Target>
+  
+  
 </Project>

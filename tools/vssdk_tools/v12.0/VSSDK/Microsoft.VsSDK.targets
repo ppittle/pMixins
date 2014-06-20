@@ -1152,7 +1152,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   </Target>
 
    <!-- Custom for pMixins --> 
-  <Target Name="UpdateVSIXVersion" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*'">
+  <Target Name="UpdateVSIXVersion" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*' And Exists('source.extension.vsixmanifest')">
 	
 	<Message Text= "Updating VSIX Version" />
     <XmlPoke 

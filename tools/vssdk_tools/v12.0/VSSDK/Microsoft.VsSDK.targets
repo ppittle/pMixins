@@ -1153,59 +1153,13 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 
    <!-- Custom for pMixins --> 
   <Target Name="UpdateVSIXVersion" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*'">
-    <Message Text= "Updating VSIX Version [$(MSBuildProjectDirectory)] - $(VSIXVersion)" />
-    <XmlPoke XmlInputPath="source.extension.vsixmanifest"
-             Query="/PackageManifest/Metadata/Identity/@Version"
-             Value="$(VSIXVersion)"/>
-			 
-	<XmlUpdate
-	    XmlFileName="source.extension.vsixmanifest"
-	    XPath="/PackageManifest/Metadata/Identity/@Version"
-	    Value="$(VSIXVersion)" />
+	
+	<Message Text= "Updating VSIX Version" />
+    <XmlPoke 
+			XmlInputPath="source.extension.vsixmanifest"
+            Query="/n:PackageManifest/n:Metadata/n:Identity/@Version"
+            Value="$(VSIXVersion)"
+			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vsx-schema/2011' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
+	</XmlPoke>		
   </Target>
-  
-  <Target Name="UpdateVSIXVersion2" BeforeTargets="PrepareForBuild" >
-    <Message Text= "Updating VSIX Version2 "/>
-	
-	<XmlPeek XmlInputPath="$(MSBuildProjectDirectory)\source.extension.vsixmanifest"
-             Query="/PackageManifest/Metadata/Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked)"/>
-	 
-	 <Message Text= "Updating VSIX Version3 "/>
-	
-	<XmlPeek XmlInputPath="$(MSBuildProjectDirectory)\source.extension.vsixmanifest"
-             Query="/Metadata/Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked2" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked2)"/>
-	 
-	 <Message Text= "Updating VSIX Version4 "/>
-	
-	<XmlPeek XmlInputPath="$(MSBuildProjectDirectory)\source.extension.vsixmanifest"
-             Query="//Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked3" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked3)"/>
-	 
-	  <Message Text= "Updating VSIX Version5"/>
-	
-	<XmlPeek XmlInputPath="source.extension.vsixmanifest"
-             Query="//Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked5" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked5)"/>
-	 
-	  <Message Text= "Updating VSIX Version6"/>
-	
-	<XmlPeek XmlInputPath="source.extension.vsixmanifest"
-             Query="/PackageManifest/Metadata/Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked6" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked6)"/>
-	 
-  </Target>
-  
-  
 </Project>

@@ -1192,6 +1192,14 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	 </XmlPeek>
 	 <Message Text="@(Peeked5)"/>
 	 
+	  <Message Text= "Updating VSIX Version6"/>
+	
+	<XmlPeek XmlInputPath="source.extension.vsixmanifest"
+             Query="/PackageManifest/Metadata/Identity/@Version">
+			 <Output TaskParameter="Result" ItemName="Peeked6" />
+	 </XmlPeek>
+	 <Message Text="@(Peeked6)"/>
+	 
   </Target>
   
   

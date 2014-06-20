@@ -1157,6 +1157,11 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <XmlPoke XmlInputPath="source.extension.vsixmanifest"
              Query="/PackageManifest/Metadata/Identity/@Version"
              Value="$(VSIXVersion)"/>
+			 
+	<XmlUpdate
+	    XmlFileName="source.extension.vsixmanifest"
+	    XPath="/PackageManifest/Metadata/Identity/@Version"
+	    Value="$(VSIXVersion)" />
   </Target>
   
   <Target Name="UpdateVSIXVersion2" BeforeTargets="PrepareForBuild" >

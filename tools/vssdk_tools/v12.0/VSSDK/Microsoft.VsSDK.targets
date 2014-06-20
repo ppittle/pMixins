@@ -1167,7 +1167,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>
 	
-	<XmlPeek XmlInputPath="$(MSBuildProjectFile).teamcity" 
+	<XmlPeek XmlInputPath="$(MSBuildProjectFile)" 
 		Query="/n:Project/n:ItemGroup/n:Content[starts-with(@Include, 'packages\pMixins')]/@Include" 
 		Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/msbuild/2003' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;" >
              <Output TaskParameter="Result" ItemName="Peeked" />	 
@@ -1175,7 +1175,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	<Message Text="Text: @(Peeked)"/>
 	
 	<XmlPoke 
-			XmlInputPath="$(MSBuildProjectFile).teamcity"
+			XmlInputPath="$(MSBuildProjectFile)"
             Query="/n:Project/n:ItemGroup/n:Content[starts-with(@Include, 'packages\pMixins')]/@Include"
             Value="$(pMixinNugetPath)"
 			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/msbuild/2003' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">

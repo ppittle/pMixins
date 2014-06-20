@@ -1154,7 +1154,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
    <!-- Custom for pMixins --> 
   <Target Name="UpdateVSIXVersion" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*'">
     <Message Text= "Updating VSIX Version [$(MSBuildProjectDirectory)] - $(VSIXVersion)" />
-    <XmlPoke XmlInputPath="/source.extension.vsixmanifest"
+    <XmlPoke XmlInputPath="source.extension.vsixmanifest"
              Query="/PackageManifest/Metadata/Identity/@Version"
              Value="$(VSIXVersion)"/>
   </Target>
@@ -1191,12 +1191,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 			 <Output TaskParameter="Result" ItemName="Peeked5" />
 	 </XmlPeek>
 	 <Message Text="@(Peeked5)"/>
-	  <Message Text= "Updating VSIX Version6"/>
-	 <XmlPeek XmlInputPath=/source.extension.vsixmanifest"
-             Query="//Identity/@Version">
-			 <Output TaskParameter="Result" ItemName="Peeked6" />
-	 </XmlPeek>
-	 <Message Text="@(Peeked6)"/>
+	 
   </Target>
   
   

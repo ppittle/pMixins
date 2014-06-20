@@ -1163,6 +1163,17 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	</XmlPoke>		
   </Target>
   
+  
+  <Target Name="UpdateVSTemplate" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*' And Exists('$(MSBuildProjectName).vstemplate')">
+	
+	<Message Text= "Updating $(MSBuildProjectName) .VSTemplate" />
+    <XmlPoke 
+			XmlInputPath="$(MSBuildProjectName).vstemplate"
+            Query="/n:VSTemplate/n:WizardData/n:Packages/n:package[matches(@id, 'pMixins')]/@version"
+            Value="$(VSIXVersion)"
+			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vstemplate/2005' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
+	</XmlPoke>		
+  </Target>
   <Target Name="ReplaceNugetPackageDependency" BeforeTargets="PrepareForBuild" Condition="$(pMixinNugetPath) != '' And $(pMixinNugetPath) != '*Undefined*'">
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>

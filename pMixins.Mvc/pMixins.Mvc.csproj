@@ -165,6 +165,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\fullLogo.png" />
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
+    <Content Include="Content\Images\VisualStudio2013_black.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

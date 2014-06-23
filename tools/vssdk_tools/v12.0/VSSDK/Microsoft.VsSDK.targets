@@ -1178,7 +1178,10 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   <Target Name="ReplaceNugetPackageDependency" BeforeTargets="PrepareForBuild" Condition="$(pMixinNugetPath) != '' And $(pMixinNugetPath) != '*Undefined*'" >
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>
-		
+	
+	<!-- Clean \packages Folder -->
+	<Delete Files="$(MSBuildProjectDirectory)\packages\*" TreatErrorsAsWarnings="true" />
+	
 	<Copy SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
 			
   </Target>

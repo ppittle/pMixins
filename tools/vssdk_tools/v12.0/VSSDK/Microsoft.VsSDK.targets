@@ -1180,7 +1180,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	<Message Text="$(pMixinNugetPath)"/>
 	
 	<!-- Clean \packages Folder -->
-	<Delete Files="$(MSBuildProjectDirectory)\packages\*.*" TreatErrorsAsWarnings="true" />
+	<RemoveDir Directories="$(MSBuildProjectDirectory)\packages\" />
 	
 	<Copy SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
 			

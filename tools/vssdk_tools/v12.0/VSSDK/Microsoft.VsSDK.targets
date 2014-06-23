@@ -1164,25 +1164,27 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   </Target>
   
   
-  <Target Name="UpdateVSTemplate" BeforeTargets="PrepareForBuild" Condition="$(VSIXVersion) != '' And $(VSIXVersion) != '*Undefined*' And Exists('$(MSBuildProjectName).vstemplate')">
+  <Target Name="UpdateVSTemplate" BeforeTargets="PrepareForBuild" Condition="$(NuGet.FullVersion) != '' And $(NuGet.FullVersion) != '*Undefined*' And Exists('$(MSBuildProjectName).vstemplate')">
 	
 	<Message Text= "Updating $(MSBuildProjectName) .VSTemplate" />
     <XmlPoke 
 			XmlInputPath="$(MSBuildProjectName).vstemplate"
             Query="/n:VSTemplate/n:WizardData/n:packages/n:package[starts-with(@id, 'pMixins')]/@version"
-            Value="$(VSIXVersion)"
+            Value="$(NuGet.FullVersion)"
 			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vstemplate/2005' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
 	</XmlPoke>		
   </Target>
   
+  <!-- Moved to powershell script on build server
   <Target Name="ReplaceNugetPackageDependency" BeforeTargets="PrepareForBuild" Condition="$(pMixinNugetPath) != '' And $(pMixinNugetPath) != '*Undefined*'" >
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>
 	
-	<!-- Clean \packages Folder -->
+	<!- Clean \packages Folder ->
 	<RemoveDir Directories="$(MSBuildProjectDirectory)\packages\" />
 	
 	<Copy SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
 			
   </Target>
+  -->
 </Project>

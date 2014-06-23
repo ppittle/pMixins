@@ -1164,13 +1164,13 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   </Target>
   
   
-  <Target Name="UpdateVSTemplate" BeforeTargets="PrepareForBuild" Condition="$(NuGet.FullVersion) != '' And $(NuGet.FullVersion) != '*Undefined*' And Exists('$(MSBuildProjectName).vstemplate')">
+  <Target Name="UpdateVSTemplate" BeforeTargets="PrepareForBuild" Condition="$(NuGetFullVersion) != '' And $(NuGetFullVersion) != '*Undefined*' And Exists('$(MSBuildProjectName).vstemplate')">
 	
 	<Message Text= "Updating $(MSBuildProjectName) .VSTemplate" />
     <XmlPoke 
 			XmlInputPath="$(MSBuildProjectName).vstemplate"
             Query="/n:VSTemplate/n:WizardData/n:packages/n:package[starts-with(@id, 'pMixins')]/@version"
-            Value="$(NuGet.FullVersion)"
+            Value="$(NuGetFullVersion)"
 			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vstemplate/2005' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
 	</XmlPoke>		
   </Target>

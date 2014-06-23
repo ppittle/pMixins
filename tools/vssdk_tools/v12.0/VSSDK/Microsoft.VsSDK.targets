@@ -1170,7 +1170,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <XmlPoke 
 			XmlInputPath="$(MSBuildProjectName).vstemplate"
             Query="/n:VSTemplate/n:WizardData/n:packages/n:package[starts-with(@id, 'pMixins')]/@version"
-            Value="TEST"
+            Value="$(VSIXVersion)"
 			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vstemplate/2005' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
 	</XmlPoke>		
   </Target>
@@ -1179,12 +1179,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>
 		
-	<XmlPoke 
-		XmlInputPath="$(MSBuildProjectFile)" 
-		Query="//n:Project/n:ItemGroup/n:Content[contains(@Include, 'pMixins')]/n:IncludeInVSIX/../@Include" 
-		Value="$(pMixinNugetPath)"
-		Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/msbuild/2003' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;" >
-	 </XmlPoke>	
+	<Move SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
 			
   </Target>
 </Project>

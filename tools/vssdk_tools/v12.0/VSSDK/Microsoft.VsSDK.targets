@@ -1179,7 +1179,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Message Text="Replace Nuget Package Dependency - $(MSBuildProjectFile)" />
 	<Message Text="$(pMixinNugetPath)"/>
 		
-	<Move SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
+	<Copy SourceFiles="$(pMixinNugetPath)" DestinationFolder="$(MSBuildProjectDirectory)\packages"	/>
 			
   </Target>
 </Project>

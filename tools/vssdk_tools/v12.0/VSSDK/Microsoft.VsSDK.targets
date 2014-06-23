@@ -1169,8 +1169,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 	<Message Text= "Updating $(MSBuildProjectName) .VSTemplate" />
     <XmlPoke 
 			XmlInputPath="$(MSBuildProjectName).vstemplate"
-            Query="/n:VSTemplate/n:WizardData/n:packages/n:package[starts-with(@id, 'pMixins')]/@version"
             Value="$(VSIXVersion)"
+            Query="/n:VSTemplate/n:WizardData/n:packages/n:package[contains(@id, 'pMixins')]/@version"
 			Namespaces="&lt;Namespace Prefix='n' Uri='http://schemas.microsoft.com/developer/vstemplate/2005' Name='DoNotKnowWhatThisIsFor-ButItIsRequired' /&gt;">
 	</XmlPoke>		
   </Target>

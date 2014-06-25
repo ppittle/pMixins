@@ -35,6 +35,9 @@
     <Reference Include="CopaceticSoftware.pMixins">
       <HintPath>..\packages\pMixins.0.1.8.313-prerelease\lib\net35\CopaceticSoftware.pMixins.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,7 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicMixinExample\BasicMixinExample.cs" />
+    <Compile Include="BasicMixinExample\BasicMixinExample.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>BasicMixinExample.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="BasicMixinExample\BasicMixinExample.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicMixinExample.cs</DependentUpon>
+    </Compile>
     <Compile Include="BasicMixinExample\BasicMixinExampleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

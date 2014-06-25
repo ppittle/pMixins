@@ -57,6 +57,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item Template", "Item Templ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pMixins.ItemTemplate.Legacy", "pMixins.ItemTemplate.Legacy\pMixins.ItemTemplate.Legacy.csproj", "{2BBFDADB-13C2-4727-8184-92BE70BDF0B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pMixins.Mvc.Recipes", "pMixins.Mvc.Recipes\pMixins.Mvc.Recipes.csproj", "{6A70C346-4BD8-4A0C-9504-74E72C16EF24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{2BBFDADB-13C2-4727-8184-92BE70BDF0B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBFDADB-13C2-4727-8184-92BE70BDF0B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBFDADB-13C2-4727-8184-92BE70BDF0B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A70C346-4BD8-4A0C-9504-74E72C16EF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A70C346-4BD8-4A0C-9504-74E72C16EF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A70C346-4BD8-4A0C-9504-74E72C16EF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A70C346-4BD8-4A0C-9504-74E72C16EF24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +150,7 @@ Global
 		{0B39CE3C-46B0-4BDE-969B-1E5252C503EC} = {D46C5F3A-1A96-4AD8-9B58-BCC87EC0F1EC}
 		{D46C5F3A-1A96-4AD8-9B58-BCC87EC0F1EC} = {3D2EF5DB-5E7C-4C70-89A7-496D0E25C745}
 		{2BBFDADB-13C2-4727-8184-92BE70BDF0B1} = {D46C5F3A-1A96-4AD8-9B58-BCC87EC0F1EC}
+		{6A70C346-4BD8-4A0C-9504-74E72C16EF24} = {5C4D0962-12AA-4D22-9844-0099D8C85DE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

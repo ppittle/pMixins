@@ -62,20 +62,28 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
 
             var sw = Stopwatch.StartNew();
-            int projectCount = 0;
+            var projectCount = 0;
             try
             {
                 _log.InfoFormat("Start BuildCurrentSolution on [{0}]", _solutionContext.SolutionFileName);
 
+
+                var projectReferences =
+                    _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
+                        .ToList();
+
+                _log.InfoFormat("Found [{0}] Project References", projectReferences.Count);
+
+                var projects =
+                    projectReferences.Select(pr =>
+                        _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title));
+
                 var solution = 
                     new Solution(
                         _solutionContext.SolutionFileName,
-                        _solutionFileReader.ReadProjectReferences(_solutionContext.SolutionFileName)
-                            .Select(pr => _cSharpProjectFactory.BuildProject(pr.ProjectFileName, pr.Title))
-                        );
+                        projects);
 
-                if (null != solution)
-                    projectCount = solution.Projects.Count;
+                projectCount = solution.Projects.Count;
 
                 return solution;
             }

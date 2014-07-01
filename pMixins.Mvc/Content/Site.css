@@ -54,3 +54,14 @@ input[type="checkbox"].input-validation-error {
 .lit, .atn { color: #FF0000 !important; }
 .pun, .pln { color: #000000 !important; }
 .dec       { color: #800080 !important; }
+
+.logo-code {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 135px;
+}
+
+ @media all and (max-width: 980px) {
+        .logo-code {
+            font-size: 14vw;
+        }
+    }

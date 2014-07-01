@@ -56,7 +56,7 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
                     Intro = "Welcome to the Basic Mixin!",
                     CodeDescriptions = new[]
                     {
-                         new CodeDescriptionPair
+                        new CodeDescriptionPair
                         {
                             Code = scr.GetSourceCodeForFile(
                                 "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExample.cs",
@@ -73,6 +73,12 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
                             Code = scr.GetSourceCodeForFile(
                                 "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExample.cs",
                                 "BasicMixinExample")
+                        },
+                        new CodeDescriptionPair
+                        {
+                            Code = scr.GetSourceCodeForFile(
+                                "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExampleTest.cs",
+                                "BasicMixinExampleTest")
                         } 
                     }
                 }

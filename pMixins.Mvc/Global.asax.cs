@@ -19,6 +19,7 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using CopaceticSoftware.pMixins.Mvc.BAL;
 
 namespace CopaceticSoftware.pMixins.Mvc
 {
@@ -30,6 +31,8 @@ namespace CopaceticSoftware.pMixins.Mvc
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            RecipeRepository.Initialize(this.Server);
         }
     }
 }

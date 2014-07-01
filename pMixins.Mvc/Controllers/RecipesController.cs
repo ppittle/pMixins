@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Web.Mvc;
+using System.Web.Routing;
 using CopaceticSoftware.pMixins.Mvc.BAL;
 
 namespace CopaceticSoftware.pMixins.Mvc.Controllers
@@ -29,7 +30,12 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         {
             _recipeRepository = new RecipeRepository();
         }
-        
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+        }
+
         public ActionResult Index(string recipeId)
         {
             if (string.IsNullOrEmpty(recipeId))

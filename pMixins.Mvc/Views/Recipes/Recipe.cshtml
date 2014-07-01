@@ -8,3 +8,22 @@
 
 <p>@Model.Intro</p>
 
+@foreach (var code in @Model.CodeDescriptions)
+{
+    if (!string.IsNullOrEmpty(code.Forward))
+    {
+         <p>@code.Forward</p>
+    }
+
+    if (!string.IsNullOrEmpty(code.Code))
+    {
+        <pre class="prettyprint">
+@code.Code
+        </pre>
+    }
+
+    if (!string.IsNullOrEmpty(code.Afterward))
+    {
+        <p>@code.Afterward</p>
+    }
+}

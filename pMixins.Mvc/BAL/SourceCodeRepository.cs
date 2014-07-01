@@ -17,14 +17,78 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Concurrent;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using ICSharpCode.NRefactory.CSharp;
+using log4net;
+using CSharpParser = ICSharpCode.NRefactory.CSharp.CSharpParser;
 
 namespace CopaceticSoftware.pMixins.Mvc.BAL
 {
     public class SourceCodeRepository
     {
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly CSharpParser _parser = new CSharpParser();
+
+        private static readonly ConcurrentDictionary<string, string> _fileCache = 
+            new ConcurrentDictionary<string, string>();
+
+        private readonly string PMixinsRecipesZipFilePath;
+
+        public SourceCodeRepository(HttpServerUtility server)
+        {
+            if (null == server)
+                throw new ArgumentNullException("server");
+
+            PMixinsRecipesZipFilePath = server.MapPath(
+                @"/Content/pMixins.Mvc.Recipes.zip");
+        }
+
         public string GetSourceCodeForFile(string pMixinsRecipesFile, string className)
         {
-            throw new NotImplementedException();
+            var fileContents = GetSourceFile(pMixinsRecipesFile);
+
+            if (string.IsNullOrEmpty(fileContents))
+            {
+                _log.InfoFormat("Could not read file at [{0}]", pMixinsRecipesFile);
+                return string.Empty;
+            }
+
+            var syntaxTree = _parser.Parse(fileContents);
+
+            return
+                syntaxTree.Descendants.OfType<TypeDeclaration>()
+                    .Where(x => x.Name.Equals(className, StringComparison.InvariantCultureIgnoreCase))
+                    .Select(x => x.GetText())
+                    .FirstOrDefault();
+        }
+
+        private static readonly object zipFileStreamLock = new object();
+        private string GetSourceFile(string pMixinsRecipesFile)
+        {
+            return 
+                _fileCache.GetOrAdd(
+                    pMixinsRecipesFile,
+                    p =>
+                    {
+                        lock (zipFileStreamLock)
+                        {
+                            using (var fs = File.Open(PMixinsRecipesZipFilePath, FileMode.Open))
+                            using (var zip = new ZipArchive(fs))
+                            {
+                                var entry = zip.GetEntry(p);
+
+                                using (var entryStream = entry.Open())
+                                using (var sr = new StreamReader(entryStream))
+                                    return sr.ReadToEnd();
+
+                            }
+                        }
+                    });
         }
     }
 }

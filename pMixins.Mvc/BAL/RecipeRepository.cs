@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using CopaceticSoftware.pMixins.Mvc.Models;
 using JetBrains.Annotations;
 
@@ -26,19 +27,58 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
 {
     public class RecipeRepository
     {
-        #region Hard Coded Recipes
+        private static IEnumerable<Recipe> _recipes = null;
 
-        private readonly IEnumerable<Recipe> _recipes = new[]
+        private static object _lock = new object();
+
+        public static void Initialize(HttpServerUtility server)
         {
-            new Recipe
+            lock (_lock)
             {
-                Id="Basic-Mixin",
-                Name = "Basic Mixin",
-                Intro = "Welcome to the Basic Mixin!"
-            }
-        };
+                if (null != _recipes)
+                    return;
 
-        #endregion
+                _recipes = LoadRecipes(server);
+            }
+        }
+
+
+        private static IEnumerable<Recipe> LoadRecipes(HttpServerUtility server)
+        {
+            var scr = new SourceCodeRepository(server);
+
+            return new[]
+            {
+                new Recipe
+                {
+                    Id="Basic-Mixin",
+                    Name = "Basic Mixin",
+                    Intro = "Welcome to the Basic Mixin!",
+                    CodeDescriptions = new[]
+                    {
+                         new CodeDescriptionPair
+                        {
+                            Code = scr.GetSourceCodeForFile(
+                                "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExample.cs",
+                                "AnswerToTheUniverseMixin")
+                        },
+                         new CodeDescriptionPair
+                        {
+                            Code = scr.GetSourceCodeForFile(
+                                "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExample.cs",
+                                "HelloWorldMixin")
+                        },
+                        new CodeDescriptionPair
+                        {
+                            Code = scr.GetSourceCodeForFile(
+                                "pMixins.Mvc.Recipes/BasicMixinExample/BasicMixinExample.cs",
+                                "BasicMixinExample")
+                        } 
+                    }
+                }
+            };
+        }
+        
 
         public IEnumerable<Recipe> GetAllRecipes()
         {

@@ -22,6 +22,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Web;
 using ICSharpCode.NRefactory.CSharp;
 using log4net;
@@ -33,6 +34,7 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly CSharpParser _parser = new CSharpParser();
+        private readonly Regex spaceParanthCleanupRegex = new Regex(@"(?:[a-z. ])( \()");
 
         private static readonly ConcurrentDictionary<string, string> _fileCache = 
             new ConcurrentDictionary<string, string>();
@@ -63,7 +65,8 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
             return
                 syntaxTree.Descendants.OfType<TypeDeclaration>()
                     .Where(x => x.Name.Equals(className, StringComparison.InvariantCultureIgnoreCase))
-                    .Select(x => x.GetText())
+                    .Select(x => x.GetText().Trim())
+                    .Select(x => spaceParanthCleanupRegex.Replace(x, "("))
                     .FirstOrDefault();
         }
 

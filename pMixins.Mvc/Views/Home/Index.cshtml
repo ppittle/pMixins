@@ -2,57 +2,82 @@
     ViewBag.Title = "pMixins Code Generation Framework";
 }
 
-<div class="center-block text-center">
-    <p></p>
-    <p class="logo-code">[<span class="typ">p</span>Mixins]</p>
-    <p class="lead">A lightweight Open Source <a href="http://en.wikipedia.org/wiki/Mixins">Mixin</a> and <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> framework for C#.</p>
+<div class="container body-content">
+    <div class="section">
+        <div class="center-block text-center">
+            <p></p>
+            <p class="logo-code logo-code-large">[<span class="typ">p</span>Mixins]</p>
+            <p class="lead">A lightweight open source <a href="http://en.wikipedia.org/wiki/Mixins">Mixin</a> and <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> framework for C#.</p>
 
-</div>
-
-<div class="row" style="min-height: 40px">
-
-</div>
-
-No Factories, Target classes just work.
-
-<div class="row clearfix text-center" style="margin-left: -30px">
-    <div class="col-md-3 col-md-offset-3">
-            <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
-            <p><a href="https://github.com/ppittle/pMixins">Contribute</a></p>
-    </div>
-    <div class="col-md-3">
-        <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
-        <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2">Download</a></p>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="jumbotron">
-        <h2>Why pMixins</h2>
-        <ul>
-            <li>Promote Code Reuse</li>
-            <li>Composition is better than inheritance</li>
-            <li>Simple AOP</li>
-        </ul>
+<div class="container fullwidth">
+    <div class="section section-small section--grey1">
+        <div class="row clearfix text-center" style="margin-left: -30px">
+            <div class="col-md-3 col-md-offset-3">
+                <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
+                <p></p>
+                <div class="btn-default btn">
+                    <a href="https://github.com/ppittle/pMixins">Contribute</a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
+                <p></p>
+                <div class="btn-default btn">
+                    <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2">Download</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="jumbotron">
-        <h2>Design Time Weaving</h2>
-        <ul>
-            <li>Intellisense Support</li>
-            <li>No compiler magic</li>
-            <li>Signle Assembly Depenency - delivered via NuGet</li>
-        </ul>
+<div class="container body-content">
+    <div class="section">
+        <div class="row clearfix">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3>
+                            Why Mixin / AOP
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>Promote Code Reuse</li>
+                            <li>Remove Boilerplate Code</li>
+                            <li>Deobfuscate Your Code</li>
+                            <li>Adhear to Liskov Substition</li>
+                            <li>Avoid Inheritance as Antipattern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>Intellisense Support</li>
+                            <li>No Compiler Magic</li>
+                            <li>Single Assembly Depenency - Delivered via NuGet</li>
+                            <li>Simple, Straightforward AOP</li>
+                            <li>No Factories, Target Classes Just Work.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-
-<div class="row">
-    <div class="jumbotron">
-        <h2>How pMixins Works</h2>
-        <pre class="prettyprint">
+    <div class="row">
+        <div class="jumbotron">
+            <h2>How pMixins Works</h2>
+            <pre class="prettyprint">
 //Mixin - Class that contains members that should be injected into other classes.
 public class Mixin
 {
@@ -94,50 +119,55 @@ public class Consumer
 //     }
 //}
         </pre>
+        </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="jumbotron">
-        <h2>pMixins Recipes</h2>
-        <ul>
-            <li>AOP - Logging / Exception Handling / Parameter Checking</li>
-            <li>Basic Mixin</li>
-            <li>Repository Pattern</li>
-            <li>Context Aware Mixins - IMixinDependency</li>
-            <li>Abstract Mixins</li>
-            <li>Overriding Virtual Mixin Methods</li>
-        </ul>
+<div class="container fullwidth">
+    <div class="section section--grey1">
+        <div class="row">
+            <div class="jumbotron">
+                <h2>pMixins Recipes</h2>
+                <ul>
+                    <li>AOP - Logging / Exception Handling / Parameter Checking</li>
+                    <li>Basic Mixin</li>
+                    <li>Repository Pattern</li>
+                    <li>Context Aware Mixins - IMixinDependency</li>
+                    <li>Abstract Mixins</li>
+                    <li>Overriding Virtual Mixin Methods</li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="jumbotron">
-        <h2>Corporate Sponsorship</h2>
-        Special thanks to Digitas LBi for sponsoring pMixins!
+    <div class="section body-content">
+        <div class="row">
+            <div class="jumbotron">
+                <h2>Corporate Sponsorship</h2>
+                Special thanks to Digitas LBi for sponsoring pMixins!
+            </div>
+        </div>
     </div>
 </div>
 
 @*
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Getting started</h2>
-                <p>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and gives you full control over markup
-                    for enjoyable, agile development.
-                </p>
-                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Get more libraries</h2>
-                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Web Hosting</h2>
-                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>
+                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                enables a clean separation of concerns and gives you full control over markup
+                for enjoyable, agile development.
+            </p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
         </div>
-    *@
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        </div>
+    </div>
+*@

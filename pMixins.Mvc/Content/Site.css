@@ -45,6 +45,9 @@ input[type="checkbox"].input-validation-error {
     background: none;
 }
 
+.jumbotron .container {
+    max-width: 100%;
+}
 
 /*Google Prettify Overrides - http://stackoverflow.com/questions/1667097/how-to-get-google-prettify-to-render-more-like-visual-studio*/
 .com       { color: #008000 !important; }
@@ -57,6 +60,9 @@ input[type="checkbox"].input-validation-error {
 
 .logo-code {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  }
+
+.logo-code-large {
     font-size: 135px;
 }
 
@@ -65,3 +71,60 @@ input[type="checkbox"].input-validation-error {
             font-size: 14vw;
         }
     }
+
+ .fullwidth {
+     width: 100%;
+     padding-left: 0;
+     padding-right: 0;
+ }
+
+ .section {
+     padding-top: 84px;
+     padding-bottom: 84px;
+     position: relative;
+ }
+
+ .section.section-small {
+     padding-top: 42px;
+     padding-bottom: 42px;
+ }
+
+ .section--grey1 {
+     background-color: #f3f5f7;
+ }
+
+ .section h2 {
+     margin-top: -84px;
+     padding-top: 84px;
+
+ }
+
+ /*
+ h2, .h2 {
+    font: 400 40px/1 Menlo, Monaco, Consolas, 'Courier New', monospace;;
+    letter-spacing: -0.04em;
+}
+     */
+ .btn a {
+     color: #2B91AF ;
+ }
+
+ .btn a:hover {
+     font-style: normal;
+     text-decoration: none;
+ }
+
+ .list-group-item .glyphicon {
+     float: left;
+     margin-right: 10px;
+     padding: 15px;
+     padding-bottom: 100%;
+ }
+
+ .panel h3 {
+     margin-top: 10px;
+ }
+ 
+ h4 {
+     color: #0487c4;
+ }

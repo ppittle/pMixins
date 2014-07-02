@@ -205,6 +205,8 @@
     <Content Include="Content\Images\fullLogo.png" />
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
     <Content Include="Content\Images\VisualStudio2013_black.png" />
+    <Content Include="Content\Images\WhatIsPMixins.png" />
+    <Content Include="Content\theme.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -268,7 +270,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56423</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
@@ -295,9 +297,8 @@
   <Import Project="..\tools\MSBuild.Extensions\MSBuild.ExtensionPack.tasks" />
   <Target Name="ZipPMixinsMvcRecipesProject" BeforeTargets="PrepareForBuild">
     <!--http://www.msbuildextensionpack.com/help/4.0.9.0/index.html -->
-    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressPath="$(SolutionDir)\pMixins.Mvc.Recipes" ZipFileName="$(SolutionDir)pMixins.Mvc\Content\pMixins.Mvc.Recipes.zip"/>
+    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressPath="$(SolutionDir)\pMixins.Mvc.Recipes" ZipFileName="$(SolutionDir)pMixins.Mvc\Content\pMixins.Mvc.Recipes.zip" />
   </Target>
-  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

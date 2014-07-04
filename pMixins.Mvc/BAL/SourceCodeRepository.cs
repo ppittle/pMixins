@@ -30,7 +30,12 @@ using CSharpParser = ICSharpCode.NRefactory.CSharp.CSharpParser;
 
 namespace CopaceticSoftware.pMixins.Mvc.BAL
 {
-    public class SourceCodeRepository
+    public interface ISourceCodeRepository
+    {
+        string GetSourceCodeForFile(string pMixinsRecipesFile, string className);
+    }
+
+    public class SourceCodeRepository : ISourceCodeRepository
     {
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly CSharpParser _parser = new CSharpParser();
@@ -39,19 +44,30 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
         private static readonly ConcurrentDictionary<string, string> _fileCache = 
             new ConcurrentDictionary<string, string>();
 
-        private readonly string PMixinsRecipesZipFilePath;
+        private static string PMixinsRecipesZipFilePath;
 
-        public SourceCodeRepository(HttpServerUtility server)
+        private static readonly object _lock = new object();
+
+        public static void Initialize(HttpServerUtility server)
         {
-            if (null == server)
-                throw new ArgumentNullException("server");
+            lock (_lock)
+            {
+                if (null != PMixinsRecipesZipFilePath)
+                    return;
 
-            PMixinsRecipesZipFilePath = server.MapPath(
-                @"/Content/pMixins.Mvc.Recipes.zip");
+                if (null == server)
+                    throw new ArgumentNullException("server");
+
+                PMixinsRecipesZipFilePath = server.MapPath(
+                    @"/Content/pMixins.Mvc.Recipes.zip");
+            }
         }
 
         public string GetSourceCodeForFile(string pMixinsRecipesFile, string className)
         {
+            if (!pMixinsRecipesFile.StartsWith("pMixins.Mvc.Recipes/"))
+                pMixinsRecipesFile = "pMixins.Mvc.Recipes/" + pMixinsRecipesFile;
+
             var fileContents = GetSourceFile(pMixinsRecipesFile);
 
             if (string.IsNullOrEmpty(fileContents))

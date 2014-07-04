@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="RouteConfig.cs" company="Copacetic Software"> 
+// <copyright file="SourceCodeController.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Friday, May 2, 2014 2:50:42 PM</date> 
+// <date>Thursday, July 3, 2014 2:25:32 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,29 +17,25 @@
 //-----------------------------------------------------------------------
 
 using System.Web.Mvc;
-using System.Web.Routing;
+using CopaceticSoftware.pMixins.Mvc.BAL;
 
-namespace CopaceticSoftware.pMixins.Mvc
+namespace CopaceticSoftware.pMixins.Mvc.Controllers
 {
-    public class RouteConfig
+    public class SourceCodeController : Controller
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        private readonly ISourceCodeRepository _sourceCodeRepository;
+
+        public SourceCodeController()
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            _sourceCodeRepository = new SourceCodeRepository();
+        }
 
-            /*
-            routes.MapRoute(
-                name: "Recipes",
-                url: "Recipes/{recipeId}",
-                defaults: new { controller = "Recipes", action = "Index", id = UrlParameter.Optional }
-            );
-             */
-
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+        // GET: SourceCode
+        public ActionResult SourceCode(string file, string classname)
+        {
+            return PartialView(
+                "_SourceCode",
+                _sourceCodeRepository.GetSourceCodeForFile(file, classname));
         }
     }
 }

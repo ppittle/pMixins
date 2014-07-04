@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.Mvc
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            RecipeRepository.Initialize(this.Server);
+            SourceCodeRepository.Initialize(this.Server);
         }
     }
 }

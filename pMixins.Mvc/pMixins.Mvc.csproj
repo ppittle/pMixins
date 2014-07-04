@@ -190,6 +190,8 @@
     <Compile Include="BAL\SourceCodeRepository.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
+    <Compile Include="Controllers\SourceCodeController.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -248,9 +250,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Recipes\AllRecipes.cshtml" />
     <Content Include="Views\Recipes\Recipe.cshtml" />
+    <Content Include="Views\Shared\_SourceCode.cshtml" />
+    <Content Include="Views\Recipes\BasicMixin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SourceCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -24,6 +24,7 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 {
     public class RecipesController : Controller
     {
+        /*
         private readonly RecipeRepository _recipeRepository;
 
         public RecipesController()
@@ -47,6 +48,12 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
                 return new HttpNotFoundResult("No recipe with Id [" + recipeId +"] was found.");
 
             return View("Recipe", recipe);
+        }
+         */
+
+        public ActionResult BasicMixin()
+        {
+            return View();
         }
     }
 }

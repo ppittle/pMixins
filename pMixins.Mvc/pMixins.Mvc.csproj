@@ -188,6 +188,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="BAL\RecipeRepository.cs" />
     <Compile Include="BAL\SourceCodeRepository.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\SourceCodeController.cs" />
@@ -252,6 +253,8 @@
     <Content Include="Views\Recipes\Recipe.cshtml" />
     <Content Include="Views\Shared\_SourceCode.cshtml" />
     <Content Include="Views\Recipes\BasicMixin.cshtml" />
+    <Content Include="Views\History\Index.cshtml" />
+    <Content Include="Views\Recipes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

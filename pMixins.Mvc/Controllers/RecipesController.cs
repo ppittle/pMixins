@@ -51,6 +51,11 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         }
          */
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult BasicMixin()
         {
             return View();

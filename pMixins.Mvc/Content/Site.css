@@ -67,7 +67,7 @@ input[type="checkbox"].input-validation-error {
 }
 
  @media all and (max-width: 980px) {
-        .logo-code {
+        .logo-code-large {
             font-size: 14vw;
         }
     }
@@ -128,3 +128,22 @@ input[type="checkbox"].input-validation-error {
  h4 {
      color: #0487c4;
  }
+
+ .navbar-header .logo-code {
+     color: #999;
+     font-size: 28px;
+     padding-top:  4px;
+     display: inline-block;
+ }
+
+ 
+ 
+ .navbar-header .logo-code:hover  {
+     color: #d0d0d0;
+     text-decoration: none !important;
+ }
+
+ .navbar-header .logo-code:hover .typ  {
+     color: #0487c4 !important;
+ }
+

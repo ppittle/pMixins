@@ -18,10 +18,10 @@
 
 using NUnit.Framework;
 
-namespace pMixins.Mvc.Recipes.BasicMixinExample
+namespace pMixins.Mvc.Recipes.BasicMixin
 {
     [TestFixture]
-    public class BasicMixinExampleTest 
+    public class BasicMixinTest 
     {
         [Test]
         public void CanCallHelloWorld()

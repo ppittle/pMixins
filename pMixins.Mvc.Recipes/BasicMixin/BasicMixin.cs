@@ -18,7 +18,7 @@
 
 using CopaceticSoftware.pMixins.Attributes;
 
-namespace pMixins.Mvc.Recipes.BasicMixinExample
+namespace pMixins.Mvc.Recipes.BasicMixin
 {
     public class AnswerToTheUniverseMixin
     {

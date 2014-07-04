@@ -47,16 +47,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicMixinExample\BasicMixinExample.cs">
+    <Compile Include="AbstractMixin\AbstractMixin.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
-      <LastGenOutput>BasicMixinExample.mixin.cs</LastGenOutput>
+      <LastGenOutput>AbstractMixin.mixin.cs</LastGenOutput>
     </Compile>
-    <Compile Include="BasicMixinExample\BasicMixinExample.mixin.cs">
+    <Compile Include="AbstractMixin\AbstractMixin.mixin.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasicMixinExample.cs</DependentUpon>
+      <DependentUpon>AbstractMixin.cs</DependentUpon>
     </Compile>
-    <Compile Include="BasicMixinExample\BasicMixinExampleTest.cs" />
+    <Compile Include="BasicMixin\BasicMixin.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>BasicMixin.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="BasicMixin\BasicMixin.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicMixin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BasicMixin\BasicMixinTest.cs" />
+    <Compile Include="DependencyInjection\DependencyInjectionMixin.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>DependencyInjectionMixin.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="DependencyInjection\DependencyInjectionMixin.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DependencyInjectionMixin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

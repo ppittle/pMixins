@@ -141,6 +141,10 @@
     <Compile Include="COVERED\MixinIsTargetsNestedClass\MixinIsTargetsNestedClassSpecTest.cs" />
     <Compile Include="MixinDependency\MixinDependencySpec.cs" />
     <Compile Include="MixinDependency\MixinDependencySpecTest.cs" />
+    <Compile Include="IMixinMulticastRule.cs" />
+    <Compile Include="MulticastRule\MulticastMixin.cs" />
+    <Compile Include="MulticastRule\MulticastRuleSpec.cs" />
+    <Compile Include="MulticastRule\MulticastRuleSpecTest.cs" />
     <Compile Include="MultipleMixinsMethodPriority\MultipleMixinsMethodPrioritySpec.cs" />
     <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpec.cs" />
     <Compile Include="COVERED\NonParameterlessConstructorMixin\NonParameterlessConstructorMixinSpecTest.cs" />

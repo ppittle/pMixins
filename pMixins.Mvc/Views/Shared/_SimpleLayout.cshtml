@@ -1,0 +1,60 @@
+﻿@using System
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A lightweight open source Mixin and AOP framework for C#.  Brought to you by Philip Pittle & Copacetic Software">
+    <meta name="keywords" content="Philip Pittle Copacetic Software Mixin AOP Microsoft .NET C# Open Source">
+    <title>pMixins Code Generation Framework - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="http://csharpindepth.com/codestyles.css" type="text/css" rel="stylesheet" />
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a href='@Url.Action("Index", "Home")' class="logo-code">
+                    [<span class="typ">p</span>Mixins]
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    <li>@Html.ActionLink("Introduction", "Index", "Introduction")</li>
+                    <li>@Html.ActionLink("History", "Index", "History")</li>
+                    <li>@Html.ActionLink("Recipes", "Index", "Recipes")</li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content">
+        @RenderBody()
+    </div>
+    <hr />
+    <div class="container">
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Philip Pittle & <a href="http://www.copaceticsoftware.com">Copacetic Software</a></p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

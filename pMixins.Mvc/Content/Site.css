@@ -162,4 +162,8 @@ input[type="checkbox"].input-validation-error {
      color:  #fff;
  }
 
+  footer small {
+      font-size: 75%
+  }
+
   

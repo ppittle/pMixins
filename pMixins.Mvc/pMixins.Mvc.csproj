@@ -190,6 +190,7 @@
     <Compile Include="BAL\SourceCodeRepository.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntroductionController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\SourceCodeController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
@@ -207,6 +208,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\fullLogo.png" />
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
+    <Content Include="Content\Images\logo_digitaslbi.svg" />
     <Content Include="Content\Images\VisualStudio2013_black.png" />
     <Content Include="Content\Images\WhatIsPMixins.png" />
     <Content Include="Content\theme.html" />
@@ -255,10 +257,11 @@
     <Content Include="Views\Recipes\BasicMixin.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
     <Content Include="Views\Recipes\Index.cshtml" />
+    <Content Include="Views\Introduction\Index.cshtml" />
+    <Content Include="Views\Shared\_SimpleLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SourceCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

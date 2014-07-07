@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="SourceCodeController.cs" company="Copacetic Software"> 
+// <copyright file="IntroductionController.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Thursday, July 3, 2014 2:25:32 PM</date> 
+// <date>Monday, July 7, 2014 3:15:29 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,26 +17,15 @@
 //-----------------------------------------------------------------------
 
 using System.Web.Mvc;
-using CopaceticSoftware.pMixins.Mvc.BAL;
 
 namespace CopaceticSoftware.pMixins.Mvc.Controllers
 {
-    public class SourceCodeController : Controller
+    public class IntroductionController : Controller
     {
-        private readonly ISourceCodeRepository _sourceCodeRepository;
-
-        public SourceCodeController()
+        // GET: Introduction
+        public ActionResult Index()
         {
-            _sourceCodeRepository = new SourceCodeRepository();
-        }
-        
-        // GET: SourceCode
-        [ChildActionOnly]
-        public ActionResult SourceCode(string file, string classname)
-        {
-            return PartialView(
-                "_SourceCode",
-                _sourceCodeRepository.GetSourceCodeForFile(file, classname));
+            return View();
         }
     }
 }

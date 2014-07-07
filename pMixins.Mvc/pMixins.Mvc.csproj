@@ -193,6 +193,7 @@
     <Compile Include="Controllers\IntroductionController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\SourceCodeController.cs" />
+    <Compile Include="Controllers\SupportController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,6 +258,7 @@
     <Content Include="Views\Recipes\Index.cshtml" />
     <Content Include="Views\Introduction\Index.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
+    <Content Include="Views\Support\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

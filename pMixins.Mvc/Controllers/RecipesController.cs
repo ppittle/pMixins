@@ -60,5 +60,20 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         {
             return View();
         }
+
+        public ActionResult AbstractMixin()
+        {
+            return View();
+        }
+
+        public ActionResult DependencyInjectionMixin()
+        {
+            return View();
+        }
+
+        public ActionResult VirtualMethodOverrides()
+        {
+            return View();
+        }
     }
 }

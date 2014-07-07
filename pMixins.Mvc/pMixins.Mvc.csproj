@@ -259,6 +259,9 @@
     <Content Include="Views\Introduction\Index.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
     <Content Include="Views\Support\Index.cshtml" />
+    <Content Include="Views\Recipes\AbstractMixin.cshtml" />
+    <Content Include="Views\Recipes\DependencyInjectionMixin.cshtml" />
+    <Content Include="Views\Recipes\VirtualMethodOverrides.cshtml" />
     <Content Include="Views\Shared\_RecipesLayout.cshtml" />
     <Content Include="Views\Recipes\_ViewStart.cshtml" />
   </ItemGroup>

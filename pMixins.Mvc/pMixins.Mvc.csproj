@@ -259,6 +259,8 @@
     <Content Include="Views\Introduction\Index.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml" />
     <Content Include="Views\Support\Index.cshtml" />
+    <Content Include="Views\Shared\_RecipesLayout.cshtml" />
+    <Content Include="Views\Recipes\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

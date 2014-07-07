@@ -72,6 +72,17 @@ input[type="checkbox"].input-validation-error {
         }
     }
 
+ .logo-code-medium {
+    font-size: 70px;
+}
+
+ @media all and (max-width: 980px) {
+        .logo-code-medium {
+            font-size: 7vw;
+        }
+    }
+
+
  .fullwidth {
      width: 100%;
      padding-left: 0;

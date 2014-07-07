@@ -158,3 +158,8 @@ input[type="checkbox"].input-validation-error {
      color: #0487c4 !important;
  }
 
+  .navbar-btn a {
+     color:  #fff;
+ }
+
+  

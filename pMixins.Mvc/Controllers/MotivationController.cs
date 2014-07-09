@@ -24,7 +24,7 @@ using System.Web.Mvc;
 
 namespace CopaceticSoftware.pMixins.Mvc.Controllers
 {
-    public class HistoryController : Controller
+    public class MotivationController : Controller
     {
         // GET: History
         public ActionResult Index()

@@ -1,7 +1,21 @@
 ﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
-@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "Mixin")
+<div class="row">
+    <div class="col-md-12">
+        <h2>Specifying Mixin Constructor</h2>
+        <p>
+            <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> offers the ability
+            to pick which Mixin constructor will be used by sepcifiying the 
+            One of the features of pMixins is to allow you to override <code>virtual</code>
+            members defined in the Mixin.
+        </p>
+        <p>
+            So given the following Mixin definition:
+        </p>
+        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "Mixin")
 
-@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "SpecificMixinConstructor")
+        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "SpecificMixinConstructor")
 
-@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructorTest.cs", "SpecificMixinConstructorTest")
+        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructorTest.cs", "SpecificMixinConstructorTest")
+    </div>
+</div>

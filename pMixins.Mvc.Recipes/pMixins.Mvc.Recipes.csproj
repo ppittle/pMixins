@@ -75,6 +75,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DependencyInjectionMixin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Introduction\AspectIntroduction.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>AspectIntroduction.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="Introduction\AspectIntroduction.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectIntroduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Introduction\Introduction.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>Introduction.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="Introduction\Introduction.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Introduction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualMethodOverride\VirtualMethodOverride.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>

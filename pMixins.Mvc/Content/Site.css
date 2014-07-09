@@ -166,4 +166,14 @@ input[type="checkbox"].input-validation-error {
       font-size: 75%
   }
 
-  
+  pre.console {
+    font-family:Courier;
+    color: #CCCCCC;
+    background: #000000;
+    
+    padding: 10px;
+  }
+
+  html {
+    overflow-y: scroll;
+}

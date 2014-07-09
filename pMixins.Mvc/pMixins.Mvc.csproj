@@ -263,6 +263,7 @@
     <Content Include="Views\Recipes\VirtualMethodOverrides.cshtml" />
     <Content Include="Views\Shared\_RecipesLayout.cshtml" />
     <Content Include="Views\Recipes\_ViewStart.cshtml" />
+    <Content Include="Views\Recipes\SpecificMixinConstructor.cshtml" />
     <Content Include="Views\HowItWorks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

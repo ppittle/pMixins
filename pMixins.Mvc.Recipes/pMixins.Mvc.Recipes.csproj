@@ -95,6 +95,16 @@
       <DependentUpon>Introduction.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecificMixinConstructor\SpecificMixinConstructor.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>SpecificMixinConstructor.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="SpecificMixinConstructor\SpecificMixinConstructor.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecificMixinConstructor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpecificMixinConstructor\SpecificMixinConstructorTest.cs" />
     <Compile Include="VirtualMethodOverride\VirtualMethodOverride.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>VirtualMethodOverride.mixin.cs</LastGenOutput>

@@ -183,3 +183,7 @@ input[type="checkbox"].input-validation-error {
 .bottom-spacing-row {
     padding-bottom: 80px;
 }
+
+.dl-horizontal dd {
+    padding-bottom: 10px;
+}

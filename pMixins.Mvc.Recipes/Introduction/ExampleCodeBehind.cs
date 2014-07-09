@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CopaceticSoftware.pMixins.ConversionOperators;
 
 namespace pMixins.Mvc.Recipes.Introduction.ExampleCodeBehind
 {
@@ -123,6 +124,11 @@ namespace pMixins.Mvc.Recipes.Introduction.ExampleCodeBehind
         public string SayHello()
         {
             return __mixins._HelloWorld.SayHello();
+        }
+
+        public static implicit operator HelloWorld(Introduction target)
+        {
+            return target.__mixins._HelloWorld._mixinInstance;
         }
     }
 }

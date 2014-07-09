@@ -153,10 +153,27 @@
             <p>&nbsp;</p>
             <strong>Member Proxying</strong>
             <p>
-                Finally we get to the <em>SayHello</em> method declared at the <em>Introduction</em> scope.
+                After that we get to the <em>SayHello</em> method declared at the <em>Introduction</em> scope.
                 This proxies call throw the <code>__mixins</code> Property to the instance of the
                 <em>HelloWorldMasterWrapper</em>.
             </p>
+            <p>&nbsp;</p>
+            <strong>Conversion Operators</strong>
+            <p>
+                Finally we end with a conversion operator which allows an instance of
+                <em>Introduction</em> to be passed as a <em>HelloWorld</em>.
+                <br />
+                <em>Note:</em>This unfortunatly doesn't allow <em>Introduction</em> to pass an
+                <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a> or
+                <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt%28v=vs.110%29.aspx">as</a>
+                check.  Instead, <span class="logo-code">[<span class="typ">p</span>Mixins]</span> provides
+                extension methods to replace the default functionality via the <em>AsIsHelper</em>.
+                <br />
+                See this <a href="http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator">
+                    Stackoverflow Question
+                </a> for more details / discussion on this.
+            </p>
+            <p>&nbsp;</p>
         </div>
     </div>
 

@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.pMixins.Attributes;
+using CopaceticSoftware.pMixins.Infrastructure;
 
 namespace pMixins.Mvc.Recipes.SpecificMixinConstructor
 {
@@ -33,7 +34,7 @@ namespace pMixins.Mvc.Recipes.SpecificMixinConstructor
     [pMixin(Mixin = typeof(Mixin), ExplicitlyInitializeMixin = true)]
     public partial class SpecificMixinConstructor
     {
-        public Mixin InitializeMixin()
+        Mixin IMixinConstructorRequirement<Mixin>.InitializeMixin()
         {
             return new Mixin("Custom");
         }

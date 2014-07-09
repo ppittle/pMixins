@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AspectIntroduction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Introduction\ExampleCodeBehind.cs" />
     <Compile Include="Introduction\Introduction.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>Introduction.mixin.cs</LastGenOutput>

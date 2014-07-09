@@ -82,7 +82,9 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
                 syntaxTree.Descendants.OfType<TypeDeclaration>()
                     .Where(x => x.Name.Equals(className, StringComparison.InvariantCultureIgnoreCase))
                     .Select(x => x.GetText().Trim())
-                    .Select(x => spaceParanthCleanupRegex.Replace(x, "("))
+                    //I HATE REGEX
+                    //.Select(x => spaceParanthCleanupRegex.Replace(x, "("))
+                    .Select(x => x.Replace(" (", "(").Replace("=(", "= ("))
                     .FirstOrDefault();
         }
 

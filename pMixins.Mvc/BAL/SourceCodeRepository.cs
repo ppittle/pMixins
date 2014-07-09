@@ -84,7 +84,7 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
                     .Select(x => x.GetText().Trim())
                     //I HATE REGEX
                     //.Select(x => spaceParanthCleanupRegex.Replace(x, "("))
-                    .Select(x => x.Replace(" (", "(").Replace("=(", "= ("))
+                    .Select(x => x.Replace(" (", "(").Replace("=(", "= (").Replace("\t", "   "))
                     .FirstOrDefault();
         }
 

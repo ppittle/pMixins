@@ -31,26 +31,36 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 
         public ActionResult BasicMixin()
         {
+            ViewBag.Title = "Basic Mixin";
+
             return View();
         }
 
         public ActionResult AbstractMixin()
         {
+            ViewBag.Title = "Abstract Mixin";
+
             return View();
         }
 
         public ActionResult DependencyInjectionMixin()
         {
+            ViewBag.Title = "Dependency Injection";
+
             return View();
         }
 
         public ActionResult VirtualMethodOverrides()
         {
+            ViewBag.Title = "Virtual Member Overrides";
+
             return View();
         }
 
         public ActionResult SpecificMixinConstructor()
         {
+            ViewBag.Title = "Specific Mixin Constructor";
+
             return View();
         }
     }

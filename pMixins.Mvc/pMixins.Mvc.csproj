@@ -251,8 +251,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Recipes\AllRecipes.cshtml" />
-    <Content Include="Views\Recipes\Recipe.cshtml" />
     <Content Include="Views\Shared\_SourceCode.cshtml" />
     <Content Include="Views\Recipes\BasicMixin.cshtml" />
     <Content Include="Views\Motivation\Index.cshtml" />

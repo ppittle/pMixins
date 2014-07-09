@@ -24,33 +24,6 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 {
     public class RecipesController : Controller
     {
-        /*
-        private readonly RecipeRepository _recipeRepository;
-
-        public RecipesController()
-        {
-            _recipeRepository = new RecipeRepository();
-        }
-
-        protected override void Initialize(RequestContext requestContext)
-        {
-            base.Initialize(requestContext);
-        }
-
-        public ActionResult Index(string recipeId)
-        {
-            if (string.IsNullOrEmpty(recipeId))
-                return View("AllRecipes", _recipeRepository.GetAllRecipes());
-
-            var recipe = _recipeRepository.GetRecipeById(recipeId);
-
-            if (null == recipe)
-                return new HttpNotFoundResult("No recipe with Id [" + recipeId +"] was found.");
-
-            return View("Recipe", recipe);
-        }
-         */
-
         public ActionResult Index()
         {
             return View();
@@ -72,6 +45,11 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         }
 
         public ActionResult VirtualMethodOverrides()
+        {
+            return View();
+        }
+
+        public ActionResult SpecificMixinConstructor()
         {
             return View();
         }

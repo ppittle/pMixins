@@ -41,9 +41,11 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+/*
 .jumbotron {
     background: none;
 }
+*/
 
 .jumbotron .container {
     max-width: 100%;
@@ -176,4 +178,8 @@ input[type="checkbox"].input-validation-error {
 
   html {
     overflow-y: scroll;
+}
+
+.bottom-spacing-row {
+    padding-bottom: 80px;
 }

@@ -5,22 +5,44 @@
 
 <div class="container body-content">
     <div class="row">
-        <div class="col-md-12">
-            <h2>pMixins Recipes</h2>
-            <ul>
-                <li><a href="@Url.Action("BasicMixin")">Basic Mixin</a></li>
-                <li>AOP - Logging / Exception Handling / Parameter Checking</li>
-                <li>Repository Pattern</li>
-                <li>Context Aware Mixins - IMixinDependency</li>
-                <li><a href="@Url.Action("AbstractMixin")">Abstract Mixins</a></li>
-                <li><a href="@Url.Action("VirtualMethodOverrides")">Overriding Virtual Mixin Methods</a></li>
-                <li>Mixin with Non Public / Non Paramaterless Constructor</li>
-                <li><a href="@Url.Action("DependencyInjectionMixin")">Using Dependency Injection with pMixins</a></li>
-                <li>Specific Mixin Constructor</li>
-            </ul>
-            <p>
-                Download the source for all recipes <a href="~/Content/pMixins.Mvc.Recipes.zip">Here!</a>
-            </p>
+        <p class="col-md-12">
+            <h1><span class="logo-code">[<span class="typ">p</span>Mixins]</span> Recipes</h1>
+        <p>
+            These examples cover common use case scenarios and show off what can be done with <span class="logo-code">[<span class="typ">p</span>Mixins]</span>.
+        </p>
+        <p>
+            Full source code can for all recipes can be downloaded <a href="~/Content/pMixins.Mvc.Recipes.zip">here</a>!
+        </p>
+        <p>&nbsp;</p>
+        <div class="list-group">
+            <a href="@Url.Action("BasicMixin")" class="list-group-item">
+                <h4 class="list-group-item-heading">Basic Mixin</h4>
+                <p>A simple introduction to using <span class="logo-code">[<span class="typ">p</span>Mixins]</span>.  Hello World!</p>
+            </a>
+            <a href="@Url.Action("AbstractMixin")" class="list-group-item">
+                <h4 class="list-group-item-heading">Abstract Mixin</h4>
+                <p>Want to Mixin a class that is <em>abstract</em>?  No problem!</p>
+            </a>
+            <a href="@Url.Action("VirtualMethodOverrides")" class="list-group-item">
+                <h4 class="list-group-item-heading">Overriding Virtual Mixin Methods</h4>
+                <p>How to override <em>virtual</em> Mixin methods in both the Target and Target's children.</p>
+            </a>
+            <a href="@Url.Action("DependencyInjectionMixin")" class="list-group-item">
+                <h4 class="list-group-item-heading">Depenendcy Injection and <span class="logo-code">[<span class="typ">p</span>Mixins]</span></h4>
+                <p>How to wire up <em>Dependency Injection</em> to construct Mixins.</p>
+            </a>
         </div>
+        <ul>
+
+            <li>AOP - Logging / Exception Handling / Parameter Checking</li>
+            <li>Repository Pattern</li>
+            <li>Context Aware Mixins - IMixinDependency</li>
+            <li>Mixin with Non Public / Non Paramaterless Constructor</li>
+            <li>Specific Mixin Constructor</li>
+        </ul>
+        <p>
+            Download the source for all recipes <a href="~/Content/pMixins.Mvc.Recipes.zip">Here!</a>
+        </p>
+
     </div>
 </div>

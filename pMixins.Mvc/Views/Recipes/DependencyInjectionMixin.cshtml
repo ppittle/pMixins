@@ -1,4 +1,21 @@
-﻿@{
-    ViewBag.Title = "Dependency Injection Recipe";
-}
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Dependency Injecting Mixins</h2>
+        <p>
+            Intro
+        </p>
+        <p>
+            So given the following Mixin definition:
+        </p>
+        @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixin")
+        
+        @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixinExample")
+
+        @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjector")
+        
+        @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixinExampleTest")
+    </div>
+</div>
 

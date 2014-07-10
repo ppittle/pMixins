@@ -1,6 +1,19 @@
-﻿@{
-    ViewBag.Title = "Abstract Mixin Recipe";
-}
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
-
+<div class="row">
+    <div class="col-md-12">
+        <h2>Abstract Mixins</h2>
+        <p>
+            Intro
+        </p>
+        <p>
+            So given the following Mixin definition:
+        </p>
+        @Html.RenderSourceClass("AbstractMixin/AbstractMixin.cs", "PrinterMixin")
+        
+        @Html.RenderSourceClass("AbstractMixin/AbstractMixin.cs", "AbstractMixinExample")
+        
+        @Html.RenderSourceClass("AbstractMixin/AbstractMixin.cs", "AbstractMixinTest")
+    </div>
+</div>
 

@@ -1,13 +1,19 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container body-content">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index")">Recipes</a></li>
         <li><a href="#">@ViewBag.Title</a></li>
     </ol>
-    @RenderBody()
+    <div class="row">
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+    </div>
 </div>
+
 
 <hr />
 Download the source for this and all other recipes <a href="~/Content/pMixins.Mvc.Recipes.zip">Here!</a>

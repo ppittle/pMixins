@@ -1,36 +1,33 @@
 ﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Specifying Mixin Constructor</h2>
-        <p>
-            <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> offers the ability
-            to pick which Mixin constructor will be used by setting the <code>ExplicitlyInitializeMixin</code>
-            flag to <em>true</em>.
-        </p>
-        <p>
-            Setting this flag causes <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> to make the code-behind class
-            implement the <em>CopaceticSoftware.pMixins.Infrastructure.IMixinConstructorRequirement</em>, which has one method 
-            <em>InitializeMixin</em>.  Inside this method, the Target can create a Mixin and return it to <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>.
-        </p>
-        <p>
-            So given the following Mixin definition:
-        </p>
-        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "Mixin")
-        <p>
-            <em>Target</em> sets the <code>ExplicitlyInitializeMixin</code> flag and creates a new <em>Mixin</em> in the 
-            <em>InitializeMixin</em> method.
-        </p>
-        <p>
-            <strong>Note:</strong> The <em>InitializeMixin</em> is implemented explicitly.  This is the best practice.
-            <span>[<span class="typ">p</span>Mixins]</span> 
-            will cast the Target to this interface when calling <em>InitializeMixin</em> and there is no reason for <em>Target</em>
-            to expose this method.
-        </p>
-        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "SpecificMixinConstructor")
-        <p>
-            And here is the Test to prove that <em>Target.IntitalizeMixin</em> was called.
-        </p>
-        @Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructorTest.cs", "SpecificMixinConstructorTest")
-    </div>
-</div>
+
+<h2>Specifying Mixin Constructor</h2>
+<p>
+    <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> offers the ability
+    to pick which Mixin constructor will be used by setting the <code>ExplicitlyInitializeMixin</code>
+    flag to <em>true</em>.
+</p>
+<p>
+    Setting this flag causes <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> to make the code-behind class
+    implement the <em>CopaceticSoftware.pMixins.Infrastructure.IMixinConstructorRequirement</em>, which has one method
+    <em>InitializeMixin</em>.  Inside this method, the Target can create a Mixin and return it to <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>.
+</p>
+<p>
+    So given the following Mixin definition:
+</p>
+@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "Mixin")
+<p>
+    <em>Target</em> sets the <code>ExplicitlyInitializeMixin</code> flag and creates a new <em>Mixin</em> in the
+    <em>InitializeMixin</em> method.
+</p>
+<p>
+    <strong>Note:</strong> The <em>InitializeMixin</em> is implemented explicitly.  This is the best practice.
+    <span>[<span class="typ">p</span>Mixins]</span>
+    will cast the Target to this interface when calling <em>InitializeMixin</em> and there is no reason for <em>Target</em>
+    to expose this method.
+</p>
+@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructor.cs", "SpecificMixinConstructor")
+<p>
+    And here is the Test to prove that <em>Target.IntitalizeMixin</em> was called.
+</p>
+@Html.RenderSourceClass("SpecificMixinConstructor/SpecificMixinConstructorTest.cs", "SpecificMixinConstructorTest")

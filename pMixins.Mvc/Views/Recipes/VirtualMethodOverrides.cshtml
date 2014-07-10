@@ -1,46 +1,43 @@
 ﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Overriding Virtual Mixin Methods</h2>
-        <p>
-            One of the features of pMixins is to allow you to override <code>virtual</code>
-            members defined in the Mixin.
-        </p>
-        <p>
-            So given the following Mixin definition:
-        </p>
-        @Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "VirtualMemberMixin")
-        <p>
-            This Target shows how to override the <code>GetName</code> method.
-        </p>
-        @Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "VirtualMethodOverride")
-        <p>
-            Every virtual member is organized under the <code>__mixins</code> variable in a class
-            that matches the full name of the Mixin and takes a <code>Func</code> matching the method
-            signature.
-            <br />
-            <strong>Note:</strong>  There is a <a href="https://github.com/ppittle/pMixins/issues/17">backlog issue</a>
-            to simplify this syntax in a future version.
-        </p>
-        <p>
-            In this example, the <code>GetName</code> is overriden to return <code>"Target".</code>
-        </p>
-        <p>
-        </p>
-        <p>
-            Beyond allowing the Target to override virtual members, pMixins constructs the code-behind mixin file such
-            that virtual Mixin members are marked as virtual in the Target.   This means that a Child of Target can also
-            override the <code>GetName</code> method:
-        </p>
 
-        @Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "Child")
+<h2>Overriding Virtual Mixin Methods</h2>
+<p>
+    One of the features of pMixins is to allow you to override <code>virtual</code>
+    members defined in the Mixin.
+</p>
+<p>
+    So given the following Mixin definition:
+</p>
+@Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "VirtualMemberMixin")
+<p>
+    This Target shows how to override the <code>GetName</code> method.
+</p>
+@Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "VirtualMethodOverride")
+<p>
+    Every virtual member is organized under the <code>__mixins</code> variable in a class
+    that matches the full name of the Mixin and takes a <code>Func</code> matching the method
+    signature.
+    <br />
+    <strong>Note:</strong>  There is a <a href="https://github.com/ppittle/pMixins/issues/17">backlog issue</a>
+    to simplify this syntax in a future version.
+</p>
+<p>
+    In this example, the <code>GetName</code> is overriden to return <code>"Target".</code>
+</p>
+<p>
+</p>
+<p>
+    Beyond allowing the Target to override virtual members, pMixins constructs the code-behind mixin file such
+    that virtual Mixin members are marked as virtual in the Target.   This means that a Child of Target can also
+    override the <code>GetName</code> method:
+</p>
 
-        <p></p>
-        <p>And to prove these concepts:</p>
-        @Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverrideTest.cs", "VirtualMethodOverrideTest")
-    </div>
-</div>
+@Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverride.cs", "Child")
+
+<p></p>
+<p>And to prove these concepts:</p>
+@Html.RenderSourceClass("VirtualMethodOverride/VirtualMethodOverrideTest.cs", "VirtualMethodOverrideTest")
 
 

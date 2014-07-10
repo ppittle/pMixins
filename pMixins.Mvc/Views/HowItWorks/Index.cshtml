@@ -82,6 +82,7 @@
                 in order to ensure all Mixin members are correctly added to the Target and are weaved into the AOP
                 infrastructure:
             </p>
+            <p>&nbsp;</p>
             <dl class="dl-horizontal">
                 <dt><code>Protected Wrapper</code></dt>
                 <dd>
@@ -153,21 +154,21 @@
             <p>&nbsp;</p>
             <strong>Member Proxying</strong>
             <p>
-                After that we get to the <em>SayHello</em> method declared at the <em>Introduction</em> scope.
-                This proxies call throw the <code>__mixins</code> Property to the instance of the
-                <em>HelloWorldMasterWrapper</em>.
+                After that we get to the <code>SayHello</code> method declared at the <em>Introduction</em> scope.
+                This proxies call through the <code>__mixins</code> Property to the instance of the
+                <code>HelloWorldMasterWrapper</code>.
             </p>
             <p>&nbsp;</p>
             <strong>Conversion Operators</strong>
             <p>
                 Finally we end with a conversion operator which allows an instance of
-                <em>Introduction</em> to be passed as a <em>HelloWorld</em>.
+                <code>Introduction</code> to be passed as a <code>HelloWorld</code>.
                 <br />
-                <em>Note:</em>This unfortunatly doesn't allow <em>Introduction</em> to pass an
+                <em>Note:</em>This unfortunatly doesn't allow <code>Introduction</code> to pass an
                 <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a> or
                 <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt%28v=vs.110%29.aspx">as</a>
                 check.  Instead, <span class="logo-code">[<span class="typ">p</span>Mixins]</span> provides
-                extension methods to replace the default functionality via the <em>AsIsHelper</em>.
+                extension methods to replace the default functionality via the <code>AsIsHelper</code>.
                 <br />
                 See this <a href="http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator">
                     Stackoverflow Question

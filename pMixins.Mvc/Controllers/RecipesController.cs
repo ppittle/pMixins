@@ -63,5 +63,12 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 
             return View();
         }
+
+        public ActionResult NonPublicNonParameterlessConstructor()
+        {
+            ViewBag.Title = "Non Public & Non Parameterless Constructor";
+
+            return View();
+        }
     }
 }

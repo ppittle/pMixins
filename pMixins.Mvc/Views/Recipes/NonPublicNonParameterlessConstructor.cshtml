@@ -1,0 +1,22 @@
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Non Public &amp; Non Parameterless Constructor</h2>
+        <p>
+            Intro
+        </p>
+        <p> Subject to change: https://github.com/ppittle/pMixins/issues/19 </p>
+        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "Mixin")
+        
+        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "AbstractMixin")
+        
+        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "NonPublicNonParameterlessConstructor")
+        
+        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructorTest.cs", "NonPublicNonParameterlessConstructorTest")
+    </div>
+</div>
+
+
+
+        

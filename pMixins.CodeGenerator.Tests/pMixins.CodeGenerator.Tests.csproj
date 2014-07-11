@@ -114,9 +114,11 @@
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\TargetWithAbstractMixin.cs" />
     <Compile Include="IntegrationTests\CompileTests\DoNotMixin\DoNotMixinMethod.cs" />
     <Compile Include="IntegrationTests\CompileTests\ExistingFile\ExistingMixinFileTest.cs" />
+    <Compile Include="IntegrationTests\CompileTests\InheritanceTests\GenericInterfaceInheritance.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinBaseClassMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinStaticMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinVirtualMembersAreInjectedAsVirtual.cs" />
+    <Compile Include="IntegrationTests\CompileTests\InheritanceTests\SimpleInterfaceInheritance.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\CancellationInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\BasicInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptorSuppressesException.cs" />

@@ -40,22 +40,40 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// <summary>
         /// "global::" + <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </summary>
-        public static string GetOriginalFullNameWithGlobal(this IType type)
+        /// <param name="rootDefinition">
+        /// Optional parameter that is used to look up the <see cref="DefaultTypeParameter"/>
+        /// </param>
+        public static string GetOriginalFullNameWithGlobal(this IType type, IType rootDefinition = null)
         {
             if (type is VoidTypeDefinition)
                 return "void";
-
-            if (type is DefaultTypeParameter)
-                return type.Name;
 
             if (type is ParameterizedType)
                 return
                     "global::" +
                     type.FullName +
                        "<" +
-                       string.Join(",", (type as ParameterizedType).TypeArguments.Select(x => x.GetOriginalFullNameWithGlobal()))
+                       string.Join(
+                            ",", 
+                            (type as ParameterizedType).TypeArguments
+                                .Select(x => x.GetOriginalFullNameWithGlobal(rootDefinition)))
                        + ">";
 
+
+            var defaultTypeParam = type as DefaultTypeParameter;
+            if (null != defaultTypeParam)
+            {
+                var rootDefinitionParamType = rootDefinition as ParameterizedType;
+
+                if (null == rootDefinitionParamType || null == defaultTypeParam.Owner)
+                    return type.Name;
+
+                //Special handling for resolving the type of generic type parameters
+                return rootDefinitionParamType.TypeArguments[defaultTypeParam.Index]
+                    .GetOriginalFullNameWithGlobal(rootDefinition);
+            }
+
+            //Fall back case
             return "global::" + type.GetOriginalFullName();
         }
 

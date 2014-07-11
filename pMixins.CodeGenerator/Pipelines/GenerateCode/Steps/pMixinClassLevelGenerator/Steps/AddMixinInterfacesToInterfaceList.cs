@@ -27,11 +27,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
+            var currentMixin = manager.CurrentpMixinAttribute.Mixin;
+
             manager.GeneratedClassInterfaceList.AddRange(
-                manager.CurrentpMixinAttribute.Mixin
+                currentMixin
                     .GetDefinition().GetAllBaseTypes()
                     .Where(x => x.Kind == TypeKind.Interface)
-                    .Select(x => x.GetOriginalFullNameWithGlobal()));
+                    .Select(x => x.GetOriginalFullNameWithGlobal(currentMixin)));
 
             return true;
         }

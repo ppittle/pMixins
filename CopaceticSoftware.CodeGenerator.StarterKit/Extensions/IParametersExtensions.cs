@@ -29,7 +29,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             if (null == parameters)
                 return new List<KeyValuePair<string, string>>();
 
-            return parameters.Select(p => new KeyValuePair<string, string>(p.Type.GetFullName(), p.Name)).ToList();
+            return parameters.Select(p => new KeyValuePair<string, string>(p.Type.GetOriginalFullNameWithGlobal(), p.Name)).ToList();
         }
     }
 }

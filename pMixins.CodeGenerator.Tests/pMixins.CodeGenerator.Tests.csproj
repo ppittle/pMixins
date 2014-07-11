@@ -106,6 +106,7 @@
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinAttributesAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinGenericMembersAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinInterfacesAreInjectedIntoTarget.cs" />
+    <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinWithArrays.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MultipleMixinsAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MultipleTargetsInOneFile.cs" />
     <Compile Include="IntegrationTests\CompileTests\CollisionTests\MixinsWithSameClassName.cs" />

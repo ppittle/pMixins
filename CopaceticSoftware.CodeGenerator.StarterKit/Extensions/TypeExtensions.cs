@@ -91,10 +91,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             if (type is VoidTypeDefinition)
                 return "void";
 
+            if (type is ArrayType)
+            {
+                var arrayType = type as ArrayType;
+
+                return arrayType.ElementType.GetOriginalFullName() + arrayType.NameSuffix;
+            }
+
             var astType = type.ToAstSyntaxType();
 
             if (astType is PrimitiveType)
                 return "System." + (astType as PrimitiveType).KnownTypeCode;
+
+            
+
 
             if (type is ParameterizedType)
                 return type.FullName +

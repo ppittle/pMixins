@@ -105,6 +105,15 @@
       <LastGenOutput>NonPublicNonParameterlessConstructor.mixin.cs</LastGenOutput>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Repository.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>Repository.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="Repository\Repository.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repository.cs</DependentUpon>
+    </Compile>
     <Compile Include="SpecificMixinConstructor\SpecificMixinConstructor.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>SpecificMixinConstructor.mixin.cs</LastGenOutput>

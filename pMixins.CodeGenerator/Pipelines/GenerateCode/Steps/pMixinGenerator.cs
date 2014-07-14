@@ -50,6 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
 
         private readonly IPipelineStep<pMixinGeneratorPipelineState>[] _targetPartialClassGenerator =
             {
+                new ResolveAndFilterMemberCollisions(), 
                 new GenerateMembersInGeneratedClass(),
                 new GenerateImplicitConversionOperator(),
                 new AddMixinConstructorRequirementDependency(),

@@ -25,7 +25,6 @@ using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
-using JetBrains.Annotations;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration
 {
@@ -40,18 +39,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
-            var rawMembers =
+            manager.MixinMembers = 
                 manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
                     .OfType<pMixinAttributeResolvedResult>()
                     .ToDictionary(
                         mixinAttribute => mixinAttribute.Mixin,
                         mixinAttribute => ResolveMixinMembers(mixinAttribute, manager).ToList());
-
-            var collisionFreeMethods = FilterOutCollisions(rawMembers);
-
-            manager.MixinMembers = rawMembers;
-
-
+            
             return true;
         }
 
@@ -74,8 +68,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                             !member.FullName.StartsWith("System.Object") &&
                             !member.IsDecoratedWithAttribute(doNotMixinIType)));
 
-            var members = mixinAttribute.Mixin.GetMembers();
-
             //If no masks, just return mixin's members
             if (null == mixinAttribute.Masks || !mixinAttribute.Masks.Any())
                 return mixinAttribute.Mixin.GetMembers().Where(memberFilter)
@@ -96,74 +88,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                         mask => mask.Value.Any(member => mixinMember.EqualsMember(member)));
                 
                 if (null != maskMatch.Key)
-                    resolvedMembers.Add(new MixinMemberResolvedResult{Member = mixinMember, ExplicitImplementationInterfaceType = maskMatch.Key});
+                    resolvedMembers.Add(
+                        new MixinMemberResolvedResult
+                        {
+                            Member = mixinMember, 
+                            ExplicitImplementationInterfaceType = maskMatch.Key
+                        });
             }
 
             return resolvedMembers;
         }
-
-        private IDictionary<IType, List<MixinMemberResolvedResult>> FilterOutCollisions(
-            IDictionary<IType, List<MixinMemberResolvedResult>> rawMembers)
-        {
-            for (int i = 1; i < rawMembers.Keys.Count; i++)
-            {
-                var iKey = rawMembers.Keys.ElementAt(i);
-
-                for (int j = 0; j < i; j++)
-                {
-                    var jKey = rawMembers.Keys.ElementAt(j);
-
-                    for (int m = 0; m < rawMembers[jKey].Count(); m++)
-                    {
-                        var memberUnderTest = rawMembers[jKey][m];
-
-                        //collision test
-                        if (rawMembers[iKey].Any(x => x.Member.EqualsMember(memberUnderTest.Member)))
-                        {
-                            //member collision
-                            rawMembers[jKey][m] = ResolveCollision(jKey, rawMembers[jKey][m]);
-                        }
-                    }
-
-                    rawMembers[jKey] = rawMembers[jKey].Where(x => null != x).ToList();
-                }
-            }
-
-            return rawMembers;
-        }
-
-        [CanBeNull]
-        private MixinMemberResolvedResult ResolveCollision(IType type, MixinMemberResolvedResult member)
-        {
-            if (member.Member is IField)
-                //can't do anything for fields
-                return null;
-
-            if (member.Member.IsAbstract)
-                //leave abstract members in
-                return member;
-
-            var interfaces = type.GetAllBaseTypes()
-                                .Where(bt => bt.Kind == TypeKind.Interface)
-                                .ToList();
-
-            var closestInterface =
-                interfaces.FirstOrDefault(i => i.GetMembers().Any(m => m.EqualsMember(member.Member)));
-
-            if (member.Member is IMethod)
-            {
-                var method = member.Member as IMethod;
-
-                if (method.IsExplicitInterfaceImplementation)
-                    //can't do anything for explicit methods
-                    return null;
-
-                //TODO
-
-                //if (interfaces.Any())
-            }
-
-            return null;
-        }
+        
     }
 }

@@ -77,7 +77,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
             CompilerResults.ExecutePropertyGet<string>(
                "Test.Target",
                "Mixin2Prop")
-               .ShouldEqual("TargetMixin1");
+               .ShouldEqual("TargetMixin2");
         }
     }
 }

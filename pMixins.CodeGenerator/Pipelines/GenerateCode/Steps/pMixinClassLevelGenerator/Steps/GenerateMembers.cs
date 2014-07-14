@@ -28,9 +28,21 @@ using log4net;
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
 {
     /// <summary>
-    /// Iterates through methods in <see cref="pMixinGeneratorPipelineState.CurrentpMixinAttribute"/>
-    /// and copies the methods.
+    /// Iterates through members in <see cref="pMixinGeneratorPipelineState.CurrentMixinMembers"/>
+    /// and copies the members to the Target's code-behind.  Member invocation is 
+    /// proxied to the Master Wrapper (created in <see cref="GenerateMixinMasterWrapperClass"/>
+    /// via the __mixins private Property added in <see cref="GenerateMixinsContainerClass"/>
     /// </summary>
+    /// <example>
+    /// <code>
+    /// <![CDATA[
+    /// public global::System.String OtherMixinMethod ()
+	///	{
+	///		return ___mixins.Other_Namespace_OtherMixin.OtherMixinMethod ();
+	///	}
+    /// ]]>
+    /// </code>
+    /// </example>
     /// TODO: Handle when to implement methods implicitly
     public class GenerateMembers : IPipelineStep<pMixinGeneratorPipelineState>
     {

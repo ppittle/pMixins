@@ -46,7 +46,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
     /// </code>
     /// </example>
     /// TODO: Handle when to implement methods implicitly
-    public class GenerateMembersinGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
+    public class GenerateMembersInGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

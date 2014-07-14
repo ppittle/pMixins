@@ -26,7 +26,7 @@ namespace CopaceticSoftware.pMixins.Attributes
     /// </summary>
     /// <example>
     /// </example>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Event | AttributeTargets.Property,
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Event | AttributeTargets.Property | AttributeTargets.Interface,
         AllowMultiple = true, Inherited = true)]
     public class DoNotMixinAttribute : Attribute, IPMixinAttribute
     {}

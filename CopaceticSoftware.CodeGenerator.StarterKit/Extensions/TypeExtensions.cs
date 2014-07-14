@@ -235,6 +235,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return attributes;
         }
 
+        public static bool IsDecoratedWithAttribute(this IType type, IType attributeType, bool includeBaseTypes = true)
+        {
+            return type.GetAttributes(includeBaseTypes).Any(a => a.AttributeType.Equals(attributeType));
+        }
+
         public static bool IsNullOrUnkown(this IType type)
         {
             return (null == type || type.IsUnkown());

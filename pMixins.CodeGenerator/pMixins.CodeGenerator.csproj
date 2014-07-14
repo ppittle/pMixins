@@ -100,6 +100,7 @@
     <Compile Include="Pipelines\GenerateCode\Steps\TargetPartialClassGenerator\AddMixinInterfacesToInterfaceList.cs" />
     <Compile Include="Pipelines\GenerateCode\Steps\MixinWrappersGenerator\GenerateAbstractMixinMembersWrapperClass.cs" />
     <Compile Include="Pipelines\GenerateCode\Steps\MixinWrappersGenerator\GenerateMixinImplementationRequirementsInterface.cs" />
+    <Compile Include="Pipelines\GenerateCode\Steps\PostClassGeneration\EnsureMixinDependenciesAreSatisfiedOnTarget.cs" />
     <Compile Include="Pipelines\GenerateCode\Steps\TargetPartialClassGenerator\GenerateImplicitConversionOperator.cs" />
     <Compile Include="Pipelines\GenerateCode\Steps\TargetPartialClassGenerator\GenerateMembersInGeneratedClass.cs" />
     <Compile Include="Pipelines\GenerateCode\Steps\MixinWrappersGenerator\GenerateMixinDataMembersInMixinsContainerClassMixin.cs" />

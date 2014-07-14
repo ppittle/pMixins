@@ -66,6 +66,7 @@ namespace CopaceticSoftware.pMixins.Infrastructure
     /// </code> 
     /// </example>
     /// <typeparam name="T">The Type the Mixin depends on.</typeparam>
+    [DoNotMixin]
     public interface IMixinDependency<T> where T : class
     {
         /// <summary>

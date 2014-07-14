@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.Attributes;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
@@ -27,12 +28,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
+            var doNotMixinType = typeof (DoNotMixinAttribute)
+                .ToIType(manager.BaseState.Context.TypeResolver.Compilation);
+
             var currentMixin = manager.CurrentpMixinAttribute.Mixin;
 
             manager.GeneratedClassInterfaceList.AddRange(
                 currentMixin
                     .GetDefinition().GetAllBaseTypes()
-                    .Where(x => x.Kind == TypeKind.Interface)
+                    .Where(x => x.Kind == TypeKind.Interface &&
+                        !x.IsDecoratedWithAttribute(doNotMixinType, includeBaseTypes: false))
                     .Select(x => x.GetOriginalFullNameWithGlobal(currentMixin)));
 
             return true;

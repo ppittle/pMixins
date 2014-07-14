@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.Attributes;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
@@ -27,10 +28,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
+            var doNotMixinType = typeof(DoNotMixinAttribute)
+                .ToIType(manager.BaseState.Context.TypeResolver.Compilation);
+
             manager.GeneratedClass.GeneratedClassSyntaxTree.Attributes.AddRange(
                     manager.CurrentpMixinAttribute.Mixin
                         .GetAttributes()
                         .FilterOutNonInheritedAttributes()
+                        //Don't add a DoNotMixin Type
+                        .Where(a => !a.AttributeType.Equals(doNotMixinType))
                         .ConvertToAttributeAstTypes()
                         .Select(attributeAstType => new AttributeSection(attributeAstType)));
 

@@ -73,7 +73,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
         public static bool IsDecoratedWithAttribute(this IMember member, IType attributeType)
         {
-            return member.Attributes.Any(a => Equals(a.AttributeType, attributeType));
+            return member.Attributes
+                .Union(
+                    member.ImplementedInterfaceMembers.SelectMany(x => x.DeclaringType.GetAttributes()))
+                .Any(a => Equals(a.AttributeType, attributeType));
         }
     }
 }

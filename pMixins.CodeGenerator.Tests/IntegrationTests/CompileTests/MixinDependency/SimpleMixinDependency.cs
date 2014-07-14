@@ -71,7 +71,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         {
             dynamic target = CompilerResults.TryLoadCompiledType("Test.Target");
 
-            int getNumber = target.GetNumber();
+            int getNumber = target.MixinMethod();
 
             getNumber.ShouldEqual(42);
         }

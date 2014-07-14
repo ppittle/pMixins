@@ -21,17 +21,19 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
 {
     public class AddMixinInterfacesToInterfaceList : IPipelineStep<pMixinGeneratorPipelineState>
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
+            var currentMixin = manager.CurrentpMixinAttribute.Mixin;
+
             manager.GeneratedClassInterfaceList.AddRange(
-                manager.CurrentpMixinAttribute.Mixin
+                currentMixin
                     .GetDefinition().GetAllBaseTypes()
                     .Where(x => x.Kind == TypeKind.Interface)
-                    .Select(x => x.GetOriginalFullNameWithGlobal()));
+                    .Select(x => x.GetOriginalFullNameWithGlobal(currentMixin)));
 
             return true;
         }

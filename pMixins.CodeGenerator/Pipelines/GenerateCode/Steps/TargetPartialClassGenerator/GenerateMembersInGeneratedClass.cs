@@ -21,18 +21,32 @@ using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
 {
     /// <summary>
-    /// Iterates through methods in <see cref="pMixinGeneratorPipelineState.CurrentpMixinAttribute"/>
-    /// and copies the methods.
+    /// Iterates through members in <see cref="pMixinGeneratorPipelineState.CurrentMixinMembers"/>
+    /// and copies the members to the Target's code-behind.  Member invocation is 
+    /// proxied to the Master Wrapper (created in <see cref="GenerateMixinMasterWrapperClass"/>
+    /// via the __mixins private Property added in <see cref="GenerateMixinsContainerClass"/>
     /// </summary>
+    /// <example>
+    /// <code>
+    /// <![CDATA[
+    /// public global::System.String OtherMixinMethod ()
+	///	{
+	///		return ___mixins.Other_Namespace_OtherMixin.OtherMixinMethod ();
+	///	}
+    /// ]]>
+    /// </code>
+    /// </example>
     /// TODO: Handle when to implement methods implicitly
-    public class GenerateMembers : IPipelineStep<pMixinGeneratorPipelineState>
+    public class GenerateMembersInGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

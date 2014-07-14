@@ -62,6 +62,8 @@ namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
         #endregion
 
         #region Methods
+       
+        /// <typeparam name="T">Method Return Type</typeparam>
         public static T ExecuteMethod<T>(this CompilerResults compilerResults, string typeName, string methodName,
             BindingFlags bindingFlags = ReflectionHelper.DefaultBindingFlags, params object[] args)
         {

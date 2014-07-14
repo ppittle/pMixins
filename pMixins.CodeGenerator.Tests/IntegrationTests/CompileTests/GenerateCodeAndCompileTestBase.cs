@@ -55,6 +55,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     .Where(a => !a.FullName.StartsWith("mscorlib", StringComparison.InvariantCultureIgnoreCase))
                     .Where(a => !a.IsDynamic) //necessary because a dynamic assembly will throw and exception when calling a.Location.  But unsure why there are dynamic assemblies in the Current Domain
                     .Select(a => a.Location)
+                    .Union(AddAdditionalReferencedAssemblies())
                     .Distinct()
                     .ToArray();
 
@@ -77,6 +78,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                 if (FailOnCompilerErrors)
                     Assert.Fail();
             }
+        }
+
+        protected virtual IEnumerable<string> AddAdditionalReferencedAssemblies()
+        {
+            return Enumerable.Empty<string>();
         }
 
         [Test]

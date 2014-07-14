@@ -16,8 +16,11 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.IO;
+using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
+using log4net;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
 {
@@ -32,6 +35,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
     public class FileWrapper : IFileWrapper
     {
         private readonly ICacheEventHelper _cacheEventHelper;
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public FileWrapper(ICacheEventHelper cacheEventHelper)
         {
@@ -53,9 +57,41 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO
             File.Delete(filename.FullPath);
         }
 
+        private static readonly object _writeAllTextObject = new object();
         public void WriteAllText(FilePath filename, string s)
         {
-            File.WriteAllText(filename.FullPath, s);
+            lock (_writeAllTextObject)
+            {
+                if (File.Exists(filename.FullPath))
+                {
+                    #region Don't write if the content is the same.
+                    try
+                    {
+                        var originalText =
+                            ReadAllText(filename)
+                                .Replace(Environment.NewLine, "")
+                                .Replace(" ", "");
+
+                        var sComparisonText = 
+                            s
+                                .Replace(Environment.NewLine, "")
+                                .Replace(" ", "");
+
+                        if (originalText.Equals(sComparisonText,
+                            StringComparison.InvariantCulture))
+                        {
+                            return;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _log.Error("Exception Reading [" + filename + "].  Will overrite file.", e);
+                    }
+                    #endregion
+                }
+
+                File.WriteAllText(filename.FullPath, s);
+            } 
 
             _cacheEventHelper.EvictFromCache(this, filename);
         }

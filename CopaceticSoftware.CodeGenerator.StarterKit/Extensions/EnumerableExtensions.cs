@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
@@ -45,6 +46,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 return;
 
             Parallel.ForEach(collection, func);
+        }
+
+        //http://stackoverflow.com/questions/2471588/how-to-get-index-using-linq
+        public static int IndexOf<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
+        {
+            if (null == collection)
+                throw new ArgumentNullException("collection");
+
+            return collection
+                .Select((x, i) => new {item = x, index = i})
+                .First(x => predicate(x.item))
+                .index;
         }
     }
 }

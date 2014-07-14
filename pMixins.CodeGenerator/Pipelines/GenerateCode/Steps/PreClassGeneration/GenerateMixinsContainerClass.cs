@@ -19,7 +19,7 @@
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration
 {
     /// <summary>
     /// Creates:

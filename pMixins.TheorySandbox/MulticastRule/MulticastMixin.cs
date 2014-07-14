@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="IParametersExtensions.cs" company="Copacetic Software"> 
+// <copyright file="MulticastMixin.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Wednesday, April 30, 2014 5:48:10 PM</date> 
+// <date>Sunday, July 6, 2014 1:47:56 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -16,20 +16,24 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
+namespace CopaceticSoftware.pMixins.TheorySandbox.MulticastRule
 {
-    public static class IParametersExtensions
+    public class MulticastMixin
     {
-        public static IList<KeyValuePair<string, string>> ToKeyValuePair(this IEnumerable<IParameter> parameters)
+        public int GetNumber()
         {
-            if (null == parameters)
-                return new List<KeyValuePair<string, string>>();
+            return 42;
+        }
+    }
 
-            return parameters.Select(p => new KeyValuePair<string, string>(p.Type.GetOriginalFullNameWithGlobal(), p.Name)).ToList();
+    public class MulticastMixinRule : IMixinMulticastRule
+    {
+        public IEnumerable<Type> MixinsForTypes(string typeFullName)
+        {
+            yield return typeof (MulticastMixin);
         }
     }
 }

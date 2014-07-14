@@ -21,7 +21,7 @@ using System.Linq;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PostClassGeneration
 {
     public class GenerateMixinsContainerClassConstructor : IPipelineStep<pMixinGeneratorPipelineState>
     {

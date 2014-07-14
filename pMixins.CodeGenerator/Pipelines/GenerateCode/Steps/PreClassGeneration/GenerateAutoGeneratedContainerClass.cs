@@ -17,10 +17,10 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.Common.Patterns;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration
 {
     /// <summary>
     /// Generates a container class for Auto Generated class directly in the Target code-behind class:

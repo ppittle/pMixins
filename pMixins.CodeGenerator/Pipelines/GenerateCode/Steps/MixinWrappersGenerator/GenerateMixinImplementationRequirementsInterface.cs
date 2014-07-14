@@ -27,7 +27,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastruct
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator
 {
     /// <summary>
     /// Creates an interface that lists all the members the Target must implement in order
@@ -53,8 +53,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
     /// </remarks>
     public class GenerateMixinImplementationRequirementsInterface : IPipelineStep<pMixinGeneratorPipelineState>
     {
-        
-
         public static string GetInitializationMethod(pMixinGeneratorPipelineState manager)
         {
             return "Initialize" + manager.CurrentpMixinAttribute.Mixin.FullName.Replace(".", "_");

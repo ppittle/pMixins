@@ -21,11 +21,13 @@ using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 using log4net;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
 {
     /// <summary>
     /// Iterates through members in <see cref="pMixinGeneratorPipelineState.CurrentMixinMembers"/>
@@ -44,7 +46,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.p
     /// </code>
     /// </example>
     /// TODO: Handle when to implement methods implicitly
-    public class GenerateMembers : IPipelineStep<pMixinGeneratorPipelineState>
+    public class GenerateMembersinGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
         private static ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

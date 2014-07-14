@@ -27,7 +27,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infras
 using ICSharpCode.NRefactory.TypeSystem;
 using JetBrains.Annotations;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration
 {
     /// <summary>
     /// Iterate through all Mixins and collect the <see cref="IMember"/>s
@@ -74,6 +74,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
                             !member.FullName.StartsWith("System.Object") &&
                             !member.IsDecoratedWithAttribute(doNotMixinIType)));
 
+            var members = mixinAttribute.Mixin.GetMembers();
 
             //If no masks, just return mixin's members
             if (null == mixinAttribute.Masks || !mixinAttribute.Masks.Any())
@@ -137,6 +138,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
             if (member.Member is IField)
                 //can't do anything for fields
                 return null;
+
+            if (member.Member.IsAbstract)
+                //leave abstract members in
+                return member;
 
             var interfaces = type.GetAllBaseTypes()
                                 .Where(bt => bt.Kind == TypeKind.Interface)

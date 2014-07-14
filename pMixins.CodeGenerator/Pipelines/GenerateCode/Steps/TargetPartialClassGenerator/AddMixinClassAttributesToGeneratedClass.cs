@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="AddInterfacesToGeneratedContainerClass.cs" company="Copacetic Software"> 
+// <copyright file="AddMixinClassAttributesToGeneratedClass.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Friday, February 7, 2014 5:32:09 PM</date> 
+// <date>Thursday, January 30, 2014 5:05:41 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -17,18 +17,22 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using ICSharpCode.NRefactory.CSharp;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator
 {
-    public class AddInterfacesToGeneratedContainerClass : IPipelineStep<pMixinGeneratorPipelineState>
+    public class AddMixinClassAttributesToGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
-            foreach (var @interface in manager.GeneratedClassInterfaceList.Distinct())
-            {
-                manager.GeneratedClass.ImplementInterface(@interface);    
-            }
+            manager.GeneratedClass.GeneratedClassSyntaxTree.Attributes.AddRange(
+                    manager.CurrentpMixinAttribute.Mixin
+                        .GetAttributes()
+                        .FilterOutNonInheritedAttributes()
+                        .ConvertToAttributeAstTypes()
+                        .Select(attributeAstType => new AttributeSection(attributeAstType)));
 
             return true;
         }

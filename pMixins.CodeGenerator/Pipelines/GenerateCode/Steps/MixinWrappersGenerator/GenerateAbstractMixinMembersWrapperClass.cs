@@ -26,7 +26,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastruct
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.pMixinClassLevelGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator
 {
     public class GenerateAbstractMixinMembersWrapperClass : IPipelineStep<pMixinGeneratorPipelineState>
     {

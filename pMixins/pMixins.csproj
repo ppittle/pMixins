@@ -56,6 +56,7 @@
     <Compile Include="ConversionOperators\IContainMixin.cs" />
     <Compile Include="Infrastructure\IMixinActivator.cs" />
     <Compile Include="Infrastructure\IMixinConstructorRequirement.cs" />
+    <Compile Include="Infrastructure\IMixinDependency.cs" />
     <Compile Include="Infrastructure\MixinActivatorFactory.cs" />
     <Compile Include="Interceptors\IMixinInterceptor.cs" />
     <Compile Include="Infrastructure\IpMixinCodeGeneratorProxy.cs" />

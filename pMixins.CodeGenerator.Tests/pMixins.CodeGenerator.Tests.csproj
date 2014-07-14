@@ -129,6 +129,9 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualMethods.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsClass.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinsShareDependency.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinDependency\SimpleMixinDependency.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinMasks\SimpleInterfaceMask.cs" />
     <Compile Include="IntegrationTests\CompileTests\ParsingTests\WhenThereIsAParseErrorLaterInTheFile.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\TargetCanAccessProtectedMembers.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="IntegrationTests\CompileTests\BasicTests\MixinPublicPropertiesAreInjectedIntoTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\ChildOfTargetCanAccessProtectedMembers.cs" />
     <Compile Include="IntegrationTests\ExpectedErrors\ExpectedErrorsTestBase.cs" />
+    <Compile Include="IntegrationTests\ExpectedErrors\MixinDependencyIsClassAndIsNotProvided.cs" />
     <Compile Include="IntegrationTests\ExpectedErrors\NoPartialClassTest.cs" />
     <Compile Include="IntegrationTests\ExpectedErrors\SimpleCircularReferenceTest.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />

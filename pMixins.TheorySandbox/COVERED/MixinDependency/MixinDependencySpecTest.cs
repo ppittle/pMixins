@@ -16,11 +16,20 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.MixinDependency;
+using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.ExpectedErrors;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.pMixins.TheorySandbox.MixinDependency
+namespace CopaceticSoftware.pMixins.TheorySandbox.COVERED.MixinDependency
 {
+    /// <summary>
+    /// Covered in:
+    ///     <see cref="SimpleMixinDependency"/>
+    ///     <see cref="MixinDependencyIsClass"/>
+    ///     <see cref="MixinsShareDependency"/>
+    ///     <see cref="MixinDependencyIsClassAndIsNotProvided"/>
+    /// </summary>
     public class MixinDependencySpecTest : SpecTestBase
     {
         private MixinDependencySpec _spec;

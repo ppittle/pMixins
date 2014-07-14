@@ -16,14 +16,19 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.MixinDependency;
+using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.ExpectedErrors;
 
-namespace CopaceticSoftware.pMixins.TheorySandbox.MixinDependency
+namespace CopaceticSoftware.pMixins.TheorySandbox.COVERED.MixinDependency
 {
+    /// <summary>
+    /// Covered in:
+    ///     <see cref="SimpleMixinDependency"/>
+    ///     <see cref="MixinDependencyIsClass"/>
+    ///     <see cref="MixinsShareDependency"/>
+    ///     <see cref="MixinDependencyIsClassAndIsNotProvided"/>
+    /// </summary>
     public interface IDependency
     {
         int GetNumber();

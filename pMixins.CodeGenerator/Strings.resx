@@ -141,6 +141,9 @@
   <data name="ErrorMixinCouldNotBeResolved" xml:space="preserve">
     <value>Unable to resolve Mixin type [{0}].  Please make sure all class files have been saved.  If you continue to receive this error try rebuilding the solution.</value>
   </data>
+  <data name="ErrorMixinDependencyIsClassAndIsNotStatisified" xml:space="preserve">
+    <value>Can not mixin [{0}] into [{1}].  [{0}] has a dependency on [{2}] (via IMixinDependency&lt;{2}&gt;) which is not satisified by [{1}].  [{1}] must either inherit from [{2}] or mix in a class that does.</value>
+  </data>
   <data name="ErrorMixinIsNestedAndAbstract" xml:space="preserve">
     <value>Mixin [{0}] is both Abstract and a Nested Type.  </value>
   </data>

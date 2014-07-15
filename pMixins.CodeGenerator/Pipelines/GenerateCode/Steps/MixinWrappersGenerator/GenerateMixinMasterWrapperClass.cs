@@ -97,7 +97,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         }
 
         /// <summary>
-        /// Create code similiar to:
+        /// Create code similar to:
         /// <code>
         /// <![CDATA[
         /// public System.Func<int,string> ProtectedVirtualMethodFunc { get; set; }
@@ -158,7 +158,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         }
 
         /// <summary>
-        /// Generate code similiar to:
+        /// Generate code similar to:
         /// <code>
         /// <![CDATA[
         ///     AbstractWrapper _host;

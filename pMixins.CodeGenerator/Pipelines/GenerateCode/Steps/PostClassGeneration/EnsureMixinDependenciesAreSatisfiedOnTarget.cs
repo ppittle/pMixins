@@ -108,19 +108,23 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                                             .Any(p => p.TypeArguments.First().Equals(dep)))
                                     .Key);
 
-             /*
-                    manager.BaseState.CodeGenerationErrors.Add(new CodeGenerationError
-                    {
-                        Message = string.Format(
-                            Strings.ErrorMixinDependencyIsClassAndIsNotStatisified,
-                            mixin.Mixin.GetFullName(),
-                            manager.GeneratedClass.ClassName,
-                            dep.GetOriginalFullName()),
+            
+                    manager.BaseState.CodeGenerationErrors.Add(
+                        new CodeGenerationError
+                        {
+                            
+                            Message = string.Format(
+                                Strings.ErrorMixinDependencyIsClassAndIsNotSatisified,
+                                mixin.Mixin.GetOriginalFullName(),
+                                manager.GeneratedClass.ClassName,
+                                dep.GetOriginalFullName()),
+                            
 
-                        Line = (uint)manager.SourceClass.GetRegion().BeginLine,
-                        Column = (uint)manager.SourceClass.GetRegion().EndLine
-                    });
-                    */
+                            Line = (uint)manager.SourceClass.GetRegion().BeginLine,
+                            Column = (uint)manager.SourceClass.GetRegion().EndLine,
+                            Severity = CodeGenerationError.SeverityOptions.Error
+                        });
+                   
                 }
             }
 

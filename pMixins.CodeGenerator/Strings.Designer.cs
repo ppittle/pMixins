@@ -117,9 +117,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator {
         /// <summary>
         ///   Looks up a localized string similar to Can not mixin [{0}] into [{1}].  [{0}] has a dependency on [{2}] (via IMixinDependency&lt;{2}&gt;) which is not satisified by [{1}].  [{1}] must either inherit from [{2}] or mix in a class that does..
         /// </summary>
-        public static string ErrorMixinDependencyIsClassAndIsNotStatisified {
+        public static string ErrorMixinDependencyIsClassAndIsNotSatisified {
             get {
-                return ResourceManager.GetString("ErrorMixinDependencyIsClassAndIsNotStatisified", resourceCulture);
+                return ResourceManager.GetString("ErrorMixinDependencyIsClassAndIsNotSatisified", resourceCulture);
             }
         }
         

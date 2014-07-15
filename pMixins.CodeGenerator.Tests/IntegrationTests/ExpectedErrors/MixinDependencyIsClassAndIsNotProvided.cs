@@ -59,9 +59,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
                 return new Dictionary<string, Func<CodeGenerationError, bool>>
                        {
                            {
-                               Strings.ErrorMixinDependencyIsClassAndIsNotStatisified,
+                               Strings.ErrorMixinDependencyIsClassAndIsNotSatisified,
                                error => error.Message == 
-                                   string.Format(Strings.ErrorMixinDependencyIsClassAndIsNotStatisified,
+                                   string.Format(
+                                        Strings.ErrorMixinDependencyIsClassAndIsNotSatisified,
                                         "Test.Mixin",
                                         "Test.Target",
                                         "Test.Dependency")

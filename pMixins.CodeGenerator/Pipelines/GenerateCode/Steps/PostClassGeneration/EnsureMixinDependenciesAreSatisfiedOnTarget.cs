@@ -124,8 +124,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                             Column = (uint)manager.SourceClass.GetRegion().EndLine,
                             Severity = CodeGenerationError.SeverityOptions.Error
                         });
-                   
                 }
+
+                return false;
             }
 
             return true;

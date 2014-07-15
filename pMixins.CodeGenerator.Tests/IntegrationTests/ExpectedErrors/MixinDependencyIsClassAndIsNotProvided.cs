@@ -46,7 +46,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
                         }
                         
                         [pMixin(Mixin = typeof(Mixin))]
-                        public class Target{}
+                        public partial class Target{}
                     }
                 ";
             }
@@ -63,7 +63,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
                                error => error.Message == 
                                    string.Format(Strings.ErrorMixinDependencyIsClassAndIsNotStatisified,
                                         "Test.Mixin",
-                                        "Test.Target," +
+                                        "Test.Target",
                                         "Test.Dependency")
                            }
                        };

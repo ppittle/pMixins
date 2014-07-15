@@ -52,19 +52,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
 
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
-
-            var debug =
-                manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
-                    .OfType<pMixinAttributeResolvedResult>()
-                    .Select(x => x.Mixin.GetOriginalFullName());
-           
             var mixinBaseTypeMap =
                 manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
                     .OfType<pMixinAttributeResolvedResult>()
                     .ToDictionary(
                         x => x.Mixin.GetOriginalFullName(),
                         x => x.Mixin.GetAllBaseTypes());
-
 
             var allBaseTypes = 
                 mixinBaseTypeMap

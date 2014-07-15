@@ -152,6 +152,36 @@ namespace pMixins.Mvc.Recipes.Repository
     [pMixin(Mixin = typeof(SqlCreate<MyEntity>))]
     public partial class MyEntityRepository
     {
-        
+        string ISqlReadById__MyEntity__Requirements.ConnectionStringImplementation
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        SqlParameter[] ISqlCreate__MyEntity__Requirements.MapEntityToSqlParametersImplementation(MyEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        string ISqlCreate__MyEntity__Requirements.CreateStoredProcedureNameImplementation
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        MyEntity ISqlReadById__MyEntity__Requirements.MapEntityImplementation(SqlDataReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        string ISqlReadById__MyEntity__Requirements.ReadByIdStoredProcedureNameImplementation
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        string ISqlCreate__MyEntity__Requirements.ConnectionStringImplementation
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             public int GetNumber(){ return 0;}
                         }
 
-                        public class Mixin : IMixinDependency<Dependency>
+                        public class Mixin : IMixinDependency<IDependency>
                         {
                             public IDependency Dependency { get; set; }
 

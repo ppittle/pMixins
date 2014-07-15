@@ -24,6 +24,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
 {
     public class MixinDependencyIsClassAndIsNotProvided : ExpectedErrorsTestBase
     {
+        protected override bool ExpectNoCodeShouldBeGenerated
+        {
+            //It is ok if code is generated
+            get { return false; }
+        }
+
         protected override string SourceCode
         {
             get
@@ -64,7 +70,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
                                    string.Format(
                                         Strings.ErrorMixinDependencyIsClassAndIsNotSatisified,
                                         "Test.Mixin",
-                                        "Test.Target",
+                                        "Target",
                                         "Test.Dependency")
                            }
                        };

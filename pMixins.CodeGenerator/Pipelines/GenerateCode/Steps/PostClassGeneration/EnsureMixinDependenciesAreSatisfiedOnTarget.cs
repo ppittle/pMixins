@@ -40,18 +40,29 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
     /// </remarks>
     public class EnsureMixinDependenciesAreSatisfiedOnGeneratedClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
-        private readonly string _mixinDependencyTypeName = typeof (IMixinDependency<>).GetOriginalFullName()
+        private static readonly string _mixinDependencyTypeName = typeof (IMixinDependency<>).GetOriginalFullName()
             //This is hacky, but can't find a way to compare typeof(IMixinDependency<>) to new IType(IMixinDependency<int>)
             .Replace("<>", "");
 
+        public static bool TypeIsIMixinDependency(IType type)
+        {
+            return type.Kind == TypeKind.Interface &&
+                   type.GetOriginalFullName().StartsWith(_mixinDependencyTypeName);
+        }
+
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
+
+            var debug =
+                manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
+                    .OfType<pMixinAttributeResolvedResult>()
+                    .Select(x => x.Mixin.GetOriginalFullName());
            
             var mixinBaseTypeMap =
                 manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
                     .OfType<pMixinAttributeResolvedResult>()
                     .ToDictionary(
-                        x => x.Mixin.FullName,
+                        x => x.Mixin.GetOriginalFullName(),
                         x => x.Mixin.GetAllBaseTypes());
 
 
@@ -68,8 +79,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                     //Take only Mixin base types
                     .SelectMany(x => x.Value)
                     //Get IMixinDependency
-                    .Where(bt => bt.Kind == TypeKind.Interface && 
-                        bt.GetOriginalFullName().StartsWith(_mixinDependencyTypeName))
+                    .Where(bt => TypeIsIMixinDependency(bt))
                     //Cast in order to get generic parameter
                     .OfType<ParameterizedType>()
                     //Pull out generic param

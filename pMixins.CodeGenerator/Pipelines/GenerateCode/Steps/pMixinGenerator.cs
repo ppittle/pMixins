@@ -62,6 +62,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
         private readonly IPipelineStep<pMixinGeneratorPipelineState>[] _universalPostamblePipeline =
             {
                 new GenerateMixinsContainerClassConstructor(),
+                new GenerateMixinsContainerActivateMixinDependenciesMethod(), 
                 new EnsureMixinDependenciesAreSatisfiedOnGeneratedClass(),
                 new AddInterfacesToGeneratedContainerClass()
             };

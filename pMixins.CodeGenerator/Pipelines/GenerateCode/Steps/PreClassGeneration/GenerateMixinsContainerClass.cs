@@ -17,6 +17,8 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PostClassGeneration;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PreClassGeneration
@@ -48,6 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
     ///                     if (null == ___mixins)
     ///                     {
     ///                         ___mixins = new HostCanOverrideAndExposeVirtualMixinMembersSpec.__Mixins(this);
+    ///                         ___mixins.__ActivateMixinDependencies(this);
     ///                     }
     ///                 }
     ///             }
@@ -58,6 +61,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
     ///
     /// ]]></code>
     /// </summary>
+    /// <remarks>
+    /// Constructor is created in <see cref="GenerateMixinsContainerClassConstructor"/>.
+    /// </remarks>
+    /// <remarks>
+    /// ActivateMixinDependencies method is created in <see cref="GenerateMixinsContainerActivateMixinDependenciesMethod"/>.
+    /// </remarks>
     public class GenerateMixinsContainerClass : IPipelineStep<pMixinGeneratorPipelineState>
     {
         private const string MixinContainerClassName = "__Mixins";
@@ -101,6 +110,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                                             if (null == {0})
                                             {{
                                                 {0} = new {1}(this);
+                                                {0}.{3}(this);
                                             }}
                                     }}
                                 }}
@@ -110,7 +120,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                         ",
                          MixinContainerPropertyBackingFieldName,
                          MixinContainerClassName,
-                         LockVariableName)
+                         LockVariableName,
+                         GenerateMixinMasterWrapperClass.ActivateMixinDependenciesMethodName)
                     ,
                      "" //no setter
                 );

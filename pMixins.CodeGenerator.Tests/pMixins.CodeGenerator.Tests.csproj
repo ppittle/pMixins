@@ -130,6 +130,8 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsClass.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsImplementedByTarget.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsInheritedByTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinsShareDependency.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\SimpleMixinDependency.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinMasks\SimpleInterfaceMask.cs" />

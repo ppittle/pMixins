@@ -38,6 +38,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     @"
                         namespace Test
                         {
+                            public interface ISomeInterface
+                            {
+                                int NumberProp { get; }
+                            }
+
                             public abstract class AbstractBase
                             {
                                 public abstract int GetNumber();
@@ -56,6 +61,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                                     return 24;
                                 }
                                 
+                                public int NumberProp {get;set;}
                             }
 
                             [CopaceticSoftware.pMixins.Attributes.pMixin(
@@ -83,6 +89,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
             dynamic target = CompilerResults.TryLoadCompiledType("Test.Target");
 
             int number = target.GetNumber();
+
+            number.ShouldEqual(42);
+
+            target.NumberProp = number;
+
+            number = target.NumberProp;
 
             number.ShouldEqual(42);
         }

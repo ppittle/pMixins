@@ -77,6 +77,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
 
            var memberList =
                 manager.CurrentMixinMembers.Select(x => x.Member)
+                    .DistinctMembers()
                     .Where(member => (!member.IsInternal || importMixinInternalMethods));
 
             foreach (var member in memberList)

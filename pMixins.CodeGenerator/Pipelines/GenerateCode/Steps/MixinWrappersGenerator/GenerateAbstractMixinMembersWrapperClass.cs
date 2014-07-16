@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -25,6 +26,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
+using Mono.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator
 {
@@ -143,7 +145,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                 manager.BaseState.Context.TypeResolver.Compilation);
 
             proxyMemberHelper.CreateMembers(
-                manager.CurrentMixinMembers.Select( x=> x.Member).Where(m => m.IsAbstract && !m.IsStatic),
+                manager.CurrentMixinMembers.GetUnimplementedAbstractMembers(),
                 generateMemberModifier: member => member.IsPublic ? "public override" : "protected override",
                 generateReturnTypeFunc: member => member.ReturnType.GetOriginalFullNameWithGlobal(),
                 baseObjectIdentifierFunc: member => RequirementsVariable,
@@ -152,7 +154,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
 
             //Create public wrappers for the protected methods
             proxyMemberHelper.CreateMembers(
-                manager.CurrentMixinMembers.Select(x => x.Member).Where(m => m.IsAbstract && !m.IsStatic && m.IsProtected),
+                manager.CurrentMixinMembers.GetUnimplementedAbstractMembers().Where(m => m.IsProtected),
                 generateMemberModifier: member => "public",
                 generateReturnTypeFunc: member => member.ReturnType.GetOriginalFullNameWithGlobal(),
                 generateMemberNameFunc: member => GetProtectedMemberWrapperMemberName(member),

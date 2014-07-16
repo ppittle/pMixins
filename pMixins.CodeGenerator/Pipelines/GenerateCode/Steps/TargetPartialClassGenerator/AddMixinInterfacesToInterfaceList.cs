@@ -33,13 +33,21 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
 
             var currentMixin = manager.CurrentpMixinAttribute.Mixin;
 
-            manager.GeneratedClassInterfaceList.AddRange(
-                currentMixin
-                    .GetDefinition().GetAllBaseTypes()
-                    .Where(x => x.Kind == TypeKind.Interface &&
-                        !x.IsDecoratedWithAttribute(doNotMixinType, includeBaseTypes: false))
-                    .Select(x => x.GetOriginalFullNameWithGlobal(currentMixin)));
+            var candidateTypes =
+                //If Masks are defined, only use the masks
+                manager.CurrentpMixinAttribute.Masks.Any()
+                    ? manager.CurrentpMixinAttribute.Masks
+                        .Union(manager.CurrentpMixinAttribute.Masks.SelectMany(x => x.GetAllBaseTypes()))
+                    //otherwise use all base types from mixin
+                    : currentMixin
+                        .GetDefinition().GetAllBaseTypes();
 
+            manager.GeneratedClassInterfaceList.AddRange(
+                candidateTypes
+                    .Where(x => x.Kind == TypeKind.Interface &&
+                                !x.IsDecoratedWithAttribute(doNotMixinType, includeBaseTypes: false))
+                    .Select(x => x.GetOriginalFullNameWithGlobal(currentMixin)));
+            
             return true;
         }
     }

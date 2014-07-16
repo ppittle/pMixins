@@ -17,41 +17,89 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.TypeSystem;
+using Mono.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
     public static class MemberExtensions
     {
+        private static readonly MemberEqualityComparer _equalityComparer = new MemberEqualityComparer();
+        public class MemberEqualityComparer : IEqualityComparer<IMember>
+        {
+            public bool Equals(IMember x, IMember y)
+            {
+                return GetHashCode(x) == GetHashCode(y);
+            }
+
+            public int GetHashCode(IMember obj)
+            {
+                var hashCodeParts = new Func<IMember, string>[]
+                {
+                    //Hash member name
+                    m => m.Name.GetHashCode().ToString(),
+                    //Hash return type
+                    m => m.ReturnType.GetHashCode().ToString(),
+                    //Hash method parameters
+                    m =>
+                    {
+                        var result = "";
+
+                        var method = m as IMethod;
+
+                        if (null == method)
+                            return result;
+
+                        result += method.TypeParameters.Count.GetHashCode();
+
+                        foreach (var p in method.Parameters)
+                            result += p.Type;
+
+                        return result;
+                    },
+                    //Hash get vs set vs indexer on Property
+                    m =>
+                    {
+                        var result = "";
+
+                        var property = m as IProperty;
+
+                        if (null == property)
+                            return result;
+
+                        if (property.CanGet)
+                            result += "Get";
+
+                        if (property.CanSet)
+                            result += "Set";
+
+                        if (property.IsIndexer)
+                            result += "Indexer";
+
+                        return result;
+                    }
+                        
+                    
+                };
+
+                var hash = 
+                    string.Join("", hashCodeParts.Select(x => x(obj))).GetHashCode();
+
+                return hash;
+            }
+        }
+
         public static bool EqualsMember(this IMember member, IMember otherMember)
         {
-            var equalityChecks = new Func<IMember, IMember, bool>[]
-            {
-                (m1, m2) => m1.Name == m2.Name,
-                (m1, m2) => Equals(m1.ReturnType, m2.ReturnType),
-                (m1, m2) =>
-                {
-                    if ((null != m1 as IMethod) && (null != m2 as IMethod))
-                    {
-                        var m1Meth = m1 as IMethod;
-                        var m2Meth = m2 as IMethod;
+            return _equalityComparer.Equals(member, otherMember);
+        }
 
-                        if (m1Meth.TypeParameters.Count != m2Meth.TypeParameters.Count)
-                            return false;
-
-                        for (var i = 0; i < m1Meth.Parameters.Count; i++)
-                        {
-                            if (!Equals(m1Meth.Parameters[i].Type, m2Meth.Parameters[i].Type))
-                                return false;
-                        }
-                    }
-
-                    return true;
-                }
-            };
-
-            return equalityChecks.All(check => check(member, otherMember));
+        public static IEnumerable<IMember> DistinctMembers(this IEnumerable<IMember> members)
+        {
+            return members.Distinct(_equalityComparer);
         }
 
         public static string GetOriginalName(this IMember member)

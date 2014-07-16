@@ -26,6 +26,7 @@ using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.PostClassGeneration;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.TargetPartialClassGenerator;
 using CopaceticSoftware.pMixins.Infrastructure;
 using CopaceticSoftware.pMixins.Interceptors;
@@ -47,6 +48,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         /// Mixin Wrapper class (if the constructor is needed).
         /// </summary>
         public const string MixinInstanceDataMemberName = "_mixinInstance";
+
+        public const string ActivateMixinDependenciesMethodName = "__ActivateMixinDependencies";
 
         private string GenerateVirtualMethodFuncName(IMember member)
         {
@@ -90,6 +93,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
 
             CreateConstructorAndRequirementsInterfaceDataMember(manager, wrapperClass);
 
+            CreateActivateMixinDependenciesMethod(manager, wrapperClass);
+
             ProcessMembers(manager, wrapperClass);
 
             return true;
@@ -97,7 +102,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         }
 
         /// <summary>
-        /// Create code similiar to:
+        /// Create code similar to:
         /// <code>
         /// <![CDATA[
         /// public System.Func<int,string> ProtectedVirtualMethodFunc { get; set; }
@@ -158,7 +163,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         }
 
         /// <summary>
-        /// Generate code similiar to:
+        /// Generate code similar to:
         /// <code>
         /// <![CDATA[
         ///     AbstractWrapper _host;
@@ -206,6 +211,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
 
             string mixinInstanceInitialization;
 
+            #region Create Mixin Instance (InitializeMixin / TryActivateMixin
             if (manager.CurrentpMixinAttribute.ExplicitlyInitializeMixin)
             {
                 mixinInstanceInitialization =
@@ -237,9 +243,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                             GenerateAbstractMixinMembersWrapperClass.GetWrapperClassName(manager)),
                         MixinInstanceDataMemberName.Replace("_", ""));
             }
+            #endregion
 
             
             var initializeBaseExpression =
+            #region base.Initialize
                 string.Format("base.Initialize( {0}, {1}, new global::{2}<global::{3}>{{ {4} }});",
                     MixinInstanceDataMemberName.Replace("_",""),
                     MixinInstanceDataMemberName,
@@ -250,7 +258,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                             .Select(x => x.GenerateActivationExpression())
                     )
                 );
-
+            #endregion
 
             wrapperClass.CreateConstructor(
                 "public",
@@ -318,6 +326,51 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Generate code similar to:
+        /// <code>
+        /// <![CDATA[
+        ///     public void __ActivateMixinDependencies(Target target)
+        ///     {
+        ///        ((IMixinDependency<T>)_mixinInstance).Dependency = mixinInstance;
+        ///        ((IMixinDependency<T>)_mixinInstance).OnDependencySet();
+        ///     }
+        /// ]]>
+        /// </code>
+        /// </summary>
+        private void CreateActivateMixinDependenciesMethod(
+             pMixinGeneratorPipelineState manager, ICodeGeneratorProxy wrapperClass)
+        {
+            const string targetMetherParameterVariableName = "target";
+
+            wrapperClass.CreateMethod(
+                modifier: "public",
+                returnTypeFullName: "void",
+                methodName: ActivateMixinDependenciesMethodName,
+                parameters: new[]
+                {
+                    new KeyValuePair<string, string>(
+                        manager.GeneratedClass.ClassName,
+                        targetMetherParameterVariableName),
+                },
+                methodBody: 
+                    
+                    string.Join(Environment.NewLine,
+                        manager.CurrentpMixinAttribute.Mixin
+                            .GetAllBaseTypes()
+                            .Where(t =>
+                                EnsureMixinDependenciesAreSatisfiedOnGeneratedClass.TypeIsIMixinDependency(t))
+                            .Select(t =>
+                                string.Format("(({0}){1}).Dependency = {2};(({0}){1}).OnDependencySet();",
+                                    t.GetOriginalFullNameWithGlobal(),
+                                    MixinInstanceDataMemberName,
+                                    targetMetherParameterVariableName)))
+
+                    //Ensure the method is not created as MethodName(); but MethodName(){}
+                    + Environment.NewLine
+                
+                );
+        }
 
         /// <summary>
         /// Wrap every non-private member in current pMixin with special

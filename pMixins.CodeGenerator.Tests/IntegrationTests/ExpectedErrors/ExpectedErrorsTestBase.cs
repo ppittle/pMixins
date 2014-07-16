@@ -29,10 +29,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Expecte
     {
         protected abstract Dictionary<string, Func<CodeGenerationError, bool>> ExpectedErrorMessages { get; }
 
+        protected virtual bool ExpectNoCodeShouldBeGenerated{get { return true; }}
+
         [Test]
         public void GeneratedCodeShouldBeEmpty()
         {
-            GeneratedCode.ShouldBeEmpty();
+            if (ExpectNoCodeShouldBeGenerated)
+                GeneratedCode.ShouldBeEmpty();
         }
 
         [Test]

@@ -66,7 +66,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                             (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
                             (!member.IsInternal || includeInternalMembers) &&
                             !member.FullName.StartsWith("System.Object") &&
-                            !member.IsDecoratedWithAttribute(doNotMixinIType)));
+                            !member.IsDecoratedWithAttribute(doNotMixinIType) &&
+                            !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes:false)));
 
             //If no masks, just return mixin's members
             if (null == mixinAttribute.Masks || !mixinAttribute.Masks.Any())

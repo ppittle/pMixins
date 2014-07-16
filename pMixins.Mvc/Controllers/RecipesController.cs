@@ -18,6 +18,7 @@
 
 using System.Web.Mvc;
 using System.Web.Routing;
+using Antlr.Runtime.Misc;
 using CopaceticSoftware.pMixins.Mvc.BAL;
 
 namespace CopaceticSoftware.pMixins.Mvc.Controllers
@@ -67,6 +68,13 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         public ActionResult NonPublicNonParameterlessConstructor()
         {
             ViewBag.Title = "Non Public & Non Parameterless Constructor";
+
+            return View();
+        }
+
+        public ActionResult CastingAndConversionOperators()
+        {
+            ViewBag.Title = "Conversion Operators";
 
             return View();
         }

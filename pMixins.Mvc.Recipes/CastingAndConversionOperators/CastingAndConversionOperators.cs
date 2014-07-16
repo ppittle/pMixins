@@ -16,15 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CopaceticSoftware.pMixins.Attributes;
-using NUnit.Framework;
 
-namespace pMixins.Mvc.Recipes.ConversionOperators
+namespace pMixins.Mvc.Recipes.CastingAndConversionOperators
 {
     public interface ISomeInterface
     {
@@ -48,19 +42,9 @@ namespace pMixins.Mvc.Recipes.ConversionOperators
             return "Interface";
         }
     }
-
+    
     [pMixin(Mixin = typeof(Mixin))]
-    public partial class ConversionOperators
+    public partial class CastingAndConversionOperators
     {
-        public string BaseClassMethodImplementation()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    [TestFixture]
-    public class ConversionOperatorsTest
-    {
-        
     }
 }

@@ -66,15 +66,16 @@
       <DependentUpon>BasicMixin.cs</DependentUpon>
     </Compile>
     <Compile Include="BasicMixin\BasicMixinTest.cs" />
-    <Compile Include="ConversionOperators\ConversionOperators.cs">
+    <Compile Include="CastingAndConversionOperators\CastingAndConversionOperators.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
-      <LastGenOutput>ConversionOperators.mixin.cs</LastGenOutput>
+      <LastGenOutput>CastingAndConversionOperators.mixin.cs</LastGenOutput>
     </Compile>
-    <Compile Include="ConversionOperators\ConversionOperators.mixin.cs">
+    <Compile Include="CastingAndConversionOperators\CastingAndConversionOperators.mixin.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ConversionOperators.cs</DependentUpon>
+      <DependentUpon>CastingAndConversionOperators.cs</DependentUpon>
     </Compile>
+    <Compile Include="CastingAndConversionOperators\CastingAndConversionOperatorsTest.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionMixin.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>DependencyInjectionMixin.mixin.cs</LastGenOutput>

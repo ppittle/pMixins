@@ -266,6 +266,7 @@
     <Content Include="Views\Recipes\SpecificMixinConstructor.cshtml" />
     <Content Include="Views\HowItWorks\Index.cshtml" />
     <Content Include="Views\Recipes\NonPublicNonParameterlessConstructor.cshtml" />
+    <Content Include="Views\Recipes\CastingAndConversionOperators.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

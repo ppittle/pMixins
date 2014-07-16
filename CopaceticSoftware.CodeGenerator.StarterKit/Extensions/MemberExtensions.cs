@@ -59,7 +59,30 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                             result += p.Type;
 
                         return result;
+                    },
+                    //Hash get vs set vs indexer on Property
+                    m =>
+                    {
+                        var result = "";
+
+                        var property = m as IProperty;
+
+                        if (null == property)
+                            return result;
+
+                        if (property.CanGet)
+                            result += "Get";
+
+                        if (property.CanSet)
+                            result += "Set";
+
+                        if (property.IsIndexer)
+                            result += "Indexer";
+
+                        return result;
                     }
+                        
+                    
                 };
 
                 var hash = 

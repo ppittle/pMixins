@@ -66,6 +66,15 @@
       <DependentUpon>BasicMixin.cs</DependentUpon>
     </Compile>
     <Compile Include="BasicMixin\BasicMixinTest.cs" />
+    <Compile Include="ConversionOperators\ConversionOperators.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>ConversionOperators.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="ConversionOperators\ConversionOperators.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConversionOperators.cs</DependentUpon>
+    </Compile>
     <Compile Include="DependencyInjection\DependencyInjectionMixin.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>DependencyInjectionMixin.mixin.cs</LastGenOutput>

@@ -98,7 +98,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
         public TypeDeclaration CurrentMixinProtectedMembersWrapperClass { get; set; }
         public TypeDeclaration CurrentMixinAbstractMembersWrapperClass { get; set; }
 
-        public IEnumerable<MixinMemberResolvedResult> CurrentMixinMembers { get; set; } 
+        public IList<MixinMemberResolvedResult> CurrentMixinMembers { get; set; } 
 
         public List<string> GeneratedClassInterfaceList { get; private set; }
 

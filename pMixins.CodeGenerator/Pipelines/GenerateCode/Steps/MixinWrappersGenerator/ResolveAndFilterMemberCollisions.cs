@@ -69,7 +69,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             return true;
         }
 
-        private IEnumerable<MixinMemberResolvedResult> FilterOutCollisions(
+        private IList<MixinMemberResolvedResult> FilterOutCollisions(
             Dictionary<IType, List<MixinMemberResolvedResult>> allMixinMembers,
             IType currentMixin,
             IList<MixinMemberResolvedResult> currentMixinMembers)
@@ -109,7 +109,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             }
 
             //Remove any member where ResolveCollision set the resolution to null
-            return currentMixinMembers.Where(x => null != x);
+            return currentMixinMembers.Where(x => null != x).ToList();
         }
 
         [CanBeNull]

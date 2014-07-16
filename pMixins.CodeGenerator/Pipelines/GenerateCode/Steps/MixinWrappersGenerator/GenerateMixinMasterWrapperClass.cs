@@ -117,10 +117,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         private void CreateVirtualMemberFunctions(
             pMixinGeneratorPipelineState manager, ICodeGeneratorProxy wrapperClass)
         {
-            foreach (
-                var member in
-                    manager.CurrentMixinMembers.Select(x => x.Member)
-                        .Where(member => member.IsVirtual || member.IsOverride))
+            var membersThatNeedVirtualFuncs =
+                manager.CurrentMixinMembers.Select(x => x.Member)
+                    .DistinctMembers()
+                    .Where(
+                        member => member.IsVirtual ||
+                                  member.IsOverride ||
+                                  member.IsOverridable);
+
+            foreach (var member in membersThatNeedVirtualFuncs)
             {
                 if (member is IMethod)
                 {
@@ -289,7 +294,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             foreach (
                 var member in manager.CurrentMixinMembers
                         .Select(x => x.Member)
-                        .Where(member => !member.IsPrivate && (member.IsVirtual || member.IsOverride)))
+                        .DistinctMembers()
+                        .Where(member => !member.IsPrivate && 
+                            (member.IsVirtual || member.IsOverride || member.IsOverridable)))
             {
                 if (member is IMethod)
                 {
@@ -389,6 +396,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             proxyMemberHelper.CreateMembers(
                     manager.CurrentMixinMembers
                         .Select(x => x.Member)
+                        .DistinctMembers()
                         .Where(member => member.IsStatic),
                     generateMemberModifier: member => "internal static",
                     baseObjectIdentifierFunc: 
@@ -402,10 +410,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             proxyMemberHelper.CreateMembers(
                     manager.CurrentMixinMembers
                         .Select(x => x.Member)
+                        .DistinctMembers()
                         .Where( 
                             member => !member.IsStatic &&
                             !(member.IsAbstract && member.IsProtected) &&
                             !member.IsOverride && 
+                            !member.IsOverridable &&
                             !member.IsVirtual),
                     generateMemberModifier: member => "internal",
                     baseObjectIdentifierFunc: member => MixinInstanceDataMemberName);
@@ -414,6 +424,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             proxyMemberHelper.CreateMembers(
                     manager.CurrentMixinMembers
                         .Select(x => x.Member)
+                        .DistinctMembers()
                         .Where( member => member.IsAbstract && member.IsProtected),
                    generateMemberModifier: member => "internal",
                    baseObjectIdentifierFunc: member => MixinInstanceDataMemberName,
@@ -426,7 +437,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                 var member in
                      manager.CurrentMixinMembers
                         .Select(x => x.Member)
-                        .Where( member => member.IsVirtual || member.IsOverride))
+                        .DistinctMembers()
+                        .Where( member => member.IsVirtual || member.IsOverride || member.IsOverridable))
             {
                 #region Virtual Method
                 if (member is IMethod)

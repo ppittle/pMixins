@@ -111,8 +111,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             pMixinGeneratorPipelineState manager, CodeGeneratorProxy requirementInterface)
         {
             foreach (var abstractMember in manager.CurrentMixinMembers
-                .Select(x => x.Member)
-                .Where(member => member.IsAbstract))
+                .GetUnimplementedAbstractMembers())
             {
                 #region Process Methods
                 if (abstractMember is IMethod)

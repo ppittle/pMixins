@@ -316,20 +316,33 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                 }
                 else if (member is IProperty)
                 {
-                    //PublicVirtaulPropertyFuncGet = () => AbstractWrapper.PublicVirtualProperty;
-                    //PublicVirtualPropertySetFunc = (s) => AbstractWrapper.PublicVirtualProperty = s;
-                    sb.AppendFormat(
-                        @"{0}Get = () => {1};
-                          {0}Set = (value) => {2};",
+                    if ((member as IProperty).CanGet)
+                    {
+                        //PublicVirtaulPropertyFuncGet = () => AbstractWrapper.PublicVirtualProperty;
+                        sb.AppendFormat(
+                        @"{0}Get = () => {1};",
                         GenerateVirtualMethodFuncName(member),
                         proxyMemberHelper.GetPropertyGetterReturnBodyStatement(
                             member as IProperty,
                             (m) => MixinInstanceDataMemberName,
-                            (m) => m.Name),
-                        proxyMemberHelper.GetPropertySetterReturnBodyStatement(
-                            member as IProperty,
-                            (m) => MixinInstanceDataMemberName,
-                            (m) => m.Name));
+                            (m) =>  m.IsProtected 
+                                ? GenerateAbstractMixinMembersWrapperClass.GetProtectedMemberWrapperMemberName(m)
+                                : m.Name));
+                    }
+
+                    if ((member as IProperty).CanSet)
+                    {
+                        //PublicVirtualPropertySetFunc = (s) => AbstractWrapper.PublicVirtualProperty = s;
+                        sb.AppendFormat(
+                            @"{0}Set = (value) => {1};",
+                            GenerateVirtualMethodFuncName(member),
+                            proxyMemberHelper.GetPropertySetterReturnBodyStatement(
+                                member as IProperty,
+                                (m) => MixinInstanceDataMemberName,
+                                (m) => m.IsProtected 
+                                    ? GenerateAbstractMixinMembersWrapperClass.GetProtectedMemberWrapperMemberName(m)
+                                    : m.Name));
+                    }
                 }
             }
 

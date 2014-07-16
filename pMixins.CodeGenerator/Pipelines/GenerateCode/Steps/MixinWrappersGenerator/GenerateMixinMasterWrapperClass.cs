@@ -309,7 +309,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                         proxyMemberHelper.GetMethodBodyCallStatement(
                             member as IMethod, 
                             (m) => MixinInstanceDataMemberName, 
-                            (m) => m.Name));
+                            (m) =>
+                                m.IsProtected 
+                                ? GenerateAbstractMixinMembersWrapperClass.GetProtectedMemberWrapperMemberName(m)
+                                : m.Name));
                 }
                 else if (member is IProperty)
                 {
@@ -425,7 +428,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                     manager.CurrentMixinMembers
                         .Select(x => x.Member)
                         .DistinctMembers()
-                        .Where( member => member.IsAbstract && member.IsProtected),
+                        .Where( member => (member.IsAbstract || member.IsOverride) && member.IsProtected),
                    generateMemberModifier: member => "internal",
                    baseObjectIdentifierFunc: member => MixinInstanceDataMemberName,
                    baseObjectMemberNameFunc: member => 
@@ -438,7 +441,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                      manager.CurrentMixinMembers
                         .Select(x => x.Member)
                         .DistinctMembers()
-                        .Where( member => member.IsVirtual || member.IsOverride || member.IsOverridable))
+                        .Where( member => member.IsVirtual ||
+                            (member.IsOverride ||
+                            member.IsOverridable &&
+                            !member.IsProtected)))
             {
                 #region Virtual Method
                 if (member is IMethod)

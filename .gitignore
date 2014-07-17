@@ -112,3 +112,4 @@ UpgradeLog*.XML
 
 #Ignore Code Coverage Reports
 /CodeCoverageReports
+*.pubxml

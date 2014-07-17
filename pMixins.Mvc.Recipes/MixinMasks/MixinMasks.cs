@@ -65,4 +65,15 @@ namespace pMixins.Mvc.Recipes.MixinMasks
     public partial class ExampleTestMyEntityRepository
     {
     }
+
+    internal interface IExampleTestMyEntityRepositoryMixinMask : ICreate<MyEntity>,
+        IReadById<MyEntity>
+    {
+    }
+
+    [pMixin(Mixin = typeof(InMemoryRepository<MyEntity>),
+        Masks = new[] { typeof(IExampleTestMyEntityRepositoryMixinMask) })]
+    public partial class AnotherTestMyEntityRepository
+    {
+    }
 }

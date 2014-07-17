@@ -60,7 +60,7 @@ namespace pMixins.Mvc.Recipes.Repository
 
     public class MyEntity : IEntity
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
     }
 
     public abstract class RepositoryBase

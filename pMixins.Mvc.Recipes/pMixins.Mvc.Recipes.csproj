@@ -113,6 +113,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MixinMasks.cs</DependentUpon>
     </Compile>
+    <Compile Include="MixinMasks\MixinMasksTest.cs" />
     <Compile Include="NonPublicNonParameterlessConstructor\NonPublicNonParameterlessConstructor.mixin.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

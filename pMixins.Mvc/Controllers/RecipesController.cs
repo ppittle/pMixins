@@ -85,5 +85,12 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 
             return View();
         }
+
+        public ActionResult Repository()
+        {
+            ViewBag.Title = "The Repository";
+
+            return View();
+        }
     }
 }

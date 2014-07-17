@@ -1,0 +1,22 @@
+﻿
+@using CopaceticSoftware.pMixins.Mvc.Extensions
+
+
+
+<h2>Mixin Masks</h2>
+<p>
+    Intro
+</p>
+
+@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "InMemoryRepository")
+
+@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "ExampleTestMyEntityRepository")
+
+
+Test:
+@Html.RenderSourceClass("MixinMasks/MixinMasksTest.cs", "MixinMasksTest")
+
+
+@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "IExampleTestMyEntityRepositoryMixinMask")
+
+@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "AnotherTestMyEntityRepository")

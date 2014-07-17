@@ -78,5 +78,12 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
 
             return View();
         }
+
+        public ActionResult MixinMasks()
+        {
+            ViewBag.Title = "Mixin Masks";
+
+            return View();
+        }
     }
 }

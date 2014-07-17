@@ -135,6 +135,7 @@
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsInheritedByTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinsShareDependency.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\SimpleMixinDependency.cs" />
+    <Compile Include="IntegrationTests\CompileTests\MixinMasks\MaskShouldFilterInterfacesAppliedToTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinMasks\SimpleInterfaceMask.cs" />
     <Compile Include="IntegrationTests\CompileTests\ParsingTests\WhenThereIsAParseErrorLaterInTheFile.cs" />
     <Compile Include="IntegrationTests\CompileTests\ProtectedMembersTests\TargetCanAccessProtectedMembers.cs" />

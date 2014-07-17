@@ -111,6 +111,16 @@ namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
                     methodName, bindingFlags, args);
         }
 
+        public static MemberInfo GetMember(this CompilerResults compilerResults,
+            string typeName, object[] constructorArgs,
+            string memberName, BindingFlags bindingFlags = ReflectionHelper.DefaultBindingFlags)
+        {
+            return ReflectionHelper.LoadMember(
+                compilerResults.TryLoadCompiledType(typeName, constructorArgs),
+                memberName,
+                bindingFlags);
+        }
+
         public static string PrettyPrintErrorList(this CompilerResults compilerResults)
         {
             return
@@ -275,6 +285,15 @@ namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
             }
         }
 
+        [CanBeNull]
+        public static MemberInfo LoadMember(object target, string member, BindingFlags bindingFlags)
+        {
+            if (null == target)
+                Assert.Fail("Couldn't load target type (target type is null");
+
+            return target.GetType().GetMember(member, bindingFlags).FirstOrDefault();
+        }
+
         [NotNull]
         private static MethodInfo LoadMethod(object target, string methodName, BindingFlags bindingFlags, Type[] types = null)
         {
@@ -283,7 +302,6 @@ namespace CopaceticSoftware.pMixins.Tests.Common.Extensions
 
             if (null == types)
                 types = new Type[0];
-
             
             var method =
                 target.GetType().GetMethod(methodName, bindingFlags, null, types, null);

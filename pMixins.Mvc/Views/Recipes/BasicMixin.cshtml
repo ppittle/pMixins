@@ -2,13 +2,101 @@
 
 <h2>Hello World</h2>
 
-@Html.RenderSourceClass("BasicMixin/BasicMixin.cs", "AnswerToTheUniverseMixin")
-
-<p>Some discussion..  Now see this class:</p>
+<p>
+    Welcome to <span class="logo-code">[<span class="typ">p</span>Mixins]</span>!
+</p>
+<p>
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> allows code
+    reuse through composition by mixing in members from a <em>Mixin</em> into a <em>Target</em>.
+</p>
+<p>
+    So let's create a class that contain methods that we want to reuse in multiple
+    places:
+</p>
 
 @Html.RenderSourceClass("BasicMixin/BasicMixin.cs", "HelloWorldMixin")
 
+<p>
+    The <em>HelloWorldMixin</em> contains the method <code>GetHelloWorld</code>.  So let's
+    mix it in to a <em>Target</em> using <span class="logo-code">[<span class="typ">p</span>Mixins]</span>.
+</p>
+
+@Html.RenderSourceClass("BasicMixin/BasicMixin.cs", "Target")
+<p>
+    That's it.  Now as soon as you press save in Visual Studio
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    will run behind the scenes and add the <code>GetHelloWorld</code> method to the code behind file.
+    Which means you can immediately use it and even see it in
+    <a href="http://msdn.microsoft.com/en-us/library/hcw1s69b.aspx">IntelliSense</a>:
+    <div class="text-center">
+        <img src="~/Content/Images/helloWorldIntellisense.png" class="img-rounded" />
+    </div>
+</p>
+<p>
+    <strong>Going Further</strong>
+</p>
+<p>
+    Lets expand upon the Hello World exmaple, by defining a new <em>Mixin</em> with a new method,
+    <code>AnswerToTheUniverse</code>:
+</p>
+
+@Html.RenderSourceClass("BasicMixin/BasicMixin.cs", "AnswerToTheUniverseMixin")
+
+<p>
+    And let's mixin both the <em>AnswerToTheUniverse</em> and <em>HelloWorldMixin</em>:
+</p>
+
 @Html.RenderSourceClass("BasicMixin/BasicMixin.cs", "BasicMixinExample")
 
+<p>
+    So now <em>BasicMixinExample</em> will have both the <code>AnswerToTheUniverse</code> and
+    <code>GetHelloWorld</code> methods.
+</p>
+<p>
+    So let's test it with the <em>BasicMixinTest</em> class.
+</p>
+
 @Html.RenderSourceClass("BasicMixin/BasicMixinTest.cs", "BasicMixinTest")
+<p>
+    Let's take a look at every test method in turn:
+</p>
+
+<div class="col-md-offset-1 col-md-10">
+    <dl>
+        <dt><code>CanCallHelloWorld</code></dt>
+        <dd>
+            <p>
+                This shows that <em>BasicMixinExample</em> both has a method, <code>GetHelloWorld</code>,
+                and that calling it returns the result defined in <em>HelloWorldMixin</em> ("Hello World").
+            </p>
+        </dd>
+        <dt><code>CanGetAnswerToTheUniverse</code></dt>
+        <dd>
+            <p>
+                This shows that <em>BasicMixinExample</em> both has a method, <code>AnswerToTheUniverse</code>,
+                and that calling it returns the result defined in <em>AnswerToTheUniverseMixin</em> (42).
+            </p>
+        </dd>
+        <dt><code>CanDoImplicitConversion</code></dt>
+        <dd>
+            <p>
+                This shows that <em>BasicMixinExample</em> can be
+                <a href="http://msdn.microsoft.com/en-us/library/z5z9kes2.aspx">implicitly</a>
+                converted to the <em>HelloWorldMixin</em>.  This means that <em>BasicMixinExample</em>
+                could be passed to any method or property expecting a <em>HelloWorldMixin</em>
+                without an explicit cast.
+            </p>
+        </dd>
+        <dt><code>CanDoExplicitConversion</code></dt>
+        <dd>
+            <p>
+                This shows that <em>BasicMixinExample</em> can be
+                <a href="http://msdn.microsoft.com/en-us/library/xhbhezf4.aspx">explicitly</a>
+                converted to the <em>AnswerToTheUniverseMixin</em>.  This means that <em>BasicMixinExample</em>
+                can be cast to a <em>AnswerToTheUniverseMixin</em>, even if it's only considered an object
+                at the current scope.
+            </p>
+        </dd>
+    </dl>
+</div>
 

@@ -36,6 +36,9 @@ namespace pMixins.Mvc.Recipes.BasicMixin
         }
     }
 
+    [pMixin(Mixin = typeof(HelloWorldMixin))]
+    public partial class Target { }
+
     [pMixin(Mixin = typeof(AnswerToTheUniverseMixin))]
     [pMixin(Mixin = typeof(HelloWorldMixin))]
     public partial class BasicMixinExample

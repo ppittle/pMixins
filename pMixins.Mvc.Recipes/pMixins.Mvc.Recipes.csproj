@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CopaceticSoftware.pMixins">
-      <HintPath>..\packages\pMixins.0.1.8.313-prerelease\lib\net35\CopaceticSoftware.pMixins.dll</HintPath>
+    <Reference Include="CopaceticSoftware.pMixins, Version=0.1.9.348, Culture=neutral, PublicKeyToken=575e604687616b44, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\pMixins.0.1.9.349-prerelease\lib\net35\CopaceticSoftware.pMixins.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>

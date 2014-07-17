@@ -105,6 +105,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Introduction.cs</DependentUpon>
     </Compile>
+    <Compile Include="MixinDependency\MixinDependency.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>MixinDependency.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="MixinDependency\MixinDependency.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MixinDependency.cs</DependentUpon>
+    </Compile>
     <Compile Include="MixinMasks\MixinMasks.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>MixinMasks.mixin.cs</LastGenOutput>

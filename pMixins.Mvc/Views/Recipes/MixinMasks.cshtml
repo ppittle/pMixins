@@ -1,22 +1,61 @@
-﻿
-@using CopaceticSoftware.pMixins.Mvc.Extensions
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
 
 
 <h2>Mixin Masks</h2>
 <p>
-    Intro
+    The <code>pMixin.Masks</code> property allows you to specify a filter for which members will be mixed
+    into the <em>Target</em>.  This can be useful in a scenario when you have a single object that implements several
+    interfaces, but you only want to expose a subset of those interfaces in the <em>Target</em>.
+</p>
+<p>
+    For example, in the @Html.ActionLink("Repository", "Repository") recipe, we introduced several
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> interfaces.  To continue
+    this scenario say we wanted to be able to quickly build test repositories.  We
+    could build a simple in-memory generic repository that could be mixed into the
+    entity specific implementations:
 </p>
 
 @Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "InMemoryRepository")
-
+<p>
+    This looks good, until we start adding some business logic.  Let's say we
+    need to create a repository for <code>MyEntity</code>, but it should only be able to
+    be <em>Created</em> and <em>Read</em>.  It can't be <em>Deleted</em> or <em>Updated</em>,
+    so we don't want these methods exposed via the <em>Repository.</em>
+    Unfortunately, if we mixin in <code>InMemoryRepository</code> as is this will happen; additional
+    method we don't want will be mixed in.
+</p>
+<p>
+    To solve this problem we can uee <code>pMixin.Masks</code>.  By specifying only the interfaces
+    we want to mixin, <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    will restrict the members that are mixed in and which interfaces the Target will consequently
+    implement:
+</p>
 @Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "ExampleTestMyEntityRepository")
 
-
-Test:
+<p>
+    So let's see it in action.  In the test class below we create an instance of our repository.  The
+    <code>CanWorkWithRepository</code> test method verifies we can still access the <em>ICreate</em> and
+    <em>IReadById</em> interfaces method.  The <code>RepositoryDoesNotImplementIUpdate</code> test method
+    verifies that the repository can not be cast to <em>IUpdate</em>, which verifies that the repository
+    is not implementing this interface.
+</p>
 @Html.RenderSourceClass("MixinMasks/MixinMasksTest.cs", "MixinMasksTest")
 
-
-@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "IExampleTestMyEntityRepositoryMixinMask")
-
+<strong>Futher Thoughts</strong>
+<p>
+    <code>pMixin.Masks</code> is not restricted to interfaces implemented by the <em>Mixin</em>, but it
+    can be any interface.  However, in this case, only inherited interfaces are considered, <strong>not</strong>
+    members.
+</p>
+<p>
+    So this could be beneficial in a real world scenario.  It would be common for the <em>MyEntity</em> 
+    repository to have a matching interface, so that consumers wouldn't be tightly coupled to a particular
+    implementation.  So we could have for example:
+</p>
+@Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "IExampleTestMyEntityRepository")
+<p>
+    In this case we could pass <code>IExampleTestMyEntityRepository</code> directly to 
+    <code>pMixin.Masks</code>:
+</p>
 @Html.RenderSourceClass("MixinMasks/MixinMasks.cs", "AnotherTestMyEntityRepository")

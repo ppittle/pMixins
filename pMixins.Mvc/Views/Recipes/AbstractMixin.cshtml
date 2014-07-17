@@ -33,10 +33,23 @@
 </p>
 @Html.RenderSourceClass("AbstractMixin/AbstractMixin.cs", "AbstractMixinTest")
 <p>
-    In the <em>CanCallAbstractProperty</em> Test we can see that the target <em>AbstractMixinExample</em>
-    has the abstract Property <em>Name</em> Mixed in and it operates as expected.
+    Let's take a look at each test method in turn:
 </p>
-<p>
-    In the <em>CanPrintName</em> Test we can see that the normal method <em>PrintName</em> is
-    Mixed in operates as expected; working with the abstract <em>Name</em> Property.
-</p>
+<div class="col-md-offset-1 col-md-10">
+    <dl>
+        <dt><code>CanCallAbstractProperty</code></dt>
+        <dd>
+            <p>
+                In this test we can see that the target <em>AbstractMixinExample</em>
+                has the abstract Property <em>Name</em> Mixed in and it operates as expected.
+            </p>
+        </dd>
+        <dt><code>CanPrintName</code></dt>
+        <dd>
+            <p>
+                In this test we can see that the normal method <em>PrintName</em> is
+                Mixed in operates as expected; working with the abstract <em>Name</em> Property.
+            </p>
+        </dd>
+    </dl>
+</div>

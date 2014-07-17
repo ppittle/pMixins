@@ -44,7 +44,7 @@ namespace pMixins.Mvc.Recipes.Repository
 
     public interface IReadAll<out TEntity>
     {
-        TEntity ReadAll();
+        IEnumerable<TEntity> ReadAll();
     }
 
     public interface ICreate<in TEntity>

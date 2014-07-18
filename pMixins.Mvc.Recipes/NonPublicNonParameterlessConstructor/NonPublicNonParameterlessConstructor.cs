@@ -24,6 +24,11 @@ namespace pMixins.Mvc.Recipes.NonPublicNonParameterlessConstructor
 {
     public class Mixin
     {
+        public Mixin()
+        {
+            FavoriteNumber = 42;
+        }
+
         protected Mixin(int favoriteNumber)
         {
             FavoriteNumber = favoriteNumber;

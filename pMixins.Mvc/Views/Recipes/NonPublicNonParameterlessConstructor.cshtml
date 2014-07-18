@@ -1,20 +1,79 @@
 ﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
 
 
-        <h2>Non Public &amp; Non Parameterless Constructor</h2>
-        <p>
-            Intro
-        </p>
-        <p> Subject to change: https://github.com/ppittle/pMixins/issues/19 </p>
-        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "Mixin")
-        
-        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "AbstractMixin")
-        
-        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "NonPublicNonParameterlessConstructor")
-        
-        @Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructorTest.cs", "NonPublicNonParameterlessConstructorTest")
-   
+<h2>Non Public &amp; Non Parameterless Constructor</h2>
+<p>
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> will automatically
+    try and create instances of <em>Mixin</em>s for you by using the <code>MixinActivatorFactory</code>.
+    However, this class cannot create an instance of a <em>Mixin</em> if it does not have
+    a parameterless constructor (the constructor <em>can</em> be <em>protected</em> though!)
+</p>
+<p>
+    If you want to mixin a <em>Mixin</em> with a non-parameterless constructor (and you aren't using
+    <a href="@Url.Action("DependencyInjectionMixin")">Dependency Injection</a>) or if you want to use a
+    specific constructor, you'll need to create instances of <em>Mixin</em>s in your <em>Target</em> class.
+    You can tell <span class="logo-code">[<span class="typ">p</span>Mixins]</span> you want to do this
+    by setting the <code>ExplicitlyInitializeMixin </code> flag to <code>true</code>.
+</p>
+<p>
+    This flag causes <span class="logo-code">[<span class="typ">p</span>Mixins]</span> to add a
+    special interface, <code>IMixinConstructorRequirement</code> to your <em>Target</em>.
+    This interfaces has a method, <code>InitializeMixin</code> where you can create instances
+    of <em>Mixin</em>s using whichever constructor you want.
+</p>
+<p>
+    There are two special caveats to this.  First, if the <em>Mixin</em> is <code>abstract</code>, C# will
+    not let you create an instance of an abstract class. Second, if you want to call a
+    <code>protected</code> constructor, C# will not let you.  For both cases you can
+    create an instance of the abstract wrapper
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> creates for you
+    (see @Html.ActionLink("How it Works", "Index", "HowItWorks") for more information on the abstract wrapper).
+    This class will always be <code>concrete</code> and all <code>protected</code> constructors will
+    be promoted to <code>public</code>.
+</p>
+<p>
+    So let's define a two <em>Mixin</em>s we can use to demonstrate this.  First is <em>Mixin</em>
+    which has a <code>public</code> parameterless constructor and a <code>protected</code> constructor
+    that takes an <code>int</code>.
+</p>
+
+@Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "Mixin")
+<p>
+    Second is <em>AbstractMixin</em>, which only has a <code>protected</code> non-parameterless constructor:
+</p>
+@Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "AbstractMixin")
+
+<p>
+    So let's see how we can mixin <em>Mixin</em> and <em>AbstractMixin</em> into a <em>Target</em>:
+</p>
+
+@Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructor.cs", "NonPublicNonParameterlessConstructor")
+
+<p>
+    The first thing to notice in <em>NonPublicNonParameterlessConstructor</em> is
+    both <em>pMixin</em> attributes set the <code>ExplicitlyInitializeMixin </code> flag to <code>true</code>.
+    The <code>InitializeMixin</code> is then implemented for both <em>Mixin</em>s.  In this case they are
+    implemented <em>explicitly</em>.  This is best practice, as there is no reason for
+    <em>Target</em> to expose this method publically.
+</p>
+<p>
+    Looking deeper into the <code>InitializeMixin</code> methods, the first thing to notice is the
+    method for <em>Mixin</em> has to work a lot harder to get to the <code>MixinAbstractWrapper</code>
+    as it is buried in the <span class="logo-code">[<span class="typ">p</span>Mixins]</span>'s
+    <em>Auto Generated</em> infrastructure.  There is currently an improvement issue registered
+    on <a href="https://github.com/ppittle/pMixins/issues/19">GitHub</a> to fix this.  Also, it is
+    important to notice the use of <code>this</code> in the parameter list for the
+    <em>abstract wrapper</em>s constructor.  These wrappers require an instance of the
+    <em>Target</em> be passed in.
+</p>
+<p>
+    Finally, <em>NonPublicNonParameterlessConstructorTest</em> proves that we can call both
+    <code>FavoriteNumber</code> and <code>AbstractFavoriteNumber</code> from the <em>Target</em>
+    <em>NonPublicNonParameterlessConstructor</em>:
+</p>
+@Html.RenderSourceClass("NonPublicNonParameterlessConstructor/NonPublicNonParameterlessConstructorTest.cs", "NonPublicNonParameterlessConstructorTest")
 
 
 
-        
+
+

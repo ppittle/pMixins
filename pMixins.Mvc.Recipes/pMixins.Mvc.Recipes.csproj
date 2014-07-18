@@ -77,6 +77,7 @@
       <DependentUpon>CastingAndConversionOperators.cs</DependentUpon>
     </Compile>
     <Compile Include="CastingAndConversionOperators\CastingAndConversionOperatorsTest.cs" />
+    <Compile Include="CastingAndConversionOperators\CustomAsIsHelper.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionMixin.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>DependencyInjectionMixin.mixin.cs</LastGenOutput>

@@ -45,24 +45,6 @@ namespace pMixins.Mvc.Recipes.CastingAndConversionOperators
         }
 
         [Test]
-        public void IsOperator()
-        {
-            var target = new CastingAndConversionOperators();
-
-            //Example of 'is' in action
-            Assert.True(((object)new Mixin()) is SomeBaseClass);
-
-            //Unfortunately, there's no way to do this with classes:
-            //http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator
-            Assert.False(target is SomeBaseClass);
-
-            Assert.True(target.Is<SomeBaseClass>());
-
-            //Works on interfaces just fine
-            Assert.True(target is ISomeInterface);
-        }
-
-        [Test]
         public void AsOperator()
         {
             var target = new CastingAndConversionOperators();
@@ -78,6 +60,24 @@ namespace pMixins.Mvc.Recipes.CastingAndConversionOperators
 
             //Works on interfaces just fine
             Assert.NotNull(target as ISomeInterface);
+        }
+
+        [Test]
+        public void IsOperator()
+        {
+            var target = new CastingAndConversionOperators();
+
+            //Example of 'is' in action
+            Assert.True(((object)new Mixin()) is SomeBaseClass);
+
+            //Unfortunately, there's no way to do this with classes:
+            //http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator
+            Assert.False(target is SomeBaseClass);
+
+            Assert.True(target.Is<SomeBaseClass>());
+
+            //Works on interfaces just fine
+            Assert.True(target is ISomeInterface);
         }
     }
 }

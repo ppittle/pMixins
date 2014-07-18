@@ -4,18 +4,147 @@
 
 <h2>Casting and Conversion (<em>is</em> / <em>as</em>) Operators</h2>
 
-<a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
-
-<a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a>
-
-<a href="http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator">Stack Overflow: C# Implicit Conversion Operator and is/as operator</a>
-
+<p>
+    This recipe explores how <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    handles <a href="http://msdn.microsoft.com/en-us/library/z5z9kes2.aspx">implicitly</a>
+    and <a href="http://msdn.microsoft.com/en-us/library/xhbhezf4.aspx">explicitly</a> casting
+    a <em>Target</em> to one of its <em>Mixin</em> types as well as the impact on the built in
+    <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
+    and
+    <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a>
+    operators.
+</p>
+<p>
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> adds
+    <a href="http://msdn.microsoft.com/en-us/library/09479473.aspx">Conversion Operators</a>
+    in the <em>Target's</em> code-behind to support implicit and explicit casting.  This means
+    the Target can always be converted to one of its <em>Mixin</em>s types.
+</p>
+<p>
+    The
+    <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
+    and
+    <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a> operators
+    are a different story.  Given a <em>Target</em> <code>target</code> and a <em>Mixin</em> <code>mixin</code>,
+    the expression <code>target is typeof(mixin)</code> will always be <code>false</code>.  However, if <em>Mixin</em>
+    implements an interface <code>IInterface</code> then <code>target is typeof(IInterface)</code> will always
+    be <code>true</code>.  The reason for this difference is because
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> will add every interface a <em>Mixin</em>
+    implements to the <em>Target</em>, but because of
+    <a href="http://msdn.microsoft.com/en-us/library/84eaw35x.aspx">Single Inheritance</a>
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> can not force the <em>Target</em>
+    to inherit <em>Mixin</em>.  To read more about the limitations and inner workings of
+    the
+    <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
+    and
+    <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a> operators
+    see this Stack Overflow article:
+    <a href="http://stackoverflow.com/questions/18390664/c-sharp-implicit-conversion-operator-and-is-as-operator">
+        C# Implicit Conversion Operator and is/as operator
+    </a>.
+</p>
+<p>
+    To overcome these limitations, <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    offers custom <a href="http://msdn.microsoft.com/en-us//library/bb383977.aspx">Extension Methods</a>
+    that provide <em>is</em> and <em>as</em> functionality that <strong>do</strong> work with the
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> infrastructure:
+    <code>AsIsHelper.As</code> and <code>AsIsHelper.Is</code>  So let's see this in action:
+</p>
+<p>
+    First, let's define a basic interface:
+</p>
 @Html.RenderSourceClass("CastingAndConversionOperators/CastingAndConversionOperators.cs", "ISomeInterface")
-
+<p>
+    and a basic abstract base class:
+</p>
 @Html.RenderSourceClass("CastingAndConversionOperators/CastingAndConversionOperators.cs", "SomeBaseClass")
-
+<p>
+    We'll create a <em>Mixin</em> that inherits from <code>SomeBaseClass</code> and implements <code>ISomeInterface</code>:
+</p>
 @Html.RenderSourceClass("CastingAndConversionOperators/CastingAndConversionOperators.cs", "Mixin")
-
+<p>
+    And here is a <em>Target</em> that mixes in <code>Mixin</code>:
+</p>
 @Html.RenderSourceClass("CastingAndConversionOperators/CastingAndConversionOperators.cs", "CastingAndConversionOperators")
+<p>
+    Now that we have the classes / interfaces necessary, let's look at the test class that
+    ties all of these concepts together.  Each method is explained in detail below.
+</p>
 
 @Html.RenderSourceClass("CastingAndConversionOperators/CastingAndConversionOperatorsTest.cs", "CastingAndConversionOperatorsTest")
+
+<div class="col-md-offset-1 col-md-10">
+    <dl>
+        <dt><code>ImplicitConversion</code></dt>
+        <dd>
+            <p>
+                This test proves that the <em>CastingAndConversionOperators</em>
+                can be
+                <a href="http://msdn.microsoft.com/en-us/library/z5z9kes2.aspx">implicitly</a>
+                cast as both <em>Mixin</em>'s implemented interfaces and inherited base class.
+            </p>
+        </dd>
+        <dt><code>ExplicitConversion</code></dt>
+        <dd>
+            <p>
+                This test proves that the <em>CastingAndConversionOperators</em>
+                can be
+                <a href="http://msdn.microsoft.com/en-us/library/xhbhezf4.aspx">explicitly</a>
+                cast as both <em>Mixin</em>'s implemented interfaces and inherited base class.
+            </p>
+        </dd>
+        <dt><code>AsOperator</code></dt>
+        <dd>
+            <p>
+                This test shows the operations of the
+                <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a>
+                and <code>AsIsHelper.As</code>. It first demonstrates that <em>as</em>
+                works fine against <code>Mixin</code> and the class <code>SomeBaseClass</code>.
+                It then shows that it does not work against
+                <code>CastingAndConversionOperators</code> and the class <code>SomeBaseClass</code>.
+                Then it shows that <code>AsIsHelper.As</code> does work.  Finally,
+                it shows that <a href="http://msdn.microsoft.com/en-us/library/cscsdfbt.aspx">as</a>
+                works fine for <code>CastingAndConversionOperators</code> and the interface
+                <code>ISomeInterface</code>.
+            </p>
+        </dd>
+        <dt><code>IsOperator</code></dt>
+        <dd>
+            <p>
+                This test shows the operations of the
+                <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
+                and <code>AsIsHelper.Is</code>.  It first demonstrates that <em>is</em>
+                works fine against <code>Mixin</code> and the class <code>SomeBaseClass</code>.
+                It then shows that it does not work against
+                <code>CastingAndConversionOperators</code> and the class <code>SomeBaseClass</code>.
+                Then it shows that <code>AsIsHelper.Is</code> does work.  Finally,
+                it shows that <a href="http://msdn.microsoft.com/en-us/library/scekt9xw.aspx">is</a>
+                works fine for <code>CastingAndConversionOperators</code> and the interface
+                <code>ISomeInterface</code>.
+            </p>
+        </dd>
+    </dl>
+</div>
+<div class="clearfix"></div>
+<p>
+    <strong>Going Further</strong>
+</p>
+<p>
+    <code>AsIsHelper</code> is actually a static wrapper exposing
+    an instance of <code>IAsIsImplementation</code>, which does the real work.
+    This means it is possible to provide a custom implementation for checking
+    <em>is</em> and <em>as</em> operations.
+</p>
+
+<p>
+    The <code>CustomAsIsHelper</code> does just that below:
+</p>
+
+@Html.RenderSourceClass("CastingAndConversionOperators/CustomAsIsHelper.cs", "CustomAsIsHelper")
+<p>
+    For <code>CustomAsIsHelper</code> to be wired into the
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    infrastructure, it's is necessary to register with the 
+    <code>AsIsHelper</code>.  This is shown below:
+</p>
+@Html.RenderSourceClass("CastingAndConversionOperators/CustomAsIsHelper.cs", "CustomAsIsHelperRegister")

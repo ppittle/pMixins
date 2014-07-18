@@ -189,6 +189,7 @@
     <Compile Include="BAL\RecipeRepository.cs" />
     <Compile Include="BAL\SourceCodeRepository.cs" />
     <Compile Include="Controllers\HowItWorksController.cs" />
+    <Compile Include="Controllers\InstallationController.cs" />
     <Compile Include="Controllers\MotivationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IntroductionController.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Views\Recipes\CastingAndConversionOperators.cshtml" />
     <Content Include="Views\Recipes\MixinMasks.cshtml" />
     <Content Include="Views\Recipes\Repository.cshtml" />
+    <Content Include="Views\Installation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

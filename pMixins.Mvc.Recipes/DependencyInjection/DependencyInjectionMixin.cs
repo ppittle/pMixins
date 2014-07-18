@@ -23,14 +23,26 @@ using NUnit.Framework;
 
 namespace pMixins.Mvc.Recipes.DependencyInjection
 {
+    public interface IDependency
+    {
+        string Name { get; }
+    }
+
+    public class Dependency : IDependency
+    {
+        public string Name { get { return "DI Example!"; } }
+    }
+
     public class DependencyInjectionMixin
     {
-        public DependencyInjectionMixin(string activator)
+        private readonly IDependency _dependency;
+
+        public DependencyInjectionMixin(IDependency dependency)
         {
-            Activator = activator;
+            _dependency = dependency;
         }
 
-        public string Activator { get; private set; }
+        public string DependencyName { get { return _dependency.Name; } }
     }
 
     public class DependencyInjector : IMixinActivator
@@ -39,7 +51,7 @@ namespace pMixins.Mvc.Recipes.DependencyInjection
         {
             if (typeof (DependencyInjectionMixin).IsAssignableFrom(typeof (T)))
             {
-                constructorArgs = constructorArgs.Union(new object[] {"DI"}).ToArray();
+                constructorArgs = constructorArgs.Union(new object[] {new Dependency()}).ToArray();
             }
 
             return new DefaultMixinActivator().CreateInstance<T>(constructorArgs);
@@ -71,8 +83,8 @@ namespace pMixins.Mvc.Recipes.DependencyInjection
         public void CanCallActivator()
         {
             Assert.AreEqual(
-                "DI",
-                new DependencyInjectionMixinExample().Activator);
+                "DI Example!",
+                new DependencyInjectionMixinExample().DependencyName);
         }
     }
 }

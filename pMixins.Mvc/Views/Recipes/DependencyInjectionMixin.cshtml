@@ -2,16 +2,88 @@
 
 <h2>Dependency Injecting Mixins</h2>
 <p>
-    Intro
+    <a href="http://www.codeproject.com/Articles/615139/An-Absolute-Beginners-Tutorial-on-Dependency-Inver">
+        Dependency Injection
+    </a>
+    is a powerful principle for creating loosely couple,  maintainable and testable code.  And
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> supports it!
 </p>
 <p>
-    So given the following Mixin definition:
+    You can configure <span class="logo-code">[<span class="typ">p</span>Mixins]</span> to use
+    Dependency Injection when creating instances of <em>Mixin</em> and <em>Interceptors / Aspects</em>.
+    Under the hood, <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
+    uses the <code>DefaultMixinActivator</code> (via the <code>MixinActivatorFactory</code>)
+    to create <em>Mixin</em> instances.  The <code>DefaultMixinActivator</code> in turn
+    uses
+    <a href="http://msdn.microsoft.com/en-us/library/system.activator.createinstance(v=vs.110).aspx">
+        Activator.CreateInstance
+    </a>.
 </p>
+<p>
+    You can create a custom <code>IMixinActivator</code> that hooks into a Dependency Injection 
+    framework.  There is a issue in <a href="https://github.com/ppittle/pMixins/issues/25">GitHub</a>
+    to provide this for common DI frameworks, but for now it's a manual process.
+</p>
+<p>
+    Once you have a custom <code>IMixinActivator</code> wire it into the <code>MixinActivatorFactory</code>
+    and you're done.  So let's see this in action.
+</p>
+<p>
+    First let's define a new interface, <em>IDependency</em>:
+</p>
+@Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "IDependency")
+<p>
+    And a <em>Mixin</em> that consumes an <em>IDependency</em>:
+</p>
+
 @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixin")
+
+<p>
+    And let's get our <em>Target</em> definition out of the way.  Notice, there's nothing special here:
+</p>
 
 @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixinExample")
 
+<p>
+    Finally, we'll need a concrete implementation of <em>IDependency</em> for our example to work:
+</p>
+
+@Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "Dependency")
+
+<p>
+    Now that we have the basics out of the way, let's create our custom <code>IMixinActivator</code>:
+</p>
+
 @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjector")
+<p>
+    The first this to notice is <em>DependencyInjector</em> implements <em>IMixinActivator</em>.  Moving on,
+    this example only deals with the <em>DependencyInjectionMixin</em> we created earlier.  In a real world
+    scenario, you'd probably wanted to cover many more cases or hook into a proper DI framework.
+</p>
+<p>
+    Another important thing to note is the parameter <code>constructorArgs</code>.  
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span> will pass in objects
+    required by certain wrappers (predominantly references to the <em>Target</em> ) so it 
+    is necessary to ensure that these parameters are passed along to objects being created.
+    Finally, <em>DependencyInjector</em> makes use of the <em>DefaultMixinActivator</em>,
+    which is not required, but is perfectly fine.
+</p>
+<p>
+    So now let's test the code to make sure Dependency Injection is working:
+</p>
 
 @Html.RenderSourceClass("DependencyInjection/DependencyInjectionMixin.cs", "DependencyInjectionMixinExampleTest")
+
+<p>
+    The big take away from <em>DependencyInjectionMixinExampleTest</em> is that it 
+    registers our custom <code>IMixinActivator</code> in the <code>MainSetup</code>
+    method.  This method runs before <code>CanCallActivator</code>, so we know it is wired
+    in.
+</p>
+<p>
+    The <code>Cleanup</code> method is not strictly necessarily.  It cleans up the 
+    working environment by restoring the default <code>IMixinActivator</code> to make
+    sure this doesn't accidentally impact any other tests.  In a real world scenario, you
+    wouldn't need to restore <em>DefaultMixinActivator</em>.
+</p>
 

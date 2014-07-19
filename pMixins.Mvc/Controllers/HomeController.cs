@@ -26,9 +26,8 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
         public ActionResult Index()
         {
             if (Request.Url.AbsoluteUri.ToLower().Contains("pmixins.apphb.com"))
-               return RedirectPermanent("http://pmixins.com/");
+               return RedirectPermanent("http://pmixins.com:80/");
             
-
 
             return View();
         }

@@ -213,6 +213,8 @@
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
     <Content Include="Content\Images\helloWorldIntellisense.png" />
     <Content Include="Content\Images\logo_digitaslbi.svg" />
+    <Content Include="Content\Images\pMixinsAddNewItem.png" />
+    <Content Include="Content\Images\pMixinsExtensionAndUpdates.png" />
     <Content Include="Content\Images\VisualStudio2013_black.png" />
     <Content Include="Content\Images\WhatIsPMixins.png" />
     <Content Include="Content\theme.html" />

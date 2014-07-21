@@ -168,13 +168,15 @@ namespace CopaceticSoftware.pMixins.Attributes
         /// </summary>
         public bool ExplicitlyInitializeMixin { get; set; }
 
+        /* Implement in later version
         /// <summary>
         /// An optional <see cref="Type"/> that can initialize the <see cref="Mixin"/>.
         /// 
         /// The <see cref="Type"/> must meet the following requirements:
         ///    - public parameterless constructor
-        ///    - 
+        ///    - must implement <see cref="IMixinActivator"/>
         /// </summary>
         public Type ExplicitInitializer { get; set; }
+         */
     }
 }

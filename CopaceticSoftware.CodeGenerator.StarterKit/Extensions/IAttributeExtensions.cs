@@ -55,9 +55,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 }
 
                 var inheritedArg = attributeUsageAttr.NamedArguments
-                    .First(na => na.Key.Name == "Inherited");
+                    .Where(na => na.Key.Name == "Inherited")
+                    .ToList();
 
-                if (System.Convert.ToBoolean(inheritedArg.Value.ConstantValue) == true)
+                if (inheritedArg.Count > 0 &&
+                    System.Convert.ToBoolean(inheritedArg[0].Value.ConstantValue) == true)
                     yield return attr;
 
                 //else - it's not inherited.

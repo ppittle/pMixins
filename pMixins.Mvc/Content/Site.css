@@ -186,6 +186,10 @@ input[type="checkbox"].input-validation-error {
      text-decoration: none;
  }
 
+.btn-default {
+    color: #428bca;
+}
+
  .list-group-item .glyphicon {
      float: left;
      margin-right: 10px;

@@ -57,6 +57,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AbstractMixin.cs</DependentUpon>
     </Compile>
+    <Compile Include="AspectOrientedProgramming\AspectOrientedProgramming.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>AspectOrientedProgramming.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="AspectOrientedProgramming\AspectOrientedProgramming.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AspectOrientedProgramming.cs</DependentUpon>
+    </Compile>
     <Compile Include="BasicMixin\BasicMixin.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>BasicMixin.mixin.cs</LastGenOutput>
@@ -125,6 +134,7 @@
       <DependentUpon>MixinMasks.cs</DependentUpon>
     </Compile>
     <Compile Include="MixinMasks\MixinMasksTest.cs" />
+    <Compile Include="Motivation\BaseRepository.cs" />
     <Compile Include="NonPublicNonParameterlessConstructor\NonPublicNonParameterlessConstructor.mixin.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

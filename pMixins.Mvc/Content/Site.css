@@ -47,6 +47,65 @@ input[type="checkbox"].input-validation-error {
 }
 */
 
+
+/*Callouts http://www.snip2code.com/Snippet/30389/This-is-the-Twitter-Bootstrap-documentat*/
+.bs-callout {
+    margin: 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid #eee;
+}
+
+.bs-callout h4 {
+    margin-top: 0;
+}
+
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+
+.bs-callout code,
+.bs-callout .highlight {
+    background-color: #fff;
+}
+
+/* Themes for different contexts */
+.bs-callout-danger {
+    background-color: #fcf2f2;
+    border-color: #dFb5b4;
+}
+
+.bs-callout-warning {
+    background-color: #fefbed;
+    border-color: #f1e7bc;
+}
+
+.bs-callout-info {
+    background-color: #f0f7fd;
+    border-color: #d0e3f0;
+}
+
+.bs-callout-danger h4,
+.bs-callout-danger a.alert-link {
+    color: #B94A48;
+}
+
+.bs-callout-warning h4,
+.bs-callout-warning a.alert-link {
+    color: #C09853;
+}
+
+.bs-callout-info h4,
+.bs-callout-info a.alert-link {
+    color: #3A87AD;
+}
+
+.bs-callout a.alert-link {
+    font-weight: bold;
+}
+
+/*End CallOuts*/
+
+
 .jumbotron .container {
     max-width: 100%;
 }
@@ -196,4 +255,32 @@ p {
 dd p {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.bs-callout .btn {
+    margin-top: -5px;
+}
+
+.btn-ad {
+    background-color: #edb802;
+    border-color: #eea236;
+    color: white;
+}
+
+.btn-ad:hover {
+    color: white;
+    cursor: default;
+}
+
+.small-logo {
+    display: none;
+}
+@media all and (max-width: 991px) and (min-width: 768px) {
+    /*Shorten logo to make room for all header links*/
+    .navbar-header .full-logo {
+        display: none;
+    }
+    .navbar-header .small-logo {
+        display: inherit;
+    }
 }

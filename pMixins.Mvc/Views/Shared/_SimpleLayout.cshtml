@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
 
@@ -26,7 +26,12 @@
                 </button>
 
                 <a href='@Url.Action("Index", "Home")' class="logo-code">
-                    [<span class="typ">p</span>Mixins]
+                    <div class="full-logo">
+                        [<span class="typ">p</span>Mixins]
+                    </div>
+                    <div class="small-logo">
+                        [<span class="typ">p</span>]
+                    </div>
                 </a>
             </div>
             <div class="navbar-collapse collapse">

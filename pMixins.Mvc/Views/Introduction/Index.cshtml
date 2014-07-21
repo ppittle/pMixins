@@ -18,12 +18,13 @@
     <div class="row">
         <div class="col-md-12">
             <blockquote class="pull-right">
-                <p>Inheritance is often useful, but more often overused.</p>
+                <p>
+                    Avoid <a href="http://en.wikipedia.org/wiki/Implementation_inheritance">implementation inheritance</a>
+                    whenever possible
+                </p>
                 <small>
-                    Bernie Sumption <cite title="animator.js">
-                                        <a href="http://berniesumption.com/software/inheritance-is-evil-and-must-be-destroyed/">
-                                            animator.js
-                                        </a>
+                    James Gosling <cite title="Father of Java">
+                        <a href="http://www.javaworld.com/article/2073649/core-java/why-extends-is-evil.html">Father of Java</a>
                     </cite>
                 </small>
             </blockquote>
@@ -45,7 +46,7 @@
             </p>
             @Html.RenderSourceClass("Introduction/Introduction.cs", "HelloWorld")
             <p>
-                I want the <em>SayHello</em> method to be availabe from my class <em>Introduction</em>.  I mark my class <code>partial</code>,
+                I want the <em>SayHello</em> method to be available from my class <em>Introduction</em>.  I mark my class <code>partial</code>,
                 so that <span class="logo-code">[<span class="typ">p</span>Mixins]</span> can work with it, and then decorate the class
                 with the <code>pMixin</code> attribute.
             </p>
@@ -67,7 +68,7 @@
             <p>
                 Continuing from the example above, <span class="logo-code">[<span class="typ">p</span>Mixins]</span>
                 can intercept calls to mixed in members.  By implementing <code>IMixinInterceptor</code>
-                (or extending the convienance class <em>MixinInterceptorBase</em>) you can create <em>Aspects</em>:
+                (or extending the convenience class <em>MixinInterceptorBase</em>) you can create <em>Aspects</em>:
             </p>
             @Html.RenderSourceClass("Introduction/AspectIntroduction.cs", "Aspect")
             <p>

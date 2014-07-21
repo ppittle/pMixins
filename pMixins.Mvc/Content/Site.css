@@ -271,3 +271,16 @@ dd p {
     color: white;
     cursor: default;
 }
+
+.small-logo {
+    display: none;
+}
+@media all and (max-width: 991px) and (min-width: 768px) {
+    /*Shorten logo to make room for all header links*/
+    .navbar-header .full-logo {
+        display: none;
+    }
+    .navbar-header .small-logo {
+        display: inherit;
+    }
+}

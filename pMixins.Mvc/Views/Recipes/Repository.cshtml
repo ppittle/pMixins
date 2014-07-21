@@ -5,10 +5,25 @@
 
 <h2>The Repository</h2>
 <p>
-    Intro
+    As discussed in the @Html.ActionLink("Motivation", "Index", "Motivation") page,
+    implementing the <a href="http://martinfowler.com/eaaCatalog/repository.html">repository</a>
+    pattern was a primary use case for 
+    <span class="logo-code">[<span class="typ">p</span>Mixins]</span>.
+    The key to implementing this pattern was to seperate out the 
+    logic for each <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    method.  
+</p>
+<p>
+    So let's get started.  First up is a low level interface for describing
+    entities:
 </p>
 
 @Html.RenderSourceClass("Repository/Repository.cs", "IEntity")
+<p>
+    Next let's define the individual 
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    interfaces.  
+</p>
 
 @Html.RenderSourceClass("Repository/Repository.cs", "IReadById")
 
@@ -20,13 +35,32 @@
 
 @Html.RenderSourceClass("Repository/Repository.cs", "IDelete")
 
-@Html.RenderSourceClass("Repository/Repository.cs", "MyEntity")
+<p>
+    With the interfaces defined, let's setup the base 
+    repository infrastructure:
+</p>
 
 @Html.RenderSourceClass("Repository/Repository.cs", "RepositoryBase")
 
-@Html.RenderSourceClass("Repository/Repository.cs", "SqlReadById")
+<p>
+    The <em>RepositoryBase</em> sets up the abstactions around 
+    <em>SqlCommands</em> that <em>Mixin</em>s will use later on.  
+    Most signifcantly is the <code>ExecuteQuery</code> method.  This 
+    is the one method that can talk to the database and provides a single
+    point for talking to the database and wrapping in logging, exception handling
+    and any other non functional logic.
+</p>
+<p>
+    With the <em>RepositoryBase</em> let's setup the first 
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    specifc <em>Mixin</em>
+</p>
 
-@Html.RenderSourceClass("Repository/Repository.cs", "SqlCreate")
+@Html.RenderSourceClass("Repository/Repository.cs", "SqlReadByIdMixin")
+
+@Html.RenderSourceClass("Repository/Repository.cs", "SqlCreateMixin")
+
+@Html.RenderSourceClass("Repository/Repository.cs", "MyEntity")
 
 @Html.RenderSourceClass("Repository/Repository.cs", "MyEntityRepository")
 

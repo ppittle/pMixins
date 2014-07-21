@@ -26,10 +26,7 @@ using NUnit.Framework;
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.Interceptors
 {
     [TestFixture]
-    public class 
-        
-        
-        InterceptorWithMixinRequirementTest : GenerateCodeAndCompileTestBase
+    public class InterceptorWithMixinRequirementTest : GenerateCodeAndCompileTestBase
     {
         #region MixinInterceptor
         public class MockLogMixin

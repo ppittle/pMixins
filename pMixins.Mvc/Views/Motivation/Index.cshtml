@@ -1,4 +1,5 @@
-﻿@{
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
+@{
     ViewBag.Title = "Motivation";
 }
 
@@ -21,18 +22,125 @@
         <div class="col-md-10">
             <h1>Motivating <span class="logo-code ">[<span class="typ">p</span>Mixins]</span></h1>
             <p>
-                <a href="http://stackoverflow.com/questions/15452377/c-sharp-object-composition-removing-boilerplate-code">C# Object Composition - Removing Boilerplate Code</a>
+                In the middle of 2012 I was working for a consulting company that focused on asp.net web
+                applications.  Almost of all our applications had to read and write data to a database
+                for one reason or another and none of the applications did so in a consistent manner.
             </p>
             <p>
-                In the middle of 2012 I was working for a consoulting company on a large asp.net application.
-                Like many applications, this one needed to read and write from a datastore.  The application
-                was built upon a 3rd party CMS platform, which provided a limited infrastructure for storing data.
-                However, we were planning several additions that the built-in data storage api could not sufficently
-                handle, so I was tasked with creating an infrastructure for accessing the database directly.
+                So when I had some down time I started working on creating a reusable data tier
+                infrastructure that would standardize how our applications talked to a database.
+                I have always liked the <a href="http://martinfowler.com/eaaCatalog/repository.html">repository</a> pattern so I
+                went about implementing a class hierarchy to support it.
             </p>
             <p>
-                I have always liked the <a href="http://martinfowler.com/eaaCatalog/repository.html">repository</a> pattern so I 
-                went about implementing a class heirarchy to support it.  
+                <strong>The Repository Base Class</strong>
+                <br />
+                After some initial trial and error I came up with a generic base repository class similar to this:
+            </p>
+
+            @Html.RenderSourceClass("Motivation/BaseRepository.cs", "BaseRepository")
+
+            <p>
+                I was initially quite satisfied with this.  I had a single base class that defined my
+                <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> operations.
+                All of these methods would go through the <code>ExecuteQuery</code> method
+                which could add Transactions, Logging, Error Handling, etc. so I could get this standard.
+                And I could easily create an overload, <code>SqlStoredProcedureBaseRepository</code> that would
+                handle the basics for using Sql Stored Procedures.  So to consume the repository,
+                all you had to do was specify the name of the Stored Procedure for each method and the
+                appropriate mapping functions:
+            </p>
+
+            @Html.RenderSourceClass("Motivation/BaseRepository.cs", "SqlStoredProcedureBaseRepository")
+
+            <p>
+                <strong>The Problem</strong>
+                <br />
+                So I set about updating one of our existing projects to use the new <code>BaseRepository</code>.
+                I immediately ran into a problem: business logic.  I found an <em>Entity</em>, in this case it was a
+                Twitter post, that could be Created, Read, and Deleted but never Updated.  My initial reaction
+                was to split up <code>BaseRepository</code> so the <em>Update</em> method would go into a new
+                class: <code>BaseRepositoryWithUpdate</code>.
+            </p>
+            <p>
+                This worked for the Twitter use case, but as I continued I encountered more and more permutations of
+                Entities that would only support subsets of CRUD.  Create, Read, and Update, but not Delete.  Create, Read
+                but not Update or Delete.  Read, Update and Delete, but not Create.
+                So there was no way to split up <code>BaseRepository</code> without ending
+                up with something nasty like:
+            </p>
+            <pre class="prettyprint">
+public class CreateReadButNotUpdateOrDelete : BaseRepository&lt;ExampleEntity&gt;
+{
+    public override void Update(ExampleEntity Entity)
+    {
+        throw new NotImplementedException("Don't Ever Call This Method!!");
+    }
+    public override void Delete(ExampleEntity Entity)
+    {
+        throw new NotImplementedException("Don't Ever Call This Method!!");
+    }
+}</pre>
+            <p>
+                This introduced a terrible <em>code smell</em>.  Now anyone who wanted to use the
+                <code>CreateReadButNotUpdateOrDelete</code> Repository had to know to never call
+                the <code>Update</code> or <code>Delete</code> method.  And if they did, their code
+                would compile just fine but would throw a run time exception.
+            </p>
+            <p>
+                <strong>The Quest</strong>
+                <br />
+                So I started searching for a better solution.
+                I experimented with extension methods and
+                <a href="http://en.wikipedia.org/wiki/Marker_interface">marker interfaces</a>,
+                but this solution had testability limitations.
+                I brushed up on <a href="http://en.wikipedia.org/wiki/Object_composition">
+                    object composition
+                </a> but found it to be too verbose and full of boilerplate
+                code to be practical.
+                I was introduced to
+                <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">
+                    Aspect Oriented Programming
+                </a> and tried <a href="http://www.postsharp.net/">Post Sharp</a>, but
+                found this the wrong tool for the job.
+                I learned off <a href="http://en.wikipedia.org/wiki/Mixin">mixins</a>
+                and found the <a href="http://remix.codeplex.com/">re-mix</a> project,
+                but the syntax was too unwieldy.
+            </p>
+            <p>
+                So I took what I had found and went to Stack Overflow:
+                <a href="http://stackoverflow.com/questions/15452377/c-sharp-object-composition-removing-boilerplate-code">
+                    C# Object Composition - Removing Boilerplate Code
+                </a>.  I received some interesting feedback but the big take away
+                was lots of people had this problem, and no one had a proper
+                solution for it.
+            </p>
+            <p>
+                <strong>The Solution</strong>
+                <br/>
+                Shortly after posting the Stack Overflow question, I decided to try and create my own mixin project,
+                which would greatly simplify using
+                <a href="http://en.wikipedia.org/wiki/Object_composition">
+                    object composition
+                </a>
+                and mitigate the need to use
+                <a href="http://en.wikipedia.org/wiki/Implementation_inheritance">
+                    implementation inheritacne
+                </a>
+                for code re-use.
+            </p>
+            <p>
+                In June 2013 I released my first proto-type,
+                <a href="http://visualstudiogallery.msdn.microsoft.com/28216c13-6667-4dc1-b1b8-ee7230605290">Intent Compositor</a>.
+                Intent Compositor met the initial criteria and certainly taught me a great deal.  But it was more rigid and
+                artificially limited than I liked, so in August 2013 I started work on
+                <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>.
+            </p>
+            <p>
+                And now after two years of development, solving the Repository problem with
+                <span class="logo-code ">[<span class="typ">p</span>Mixins]</span> can be
+                seen in the <a href="@Url.Action("Repository", "Recipes")">
+                    Repository Recipe</a>!
             </p>
         </div>
     </div>

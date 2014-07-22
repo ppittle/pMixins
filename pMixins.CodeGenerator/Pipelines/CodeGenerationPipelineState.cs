@@ -47,7 +47,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             CodeGenerationErrors = new List<CodeGenerationError>();
 
             TypeInstanceActivator = typeInstanceActivator;
-            AssemblyLevelResolvedpMixinAttributes = new List<pMixinAttributeResolvedResultBase>();
             PartialClassLevelResolvedpMixinAttributes = new Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>>();
 
             GeneratedClasses = new List<ICodeGeneratorProxy>();
@@ -62,7 +61,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         public IList<CodeGenerationError> CodeGenerationErrors { get; private set; }
         
         public ITypeInstanceActivator TypeInstanceActivator { get; private set; }
-        public IList<pMixinAttributeResolvedResultBase> AssemblyLevelResolvedpMixinAttributes { get; private set; }
 
         /// <summary>
         /// Dictionary of <see cref="pMixinAttributeResolvedResultBase"/> representing

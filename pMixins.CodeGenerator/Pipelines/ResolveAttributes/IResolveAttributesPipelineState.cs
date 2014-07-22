@@ -28,8 +28,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
     {
         ITypeInstanceActivator TypeInstanceActivator { get; }
 
-        IList<pMixinAttributeResolvedResultBase> AssemblyLevelResolvedpMixinAttributes { get; }
-
         /// <summary>
         /// Dictionary of <see cref="pMixinAttributeResolvedResultBase"/> representing
         /// the <see cref="IPMixinAttribute"/>s parsed in the source, and mapped to each

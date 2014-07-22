@@ -62,7 +62,7 @@ namespace pMixins.Mvc.Recipes.Repository
     {
         protected abstract string ConnectionString { get; }
 
-        private void ExecuteQuery(string cmdTxt, SqlParameter[] parameters, Action<SqlCommand> query)
+        private void ExecuteQuery(string cmdTxt, SqlParameter[] sParams, Action<SqlCommand> query)
         {
             //error handling
             //transaction coordinating
@@ -73,7 +73,7 @@ namespace pMixins.Mvc.Recipes.Repository
             {
                 //Initialize sqlCommand
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                foreach (var p in parameters)
+                foreach (var p in sParams)
                     sqlCommand.Parameters.Add(p);
 
                 //Execute Query
@@ -81,22 +81,22 @@ namespace pMixins.Mvc.Recipes.Repository
             }
         }
 
-        protected void ExecuteNonQuery(string spName, SqlParameter[] parameters)
+        protected void ExecuteNonQuery(string spName, SqlParameter[] sParams)
         {
-            
-            this.ExecuteQuery(spName, parameters, cmd => cmd.ExecuteNonQuery());
+
+            this.ExecuteQuery(spName, sParams, cmd => cmd.ExecuteNonQuery());
         }
 
-        protected void ExecuteReader(string spName, SqlParameter[] parameters, Action<SqlDataReader> readerCallback)
+        protected void ExecuteReader(string spName, SqlParameter[] sParams, Action<SqlDataReader> readerCallback)
         {
-            this.ExecuteQuery(spName, parameters, cmd => readerCallback(cmd.ExecuteReader()));
+            this.ExecuteQuery(spName, sParams, cmd => readerCallback(cmd.ExecuteReader()));
         }
 
-        protected object ExecuteScalar(string spName, SqlParameter[] parameters)
+        protected object ExecuteScalar(string spName, SqlParameter[] sParams)
         {
             object returnValue = null;
 
-            this.ExecuteQuery(spName, parameters, cmd => returnValue = cmd.ExecuteScalar());
+            this.ExecuteQuery(spName, sParams, cmd => returnValue = cmd.ExecuteScalar());
 
             return returnValue;
         }

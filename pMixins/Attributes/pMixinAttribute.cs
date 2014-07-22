@@ -160,6 +160,16 @@ namespace CopaceticSoftware.pMixins.Attributes
         public bool GenerateExtensionMethodWrappers { get; set; }
 
         /// <summary>
+        /// If <c>true</c>, mixed in members with the same signature should
+        /// be combined into a single interface (ISharedRequirements)
+        /// so that the Target only need to implement them once.
+        /// If <c>false</c> all members are added individually to the Mixin
+        /// specific requirements interface and must be separately implemented
+        /// by the Target.
+        /// </summary>
+        public bool EnableSharedRequirementsInterface { get; set; }
+
+        /// <summary>
         /// When set to <c>True</c> a method is added to the Target class
         /// that allows the consumer to explicitly initialize the Mixin.
         /// This can be useful if the Mixin has multiple constructors and 

@@ -63,6 +63,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 manager.ResolvedResult.ExplicitlyInitializeMixin =
                     bool.Parse(explicitlyInitializeMixin.ToString());
 
+            var enableSharedRequirementsInterface =
+               attribute.GetNamedArgumentValue("EnableSharedRequirementsInterface");
+
+            if (null != explicitlyInitializeMixin)
+                manager.ResolvedResult.EnableSharedRequirementsInterface =
+                    bool.Parse(enableSharedRequirementsInterface.ToString());
+
             var loggingVerbosity = attribute.GetNamedArgumentValue("LoggingVerbosity");
 
             if (null != loggingVerbosity)

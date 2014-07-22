@@ -102,7 +102,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
                            haltOnStepFailing: step => true))
                     return false;
 
-                foreach (var pMixinAttribute in manager.PartialClassLevelResolvedpMixinAttributes[sourceClass]
+                foreach (var pMixinAttribute in manager.PartialClassLevelResolvedPMixinAttributes[sourceClass]
                     .OfType<pMixinAttributeResolvedResult>())
                 {
                     mixinGeneratorState.CurrentpMixinAttribute = pMixinAttribute;

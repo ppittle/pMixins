@@ -53,7 +53,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
             var mixinBaseTypeMap =
-                manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
+                manager.BaseState.PartialClassLevelResolvedPMixinAttributes[manager.SourceClass]
                     .OfType<pMixinAttributeResolvedResult>()
                     .ToDictionary(
                         x => x.Mixin.GetOriginalFullName(),
@@ -98,7 +98,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                 foreach (var dep in unsatisfiedDependencies)
                 {
                     var mixin =
-                        manager.BaseState.PartialClassLevelResolvedpMixinAttributes[manager.SourceClass]
+                        manager.BaseState.PartialClassLevelResolvedPMixinAttributes[manager.SourceClass]
                             .OfType<pMixinAttributeResolvedResult>()
                             .First(mix =>
                                 mix.Mixin.FullName ==

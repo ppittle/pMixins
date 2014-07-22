@@ -34,6 +34,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
         /// parsed class.
         /// </summary>
         Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> 
-            PartialClassLevelResolvedpMixinAttributes { get; }
+            PartialClassLevelResolvedPMixinAttributes { get; }
     }
 }

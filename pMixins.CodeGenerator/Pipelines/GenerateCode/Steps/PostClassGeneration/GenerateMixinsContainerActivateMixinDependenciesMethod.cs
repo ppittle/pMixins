@@ -50,7 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
             var mixins =
-                manager.BaseState.PartialClassLevelResolvedpMixinAttributes[
+                manager.BaseState.PartialClassLevelResolvedPMixinAttributes[
                     manager.SourceClass]
                     .OfType<pMixinAttributeResolvedResult>();
 

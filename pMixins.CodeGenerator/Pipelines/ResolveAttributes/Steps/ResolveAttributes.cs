@@ -50,7 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
         {
             foreach (var classAtts in manager.SourcePartialClassAttributes)
             {
-                var allMixinAttributes = manager.PartialClassLevelResolvedpMixinAttributes[classAtts.Key]
+                var allMixinAttributes = manager.PartialClassLevelResolvedPMixinAttributes[classAtts.Key]
                                         .OfType<pMixinAttributeResolvedResult>()
                                         .ToList();
 
@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
                 foreach (var mixin in mixinsToAdd)
                 {
-                     manager.PartialClassLevelResolvedpMixinAttributes[classAtts.Key]
+                     manager.PartialClassLevelResolvedPMixinAttributes[classAtts.Key]
                         .Add(new pMixinAttributeResolvedResult(null){Mixin = mixin});
                 }
             }

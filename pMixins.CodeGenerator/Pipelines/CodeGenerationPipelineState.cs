@@ -48,7 +48,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             CodeGenerationErrors = new List<CodeGenerationError>();
 
             TypeInstanceActivator = typeInstanceActivator;
-            PartialClassLevelResolvedpMixinAttributes = new Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>>();
+            PartialClassLevelResolvedPMixinAttributes = new Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>>();
 
             GeneratedClasses = new List<ICodeGeneratorProxy>();
             GeneratedCodeSyntaxTree = new SyntaxTree();
@@ -68,7 +68,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         /// the <see cref="IPMixinAttribute"/>s parsed in the source, and mapped to each
         /// parsed class.
         /// </summary>
-        public Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> PartialClassLevelResolvedpMixinAttributes { get; private set; }
+        public Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> PartialClassLevelResolvedPMixinAttributes { get; private set; }
 
         public IList<ICodeGeneratorProxy> GeneratedClasses { get; private set; }
         public SyntaxTree GeneratedCodeSyntaxTree { get; private set; }

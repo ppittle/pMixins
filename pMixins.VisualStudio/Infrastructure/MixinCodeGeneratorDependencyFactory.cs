@@ -29,7 +29,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.Infrastructure
     {
         protected override IEnumerable<IType> GetTypeDependencies(pMixinPartialCodeGeneratorResponse response)
         {
-            var classMixinAttributes = response.CodeGeneratorPipelineState.PartialClassLevelResolvedpMixinAttributes;
+            var classMixinAttributes = response.CodeGeneratorPipelineState.PartialClassLevelResolvedPMixinAttributes;
 
             foreach (var partialClass in classMixinAttributes.Keys)
             {

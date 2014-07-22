@@ -61,7 +61,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                             throwException: null))
                         return false;
 
-                    manager.PartialClassLevelResolvedpMixinAttributes[classAtts.Key]
+                    manager.PartialClassLevelResolvedPMixinAttributes[classAtts.Key]
                         .Add(pipelineState.ResolvedResult);
                 }
             }

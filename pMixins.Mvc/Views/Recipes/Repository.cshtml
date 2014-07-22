@@ -9,11 +9,13 @@
     implementing the <a href="http://martinfowler.com/eaaCatalog/repository.html">repository</a>
     pattern was a primary use case for 
     <span class="logo-code">[<span class="typ">p</span>Mixins]</span>.
-    The key to implementing this pattern was to seperate out the 
+    The key to implementing this pattern was to separate out the 
     logic for each <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
     method.  
 </p>
 <p>
+    <strong>Key Interfaces</strong>
+    <br/>
     So let's get started.  First up is a low level interface for describing
     entities:
 </p>
@@ -36,6 +38,8 @@
 @Html.RenderSourceClass("Repository/Repository.cs", "IDelete")
 
 <p>
+    <strong>Repository Infrastructure</strong>
+    <br />
     With the interfaces defined, let's setup the base 
     repository infrastructure:
 </p>
@@ -43,9 +47,9 @@
 @Html.RenderSourceClass("Repository/Repository.cs", "RepositoryBase")
 
 <p>
-    The <em>RepositoryBase</em> sets up the abstactions around 
+    The <em>RepositoryBase</em> sets up the abstractions around 
     <em>SqlCommands</em> that <em>Mixin</em>s will use later on.  
-    Most signifcantly is the <code>ExecuteQuery</code> method.  This 
+    Most significantly is the <code>ExecuteQuery</code> method.  This 
     is the one method that can talk to the database and provides a single
     point for talking to the database and wrapping in logging, exception handling
     and any other non functional logic.
@@ -53,14 +57,63 @@
 <p>
     With the <em>RepositoryBase</em> let's setup the first 
     <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
-    specifc <em>Mixin</em>
+    specific <em>Mixin</em>
 </p>
 
 @Html.RenderSourceClass("Repository/Repository.cs", "SqlReadByIdMixin")
+<p>
+    The <em>SqlReadByIdMixin</em> implements the <em>IReadById</em> 
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    interface and implements the <code>ReadById</code> by calling down to 
+    <em>RepositoryBase</em>'s <code>ExecuteReader</code>.  It exposes two abstract
+    members <code>ReadByIdStoredProcedureName</code> and <code>MapEntity</code> that it
+    needs to fully implement <code>ReadById</code>.
+</p>
+<p>
+    This pattern of implementing a single 
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    interface and then declare the <em>abstract</em> members necessary to implement
+    the interface continues with the other <em>Mixin</em>s.  For example, 
+    <em>SqlCreateMixin</em>:
+</p>
 
 @Html.RenderSourceClass("Repository/Repository.cs", "SqlCreateMixin")
 
+<p>
+    I have left out the remaining 
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    <em>Mixin</em>s for brevity.
+</p>
+<p>
+    <strong>Implementation</strong>
+    Now with the infrastructure setup, lets take a look at an implementation.
+    <br/>
+    First we'll need a simple <em>IEntity</em>:
+</p>
 @Html.RenderSourceClass("Repository/Repository.cs", "MyEntity")
-
+<p>
+    Now that we have <em>MyEntity</em>, let's create a <em>MyEntityRepository</em>
+</p>
 @Html.RenderSourceClass("Repository/Repository.cs", "MyEntityRepository")
+<p>
+    <em>MyEntityRepository</em> first and foremost shows the primary goal
+    of <span class="logo-code">[<span class="typ">p</span>Mixins]</span>:
+    you can control exactly which <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    are exposed via the Repository!  
+</p>
+<p>
+    And looking at the implementation in greater detail, <em>MyEntityRepository</em>
+    explicitly implements the various <em>Requirements</em> interfaces to provide
+    the necessary informations, like stored procedures names and methods for
+    mapping <em>MyEntity</em> objects.  Also of interest is that <em>MyEntityRepository</em>
+    implements <em>IMyEntityRepository</em>.  This is a simple interface that 
+    promotes loose coupling.  Consumers of <em>MyEntityRepository</em> should
+    use this interface instead.
+</p>
+<p>
+    The <em>IMyEntityRepository</em> simply aggregates the various
+    <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+    interfaces: 
+</p>
 
+@Html.RenderSourceClass("Repository/Repository.cs", "IMyEntityRepository")

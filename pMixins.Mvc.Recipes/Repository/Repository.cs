@@ -144,9 +144,13 @@ namespace pMixins.Mvc.Recipes.Repository
         public int Id { get; set; }
     }
 
+    public interface IMyEntityRepository : IReadById<MyEntity>, ICreate<MyEntity>
+    {
+    }
+
     [pMixin(Mixin = typeof(SqlReadByIdMixin<MyEntity>))]
     [pMixin(Mixin = typeof(SqlCreateMixin<MyEntity>))]
-    public partial class MyEntityRepository
+    public partial class MyEntityRepository : IMyEntityRepository
     {
         string ISqlReadByIdMixin__MyEntity__Requirements.ConnectionStringImplementation
         {

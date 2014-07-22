@@ -102,6 +102,19 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return members.Distinct(_equalityComparer);
         }
 
+        public static IEnumerable<KeyValuePair<IMember, int>> GroupByCount(this IEnumerable<IMember> members)
+        {
+            var membersList = members.ToList();
+
+            var distinctMembers = membersList.DistinctMembers().ToList();
+
+            return
+                distinctMembers.Select(x => 
+                        new KeyValuePair<IMember, int>(
+                            x, 
+                            membersList.Count(m => _equalityComparer.Equals(m, x))));
+        }
+
         public static string GetOriginalName(this IMember member)
         {
             var method = member as IMethod;

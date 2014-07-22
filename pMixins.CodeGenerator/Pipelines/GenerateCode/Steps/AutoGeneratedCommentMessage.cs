@@ -17,7 +17,9 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
 using System.Reflection;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -27,8 +29,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
     {
         public bool PerformTask(ICodeGenerationPipelineState manager)
         {
+            var relativeFilePath =
+                PathExtensions.MakeRelativePath(
+                    Path.GetDirectoryName(manager.Context.Solution.FileName.FullPath),
+                    manager.Context.Source.FileName.FullPath);
+
             var commentNode = new Comment(
-                FormatHeader(manager.Context.Source.FileName.FullPath),
+                FormatHeader(relativeFilePath),
                 CommentType.MultiLineDocumentation);
 
             manager.GeneratedCodeSyntaxTree.AddChild(commentNode, Roles.Comment);
@@ -46,5 +53,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
                 hostingAssemblyName.Name + " v" + hostingAssemblyName.Version,
                 targetFileName);
         }
+
+        
     }
 }

@@ -139,6 +139,7 @@
     <Compile Include="IntegrationTests\VisualStudioEvents\OnProjectRemovedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\FilePathTests.cs" />
+    <Compile Include="UnitTests\PathExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

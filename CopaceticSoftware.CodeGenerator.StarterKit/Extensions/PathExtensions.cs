@@ -16,43 +16,49 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
-    //http://pinvoke.net/default.aspx/shlwapi.PathRelativePathTo
     public static class PathExtensions
     {
-        [DllImport("shlwapi.dll", CharSet = CharSet.Auto)]
-        private static extern bool PathRelativePathTo(
-             [Out] StringBuilder pszPath,
-             [In] string pszFrom,
-             [In] FileAttributes dwAttrFrom,
-             [In] string pszTo,
-             [In] FileAttributes dwAttrTo
-        );
-
-        public static string PathRelativePathTo(string path1, string path2)
+        /// <summary>
+        /// Creates a relative path from one file or folder to another.
+        /// </summary>
+        /// <param name="fromPath">Contains the directory that defines the start of the relative path.</param>
+        /// <param name="toPath">Contains the path that defines the endpoint of the relative path.</param>
+        /// <returns>The relative path from the start directory to the end path.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="UriFormatException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <remarks>
+        /// http://stackoverflow.com/questions/275689/how-to-get-relative-path-from-absolute-path
+        /// </remarks>
+        public static string MakeRelativePath(string fromPath, string toPath)
         {
-            var sb = new StringBuilder(260);
+            if (string.IsNullOrEmpty(fromPath)) throw new ArgumentNullException("fromPath");
+            if (string.IsNullOrEmpty(toPath)) throw new ArgumentNullException("toPath");
 
-            var path2FileAttribute =
-                string.IsNullOrEmpty(Path.GetExtension(path2))
-                    ? FileAttributes.Directory
-                    : FileAttributes.Normal;
+            var fromUri = new Uri(fromPath);
+            var toUri = new Uri(toPath);
 
-            return 
-                PathRelativePathTo(
-                    sb,
-                    Path.GetDirectoryName(path1),
-                    FileAttributes.Directory,
-                    path2,
-                    path2FileAttribute) 
-                
-                ? sb.ToString() 
-                : string.Empty;
+            if (fromUri.Scheme != toUri.Scheme)
+                // path can't be made relative.
+                return toPath;  
+
+            var relativeUri = fromUri.MakeRelativeUri(toUri);
+            var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+            if (toUri.Scheme.ToUpperInvariant() == "FILE")
+                relativePath = relativePath.Replace(
+                                    Path.AltDirectorySeparatorChar,
+                                    Path.DirectorySeparatorChar);
+            
+
+            return relativePath;
         }
     }
 }

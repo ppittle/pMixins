@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.Common.Infrastructure;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
@@ -64,7 +65,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 
         /// <summary>
         /// Dictionary of <see cref="pMixinAttributeResolvedResultBase"/> representing
-        /// the <see cref="IpMixinAttribute"/>s parsed in the source, and mapped to each
+        /// the <see cref="IPMixinAttribute"/>s parsed in the source, and mapped to each
         /// parsed class.
         /// </summary>
         public Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> PartialClassLevelResolvedpMixinAttributes { get; private set; }

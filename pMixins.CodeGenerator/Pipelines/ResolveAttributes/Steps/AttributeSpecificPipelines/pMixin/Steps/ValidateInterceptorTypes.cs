@@ -24,9 +24,9 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class ValidateInterceptorTypes : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class ValidateInterceptorTypes : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             foreach (var interceptor in manager.ResolvedResult.Interceptors)
             {
@@ -40,8 +40,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                                     Strings.ErrorInterceptorMustBeConcreteClass,
                                     interceptor.Name),
                                 CodeGenerationError.SeverityOptions.Error,
-                                manager.TargetClassDefintion.StartLocation.Line,
-                                manager.TargetClassDefintion.StartLocation.Column));
+                                manager.TargetClassDefinition.StartLocation.Line,
+                                manager.TargetClassDefinition.StartLocation.Column));
 
                         return false;
                     }
@@ -57,8 +57,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                                     interceptor.Name,
                                     typeof(IMixinInterceptor).FullName),
                                 CodeGenerationError.SeverityOptions.Error,
-                                manager.TargetClassDefintion.StartLocation.Line,
-                                manager.TargetClassDefintion.StartLocation.Column));
+                                manager.TargetClassDefinition.StartLocation.Line,
+                                manager.TargetClassDefinition.StartLocation.Column));
 
                         return false;
                     }

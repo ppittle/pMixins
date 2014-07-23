@@ -25,9 +25,9 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class PrivateNestedTypeFix : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class PrivateNestedTypeFix : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             var resolvedClassDefs =
                 manager.BaseState.Context.Source.SyntaxTree.GetClassDefinitions()

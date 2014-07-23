@@ -124,8 +124,8 @@
     <Compile Include="Pipelines\ParseSourceFile\Steps\ParseSourceClassDefinitions.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Infrastructure\pMixinAttributeResolvedResult.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Infrastructure\pMixinAttributeResolvedResultBase.cs" />
-    <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\ResolvepMixinAttributePipelineState.cs" />
-    <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\ResolvepMixinAttributes.cs" />
+    <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\ResolvePMixinAttributePipelineState.cs" />
+    <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\ResolvePMixinAttributes.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\Steps\EnsureAttributeTargetIsPartialClass.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\Steps\PrivateNestedTypeFix.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\AttributeSpecificPipelines\pMixin\Steps\TryResolvingByCreatingpMixinInstance.cs" />

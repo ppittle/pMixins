@@ -22,7 +22,7 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin
 {
-    public class ResolvepMixinAttributePipelineState
+    public class ResolvePMixinAttributePipelineState
     {
         public IResolveAttributesPipelineState BaseState { get; set; }
 
@@ -30,7 +30,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
         /// <see cref="TypeDeclaration"/> for the class the 
         /// <see cref="pMixinAttribute"/> being parsed targets.
         /// </summary>
-        public TypeDeclaration TargetClassDefintion { get; set; }
+        public TypeDeclaration TargetClassDefinition { get; set; }
 
         public pMixinAttributeResolvedResult ResolvedResult { get; set; }
     }

@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
         private readonly IEnumerable<IPipelineStep<IResolveAttributesPipelineState>> _attributePipelines =
             new List<IPipelineStep<IResolveAttributesPipelineState>>
                 {
-                   new ResolvepMixinAttributes(),
+                   new ResolvePMixinAttributes(),
                    new ResolveInterceptorMixinRequirements()
                 };
 

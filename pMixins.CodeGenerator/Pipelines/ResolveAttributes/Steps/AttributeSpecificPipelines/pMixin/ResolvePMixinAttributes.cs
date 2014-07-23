@@ -26,10 +26,10 @@ using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin
 {
-    public class ResolvepMixinAttributes : IPipelineStep<IResolveAttributesPipelineState>
+    public class ResolvePMixinAttributes : IPipelineStep<IResolveAttributesPipelineState>
     {
-        private readonly IEnumerable<IPipelineStep<ResolvepMixinAttributePipelineState>> _pipeline =
-            new List<IPipelineStep<ResolvepMixinAttributePipelineState>>
+        private readonly IEnumerable<IPipelineStep<ResolvePMixinAttributePipelineState>> _pipeline =
+            new List<IPipelineStep<ResolvePMixinAttributePipelineState>>
                 {
                     new EnsureAttributeTargetIsPartialClass(),
                     new TryResolvingByCreatingpMixinInstance(),
@@ -42,16 +42,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
         public bool PerformTask(IResolveAttributesPipelineState manager)
         {
-            foreach (var classAtts in manager.SourcePartialClassAttributes)
+            foreach (var classAtts in manager.CommonState.SourcePartialClassAttributes)
             {
                 foreach (var att in classAtts.Value.Where(x =>
                     x.AttributeType.Implements<pMixinAttribute>()))
                 {
-                    var pipelineState = new ResolvepMixinAttributePipelineState
+                    var pipelineState = new ResolvePMixinAttributePipelineState
                     {
                         BaseState = manager,
 
-                        TargetClassDefintion = classAtts.Key,
+                        TargetClassDefinition = classAtts.Key,
                         
                         ResolvedResult = new pMixinAttributeResolvedResult(att)
                     };

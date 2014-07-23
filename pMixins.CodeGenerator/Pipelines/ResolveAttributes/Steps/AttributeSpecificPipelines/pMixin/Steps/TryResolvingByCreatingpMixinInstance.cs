@@ -24,9 +24,9 @@ using CopaceticSoftware.pMixins.Attributes;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class TryResolvingByCreatingpMixinInstance : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class TryResolvingByCreatingpMixinInstance : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             var compilation = manager.BaseState.Context.TypeResolver.Compilation;
 

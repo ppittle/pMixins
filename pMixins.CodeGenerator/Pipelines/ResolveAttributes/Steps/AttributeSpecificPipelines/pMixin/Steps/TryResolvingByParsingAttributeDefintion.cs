@@ -26,9 +26,9 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class TryResolvingByParsingAttributeDefintion :  IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class TryResolvingByParsingAttributeDefintion :  IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             if (!manager.ResolvedResult.Mixin.IsNullOrUnkown())
                 //ResolvedResult has already been resolved!

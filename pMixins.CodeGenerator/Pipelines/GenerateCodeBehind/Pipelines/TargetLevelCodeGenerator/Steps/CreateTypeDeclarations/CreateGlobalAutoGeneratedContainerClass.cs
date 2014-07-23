@@ -67,9 +67,5 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             return true;
         }
-
-        private abstract class A { }
-
-        private class B : A { }
     }
 }

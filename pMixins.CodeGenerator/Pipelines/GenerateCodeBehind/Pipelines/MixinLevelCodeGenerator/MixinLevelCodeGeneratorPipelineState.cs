@@ -23,15 +23,15 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator
 {
-    public class MixinLevelCodeGeneratorPipeline : IGenerateCodePipelineState
+    public class MixinLevelCodeGeneratorPipelineState : IGenerateCodePipelineState
     {
-        public MixinLevelCodeGeneratorPipeline(TargetLevelCodeGeneratorPipeline baseState)
+        public MixinLevelCodeGeneratorPipelineState(TargetLevelCodeGeneratorPipelineState baseState)
         {
             CommonState = baseState.CommonState;
             ResolveMembersPipeline = baseState.ResolveMembersPipeline;
             CodeBehindSyntaxTree = baseState.CodeBehindSyntaxTree;
 
-            TargetLevelCodeGeneratorPipeline = baseState;
+            TargetLevelCodeGeneratorPipelineState = baseState;
         }
 
         #region IGenerateCodePipelineState
@@ -47,7 +47,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         public SyntaxTree CodeBehindSyntaxTree { get; private set; }
         #endregion
 
-        public TargetLevelCodeGeneratorPipeline TargetLevelCodeGeneratorPipeline { get; set; }
+        public TargetLevelCodeGeneratorPipelineState TargetLevelCodeGeneratorPipelineState { get; set; }
 
         /// <summary>
         /// The Mixin this pipeline is running code for.

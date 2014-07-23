@@ -16,10 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
@@ -30,9 +27,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     /// Iterate through each <see cref="IPipelineCommonState.SourcePartialClassDefinitions"/>
     /// and launch the <see cref="TargetLevelCodeGenerator"/>.
     /// </summary>
-    public class RunMixinLevelCodeGeneratorForEachMixin : IPipelineStep<TargetLevelCodeGeneratorPipeline>
+    public class RunMixinLevelCodeGeneratorForEachMixin : IPipelineStep<TargetLevelCodeGeneratorPipelineState>
     {
-        public bool PerformTask(TargetLevelCodeGeneratorPipeline manager)
+        public bool PerformTask(TargetLevelCodeGeneratorPipelineState manager)
         {
             var targetsMixins =
                 manager
@@ -44,7 +41,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             foreach (var mixin in targetsMixins)
             {
                 var mixinLevelCodeGeneratorPipeline =
-                    new MixinLevelCodeGeneratorPipeline(manager)
+                    new MixinLevelCodeGeneratorPipelineState(manager)
                     {
                         MixinResolvedResult = mixin
                     };

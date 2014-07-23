@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.S
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
                 var targetLevelCodeGeneratorPipeline =
-                    new TargetLevelCodeGeneratorPipeline(manager)
+                    new TargetLevelCodeGeneratorPipelineState(manager)
                     {
                         TargetSourceTypeDeclaration = target
                     };

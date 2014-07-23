@@ -25,7 +25,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 {
     /// <summary>
     /// Creates the Target's class declaration for the code behind file and 
-    /// saves it in <see cref="TargetLevelCodeGeneratorPipeline.TargetCodeBehindTypeDeclaration"/>.
+    /// saves it in <see cref="TargetLevelCodeGeneratorPipelineState.TargetCodeBehindTypeDeclaration"/>.
     /// </summary>
     /// <example>
     /// <code>
@@ -39,9 +39,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     /// ]]>
     /// </code>
     /// </example>
-    public class CreateTargetCodeBehindTypeDeclaration : IPipelineStep<TargetLevelCodeGeneratorPipeline>
+    public class CreateTargetCodeBehindTypeDeclaration : IPipelineStep<TargetLevelCodeGeneratorPipelineState>
     {
-        public bool PerformTask(TargetLevelCodeGeneratorPipeline manager)
+        public bool PerformTask(TargetLevelCodeGeneratorPipelineState manager)
         {
               var targetCodeBehind =
                     new TypeDeclaration

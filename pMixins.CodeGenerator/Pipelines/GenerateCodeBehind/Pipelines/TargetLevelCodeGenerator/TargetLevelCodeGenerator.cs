@@ -24,15 +24,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     /// <summary>
     /// Controller class for executing the Target Level Code Generator Pipeline.
     /// </summary>
-    public class TargetLevelCodeGenerator : IPipelineStep<TargetLevelCodeGeneratorPipeline>
+    public class TargetLevelCodeGenerator : IPipelineStep<TargetLevelCodeGeneratorPipelineState>
     {
-        private readonly IPipelineStep<TargetLevelCodeGeneratorPipeline>[] _targetLevelCodeGeneratorPipeline =
+        private readonly IPipelineStep<TargetLevelCodeGeneratorPipelineState>[] _targetLevelCodeGeneratorPipeline =
             {
                 new CreateTargetCodeBehindTypeDeclaration(), 
                 new RunMixinLevelCodeGeneratorForEachMixin()
             };
 
-        public bool PerformTask(TargetLevelCodeGeneratorPipeline manager)
+        public bool PerformTask(TargetLevelCodeGeneratorPipelineState manager)
         {
             return
                 _targetLevelCodeGeneratorPipeline.RunPipeline(manager,

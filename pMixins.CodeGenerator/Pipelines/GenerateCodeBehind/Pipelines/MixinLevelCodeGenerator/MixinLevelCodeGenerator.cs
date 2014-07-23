@@ -23,14 +23,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     /// <summary>
     /// Controller class for executing the Mixin Level Code Generator Pipeline.
     /// </summary>
-    public class MixinLevelCodeGenerator : IPipelineStep<MixinLevelCodeGeneratorPipeline>
+    public class MixinLevelCodeGenerator : IPipelineStep<MixinLevelCodeGeneratorPipelineState>
     {
-        private readonly IPipelineStep<MixinLevelCodeGeneratorPipeline>[] _mixinLevelCodeGeneratorPipeline =
+        private readonly IPipelineStep<MixinLevelCodeGeneratorPipelineState>[] _mixinLevelCodeGeneratorPipeline =
             {
                
             };
 
-        public bool PerformTask(MixinLevelCodeGeneratorPipeline manager)
+        public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
             return
                 _mixinLevelCodeGeneratorPipeline.RunPipeline(manager,

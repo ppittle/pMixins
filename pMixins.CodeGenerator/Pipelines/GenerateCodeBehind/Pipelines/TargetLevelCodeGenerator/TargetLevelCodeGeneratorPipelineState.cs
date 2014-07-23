@@ -23,9 +23,9 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator
 {
-    public class TargetLevelCodeGeneratorPipeline : IGenerateCodePipelineState
+    public class TargetLevelCodeGeneratorPipelineState : IGenerateCodePipelineState
     {
-        public TargetLevelCodeGeneratorPipeline(IGenerateCodePipelineState baseState)
+        public TargetLevelCodeGeneratorPipelineState(IGenerateCodePipelineState baseState)
         {
             CommonState = baseState.CommonState;
             ResolveMembersPipeline = baseState.ResolveMembersPipeline;

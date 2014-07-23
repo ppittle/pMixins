@@ -16,12 +16,11 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.CreateTypeDeclarations
 {
     /// <summary>
     /// Creates the Target's class declaration for the code behind file and 

@@ -24,6 +24,7 @@ using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
@@ -51,6 +52,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
     /// <remarks>
     /// Interface is generated in a dedicated namespace block.
     /// </remarks>
+    
     public class GenerateMixinImplementationRequirementsInterface : IPipelineStep<pMixinGeneratorPipelineState>
     {
         public static string GetInitializationMethod(pMixinGeneratorPipelineState manager)
@@ -63,11 +65,47 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
             return member.Name + "Implementation";
         }
 
+        public const string SharedRequirementsInterfaceName = "ISharedRequirements";
 
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
-            if (manager.CurrentpMixinAttribute.Mixin.GetDefinition().IsStatic)
-                return true;
+            var mixins =
+                manager.BaseState.PartialClassLevelResolvedPMixinAttributes[manager.SourceClass]
+                    .OfType<pMixinAttributeResolvedResult>()
+                    .Where(x => !x.Mixin.GetDefinition().IsStatic)
+                    .ToList();
+            /*
+            var sharedMixinMembers = null;
+
+                mixins
+                    .Where(x => x.EnableSharedRequirementsInterface)
+                    //.SelectMany(x => x.Mixin.GetUnimplementedAbstractMembers())
+                    .GroupByCount()
+                    .Where(x => x.Value > 1)
+                    .Select(x => x.Key)
+                    .ToList();
+
+            CreateRequirementsInterface(
+                manager,
+                SharedRequirementsInterfaceName,
+                sharedMixinMembers);
+
+            foreach (var mixin in mixins)
+            {
+                CreateRequirementsInterface(
+                    manager,
+                    SharedRequirementsInterfaceName,
+                    sharedMixinMembers);
+            }
+            */
+            return true;
+        }
+
+
+        private void CreateRequirementsInterface(pMixinGeneratorPipelineState manager,
+            string interfaceName, IEnumerable<IMember> members)
+        {
+            
 
             //Create the TypeDeclaration
             var requirementsInterfaceDeclaration =
@@ -101,12 +139,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
 
             //Have the Target implement mixinRequirementsInterface
             manager.GeneratedClass.ImplementInterface(manager.CurrentMixinRequirementsInterface);
-
-            return true;
         }
-
-       
-
+        
         private void ProcessAbstractMembers(
             pMixinGeneratorPipelineState manager, CodeGeneratorProxy requirementInterface)
         {

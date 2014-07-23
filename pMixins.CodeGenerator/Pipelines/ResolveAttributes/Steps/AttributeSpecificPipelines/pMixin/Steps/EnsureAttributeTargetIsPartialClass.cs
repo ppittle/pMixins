@@ -29,7 +29,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (!manager.TargetClassDefinition.HasModifier(Modifiers.Partial))
                 #region Log Error and Return False
                 {
-                manager.BaseState.CodeGenerationErrors.Add(
+                manager.BaseState.CommonState.CodeGenerationErrors.Add(
                     new CodeGenerationError(
                         string.Format(Strings.WarningpMixinAttributeOnNonPartialClass,
                                         manager.TargetClassDefinition.Name),

@@ -157,7 +157,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                         (abstractMember as IMethod).Parameters.ToKeyValuePair(),
                         string.Empty,
                         (abstractMember as IMethod).GetGenericMethodConstraints(
-                            manager.BaseState.Context.TypeResolver.Compilation));
+                            manager.BaseState.CommonState.Context.TypeResolver.Compilation));
                 }
                 #endregion
 

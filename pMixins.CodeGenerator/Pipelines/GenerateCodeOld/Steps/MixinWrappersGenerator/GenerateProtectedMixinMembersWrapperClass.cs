@@ -149,7 +149,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         {
             var proxyMemberHelper = 
                 new CodeGeneratorProxyMemberHelper(wrapperClass,
-                    manager.BaseState.Context.TypeResolver.Compilation);
+                    manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
 
             //Promote protected members to public
@@ -186,7 +186,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                         (aMember as IMethod).Parameters.ToKeyValuePair(),
                         throwExceptionSource,
                         (aMember as IMethod).GetGenericMethodConstraints(
-                            manager.BaseState.Context.TypeResolver.Compilation));
+                            manager.BaseState.CommonState.Context.TypeResolver.Compilation));
                 }
 
                 else if (aMember is IProperty)

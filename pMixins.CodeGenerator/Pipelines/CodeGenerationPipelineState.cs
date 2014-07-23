@@ -19,18 +19,23 @@
 using System.Collections.Generic;
 using CopaceticSoftware.CodeGenerator.StarterKit;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolution;
 using CopaceticSoftware.Common.Infrastructure;
+using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 {
-    public class CodeGenerationPipelineState : ICodeGenerationPipelineState
+    public class CodeGenerationPipelineState : ICodeGenerationPipelineState, IGenerateCodePipelineState, IResolveMembersPipelineState, IResolveAttributesPipelineState, IParseSourceFilePipelineState, IPipelineCommonState
     {
         public CodeGenerationPipelineState(ICodeGeneratorContext context)
             :this(context, new TypeInstanceActivator()){}
@@ -53,14 +58,55 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             GeneratedClasses = new List<ICodeGeneratorProxy>();
             GeneratedCodeSyntaxTree = new SyntaxTree();
         }
-        
+
+        #region Pipeline Linking
+        public IPipelineCommonState CommonState { get { return this; } }
+        public IParseSourceFilePipelineState ParseSourceFilePipeline { get { return this; } }
+        public IResolveAttributesPipelineState ResolveAttributesPipeline { get { return this; } }
+        public IResolveMembersPipelineState ResolveMembersPipeline { get { return this; } }
+        #endregion
+
+        #region IPipelineCommonState
+        /// <summary>
+        /// Returns information about the current code generation environment
+        /// including the Visual Studio <see cref="Solution"/>
+        /// and Target <see cref="CSharpFile"/>.
+        /// </summary>
         public ICodeGeneratorContext Context { get; private set; }
 
+        /// <summary>
+        /// Collection of all Target <see cref="TypeDeclaration"/>s
+        /// in the <see cref="ICodeGeneratorContext.Source"/>.
+        /// </summary>
         public IList<TypeDeclaration> SourcePartialClassDefinitions { get; private set; }
+
+        /// <summary>
+        /// Collection of all <see cref="IAttribute"/>s
+        /// found at the Assembly level.
+        /// </summary>
         public IList<IAttribute> AssemblyAttributes { get; private set; }
+
+        /// <summary>
+        /// Mapping of <see cref="IAttribute"/>s that 
+        /// to each <see cref="SourcePartialClassDefinitions"/>.
+        /// </summary>
         public Dictionary<TypeDeclaration, IList<IAttribute>> SourcePartialClassAttributes { get; private set; }
+
+        /// <summary>
+        /// Provides a mechanism for 
+        /// <see cref="IPipelineStep{TPipelineStateManager}"/>
+        /// to add errors and warnings that should be bubbled up to 
+        /// Visual Studio. 
+        /// </summary>
         public IList<CodeGenerationError> CodeGenerationErrors { get; private set; }
-        
+        #endregion
+
+        #region IResolveAttributesPipelineState
+
+        /// <summary>
+        /// A <see cref="ITypeInstanceActivator"/> that can 
+        /// be used to create instances of <see cref="IAttribute"/>s.
+        /// </summary>
         public ITypeInstanceActivator TypeInstanceActivator { get; private set; }
 
         /// <summary>
@@ -68,7 +114,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         /// the <see cref="IPMixinAttribute"/>s parsed in the source, and mapped to each
         /// parsed class.
         /// </summary>
-        public Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> PartialClassLevelResolvedPMixinAttributes { get; private set; }
+        public Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>>
+            PartialClassLevelResolvedPMixinAttributes { get; private set; }
+        #endregion
+
+        #region IResolveMembersPipelineState
+        public Dictionary<TypeDeclaration, IList<MemberWrapper>> MixinMembers { get; private set; }
+        #endregion
+
+        #region IGenerateCodePipelineState
+        public SyntaxTree CodeBehindSyntaxTree { get; private set; }
+        #endregion
 
         public IList<ICodeGeneratorProxy> GeneratedClasses { get; private set; }
         public SyntaxTree GeneratedCodeSyntaxTree { get; private set; }

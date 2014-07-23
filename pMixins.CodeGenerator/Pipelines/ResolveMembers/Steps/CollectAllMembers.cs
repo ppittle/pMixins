@@ -29,7 +29,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers.Steps
     {
         public bool PerformTask(IResolveMembersPipelineState manager)
         {
-            foreach (var target in manager.ResolveAttributesPipeline.SourcePartialClassDefinitions)
+            foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
                 var memberWrappers =
                     manager.ResolveAttributesPipeline.PartialClassLevelResolvedPMixinAttributes[target]

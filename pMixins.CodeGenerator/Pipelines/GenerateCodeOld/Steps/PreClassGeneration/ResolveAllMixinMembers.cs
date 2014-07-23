@@ -54,11 +54,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
         {
             var includeInternalMembers =
                     mixinAttribute.Mixin.GetDefinition().ParentAssembly.Equals(
-                    manager.BaseState.Context.TypeResolver.Compilation.MainAssembly);
+                    manager.BaseState.CommonState.Context.TypeResolver.Compilation.MainAssembly);
 
             var doNotMixinIType = 
                 typeof (DoNotMixinAttribute)
-                .ToIType(manager.BaseState.Context.TypeResolver.Compilation);
+                .ToIType(manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
             var memberFilter = new Func<IMember, bool>(
                 member => ( 

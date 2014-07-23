@@ -57,7 +57,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
             try
             {
                 var resolveResult =
-                    manager.BaseState.Context.TypeResolver.Resolve(manager.SourceClass);
+                    manager.BaseState.CommonState.Context.TypeResolver.Resolve(manager.SourceClass);
 
                 if (!resolveResult.IsError && null != resolveResult.Type)
                     targetParentAssembly = resolveResult.Type.GetDefinition().ParentAssembly;
@@ -117,7 +117,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
                     method.GetOriginalName(),
                     method.Parameters.ToKeyValuePair(),
                     GetMethodBodyStatement(method, manager),
-                    method.GetGenericMethodConstraints(manager.BaseState.Context.TypeResolver.Compilation));
+                    method.GetGenericMethodConstraints(manager.BaseState.CommonState.Context.TypeResolver.Compilation));
         }
 
         private string GetMethodBodyStatement(IMethod method, pMixinGeneratorPipelineState manager)

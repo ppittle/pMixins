@@ -28,7 +28,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
     {
         public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
-            var compilation = manager.BaseState.Context.TypeResolver.Compilation;
+            var compilation = manager.BaseState.CommonState.Context.TypeResolver.Compilation;
 
             manager.BaseState.TypeInstanceActivator.TryCreateInstance<pMixinAttribute>(
                 manager.ResolvedResult.AttributeDefinition,

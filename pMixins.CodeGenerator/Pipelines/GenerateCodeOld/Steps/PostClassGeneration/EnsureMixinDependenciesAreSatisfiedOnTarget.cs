@@ -64,7 +64,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                     .SelectMany(x => x.Value)
                     .Union(
                         manager.SourceClass.BaseTypes
-                            .Select(bt => manager.BaseState.Context.TypeResolver.Resolve(bt).Type))
+                            .Select(bt => manager.BaseState.CommonState.Context.TypeResolver.Resolve(bt).Type))
                     .ToList();
 
           var unsatisfiedDependencies =
@@ -108,8 +108,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.P
                                             .Any(p => p.TypeArguments.First().Equals(dep)))
                                     .Key);
 
-            
-                    manager.BaseState.CodeGenerationErrors.Add(
+
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError
                         {
                             

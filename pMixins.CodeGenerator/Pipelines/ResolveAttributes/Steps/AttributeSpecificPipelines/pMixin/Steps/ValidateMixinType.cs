@@ -33,7 +33,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (null == pMixinResolvedResult.Mixin)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             Strings.ErrorMixinTypeIsNotSpecified,
                             CodeGenerationError.SeverityOptions.Error,
@@ -47,7 +47,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (pMixinResolvedResult.Mixin.Kind == TypeKind.Unknown)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinCouldNotBeResolved,
@@ -64,7 +64,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 pMixinResolvedResult.Mixin.Kind == TypeKind.Struct)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinCanNotBeInterfaceOrStruct,
@@ -81,7 +81,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 pMixinResolvedResult.Mixin.GetDefinition().IsNestedType())
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinIsNestedAndAbstract,
@@ -99,7 +99,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 if (mixinMember.ReturnType.IsUnkown())
                     #region Log Error and Return False
                     {
-                        manager.BaseState.CodeGenerationErrors.Add(
+                        manager.BaseState.CommonState.CodeGenerationErrors.Add(
                             new CodeGenerationError(
                                 string.Format(
                                     Strings.ErrorTypeInMixinMemberCouldNotBeResolved,
@@ -121,7 +121,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                     .Where(memberParamType => memberParamType.Type.IsUnkown()))
                         #region Log Error and Return False
                         {
-                            manager.BaseState.CodeGenerationErrors.Add(
+                            manager.BaseState.CommonState.CodeGenerationErrors.Add(
                                 new CodeGenerationError(
                                     string.Format(
                                         Strings.ErrorTypeInMixinMemberCouldNotBeResolved,

@@ -29,7 +29,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
         public bool PerformTask(pMixinGeneratorPipelineState manager)
         {
             var doNotMixinType = typeof(DoNotMixinAttribute)
-                .ToIType(manager.BaseState.Context.TypeResolver.Compilation);
+                .ToIType(manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
             manager.GeneratedClass.GeneratedClassSyntaxTree.Attributes.AddRange(
                     manager.CurrentpMixinAttribute.Mixin

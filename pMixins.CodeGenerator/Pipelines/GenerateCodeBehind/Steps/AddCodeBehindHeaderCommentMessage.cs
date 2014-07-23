@@ -30,8 +30,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.S
         {
             var relativeFilePath =
                 PathExtensions.MakeRelativePath(
-                    Path.GetDirectoryName(manager.Context.Solution.FileName.FullPath),
-                    manager.Context.Source.FileName.FullPath);
+                    Path.GetDirectoryName(manager.CommonState.Context.Solution.FileName.FullPath),
+                    manager.CommonState.Context.Source.FileName.FullPath);
 
             var commentNode = new Comment(
                 FormatHeader(relativeFilePath),

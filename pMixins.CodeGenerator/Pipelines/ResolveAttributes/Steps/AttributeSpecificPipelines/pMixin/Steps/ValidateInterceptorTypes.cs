@@ -34,7 +34,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                     interceptor.GetDefinition().IsAbstract)
                     #region Log Error and Return False
                     {
-                        manager.BaseState.CodeGenerationErrors.Add(
+                        manager.BaseState.CommonState.CodeGenerationErrors.Add(
                             new CodeGenerationError(
                                 string.Format(
                                     Strings.ErrorInterceptorMustBeConcreteClass,
@@ -50,7 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 if (!interceptor.GetDefinition().Implements<IMixinInterceptor>())
                     #region Log Error and Return False
                     {
-                        manager.BaseState.CodeGenerationErrors.Add(
+                        manager.BaseState.CommonState.CodeGenerationErrors.Add(
                             new CodeGenerationError(
                                 string.Format(
                                     Strings.ErrorInterceptorMustImplementIMixinIntercetpor,

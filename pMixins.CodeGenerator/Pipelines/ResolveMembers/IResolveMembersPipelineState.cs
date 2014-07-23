@@ -26,6 +26,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers
 {
     public interface IResolveMembersPipelineState 
     {
+        IPipelineCommonState CommonState { get; }
+
         /// <summary>
         /// The State from the previous Resolve Attributes
         /// step.

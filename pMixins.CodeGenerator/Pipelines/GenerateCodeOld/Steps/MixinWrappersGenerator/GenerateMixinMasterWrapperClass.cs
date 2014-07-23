@@ -287,7 +287,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         {
             var proxyMemberHelper =
                 new MasterWrapperCodeGeneratorProxyMemberHelper(wrapperClass,
-                    manager.BaseState.Context.TypeResolver.Compilation);
+                    manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
             var sb = new StringBuilder();
 
@@ -405,7 +405,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         {
             var proxyMemberHelper = 
                 new MasterWrapperCodeGeneratorProxyMemberHelper(wrapperClass,
-                    manager.BaseState.Context.TypeResolver.Compilation);
+                    manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
 
             //Static Members
@@ -474,7 +474,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
                             string.Join(",",
                                 (member as IMethod).Parameters.Select(x => x.Name))),
                         (member as IMethod).GetGenericMethodConstraints(
-                            manager.BaseState.Context.TypeResolver.Compilation));
+                            manager.BaseState.CommonState.Context.TypeResolver.Compilation));
                 }
                 #endregion
                 #region Virtual Property

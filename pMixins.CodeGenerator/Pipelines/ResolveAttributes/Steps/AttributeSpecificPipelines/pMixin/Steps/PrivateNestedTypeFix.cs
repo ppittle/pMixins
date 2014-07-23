@@ -30,8 +30,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
         public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             var resolvedClassDefs =
-                manager.BaseState.Context.Source.SyntaxTree.GetClassDefinitions()
-                    .Select(classDef => manager.BaseState.Context.TypeResolver.Resolve(classDef))
+                manager.BaseState.CommonState.Context.Source.SyntaxTree.GetClassDefinitions()
+                    .Select(classDef => manager.BaseState.CommonState.Context.TypeResolver.Resolve(classDef))
                     .Where(resolvedClassDef => !resolvedClassDef.IsError)
                     .ToList();
 

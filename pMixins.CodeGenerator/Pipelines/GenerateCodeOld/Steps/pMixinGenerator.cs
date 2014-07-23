@@ -71,7 +71,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
 
         public bool PerformTask(ICodeGenerationPipelineState manager)
         {
-            foreach (var sourceClass in manager.SourcePartialClassDefinitions)
+            foreach (var sourceClass in manager.CommonState.SourcePartialClassDefinitions)
             {
                 //Generate the new partial class definition, create 
                 //a code generator for later steps to use
@@ -89,7 +89,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps
 
                 var generatedClass = new CodeGeneratorProxy(
                     newClassDeclaration,
-                    manager.Context.Source.OriginalText);
+                    manager.CommonState.Context.Source.OriginalText);
 
                 var mixinGeneratorState =
                     new pMixinGeneratorPipelineState

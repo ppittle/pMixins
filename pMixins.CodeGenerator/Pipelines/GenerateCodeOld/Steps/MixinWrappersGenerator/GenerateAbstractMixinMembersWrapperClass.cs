@@ -142,7 +142,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.M
         private void ProcessMembers(ICodeGeneratorProxy wrapperClass, pMixinGeneratorPipelineState manager)
         {
             var proxyMemberHelper = new CodeGeneratorProxyMemberHelper(wrapperClass,
-                manager.BaseState.Context.TypeResolver.Compilation);
+                manager.BaseState.CommonState.Context.TypeResolver.Compilation);
 
             proxyMemberHelper.CreateMembers(
                 manager.CurrentMixinMembers.GetUnimplementedAbstractMembers(),

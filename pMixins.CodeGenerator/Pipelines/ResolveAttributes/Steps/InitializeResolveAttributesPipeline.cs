@@ -26,7 +26,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
     {
         public bool PerformTask(IResolveAttributesPipelineState manager)
         {
-            foreach (var classDef in manager.SourcePartialClassDefinitions)
+            foreach (var classDef in manager.CommonState.SourcePartialClassDefinitions)
             {
                 manager.PartialClassLevelResolvedPMixinAttributes.Add(
                     classDef, new List<pMixinAttributeResolvedResultBase>());

@@ -53,7 +53,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 manager.CodeBehindSyntaxTree.AddChildTypeDeclaration
                     (targetCodeBehind, manager.TargetSourceTypeDeclaration.GetParent<NamespaceDeclaration>());
 
-            manager.TargetSourceTypeDeclaration = targetCodeBehind;
+                manager.TargetCodeBehindTypeDeclaration = targetCodeBehind;
         }
     }
 }

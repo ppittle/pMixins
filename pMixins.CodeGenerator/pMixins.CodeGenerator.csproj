@@ -84,7 +84,9 @@
   <ItemGroup>
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Infrastructure\CodeGeneratorProxy.cs" />
+    <Compile Include="Infrastructure\MemberImplementationStrategies\IImplementationStrategy.cs" />
     <Compile Include="Infrastructure\MasterWrapperCodeGeneratorProxyMemberHelper.cs" />
+    <Compile Include="Infrastructure\MemberWrapper.cs" />
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />
     <Compile Include="Infrastructure\Log4NetInMemoryStreamAppenderManager.cs" />
     <Compile Include="Pipelines\GenerateCode\Infrastructure\ExternalGeneratedNamespaceHelper.cs" />
@@ -135,6 +137,8 @@
     <Compile Include="Pipelines\ResolveAttributes\IResolveAttributesPipelineState.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\ResolveAttributes.cs" />
     <Compile Include="Pipelines\ResolveAttributes\TypeInstanceActivator.cs" />
+    <Compile Include="Pipelines\ResolveMembers\Steps\CollectAllMembers.cs" />
+    <Compile Include="Pipelines\ResolveMembers\IResolveMembersPipelineState.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\StopIfDisableCodeGenerationAttributeIsPresentInAssembly.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\StopIfSourceCodeDoesNotHaveAPartialClassDefinition.cs" />
@@ -167,7 +171,9 @@
       <Name>pMixins</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Pipelines\ResolveMembers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>powershell.exe -file "$(SolutionDir)\scripts\AddCopyrightToAllClasses.ps1" -target $(ProjectDir)</PreBuildEvent>

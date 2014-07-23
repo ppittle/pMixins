@@ -35,7 +35,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
                 new ParsepMixinAttributes()
             };
 
-        private readonly IPipelineStep<IParseSourceFilePipelineState>[] _sourceValidationPipeline =
+        private readonly IPipelineStep<IParseSourceFilePipelineState>[] _validateSourcePipeline =
             {
                 new StopIfDisableCodeGenerationAttributeIsPresentInAssembly(), 
                 new PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute(),
@@ -64,7 +64,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
                  return false;
              }
 
-             if (!_sourceValidationPipeline.RunPipeline(manager,
+             if (!_validateSourcePipeline.RunPipeline(manager,
                      haltOnStepFailing: step => true))
              {
                  return false;

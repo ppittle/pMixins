@@ -96,7 +96,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
             foreach (var mixinMember in pMixinResolvedResult.Mixin.GetMembers())
             {
-                if (mixinMember.ReturnType.IsUnkown())
+                if (mixinMember.ReturnType.IsUnknown())
                     #region Log Error and Return False
                     {
                         manager.BaseState.CommonState.CodeGenerationErrors.Add(
@@ -118,7 +118,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                     continue;
 
                 foreach (var memberParamType in (mixinMember as IMethod).Parameters
-                    .Where(memberParamType => memberParamType.Type.IsUnkown()))
+                    .Where(memberParamType => memberParamType.Type.IsUnknown()))
                         #region Log Error and Return False
                         {
                             manager.BaseState.CommonState.CodeGenerationErrors.Add(

@@ -40,6 +40,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// <summary>
         /// "global::" + <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </summary>
+        /// <param name="type">
+        /// The type to work on.
+        /// </param>
         /// <param name="rootDefinition">
         /// Optional parameter that is used to look up the <see cref="DefaultTypeParameter"/>
         /// </param>
@@ -151,7 +154,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// Provides special handling for nested types so the 
         /// type name is Name.Space.Parent+Child instead of
         /// Name.Space.Parent.Child (which would be output by
-        /// <see cref="GetOriginalFullName"/>
+        /// <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </remarks>
         /// <remarks>
         /// TODO: This method only supports one level of class nesting.
@@ -240,12 +243,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return type.GetAttributes(includeBaseTypes).Any(a => a.AttributeType.Equals(attributeType));
         }
 
-        public static bool IsNullOrUnkown(this IType type)
+        public static bool IsNullOrUnknown(this IType type)
         {
-            return (null == type || type.IsUnkown());
+            return (null == type || type.IsUnknown());
         }
 
-        public static bool IsUnkown(this IType type)
+        public static bool IsUnknown(this IType type)
         {
             return type.Kind == TypeKind.Unknown;
         }

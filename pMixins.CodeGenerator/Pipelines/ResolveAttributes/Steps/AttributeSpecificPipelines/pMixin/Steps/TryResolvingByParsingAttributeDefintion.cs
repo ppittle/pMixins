@@ -30,7 +30,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
     {
         public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
-            if (!manager.ResolvedResult.Mixin.IsNullOrUnkown())
+            if (!manager.ResolvedResult.Mixin.IsNullOrUnknown())
                 //ResolvedResult has already been resolved!
                 return true;
 

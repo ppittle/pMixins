@@ -56,7 +56,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
         private IType TryResolvePrivateNestedType(IType type, IEnumerable<ResolveResult> resolvedClassDefs)
         {
-            if (!type.IsUnkown())
+            if (!type.IsUnknown())
                 return type;
 
             foreach (var resolvedClassDef in resolvedClassDefs)

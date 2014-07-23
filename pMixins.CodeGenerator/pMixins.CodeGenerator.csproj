@@ -89,6 +89,11 @@
     <Compile Include="Infrastructure\MemberWrapper.cs" />
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />
     <Compile Include="Infrastructure\Log4NetInMemoryStreamAppenderManager.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\Steps\CreateTargetCodeBehindTypeDeclaration.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\TargetLevelCodeGenerator.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\TargetLevelCodeGeneratorPipeline.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Steps\AddCodeBehindHeaderCommentMessage.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Steps\GenerateCodeForEachTargetInSourceFile.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\ExternalGeneratedNamespaceHelper.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMemberResolvedResult.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMembersHelper.cs" />
@@ -116,6 +121,8 @@
     <Compile Include="Pipelines\GenerateCodeOld\Steps\pMixinGenerator.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Steps\pMixinGeneratorPipelineState.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Steps\PreClassGeneration\ResolveAllMixinMembers.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\IGenerateCodePipelineState.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Steps\GenerateMembers\GenerateAbstractWrapperMembers.cs" />
     <Compile Include="Pipelines\pMixinPartialCodeGeneratorPipeline.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\ICodeGenerationPipelineState.cs" />
     <Compile Include="Pipelines\IPipelineCommonState.cs" />
@@ -172,7 +179,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pipelines\ResolveMembers\" />
+    <Folder Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

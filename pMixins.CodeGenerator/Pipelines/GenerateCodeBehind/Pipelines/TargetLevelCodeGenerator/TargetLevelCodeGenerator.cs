@@ -29,6 +29,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         private readonly IPipelineStep<TargetLevelCodeGeneratorPipeline>[] _targetLevelCodeGeneratorPipeline =
             {
                 new CreateTargetCodeBehindTypeDeclaration(), 
+                new RunMixinLevelCodeGeneratorForEachMixin()
             };
 
         public bool PerformTask(TargetLevelCodeGeneratorPipeline manager)

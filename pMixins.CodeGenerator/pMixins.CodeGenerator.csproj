@@ -89,11 +89,14 @@
     <Compile Include="Infrastructure\MemberWrapper.cs" />
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />
     <Compile Include="Infrastructure\Log4NetInMemoryStreamAppenderManager.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\MixinLevelCodeGenerator.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\MixinLevelCodeGeneratorPipeline.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\Steps\CreateTargetCodeBehindTypeDeclaration.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\Steps\RunMixinLevelCodeGeneratorForEachMixin.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\TargetLevelCodeGenerator.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\TargetLevelCodeGeneratorPipeline.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Steps\AddCodeBehindHeaderCommentMessage.cs" />
-    <Compile Include="Pipelines\GenerateCodeBehind\Steps\GenerateCodeForEachTargetInSourceFile.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Steps\RunTargetLevelCodeGeneratorForEachTarget.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\ExternalGeneratedNamespaceHelper.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMemberResolvedResult.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMembersHelper.cs" />
@@ -122,7 +125,7 @@
     <Compile Include="Pipelines\GenerateCodeOld\Steps\pMixinGeneratorPipelineState.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Steps\PreClassGeneration\ResolveAllMixinMembers.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\IGenerateCodePipelineState.cs" />
-    <Compile Include="Pipelines\GenerateCodeBehind\Steps\GenerateMembers\GenerateAbstractWrapperMembers.cs" />
+    <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\Steps\GenerateMembers\GenerateAbstractWrapperMembers.cs" />
     <Compile Include="Pipelines\pMixinPartialCodeGeneratorPipeline.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\ICodeGenerationPipelineState.cs" />
     <Compile Include="Pipelines\IPipelineCommonState.cs" />
@@ -178,9 +181,7 @@
       <Name>pMixins</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>powershell.exe -file "$(SolutionDir)\scripts\AddCopyrightToAllClasses.ps1" -target $(ProjectDir)</PreBuildEvent>

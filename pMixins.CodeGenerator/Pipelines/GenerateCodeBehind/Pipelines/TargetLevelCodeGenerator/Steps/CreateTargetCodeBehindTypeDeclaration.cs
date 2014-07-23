@@ -17,7 +17,9 @@
 //-----------------------------------------------------------------------
 
 using System;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps
 {
@@ -41,7 +43,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     {
         public bool PerformTask(TargetLevelCodeGeneratorPipeline manager)
         {
-            throw new NotImplementedException();
+              var targetCodeBehind =
+                    new TypeDeclaration
+                        {
+                            ClassType = ClassType.Class,
+                            Modifiers = manager.TargetSourceTypeDeclaration.Modifiers, // this should include partial
+                            Name = manager.TargetSourceTypeDeclaration.Name
+                        };
+
+                manager.CodeBehindSyntaxTree.AddChildTypeDeclaration
+                    (targetCodeBehind, manager.TargetSourceTypeDeclaration.GetParent<NamespaceDeclaration>());
+
+            manager.TargetSourceTypeDeclaration = targetCodeBehind;
         }
     }
 }

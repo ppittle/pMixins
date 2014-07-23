@@ -63,7 +63,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         private readonly IPipelineStep<IGenerateCodePipelineState>[] _generateCodeBehind =
             {
                 new AddCodeBehindHeaderCommentMessage(),
-                new GenerateCodeForEachTargetInSourceFile(), 
+                new RunTargetLevelCodeGeneratorForEachTarget(), 
             };       
 
         public bool PerformTask(CodeGenerationPipelineState manager)

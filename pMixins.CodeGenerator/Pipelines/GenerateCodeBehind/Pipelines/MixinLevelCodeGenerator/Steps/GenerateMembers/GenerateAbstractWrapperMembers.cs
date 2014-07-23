@@ -16,18 +16,13 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
-using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.GenerateMembers
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps.GenerateMembers
 {
     public class GenerateAbstractWrapperMembers : IPipelineStep<IGenerateCodePipelineState>
     {

@@ -16,6 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.Common.Extensions;
+using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
@@ -25,6 +27,20 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         public static bool IsNestedType(this ITypeDefinition typeDefinition)
         {
             return typeDefinition.Name.Contains("+");
+        }
+
+        public static string GetFullTypeName(this TypeDeclaration typeDeclaration)
+        {
+            var namespaceDeclaration =
+                typeDeclaration.GetParent<NamespaceDeclaration>();
+
+            return
+                (
+                    (null != namespaceDeclaration)
+                        ? namespaceDeclaration.FullName.EnsureEndsWith(".")
+                        : ""
+                ) +
+                typeDeclaration.Name;
         }
     }
 }

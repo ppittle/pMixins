@@ -17,14 +17,48 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.MixinWrappersGenerator;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps.GenerateMembers
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
-    public class GenerateAbstractWrapperMembers : IPipelineStep<IGenerateCodePipelineState>
+    /// <summary>
+    /// Adds members to the Abstract Wrapper:
+    /// <code>
+    /// <![CDATA[
+    /// //Class created in earlier step.
+    /// public class MixinAbstractWrapper : MixinProtectedWrapper
+    /// {
+    ///     IMixinRequirements _target;
+    /// 
+    ///     public MixinAbstractWrapper(IMixinRequirements target)
+    ///     {
+    ///          _target = target;
+    ///     }
+    /// 
+    ///     public override string PublicAbstractMethod()
+    ///     {
+    ///          return _target.PublicAbstractMethodImplementation();
+    ///     }
+    /// 
+    ///     //Special case for protected abstract members
+    ///     //because they can't be made public in the Protected Wrapper
+    ///     protected override string ProtectedAbstractMethod()
+    ///     {
+    ///          return _target.ProtectedAbstractMethodImplementation();
+    ///     }
+    /// 
+    ///     public string ProtectedAbstractMethod_Public()
+    ///     {
+    ///          return ProtectedAbstractMethod();
+    ///     } 
+    /// } 
+    /// ]]></code>
+    /// </summary>
+    public class GenerateAbstractWrapperMembers : IPipelineStep<MixinLevelCodeGeneratorPipelineState>
     {
         /// <summary>
         /// Variable name for the variable that references the target.  
@@ -32,79 +66,155 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.S
         /// </summary>
         private const string RequirementsVariable = "_target";
 
-        public bool PerformTask(IGenerateCodePipelineState manager)
+        public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
             var codeGenerator =
                 new CodeGeneratorProxy(manager.AbstractMembersWrapper, "");
 
+            CreateRequirementsDataMember(codeGenerator, manager);
+
             CreateRequirementsDataMemberAndConstructor(codeGenerator, manager);
+
+            ProcessMembers(codeGenerator, manager);
+
+            return true;
+        }
+
+        private void CreateRequirementsDataMember(
+            ICodeGeneratorProxy codeGenerator, 
+            MixinLevelCodeGeneratorPipelineState manager)
+        {
+            codeGenerator.CreateDataMember(
+               modifiers:
+                           "private readonly",
+               dataMemberTypeFullName:
+                           manager.RequirementsInterface
+                               .GetFullTypeName().EnsureStartsWith("global::"),
+               dataMemberName:
+                           RequirementsVariable);
         }
 
         private void CreateRequirementsDataMemberAndConstructor(
-            ICodeGeneratorProxy wrapperClass, IGenerateCodePipelineState manager)
+            ICodeGeneratorProxy abstractWrapperCodeGenerator, 
+            MixinLevelCodeGeneratorPipelineState manager)
         {
-            wrapperClass.CreateDataMember(
-                "private readonly",
-                manager.CurrentMixinRequirementsInterface.EnsureStartsWith("global::"),
-                RequirementsVariable);
+            var requirementsVariableConstructorParameterName =
+                    RequirementsVariable.Replace("_", "");
 
-            if (!manager.CurrentpMixinAttribute.ExplicitlyInitializeMixin &&
-                manager.CurrentpMixinAttribute.Mixin.GetConstructors()
-                .Any(c => !c.Parameters.Any()))
+            var requirementsVariableTypeFullName =
+                manager.RequirementsInterface
+                    .GetFullTypeName().EnsureStartsWith("global::");
+
+            var requirementsVariableConstructorParamater =
+                new KeyValuePair<string, string>(
+                    //param type
+                    requirementsVariableTypeFullName,
+                    //param var name
+                    requirementsVariableConstructorParameterName);
+
+            //_target = target;
+            var requirementsVariableAssignmentExpression =
+                string.Format("{0} = {1};",
+                    //data member 
+                    RequirementsVariable,
+                    //equals constructor param name
+                    requirementsVariableConstructorParameterName);
+            
+            if (manager.MixinGenerationPlan.AbstractWrapperPlan.WrapAllConstructors)
             {
-                //No explicit initialization, so just add a simple constructor 
-                //that takes a single parameter of type CurrentMixinRequirementsInterface
+                var allConstructors =
+                    manager.MixinGenerationPlan.MixinAttribute.Mixin.GetConstructors();
 
-                wrapperClass.CreateConstructor(
-                    "public",
-                    new[]{new KeyValuePair<string, string>( 
-                        manager.CurrentMixinRequirementsInterface.EnsureStartsWith("global::"),
-                        RequirementsVariable.Replace("_",""))},
-                    "",
-                    RequirementsVariable + "= " + RequirementsVariable.Replace("_", "") + ";");
+                foreach (var constructor in allConstructors)
+                {
+                    //Add requirementsVariableConstructorParameterName
+                    //as first constructor argument
+                    var updatedParameters =
+                        new []
+                        {
+                            requirementsVariableConstructorParamater
+                        }
+                        .Union(
+                            constructor.Parameters.ToKeyValuePair())
+                        .ToList();
 
-                return;
+                    abstractWrapperCodeGenerator.CreateConstructor(
+                        modifiers:
+                            "public",
+                        parameters:
+                            updatedParameters,
+                        constructorInitializer:
+                            //pass original constructor arguments to original Mixin constructor
+                            ": base(" + string.Join(",", constructor.Parameters.Select(p => p.Name)) + ")",
+                        constructorBody:
+                            requirementsVariableAssignmentExpression
+                    );
+                }
             }
-
-            //Explicit initialization is needed, so wrap all existing constructors
-            foreach (var constructor in manager.CurrentpMixinAttribute.Mixin.GetConstructors())
+            else
             {
-                var updatedParameters =
-                    constructor.Parameters.ToKeyValuePair();
-
-                updatedParameters.Insert(0,
-                    new KeyValuePair<string, string>(
-                        manager.CurrentMixinRequirementsInterface.EnsureStartsWith("global::"),
-                        RequirementsVariable.Replace("_", "")));
-
-                wrapperClass.CreateConstructor(
-                    "public",
-                    updatedParameters,
-                    ": base(" + string.Join(",", constructor.Parameters.Select(p => p.Name)) + ")",
-                    RequirementsVariable + "= " + RequirementsVariable.Replace("_", "") + ";");
+                //Add a simple constructor 
+                //that takes a single parameter of type CurrentMixinRequirementsInterface
+                //public AbstractWrapper(IMixinRequirements target)
+                //{
+                //    _target = target;
+                //}
+                abstractWrapperCodeGenerator
+                    .CreateConstructor(
+                        modifiers:
+                            "public",
+                        parameters:
+                            new[]
+                            {
+                                new KeyValuePair<string, string>(
+                                    //param type
+                                    requirementsVariableTypeFullName,
+                                    //param var name
+                                    requirementsVariableConstructorParameterName)
+                            },
+                        constructorInitializer:
+                            string.Empty,
+                        constructorBody:
+                            requirementsVariableAssignmentExpression
+                        );
             }
         }
 
-        private void ProcessMembers(ICodeGeneratorProxy wrapperClass, IGenerateCodePipelineState manager)
+        private void ProcessMembers(
+            ICodeGeneratorProxy abstractWrapperCodeGenerator, 
+            MixinLevelCodeGeneratorPipelineState manager)
         {
-            var proxyMemberHelper = new CodeGeneratorProxyMemberHelper(wrapperClass,
-                manager.BaseState.Context.TypeResolver.Compilation);
+            var proxyMemberHelper = 
+                new CodeGeneratorProxyMemberHelper(
+                    abstractWrapperCodeGenerator,
+                    manager.CommonState.Context.TypeResolver.Compilation);
 
             proxyMemberHelper.CreateMembers(
-                manager.CurrentMixinMembers.GetUnimplementedAbstractMembers(),
-                generateMemberModifier: member => member.IsPublic ? "public override" : "protected override",
-                generateReturnTypeFunc: member => member.ReturnType.GetOriginalFullNameWithGlobal(),
+                manager.MixinGenerationPlan.AbstractWrapperPlan.Members,
+                generateMemberModifier: member => member.Member.GetModifiersString(),
+                generateReturnTypeFunc: member => member.Member.ReturnType.GetOriginalFullNameWithGlobal(),
                 baseObjectIdentifierFunc: member => RequirementsVariable,
-                baseObjectMemberNameFunc: member => GenerateMixinImplementationRequirementsInterface.GetAbstractMemberImplementationName(member));
+                baseObjectMemberNameFunc: member => member.ImplementationDetails.RequirementsInterfaceImplementationName);
 
 
-            //Create public wrappers for the protected methods
+            //There is a special case for protected abstract method.
+            //Abstract methods can not have their access modifier 
+            //changed directly, so it is necessary to create
+            //a public wrapper method.
+
+            var abstractMembersToCreateAPublicWrapper =
+                manager.MixinGenerationPlan.AbstractWrapperPlan.Members
+                    .Where(m =>
+                        !string.IsNullOrEmpty(
+                            m.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName));
+
             proxyMemberHelper.CreateMembers(
-                manager.CurrentMixinMembers.GetUnimplementedAbstractMembers().Where(m => m.IsProtected),
-                generateMemberModifier: member => "public",
-                generateReturnTypeFunc: member => member.ReturnType.GetOriginalFullNameWithGlobal(),
-                generateMemberNameFunc: member => GetProtectedMemberWrapperMemberName(member),
-                baseObjectIdentifierFunc: member => "this");
+                abstractMembersToCreateAPublicWrapper,
+                generateMemberModifier: m => "public",
+                generateReturnTypeFunc: m => m.Member.ReturnType.GetOriginalFullNameWithGlobal(),
+                generateMemberNameFunc: m => m.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName,
+                //proxy to the protected member created above
+                baseObjectIdentifierFunc: m => "this");
 
 
         }

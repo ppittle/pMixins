@@ -36,24 +36,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
 
         protected override string GetMethodBodyStatementImpl(
             IMethod method,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> methodNameFunc)
+            string baseObjectIdentifier,
+            string methodName)
         {
             if (method.IsStatic)
-                return base.GetMethodBodyStatementImpl(method, baseObjectIdentifierFunc, methodNameFunc);
+                return base.GetMethodBodyStatementImpl(method, baseObjectIdentifier, methodName);
 
             return string.Format("{0} {1};",
                 method.GetReturnString(),
-                GetMethodBodyCallStatement(method, baseObjectIdentifierFunc, methodNameFunc));
+                GetMethodBodyCallStatement(method, baseObjectIdentifier, methodName));
         }
 
         public string GetMethodBodyCallStatement(
             IMethod method, 
-            Func<IMember,string> baseObjectIdentifierFunc, 
-            Func<IMember,string> methodNameFunc)
+            string baseObjectIdentifier, 
+            string methodName)
         {
             if (method.IsStatic)
-                return base.GetMethodBodyStatementImpl(method, baseObjectIdentifierFunc, methodNameFunc);
+                return base.GetMethodBodyStatementImpl(method, baseObjectIdentifier, methodName);
 
             var masterWrapperBaseMethod =
                 string.IsNullOrEmpty(method.GetReturnString())
@@ -80,18 +80,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
                                             }}",
                             "global::" + typeof(Parameter).FullName,
                             p.Name,
-                            TypeExtensions.GetOriginalFullNameWithGlobal(p.Type)
+                            p.Type.GetOriginalFullNameWithGlobal()
                             ))),
 
-                baseObjectIdentifierFunc(method),
-                methodNameFunc(method),
+                baseObjectIdentifier,
+                methodName,
                 string.Join(",", method.Parameters.Select(x => x.Name)));
         }
 
         protected override string GetPropertyGetterStatementImpl(
             IProperty prop, 
-            Func<IMember, string> baseObjectIdentifierFunc, 
-            Func<IMember, string> propertyNameFunc)
+            string baseObjectIdentifierFunc, 
+            string propertyNameFunc)
         {
             if (prop.IsStatic)
                 return base.GetPropertyGetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
@@ -103,36 +103,36 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
 
         public string GetPropertyGetterReturnBodyStatement(
             IProperty prop,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> propertyNameFunc)
+            string baseObjectIdentifier,
+            string propertyName)
         {
             return string.Format("base.ExecutePropertyGet(\"{0}\", () => {1}.{2})",
                 prop.Name,
-                baseObjectIdentifierFunc(prop),
-                propertyNameFunc(prop));
+                baseObjectIdentifier,
+                propertyName);
         }
 
         protected override string GetPropertySetterStatementImpl(
             IProperty prop, 
-            Func<IMember, string> baseObjectIdentifierFunc, 
-            Func<IMember, string> propertyNameFunc)
+            string baseObjectIdentifier, 
+            string propertyName)
         {
             if (prop.IsStatic)
-                return base.GetPropertySetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
+                return base.GetPropertySetterStatementImpl(prop, baseObjectIdentifier, propertyName);
 
             return string.Format("set{{ {0}; }}",
-               GetPropertySetterReturnBodyStatement(prop, baseObjectIdentifierFunc, propertyNameFunc));
+               GetPropertySetterReturnBodyStatement(prop, baseObjectIdentifier, propertyName));
         }
 
         public string GetPropertySetterReturnBodyStatement(
             IProperty prop,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> propertyNameFunc)
+            string baseObjectIdentifier,
+            string propertyName)
         {
             return string.Format("base.ExecutePropertySet(\"{0}\", value, (v) => {1}.{2} = v)",
                 prop.Name,
-                baseObjectIdentifierFunc(prop),
-                propertyNameFunc(prop));
+                baseObjectIdentifier,
+                propertyName);
         }
     }
 }

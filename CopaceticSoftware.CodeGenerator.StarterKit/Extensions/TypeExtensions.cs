@@ -281,5 +281,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
             return provider.GetTypeOutput(reference);
         }
+
+        public static bool HasParameterlessConstructor(this IType type)
+        {
+            return 
+                type.GetConstructors().Any(
+                    c => null == c.Parameters || 0 == c.Parameters.Count);
+        }
     }
 }

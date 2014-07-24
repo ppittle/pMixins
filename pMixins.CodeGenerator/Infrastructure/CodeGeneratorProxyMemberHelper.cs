@@ -28,173 +28,207 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
     {
         protected readonly ICodeGeneratorProxy CodeGeneratorProxy;
         protected readonly ICompilation Compilation;
+
         public CodeGeneratorProxyMemberHelper(ICodeGeneratorProxy codeGeneratorProxy, ICompilation compilation)
         {
             CodeGeneratorProxy = codeGeneratorProxy;
             Compilation = compilation;
         }
 
-
-        public string GetMethodBodyStatement(IMethod method, Func<IMember, string> baseObjectIdentifierFunc = null, 
-            Func<IMember, string> methodNameFunc = null)
+        public string GetMethodBodyStatement(
+            IMethod method,
+            string baseObjectIdentifier = null, 
+            string methodName = null)
         {
-            if (null == methodNameFunc)
-                methodNameFunc = member => member.GetOriginalName();
+            if (null == baseObjectIdentifier)
+                baseObjectIdentifier = "base";
 
-            if (null == baseObjectIdentifierFunc)
-                baseObjectIdentifierFunc = member => "base";
+            if (null == methodName)
+                methodName = method.GetOriginalName();
 
-            return GetMethodBodyStatementImpl(method, baseObjectIdentifierFunc, methodNameFunc);
+            return GetMethodBodyStatementImpl(method, baseObjectIdentifier, methodName);
         }
 
-        protected virtual string GetMethodBodyStatementImpl(IMethod method,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> methodNameFunc)
+        protected virtual string GetMethodBodyStatementImpl(
+            IMethod method,
+            string baseObjectIdentifier,
+            string methodName)
         {
             return string.Format("{0} {1}.{2}({3});",
                                 method.GetReturnString(),
-                                baseObjectIdentifierFunc(method),
-                                methodNameFunc(method),
+                                baseObjectIdentifier,
+                                methodName,
                                 string.Join(",", method.Parameters.Select(x => x.Name)));
         }
 
-        public string GetPropertyGetterStatement(IProperty prop, Func<IMember, string> baseObjectIdentifierFunc = null,
-            Func<IMember, string> propertyNameFunc = null)
+        public string GetPropertyGetterStatement(
+            IProperty prop,
+            string baseObjectIdentifier = null,
+            string propertyName = null)
         {
-            if (null == propertyNameFunc)
-                propertyNameFunc = member => member.GetOriginalName();
+            if (null == propertyName)
+                propertyName = prop.GetOriginalName();
 
-            if (null == baseObjectIdentifierFunc)
-                baseObjectIdentifierFunc = member => "base";
+            if (null == baseObjectIdentifier)
+                baseObjectIdentifier = "base";
 
             if (!prop.CanGet || prop.Getter.IsPrivate)
                 return string.Empty;
 
-            return GetPropertyGetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
+            return GetPropertyGetterStatementImpl(prop, baseObjectIdentifier, propertyName);
         }
 
         protected virtual string GetPropertyGetterStatementImpl(IProperty prop,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> propertyNameFunc )
+            string baseObjectIdentifier,
+            string propertyName )
         {
-            return string.Format("get{{ return {0}.{1}; }}",
-                               baseObjectIdentifierFunc(prop),
-                                propertyNameFunc(prop));
+            return string.Format(
+                "get{{ return {0}.{1}; }}",
+                baseObjectIdentifier,
+                propertyName);
         }
 
-        public string GetPropertySetterStatement(IProperty prop, Func<IMember, string> baseObjectIdentifierFunc = null,
-            Func<IMember, string> propertyNameFunc = null)
+        public string GetPropertySetterStatement(
+            IProperty prop, 
+            string baseObjectIdentifier = null,
+            string propertyName = null)
         {
-            if (null == propertyNameFunc)
-                propertyNameFunc = member => member.GetOriginalName();
+            if (null == propertyName)
+                propertyName = prop.GetOriginalName();
 
-            if (null == baseObjectIdentifierFunc)
-                baseObjectIdentifierFunc = member => "base";
+            if (null == baseObjectIdentifier)
+                baseObjectIdentifier = "base";
 
             if (!prop.CanSet || prop.Setter.IsPrivate)
                 return string.Empty;
 
-            return GetPropertySetterStatementImpl(prop, baseObjectIdentifierFunc, propertyNameFunc);
+            return GetPropertySetterStatementImpl(prop, baseObjectIdentifier, propertyName);
         }
 
         protected virtual string GetPropertySetterStatementImpl(IProperty prop,
-            Func<IMember, string> baseObjectIdentifierFunc,
-            Func<IMember, string> propertyNameFunc)
+            string baseObjectIdentifier,
+            string propertyName)
         {
-            return string.Format("set{{ {0}.{1} = value; }}",
-                                 baseObjectIdentifierFunc(prop),
-                                 propertyNameFunc(prop));
+            return string.Format(
+                "set{{ {0}.{1} = value; }}",
+                baseObjectIdentifier,
+                propertyName);
         }
 
-        public virtual string GetFieldGetterStatement(IField prop, Func<IMember, string> baseObjectIdentifierFunc = null,
-            Func<IMember, string> propertyNameFunc = null)
+        public virtual string GetFieldGetterStatement(
+            IField field, 
+            string baseObjectIdentifier = null,
+            string propertyName = null)
         {
-            if (null == propertyNameFunc)
-                propertyNameFunc = member => member.GetOriginalName();
+            if (null == propertyName)
+                propertyName = field.GetOriginalName();
 
-            if (null == baseObjectIdentifierFunc)
-                baseObjectIdentifierFunc = member => "base";
+            if (null == baseObjectIdentifier)
+                baseObjectIdentifier =  "base";
 
             return string.Format("get{{ return {0}.{1}; }}",
-                                 baseObjectIdentifierFunc(prop),
-                                 propertyNameFunc(prop));
+                                 baseObjectIdentifier,
+                                 propertyName);
 
         }
 
-        public virtual string GetFieldSetterStatement(IField prop, Func<IMember, string> baseObjectIdentifierFunc = null,
-            Func<IMember, string> propertyNameFunc = null)
+        public virtual string GetFieldSetterStatement(
+            IField field, 
+            string baseObjectIdentifier = null,
+            string propertyName = null)
         {
-            if (null == propertyNameFunc)
-                propertyNameFunc = member => member.GetOriginalName();
+            if (null == propertyName)
+                propertyName = field.GetOriginalName();
 
-            if (null == baseObjectIdentifierFunc)
-                baseObjectIdentifierFunc = member => "base";
+            if (null == baseObjectIdentifier)
+                baseObjectIdentifier = "base";
 
             return
-                (prop.IsConst || prop.IsReadOnly)
+                (field.IsConst || field.IsReadOnly)
                 ? string.Empty
                 : string.Format("set{{ {0}.{1} = value; }}",
-                                 baseObjectIdentifierFunc(prop),
-                                 propertyNameFunc(prop));
+                                 baseObjectIdentifier,
+                                 propertyName);
         }
 
         public virtual void CreateMembers(
-            IEnumerable<IMember> members,
-            Func<IMember, string> generateMemberModifier = null,
-            Func<IMember, string> generateReturnTypeFunc = null,
-            Func<IMember, string> generateMemberNameFunc = null,
-            Func<IMember, string> baseObjectIdentifierFunc = null,
-            Func<IMember, string> baseObjectMemberNameFunc = null, 
+            IEnumerable<MemberWrapper> members,
+            Func<MemberWrapper, string> generateMemberModifier = null,
+            Func<MemberWrapper, string> generateReturnTypeFunc = null,
+            Func<MemberWrapper, string> generateMemberNameFunc = null,
+            Func<MemberWrapper, string> baseObjectIdentifierFunc = null,
+            Func<MemberWrapper, string> baseObjectMemberNameFunc = null, 
             bool importSystemObjectMembers = false)
         {
             if (null == generateMemberModifier)
                 generateMemberModifier = member => "public";
 
             if (null == generateReturnTypeFunc)
-                generateReturnTypeFunc = member => member.ReturnType.GetOriginalFullNameWithGlobal();
+                generateReturnTypeFunc = member => member.Member.ReturnType.GetOriginalFullNameWithGlobal();
 
             if (null == generateMemberNameFunc)
-                generateMemberNameFunc = member => member.GetOriginalName();
+                generateMemberNameFunc = member => member.Member.GetOriginalName();
 
             if (!importSystemObjectMembers)
-                members = members.Where(member => !member.FullName.StartsWith("System.Object"));
+                members = members.Where(member => !member.Member.FullName.StartsWith("System.Object"));
+
+            if (null == baseObjectIdentifierFunc)
+                baseObjectIdentifierFunc = m => null;
+
+            if (null == baseObjectMemberNameFunc)
+                baseObjectMemberNameFunc = m => null;
 
             foreach (var member in members)
             {
                 #region Process Methods
-                if (member is IMethod)
+                if (member.Member is IMethod)
                 {
                     CodeGeneratorProxy.CreateMethod(
                         generateMemberModifier(member),
                         generateReturnTypeFunc(member),
                         generateMemberNameFunc(member),
-                        (member as IMethod).Parameters.ToKeyValuePair(),
-                        GetMethodBodyStatement(member as IMethod, baseObjectIdentifierFunc, baseObjectMemberNameFunc),
-                        (member as IMethod).GetGenericMethodConstraints(Compilation));
+                        (member.Member as IMethod).Parameters.ToKeyValuePair(),
+                        GetMethodBodyStatement(
+                            member.Member as IMethod, 
+                            baseObjectIdentifierFunc(member), 
+                            baseObjectMemberNameFunc(member)),
+                        (member.Member as IMethod).GetGenericMethodConstraints(Compilation));
                 }
                 #endregion
 
                 #region Process Properties
-                else if (member is IProperty)
+                else if (member.Member is IProperty)
                 {
                     CodeGeneratorProxy.CreateProperty(
                         generateMemberModifier(member),
                         generateReturnTypeFunc(member),
                         generateMemberNameFunc(member),
-                        GetPropertyGetterStatement(member as IProperty, baseObjectIdentifierFunc, baseObjectMemberNameFunc),
-                        GetPropertySetterStatement(member as IProperty, baseObjectIdentifierFunc, baseObjectMemberNameFunc));
+                        GetPropertyGetterStatement(
+                            member.Member as IProperty, 
+                            baseObjectIdentifierFunc(member), 
+                            baseObjectMemberNameFunc(member)),
+                        GetPropertySetterStatement(
+                            member.Member as IProperty, 
+                            baseObjectIdentifierFunc(member), 
+                            baseObjectMemberNameFunc(member)));
                 }
                 #endregion
 
                 #region Process Fields
-                else if (member is IField)
+                else if (member.Member is IField)
                 {
                     CodeGeneratorProxy.CreateProperty(
                         generateMemberModifier(member),
                         generateReturnTypeFunc(member),
                         generateMemberNameFunc(member),
-                        GetFieldGetterStatement(member as IField, baseObjectIdentifierFunc, baseObjectMemberNameFunc),
-                        GetFieldSetterStatement(member as IField, baseObjectIdentifierFunc, baseObjectMemberNameFunc));
+                        GetFieldGetterStatement(
+                            member.Member as IField,
+                            baseObjectIdentifierFunc(member),
+                            baseObjectMemberNameFunc(member)),
+                        GetFieldSetterStatement(
+                            member.Member as IField,
+                            baseObjectIdentifierFunc(member),
+                            baseObjectMemberNameFunc(member)));
                 }
                 #endregion
             }

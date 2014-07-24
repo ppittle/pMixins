@@ -58,6 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
 
         public ProtectedWrapperPlan ProtectedWrapperPlan { get; set; }
         public AbstractWrapperPlan AbstractWrapperPlan { get; set; }
+        public MasterWrapperPlan MasterWrapperPlan { get; set; }
 
         //Keep all Members here and also reference in each wrapper plan
         public IEnumerable<MemberWrapper> Members { get; set; }
@@ -104,5 +105,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public IEnumerable<MemberWrapper> Members { get; set; }
 
         public IEnumerable<IMethod> Constructors { get; set; }
+    }
+
+    public class MasterWrapperPlan
+    {
+        /// <summary>
+        /// The variable name for the data member that holds a reference
+        /// to the Mixin (with a type of IRequirements interface).
+        /// </summary>
+        public readonly string MixinInstanceDataMemberName = "_mixinInstance";
+
+        public IEnumerable<MemberWrapper> StaticMembers { get; set; }
+
+        public IEnumerable<MemberWrapper> ProtectedAbstractMembers { get; set; }
+
+        public IEnumerable<MemberWrapper> VirtualMembers { get; set; }
+
+        public IEnumerable<MemberWrapper> RegularMembers { get; set; }
+
+        
     }
 }

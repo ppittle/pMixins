@@ -90,5 +90,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// </summary>
         public string ProtectedAbstractMemberPromotedToPublicMemberName { get; set; }
 
+        /// <summary>
+        /// The name of the function that can be overloaded to simulate
+        /// support for virtual mixin members.
+        /// </summary>
+        public string VirtualMemberFunctionName
+        {
+            get { return ParentMemberWrapper.Member.Name + "Func"; }
+        }
+
     }
 }

@@ -68,6 +68,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             new CollectAllMembers(),
             new CreateProtectedWrapperPlan(),
             new CreateAbstractWrapperPlan(), 
+            new CreateMasterWrapperPlan(), 
             new SetMemberImplementationDetails(), 
         };
 

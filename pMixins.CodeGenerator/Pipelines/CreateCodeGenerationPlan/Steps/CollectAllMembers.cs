@@ -37,9 +37,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                         .SelectMany(CollectMemberWrappers)
                         .ToList();
 
-                manager.MixinMembers.Add(
-                    target,
-                    memberWrappers);   
+                manager.CodeGenerationPlans[target].Members = 
+                    memberWrappers;   
             }
 
             return true;

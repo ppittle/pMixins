@@ -43,6 +43,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
             MixinGenerationPlan> MixinGenerationPlans { get; private set; }
 
         public TypeDeclaration SourceClass { get; set; }
+
+        //Keep all Members here and also reference in the MixinGenerationPlan
+        public IEnumerable<MemberWrapper> Members { get; set; }
     }
 
     public class MixinGenerationPlan

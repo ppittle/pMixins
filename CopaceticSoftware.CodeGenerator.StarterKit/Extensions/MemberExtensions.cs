@@ -139,5 +139,44 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                     member.ImplementedInterfaceMembers.SelectMany(x => x.DeclaringType.GetAttributes()))
                 .Any(a => Equals(a.AttributeType, attributeType));
         }
+
+        public static string GetModifiersString(this IMember member)
+        {
+            var additionalModifiers =
+                member.IsOverridable
+                    ? " virtual"
+                    : "";
+
+            additionalModifiers +=
+                member.IsStatic
+                    ? " static"
+                    : "";
+
+            additionalModifiers +=
+                member.IsOverride
+                    ? " override"
+                    : "";
+
+            var method = member as IMethod;
+
+            if (null != method)
+            {
+                additionalModifiers +=
+                    method.IsAsync
+                        ? " async"
+                        : "";
+            }
+
+            if (member.IsPrivate)
+                return "private" + additionalModifiers;
+
+            if (member.IsProtected)
+                return "protected" + additionalModifiers;
+
+            if (member.IsInternal)
+                return "internal" + additionalModifiers;
+
+            return "public" + additionalModifiers;
+        }
     }
 }

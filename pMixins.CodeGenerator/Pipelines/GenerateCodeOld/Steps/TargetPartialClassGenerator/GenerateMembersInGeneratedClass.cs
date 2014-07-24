@@ -112,7 +112,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
         {
             return
                 manager.GeneratedClass.CreateMethod(
-                    GetModifier(method),
+                    method.GetModifiersString(),
                     method.ReturnType.GetOriginalFullNameWithGlobal(),
                     method.GetOriginalName(),
                     method.Parameters.ToKeyValuePair(),
@@ -144,7 +144,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
         {
             return
                 manager.GeneratedClass.CreateProperty(
-                    GetModifier(property),
+                    property.GetModifiersString(),
                     property.ReturnType.GetOriginalFullNameWithGlobal(),
                     property.Name,
                     GetPropertyGetterStatement(property, manager),
@@ -194,7 +194,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
         {
             return 
                 manager.GeneratedClass.CreateProperty(
-                    GetModifier(field),
+                    field.GetModifiersString(),
                     field.ReturnType.GetOriginalFullNameWithGlobal(),
                     field.Name,
                     GetFieldGetterStatement(field, manager),
@@ -221,30 +221,5 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps.T
         }
 
         #endregion
-
-        private string GetModifier(IMember member)
-        {
-            var additionalModifiers =
-                member.IsOverridable
-                    ? " virtual"
-                    : "";
-
-            additionalModifiers +=
-                member.IsStatic
-                    ? " static"
-                    : "";
-
-            if (member.IsPrivate)
-                return "private" + additionalModifiers;
-
-            if (member.IsProtected)
-                return "protected" + additionalModifiers;
-
-            if (member.IsInternal)
-                return "internal" + additionalModifiers;
-
-            return "public" + additionalModifiers;
-        }
     }
-
 }

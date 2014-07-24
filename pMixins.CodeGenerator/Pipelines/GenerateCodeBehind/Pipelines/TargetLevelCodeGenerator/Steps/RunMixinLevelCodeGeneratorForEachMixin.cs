@@ -33,7 +33,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             var targetsMixins =
                 manager
-                    .ResolveMembersPipeline
+                    .CreateCodeGenerationPlanPipeline
                     .ResolveAttributesPipeline
                     .PartialClassLevelResolvedPMixinAttributes[manager.TargetSourceTypeDeclaration]
                     .OfType<pMixinAttributeResolvedResult>();

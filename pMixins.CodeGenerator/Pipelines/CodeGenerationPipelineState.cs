@@ -24,23 +24,24 @@ using CopaceticSoftware.Common.Infrastructure;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 {
-    public class CodeGenerationPipelineState : ICodeGenerationPipelineState, IGenerateCodePipelineState, IResolveMembersPipelineState, IResolveAttributesPipelineState, IParseSourceFilePipelineState, IPipelineCommonState
+    public class CreateCodeGenerationPipelineState : ICodeGenerationPipelineState, IGenerateCodePipelineState, ICreateCodeGenerationPlanPipelineState, IResolveAttributesPipelineState, IParseSourceFilePipelineState, IPipelineCommonState
     {
-        public CodeGenerationPipelineState(ICodeGeneratorContext context)
+        public CreateCodeGenerationPipelineState(ICodeGeneratorContext context)
             :this(context, new TypeInstanceActivator()){}
 
-        public CodeGenerationPipelineState(ICodeGeneratorContext context, ITypeInstanceActivator typeInstanceActivator)
+        public CreateCodeGenerationPipelineState(ICodeGeneratorContext context, ITypeInstanceActivator typeInstanceActivator)
         {
             Ensure.ArgumentNotNull(context, "context");
             Ensure.ArgumentNotNull(typeInstanceActivator, "typeInstanceActivator");
@@ -55,6 +56,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             TypeInstanceActivator = typeInstanceActivator;
             PartialClassLevelResolvedPMixinAttributes = new Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>>();
 
+            CodeGenerationPlans = new Dictionary<TypeDeclaration, CodeGenerationPlan>();
+
             GeneratedClasses = new List<ICodeGeneratorProxy>();
             GeneratedCodeSyntaxTree = new SyntaxTree();
         }
@@ -63,7 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         public IPipelineCommonState CommonState { get { return this; } }
         public IParseSourceFilePipelineState ParseSourceFilePipeline { get { return this; } }
         public IResolveAttributesPipelineState ResolveAttributesPipeline { get { return this; } }
-        public IResolveMembersPipelineState ResolveMembersPipeline { get { return this; } }
+        public ICreateCodeGenerationPlanPipelineState CreateCodeGenerationPlanPipeline { get { return this; } }
         #endregion
 
         #region IPipelineCommonState
@@ -118,8 +121,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             PartialClassLevelResolvedPMixinAttributes { get; private set; }
         #endregion
 
-        #region IResolveMembersPipelineState
-        public Dictionary<TypeDeclaration, IList<MemberWrapper>> MixinMembers { get; private set; }
+        #region ICreateCodeGenerationPlanPipelineState
+        /// <summary>
+        ///  Dictionary of <see cref="CodeGenerationPlan"/> for each
+        /// each <see cref="IPipelineCommonState.SourcePartialClassDefinitions"/>
+        /// </summary>
+        public Dictionary<TypeDeclaration, CodeGenerationPlan> CodeGenerationPlans { get; private set; }
         #endregion
 
         #region IGenerateCodePipelineState

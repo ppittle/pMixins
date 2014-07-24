@@ -17,11 +17,10 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.CreateTypeDeclarations;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator
@@ -31,7 +30,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         public MixinLevelCodeGeneratorPipelineState(TargetLevelCodeGeneratorPipelineState baseState)
         {
             CommonState = baseState.CommonState;
-            ResolveMembersPipeline = baseState.ResolveMembersPipeline;
+            CreateCodeGenerationPlanPipeline = baseState.CreateCodeGenerationPlanPipeline;
             CodeBehindSyntaxTree = baseState.CodeBehindSyntaxTree;
 
             TargetLevelCodeGeneratorPipelineState = baseState;
@@ -45,7 +44,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         /// The State from the previous Resolve Members
         /// step.
         /// </summary>
-        public IResolveMembersPipelineState ResolveMembersPipeline { get; private set; }
+        public ICreateCodeGenerationPlanPipelineState CreateCodeGenerationPlanPipeline { get; private set; }
         
         public SyntaxTree CodeBehindSyntaxTree { get; private set; }
         #endregion

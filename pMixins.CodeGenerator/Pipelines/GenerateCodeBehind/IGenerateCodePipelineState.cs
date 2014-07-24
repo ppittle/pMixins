@@ -18,7 +18,7 @@
 
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind
@@ -31,7 +31,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind
         /// The State from the previous Resolve Members
         /// step.
         /// </summary>
-        IResolveMembersPipelineState ResolveMembersPipeline { get; }
+        ICreateCodeGenerationPlanPipelineState CreateCodeGenerationPlanPipeline { get; }
 
         /// <summary>
         /// Dictionary of <see cref="MemberWrapper"/> representing

@@ -29,7 +29,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ValidateSourceFile;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 {
-    public class pMixinPartialCodeGeneratorPipeline : IPipelineStep<CodeGenerationPipelineState>
+    public class pMixinPartialCodeGeneratorPipeline : IPipelineStep<CreateCodeGenerationPipelineState>
     {
         private readonly IPipelineStep<IParseSourceFilePipelineState>[] _parseSourcePipeline =
             {
@@ -66,7 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
                 new RunTargetLevelCodeGeneratorForEachTarget(), 
             };       
 
-        public bool PerformTask(CodeGenerationPipelineState manager)
+        public bool PerformTask(CreateCodeGenerationPipelineState manager)
         {
              if (!_parseSourcePipeline.RunPipeline(manager,
                     haltOnStepFailing: step => true))

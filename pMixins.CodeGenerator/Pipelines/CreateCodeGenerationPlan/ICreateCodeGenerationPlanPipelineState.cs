@@ -17,14 +17,13 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using CopaceticSoftware.pMixins.Attributes;
-using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
 using ICSharpCode.NRefactory.CSharp;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan
 {
-    public interface IResolveMembersPipelineState 
+    public interface ICreateCodeGenerationPlanPipelineState 
     {
         IPipelineCommonState CommonState { get; }
 
@@ -35,10 +34,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers
         IResolveAttributesPipelineState ResolveAttributesPipeline { get; }
 
         /// <summary>
-        /// Dictionary of <see cref="MemberWrapper"/> representing
-        /// each <see cref="IPipelineCommonState.SourcePartialClassDefinitions"/>'s
-        /// <see cref="IPMixinAttribute"/>'s Members.
+        /// Dictionary of <see cref="CodeGenerationPlan"/> for each
+        /// each <see cref="IPipelineCommonState.SourcePartialClassDefinitions"/>
         /// </summary>
-        Dictionary<TypeDeclaration, IList<MemberWrapper>> MixinMembers { get; }
+        Dictionary<TypeDeclaration, CodeGenerationPlan> CodeGenerationPlans { get; }
     }
 }

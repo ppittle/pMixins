@@ -23,11 +23,11 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers.Steps
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
-    public class CollectAllMembers : IPipelineStep<IResolveMembersPipelineState>
+    public class CollectAllMembers : IPipelineStep<ICreateCodeGenerationPlanPipelineState>
     {
-        public bool PerformTask(IResolveMembersPipelineState manager)
+        public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {

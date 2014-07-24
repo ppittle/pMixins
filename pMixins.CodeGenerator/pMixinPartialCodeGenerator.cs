@@ -42,14 +42,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
 
                 var logManager = new Log4NetInMemoryStreamAppenderManager();
 
-                var pipelineState = new CodeGenerationPipelineState(codeGeneratorContext);
+                var pipelineState = new CreateCodeGenerationPipelineState(codeGeneratorContext);
 
                 new pMixinPartialCodeGeneratorPipeline().PerformTask(pipelineState);
 
                 return new pMixinPartialCodeGeneratorResponse
                        {
                            CodeGeneratorExecutionTime = stopwatch.Elapsed,
-                           CodeGeneratorPipelineState = pipelineState,
+                           CreateCodeGeneratorPipelineState = pipelineState,
                            CodeGeneratorContext = codeGeneratorContext,
                            Errors = pipelineState.CodeGenerationErrors,
                            GeneratedCodeSyntaxTree = pipelineState.GeneratedCodeSyntaxTree,
@@ -81,6 +81,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
 
     public class pMixinPartialCodeGeneratorResponse : CodeGeneratorResponse
     {
-        public CodeGenerationPipelineState CodeGeneratorPipelineState { get; set; }
+        public CreateCodeGenerationPipelineState CreateCodeGeneratorPipelineState { get; set; }
     }
 }

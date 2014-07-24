@@ -23,6 +23,7 @@ using System.Text;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
+using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -32,9 +33,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
     /// </summary>
     public class CodeGenerationPlan
     {
+        public CodeGenerationPlan()
+        {
+            MixinGenerationPlans = new Dictionary<pMixinAttributeResolvedResult, MixinGenerationPlan>();
+        }
+
         public IDictionary<
             pMixinAttributeResolvedResult,
-            MixinGenerationPlan> MixinGenerationPlans { get; set; } 
+            MixinGenerationPlan> MixinGenerationPlans { get; private set; }
+
+        public TypeDeclaration SourceClass { get; set; }
     }
 
     public class MixinGenerationPlan

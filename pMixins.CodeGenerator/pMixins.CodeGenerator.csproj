@@ -150,8 +150,8 @@
     <Compile Include="Pipelines\ResolveAttributes\IResolveAttributesPipelineState.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\ResolveAttributes.cs" />
     <Compile Include="Pipelines\ResolveAttributes\TypeInstanceActivator.cs" />
-    <Compile Include="Pipelines\ResolveMembers\Steps\CollectAllMembers.cs" />
-    <Compile Include="Pipelines\ResolveMembers\IResolveMembersPipelineState.cs" />
+    <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CollectAllMembers.cs" />
+    <Compile Include="Pipelines\CreateCodeGenerationPlan\ICreateCodeGenerationPlanPipelineState.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\StopIfDisableCodeGenerationAttributeIsPresentInAssembly.cs" />
     <Compile Include="Pipelines\ValidateSourceFile\StopIfSourceCodeDoesNotHaveAPartialClassDefinition.cs" />

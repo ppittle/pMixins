@@ -19,10 +19,10 @@
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.CreateTypeDeclarations;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.CreateTypeDeclarations;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator
@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         public TargetLevelCodeGeneratorPipelineState(IGenerateCodePipelineState baseState)
         {
             CommonState = baseState.CommonState;
-            ResolveMembersPipeline = baseState.ResolveMembersPipeline;
+            CreateCodeGenerationPlanPipeline = baseState.CreateCodeGenerationPlanPipeline;
             CodeBehindSyntaxTree = baseState.CodeBehindSyntaxTree;
         }
 
@@ -50,7 +50,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         /// The State from the previous Resolve Members
         /// step.
         /// </summary>
-        public IResolveMembersPipelineState ResolveMembersPipeline { get; private set; }
+        public ICreateCodeGenerationPlanPipelineState CreateCodeGenerationPlanPipeline { get; private set; }
 
         /// <summary>
         /// Dictionary of <see cref="MemberWrapper"/> representing

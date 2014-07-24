@@ -17,6 +17,8 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
@@ -32,25 +34,25 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
     public class pMixinPartialCodeGeneratorPipeline : IPipelineStep<CreateCodeGenerationPipelineState>
     {
         private readonly IPipelineStep<IParseSourceFilePipelineState>[] _parseSourcePipeline =
-            {
-                new ParseSourceClassDefinitions(), 
-                new ParsepMixinAttributes()
-            };
+        {
+            new ParseSourceClassDefinitions(),
+            new ParsepMixinAttributes()
+        };
 
         private readonly IPipelineStep<IParseSourceFilePipelineState>[] _validateSourcePipeline =
-            {
-                new StopIfDisableCodeGenerationAttributeIsPresentInAssembly(), 
-                new PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute(),
-                new StopIfSourceCodeDoesNotHaveAPartialClassDefinition(), 
-                new WarnIfMixinAttributeIsOnANonPartialClass(), 
-                new WarnIfNoMixinAttributeInSourceFile() 
-            };
+        {
+            new StopIfDisableCodeGenerationAttributeIsPresentInAssembly(),
+            new PrunePartialClassDefinitionsDecoratedWithDisableCodeGeneratorAttribute(),
+            new StopIfSourceCodeDoesNotHaveAPartialClassDefinition(),
+            new WarnIfMixinAttributeIsOnANonPartialClass(),
+            new WarnIfNoMixinAttributeInSourceFile()
+        };
 
         private readonly IPipelineStep<IResolveAttributesPipelineState>[] _resolveAttributesPipeline =
-            {
-                new InitializeResolveAttributesPipeline(), 
-                new ResolveAttributes.Steps.ResolveAttributes(),  
-            };
+        {
+            new InitializeResolveAttributesPipeline(),
+            new ResolveAttributes.Steps.ResolveAttributes(),
+        };
 
         /*
        private readonly IPipelineStep<ICodeGenerationPipelineState>[] _codeGenerationPipeline =
@@ -59,6 +61,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
                new pMixinGenerator()
            };
         */
+
+        private readonly IPipelineStep<ICreateCodeGenerationPlanPipelineState>[] _createCodeGenerationPlanPipeline =
+        {
+            new CreateTargetSpecificCodeGenerationPlans(),
+            new CollectAllMembers(),
+        };
 
         private readonly IPipelineStep<IGenerateCodePipelineState>[] _generateCodeBehind =
             {
@@ -82,6 +90,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 
              if (!_resolveAttributesPipeline.RunPipeline(manager,
                       haltOnStepFailing: step => true))
+             {
+                 return false;
+             }
+
+             if (!_createCodeGenerationPlanPipeline.RunPipeline(manager,
+                       haltOnStepFailing: step => true))
              {
                  return false;
              }

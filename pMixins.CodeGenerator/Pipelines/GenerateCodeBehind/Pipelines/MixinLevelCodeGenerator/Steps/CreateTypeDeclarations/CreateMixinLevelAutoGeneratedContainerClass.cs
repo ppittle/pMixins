@@ -55,7 +55,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
             var className =
-                manager.MixinResolvedResult.Mixin
+                manager.MixinGenerationPlan.MixinAttribute.Mixin
                     .GetFullNameAsIdentifier()
                     .Replace(".", "_");
 

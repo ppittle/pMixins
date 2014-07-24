@@ -16,7 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Dynamic;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.MemberImplementationStrategies;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
 
@@ -37,11 +39,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// <summary>
         /// The Mixin associated with this Member
         /// </summary>
-        public pMixinAttributeResolvedResult Mixin { get; set; }
+        public pMixinAttributeResolvedResult MixinAttribute { get; set; }
 
         /// <summary>
         /// The Type that originally declared this 
-        /// member.  Can be the <see cref="Mixin"/> or
+        /// member.  Can be the <see cref="MixinAttribute"/> or
         /// one of its parent classes.
         /// </summary>
         public IType DeclaringType { get; set; }
@@ -51,5 +53,33 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// wrapper.
         /// </summary>
         public IImplementationStrategy ImplementationStrategy { get; set; }
+
+        public MemberImplementationDetails ImplementationDetails { get; set; }
+    }
+
+    public class MemberImplementationDetails
+    {
+        public IType Mixin { get; set; }
+
+        public IMember Member { get; set; }
+
+        /// <summary>
+        /// The name of the <see cref="Member"/> when added
+        /// to the Requirements Implementation name.
+        /// </summary>
+        /// <remarks>
+        /// Referenced by 
+        /// <see cref="GenerateAbstractWrapperMembers.ProcessMembers"/>
+        /// </remarks>
+        public string RequirementsInterfaceImplementationName { get; set; }
+
+        /// <summary>
+        /// If the <see cref="Member"/> is protected and abstract,
+        /// a special wrapper member needs to be created in order
+        /// to promote the member to public in the 
+        /// Abstract Wrapper.
+        /// </summary>
+        public string ProtectedAbstractMemberPromotedToPublicMemberName { get; set; }
+
     }
 }

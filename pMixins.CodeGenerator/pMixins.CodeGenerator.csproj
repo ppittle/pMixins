@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Infrastructure\CodeGenerationPlan\CodeGenerationPlan.cs" />
     <Compile Include="Infrastructure\CodeGeneratorProxy.cs" />
     <Compile Include="Infrastructure\MemberImplementationStrategies\IImplementationStrategy.cs" />
     <Compile Include="Infrastructure\MasterWrapperCodeGeneratorProxyMemberHelper.cs" />

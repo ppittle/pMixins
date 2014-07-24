@@ -65,7 +65,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveMembers.Steps
                         {
                             DeclaringType = parentType,
                             Member = m,
-                            Mixin = mixinAttribute
+                            MixinAttribute = mixinAttribute
                         });
 
         }

@@ -18,7 +18,7 @@
 
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.CreateTypeDeclarations;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps.GenerateMembers;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator
 {

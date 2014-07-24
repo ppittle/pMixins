@@ -21,6 +21,7 @@ using System.Linq;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -99,5 +100,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// for the given Mixin.
         /// </summary>
         public bool GenrateProtectedWrapper { get; set; }
+
+        public IEnumerable<MemberWrapper> Members { get; set; }
+
+        public IEnumerable<IMethod> Constructors { get; set; }
     }
 }

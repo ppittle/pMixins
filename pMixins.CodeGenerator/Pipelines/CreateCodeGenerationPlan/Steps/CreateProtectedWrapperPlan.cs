@@ -46,6 +46,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             return new ProtectedWrapperPlan
             {
                 GenrateProtectedWrapper = !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
+
+                Members = mixinPlan.Members.Where(m =>
+                    m.Member.IsProtected && !m.Member.IsAbstract),
+
+                Constructors = mixinPlan.MixinAttribute.Mixin
+                                .GetConstructors()
+                                .Where(c => c.IsProtected)
+                    
             };
         }
     }

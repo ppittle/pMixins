@@ -16,8 +16,6 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Dynamic;
-using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.MemberImplementationStrategies;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -31,6 +29,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
     /// </summary>
     public class MemberWrapper
     {
+        public MemberWrapper(MemberImplementationDetails implementationDetails = null)
+        {
+            if (null == implementationDetails)
+                implementationDetails = new MemberImplementationDetails();
+
+            ImplementationDetails = implementationDetails;
+        }
+
         /// <summary>
         /// Reference to the original member
         /// </summary>
@@ -52,19 +58,22 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// Strategy for creating this member in the appropriate
         /// wrapper.
         /// </summary>
-        public IImplementationStrategy ImplementationStrategy { get; set; }
+        //public IImplementationStrategy ImplementationStrategy { get; set; }
 
-        public MemberImplementationDetails ImplementationDetails { get; set; }
+        public MemberImplementationDetails ImplementationDetails { get; private set; }
     }
 
     public class MemberImplementationDetails
     {
-        public IType Mixin { get; set; }
-
-        public IMember Member { get; set; }
+        /// <summary>
+        /// The Parent <see cref="MemberWrapper"/> this 
+        /// <see cref="MemberImplementationDetails"/> is 
+        /// associated with.
+        /// </summary>
+        public MemberWrapper ParentMemberWrapper { get; set; }
 
         /// <summary>
-        /// The name of the <see cref="Member"/> when added
+        /// The name of the <see cref="ParentMemberWrapper"/> when added
         /// to the Requirements Implementation name.
         /// </summary>
         /// <remarks>
@@ -74,7 +83,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         public string RequirementsInterfaceImplementationName { get; set; }
 
         /// <summary>
-        /// If the <see cref="Member"/> is protected and abstract,
+        /// If the <see cref="ParentMemberWrapper"/> is protected and abstract,
         /// a special wrapper member needs to be created in order
         /// to promote the member to public in the 
         /// Abstract Wrapper.

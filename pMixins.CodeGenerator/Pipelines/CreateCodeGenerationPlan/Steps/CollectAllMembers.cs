@@ -31,14 +31,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
-                var memberWrappers =
+                foreach (var mixin in 
                     manager.ResolveAttributesPipeline.PartialClassLevelResolvedPMixinAttributes[target]
-                        .OfType<pMixinAttributeResolvedResult>()
-                        .SelectMany(CollectMemberWrappers)
-                        .ToList();
+                        .OfType<pMixinAttributeResolvedResult>())
+                {
+                    var mixinMembers = CollectMemberWrappers(mixin).ToList();
 
-                manager.CodeGenerationPlans[target].Members = 
-                    memberWrappers;   
+                    //Save Members
+                    manager.CodeGenerationPlans[target].MixinGenerationPlans[mixin].Members = mixinMembers;
+                }
             }
 
             return true;

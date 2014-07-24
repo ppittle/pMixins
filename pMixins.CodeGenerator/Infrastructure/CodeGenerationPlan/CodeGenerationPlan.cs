@@ -64,6 +64,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
     public class AbstractWrapperPlan
     {
         /// <summary>
+        /// Indicates if an Abstract Wrapper should be built
+        /// for the given Mixin.
+        /// </summary>
+        public bool GenrateAbstractWrapper { get; set; }
+
+        /// <summary>
         /// Indicates if all constructors should be wrapped by the 
         /// Abstract Wrapper, or if the Abstract Wrapper should have a 
         /// 'simple constructor'.  This is dictated by

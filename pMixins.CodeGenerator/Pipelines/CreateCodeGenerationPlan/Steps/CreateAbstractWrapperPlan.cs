@@ -45,11 +45,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             return new AbstractWrapperPlan
             {
+                GenrateAbstractWrapper = !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
+
+                Members = mixinPlan.Members.Where(x => x.Member.IsAbstract),
+
                 WrapAllConstructors =
                     mixinPlan.MixinAttribute.ExplicitlyInitializeMixin ||
                     !mixinPlan.MixinAttribute.Mixin.HasParameterlessConstructor(),
-
-                Members = mixinPlan.Members.Where(x => x.Member.IsAbstract)
             };
         }
     }

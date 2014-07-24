@@ -68,6 +68,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
+            if (!manager.MixinGenerationPlan.AbstractWrapperPlan.GenrateAbstractWrapper)
+                return true;
+
             var codeGenerator =
                 new CodeGeneratorProxy(manager.AbstractMembersWrapper, "");
 

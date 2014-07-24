@@ -66,6 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         {
             new CreateTargetSpecificCodeGenerationPlans(),
             new CollectAllMembers(),
+            new CreateAbstractWrapperPlan(), 
         };
 
         private readonly IPipelineStep<IGenerateCodePipelineState>[] _generateCodeBehind =

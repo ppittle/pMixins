@@ -34,7 +34,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         private readonly IPipelineStep<MixinLevelCodeGeneratorPipelineState>[] _GenerateMembers =
             { 
-                 new GenerateAbstractWrapperMembers(),  
+                new GenerateProtectedWrapperMembers(),  
+                new GenerateAbstractWrapperMembers(),  
             };
 
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)

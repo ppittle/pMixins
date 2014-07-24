@@ -55,6 +55,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
     {
         public pMixinAttributeResolvedResult MixinAttribute { get; set; }
 
+        public ProtectedWrapperPlan ProtectedWrapperPlan { get; set; }
         public AbstractWrapperPlan AbstractWrapperPlan { get; set; }
 
         //Keep all Members here and also reference in each wrapper plan
@@ -89,5 +90,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public bool WrapAllConstructors { get; set; }
 
         public IEnumerable<MemberWrapper> Members { get; set; }
+    }
+
+    public class ProtectedWrapperPlan
+    {
+        /// <summary>
+        /// Indicates if an Abstract Wrapper should be built
+        /// for the given Mixin.
+        /// </summary>
+        public bool GenrateProtectedWrapper { get; set; }
     }
 }

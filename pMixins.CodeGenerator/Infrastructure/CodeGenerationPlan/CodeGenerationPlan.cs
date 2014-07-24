@@ -16,12 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CopaceticSoftware.pMixins.Attributes;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 

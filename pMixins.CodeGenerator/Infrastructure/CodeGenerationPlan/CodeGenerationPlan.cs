@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
@@ -105,6 +106,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public IEnumerable<MemberWrapper> Members { get; set; }
 
         public IEnumerable<IMethod> Constructors { get; set; }
+
+        /// <summary>
+        /// <c>True</c> to generate the Protected Wrapper in an 
+        /// external namespace.  <c>False</c> to generate it inside
+        /// of the Target.  If the Mixin is private, wrappers must be created
+        /// inside the Target.
+        /// </summary>
+        public bool GenerateProtectedWrapperInExternalNamespace { get;set; }
+
+        public string ProtectedWrapperClassName { get; set; }
     }
 
     public class MasterWrapperPlan

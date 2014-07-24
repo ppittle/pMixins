@@ -47,13 +47,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             {
                 GenrateProtectedWrapper = !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
 
+                Constructors = mixinPlan.MixinAttribute.Mixin
+                                .GetConstructors()
+                                .Where(c => c.IsProtected),
+
                 Members = mixinPlan.Members.Where(m =>
                     m.Member.IsProtected && !m.Member.IsAbstract),
 
-                Constructors = mixinPlan.MixinAttribute.Mixin
-                                .GetConstructors()
-                                .Where(c => c.IsProtected)
-                    
+                GenerateProtectedWrapperInExternalNamespace = !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsPrivate,
+
+                ProtectedWrapperClassName = mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + "ProtectedMembersWrapper"
             };
         }
     }

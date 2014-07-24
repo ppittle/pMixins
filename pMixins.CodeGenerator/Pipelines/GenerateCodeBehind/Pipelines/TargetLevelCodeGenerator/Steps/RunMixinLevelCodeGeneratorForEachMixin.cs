@@ -43,7 +43,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 var mixinLevelCodeGeneratorPipeline =
                     new MixinLevelCodeGeneratorPipelineState(manager)
                     {
-                        MixinResolvedResult = mixin
+                        TargetLevelCodeGeneratorPipelineState = manager,
+                        MixinGenerationPlan = manager.CodeGenerationPlan.MixinGenerationPlans[mixin]
                     };
 
                 new MixinLevelCodeGenerator.MixinLevelCodeGenerator().PerformTask(

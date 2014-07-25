@@ -52,7 +52,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator
                            CreateCodeGeneratorPipelineState = pipelineState,
                            CodeGeneratorContext = codeGeneratorContext,
                            Errors = pipelineState.CodeGenerationErrors,
-                           GeneratedCodeSyntaxTree = pipelineState.GeneratedCodeSyntaxTree,
+                           GeneratedCodeSyntaxTree = pipelineState.CodeBehindSyntaxTree,
                            LogMessages = logManager.GetRenderedLoggingEvents(LoggingVerbosity.All)
                        };
             }

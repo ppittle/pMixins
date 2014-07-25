@@ -34,7 +34,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.S
                 var targetLevelCodeGeneratorPipeline =
                     new TargetLevelCodeGeneratorPipelineState(manager)
                     {
-                        TargetSourceTypeDeclaration = target
+                        TargetSourceTypeDeclaration = target,
+                        CodeGenerationPlan = manager.CreateCodeGenerationPlanPipeline.CodeGenerationPlans[target]
                     };
 
                 new TargetLevelCodeGenerator().PerformTask(targetLevelCodeGeneratorPipeline);

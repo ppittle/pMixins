@@ -42,18 +42,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     {
         public bool PerformTask(TargetLevelCodeGeneratorPipelineState manager)
         {
-              var targetCodeBehind =
-                    new TypeDeclaration
-                        {
-                            ClassType = ClassType.Class,
-                            Modifiers = manager.TargetSourceTypeDeclaration.Modifiers, // this should include partial
-                            Name = manager.TargetSourceTypeDeclaration.Name
-                        };
+            var targetCodeBehind =
+                new TypeDeclaration
+                    {
+                        ClassType = ClassType.Class,
+                        Modifiers = manager.TargetSourceTypeDeclaration.Modifiers, // this should include partial
+                        Name = manager.TargetSourceTypeDeclaration.Name
+                    };
 
-                manager.CodeBehindSyntaxTree.AddChildTypeDeclaration
-                    (targetCodeBehind, manager.TargetSourceTypeDeclaration.GetParent<NamespaceDeclaration>());
+            manager.CodeBehindSyntaxTree.AddChildTypeDeclaration
+                (targetCodeBehind, 
+                    manager.TargetSourceTypeDeclaration.GetParent<NamespaceDeclaration>());
 
-                manager.TargetCodeBehindTypeDeclaration = targetCodeBehind;
+            manager.TargetCodeBehindTypeDeclaration = targetCodeBehind;
 
             return true;
         }

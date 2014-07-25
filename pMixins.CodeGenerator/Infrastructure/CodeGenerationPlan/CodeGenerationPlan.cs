@@ -142,7 +142,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// The variable name for the data member that holds a reference
         /// to the Mixin (with a type of IRequirements interface).
         /// </summary>
-        public readonly string MixinInstanceDataMemberName = "_mixinInstance";
+        public const string MixinInstanceDataMemberName = "_mixinInstance";
 
         public IEnumerable<MemberWrapper> StaticMembers { get; set; }
 

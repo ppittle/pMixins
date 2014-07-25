@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 return true;
 
             var codeGenerator =
-                new CodeGeneratorProxy(manager.AbstractMembersWrapper, "");
+                new CodeGeneratorProxy(manager.AbstractMembersWrapper);
 
             CreateRequirementsDataMember(codeGenerator, manager);
 

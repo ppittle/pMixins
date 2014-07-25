@@ -164,10 +164,5 @@ namespace CopaceticSoftware.pMixins.Infrastructure
         /// wont have a dependency on NRefacotry.
         /// </remarks>
         object GeneratedClassSyntaxTree { get; }
-
-        /// <summary>
-        /// The contents of the source file being compiled by the pMixin Code Generator.
-        /// </summary>
-        string SourceCodeFileContents { get; }
     }
 }

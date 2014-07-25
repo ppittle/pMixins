@@ -80,16 +80,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         }
 
 
-        public CodeGeneratorProxy(TypeDeclaration generatedClass, string sourceCodeFileContents)
+        public CodeGeneratorProxy(TypeDeclaration generatedClass, bool addCodeGeneratedAttribute = false)
         {
             Ensure.ArgumentNotNull(generatedClass, "generatedClass");
             
-            SourceCodeFileContents = sourceCodeFileContents;
             GeneratedClassSyntaxTree = generatedClass;
             
             CSharpParser = new CSharpParser();
 
-            generatedClass.Attributes.Add(BuildCodeGeneratedAttributeSection());
+            if (addCodeGeneratedAttribute)
+                generatedClass.Attributes.Add(BuildCodeGeneratedAttributeSection());
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         {
             GeneratedClassSyntaxTree.AddChildTypeDeclaration(nestedType);
 
-            return new CodeGeneratorProxy(nestedType, "");
+            return new CodeGeneratorProxy(nestedType);
         }
 
         public bool ContainsNestedType(string nestedTypeName)
@@ -400,8 +400,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
 
         object IpMixinCodeGeneratorProxy.GeneratedClassSyntaxTree { get { return GeneratedClassSyntaxTree; } }
         public TypeDeclaration GeneratedClassSyntaxTree { get; private set; }
-        public string SourceCodeFileContents { get; private set; }
-
+        
         object IpMixinCodeGeneratorProxy.CreateMethod(string modifier, string returnTypeFullName, string methodName,
             IList<KeyValuePair<string, string>> parameters, string methodBody, string constraintClause,
             bool addDebuggerStepThroughAttribute)

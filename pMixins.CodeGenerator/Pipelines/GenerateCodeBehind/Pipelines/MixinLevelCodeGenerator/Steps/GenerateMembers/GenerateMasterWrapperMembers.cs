@@ -29,7 +29,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             var proxyMemberHelper =
                 new MasterWrapperCodeGeneratorProxyMemberHelper(
-                    new CodeGeneratorProxy(manager.MasterWrapper, ""),
+                    new CodeGeneratorProxy(manager.MasterWrapper),
                     manager.CommonState.Context.TypeResolver.Compilation);
 
 

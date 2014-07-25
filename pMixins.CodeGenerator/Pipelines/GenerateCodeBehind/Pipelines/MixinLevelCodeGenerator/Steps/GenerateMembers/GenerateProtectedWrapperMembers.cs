@@ -49,7 +49,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 return true;
 
             var codeGenerator =
-                new CodeGeneratorProxy(manager.ProtectedMembersWrapper, "");
+                new CodeGeneratorProxy(manager.ProtectedMembersWrapper);
 
             ProcessConstructors(codeGenerator, manager);
 

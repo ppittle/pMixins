@@ -65,6 +65,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         {
             new CreateTargetSpecificCodeGenerationPlans(),
             new CollectAllMembers(),
+            new SetMixinGenerationPlanDetails(), 
             new CreateProtectedWrapperPlan(),
             new CreateAbstractWrapperPlan(), 
             new CreateMasterWrapperPlan(), 

@@ -40,6 +40,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                     mixin => mixin,
                                     mixin => new MixinGenerationPlan
                                     {
+                                        SourceClass = target,
                                         MixinAttribute = mixin
                                     })
                     });

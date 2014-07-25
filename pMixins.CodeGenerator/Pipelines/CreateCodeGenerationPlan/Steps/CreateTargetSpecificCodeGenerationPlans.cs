@@ -27,12 +27,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
+                var codeGenerationPlan = new CodeGenerationPlan
+                {
+                    SourceClass = target
+                };
+
+                foreach (var mixin in manager.GetAllPMixinAttributes(target))
+                    codeGenerationPlan.MixinGenerationPlans.Add(mixin, new MixinGenerationPlan());
+
                 manager.CodeGenerationPlans.Add(
                     target, 
-                    new CodeGenerationPlan
-                    {
-                        SourceClass = target
-                    });
+                    codeGenerationPlan);
             }
 
             return true;

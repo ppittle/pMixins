@@ -17,14 +17,37 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
+    /// <summary>
+    /// Adds members to the <see cref="MixinLevelCodeGeneratorPipelineState.RequirementsInterface"/>
+    /// based on the <see cref="MixinGenerationPlan.RequirementsInterfacePlan"/>.
+    /// <code>
+    /// <![CDATA[
+    /// public interface IMixinRequirements
+    /// {
+    ///    void AbstractMethodImplementation();
+    /// }
+    /// ]]>
+    /// </code>
+    /// </summary>
     public class GenerateRequiredInterfaceMembers : IPipelineStep<MixinLevelCodeGeneratorPipelineState>
     {
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
-            throw new System.NotImplementedException();
+            var proxyMemberHelper =
+                new InterfaceCodeGeneratorProxyMemberHelper(
+                    new CodeGeneratorProxy(manager.RequirementsInterface),
+                    manager.CommonState.Context.TypeResolver.Compilation);
+
+            proxyMemberHelper.CreateMembers(
+                    manager.MixinGenerationPlan.RequirementsInterfacePlan
+                    .Members);
+
+            return true;
         }
     }
 }

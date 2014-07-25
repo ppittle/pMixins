@@ -81,6 +81,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
     public class RequirementsInterfacePlan
     {
         public string RequirementsInterfaceName { get; set; }
+
+        public IEnumerable<MemberWrapper> Members { get; set; }
     }
 
     public class AbstractWrapperPlan

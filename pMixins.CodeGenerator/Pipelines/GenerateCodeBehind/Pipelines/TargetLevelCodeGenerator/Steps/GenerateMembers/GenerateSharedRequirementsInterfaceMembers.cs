@@ -16,16 +16,38 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.GenerateMembers
 {
+    /// <summary>
+    /// Adds members to the <see cref="TargetLevelCodeGeneratorPipelineState.SharedRequirementsInterface"/>
+    /// based on the <see cref="CodeGenerationPlan.SharedRequirementsInterfacePlan"/>.
+    /// <code>
+    /// <![CDATA[
+    /// public interface ISharedRequirements
+    /// {
+    ///    void SharedAbstractMethodImplementation();
+    /// }
+    /// ]]>
+    /// </code>
+    /// </summary>
     public class GenerateSharedRequirementsInterfaceMembers : IPipelineStep<TargetLevelCodeGeneratorPipelineState>
     {
         public bool PerformTask(TargetLevelCodeGeneratorPipelineState manager)
         {
-            throw new NotImplementedException();
+            var proxyMemberHelper =
+                new InterfaceCodeGeneratorProxyMemberHelper(
+                    new CodeGeneratorProxy(manager.SharedRequirementsInterface),
+                    manager.CommonState.Context.TypeResolver.Compilation);
+
+            proxyMemberHelper.CreateMembers(
+                    manager.CodeGenerationPlan.SharedRequirementsInterfacePlan
+                    .Members);
+
+            return true;
         }
     }
 }

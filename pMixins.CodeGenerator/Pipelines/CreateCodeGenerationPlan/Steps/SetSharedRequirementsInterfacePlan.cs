@@ -16,7 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
@@ -29,7 +31,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             {
                 codeGenerationPlan.SharedRequirementsInterfacePlan = new RequirementsInterfacePlan
                 {
-                    RequirementsInterfaceName = "ISharedRequirementsName"
+                    RequirementsInterfaceName = "ISharedRequirementsName",
+
+                    //TODO: Create Member Filter Logic
+                    Members = Enumerable.Empty<MemberWrapper>()
                 };
             }
 

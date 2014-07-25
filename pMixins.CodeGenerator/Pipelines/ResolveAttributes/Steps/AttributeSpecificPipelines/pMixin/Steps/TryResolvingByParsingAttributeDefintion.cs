@@ -66,7 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             var enableSharedRequirementsInterface =
                attribute.GetNamedArgumentValue("EnableSharedRequirementsInterface");
 
-            if (null != explicitlyInitializeMixin)
+            if (null != enableSharedRequirementsInterface)
                 manager.ResolvedResult.EnableSharedRequirementsInterface =
                     bool.Parse(enableSharedRequirementsInterface.ToString());
 

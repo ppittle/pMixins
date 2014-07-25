@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
@@ -55,6 +56,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 target.Name,
                                 "__Shared"),
                     });
+
+                //Wire MixinGenerationPlan up to CodeGenerationPlan
+                manager.CodeGenerationPlans.Map(cgp => 
+                    cgp.Value.MixinGenerationPlans.Values.Map(
+                        mgp =>  mgp.CodeGenerationPlan = cgp.Value ));
             }
 
             return true;

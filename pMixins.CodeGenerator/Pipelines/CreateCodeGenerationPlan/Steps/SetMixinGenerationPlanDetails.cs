@@ -17,7 +17,9 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
@@ -42,6 +44,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                          ?? new NamespaceDeclaration("Unknown")).FullName,
                         mixinPlan.SourceClass.Name,
                         mixinPlan.MixinAttribute.Mixin.FullName);
+
+                mixinPlan.RequirementsInterfacePlan = new RequirementsInterfacePlan
+                {
+                    Members = null,
+
+                    RequirementsInterfaceName = 
+                        mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + "Requirements"
+                    
+                }
             }
 
             return true;

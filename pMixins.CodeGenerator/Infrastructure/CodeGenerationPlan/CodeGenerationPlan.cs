@@ -59,6 +59,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
 
     public class MixinGenerationPlan
     {
+        /// <summary>
+        /// The <see cref="CodeGenerationPlan"/> this <see cref="MixinGenerationPlan"/>
+        /// is a part of.
+        /// </summary>
+        public CodeGenerationPlan CodeGenerationPlan { get; set; }
+
         public pMixinAttributeResolvedResult MixinAttribute { get; set; }
 
         public RequirementsInterfacePlan RequirementsInterfacePlan { get; set; }

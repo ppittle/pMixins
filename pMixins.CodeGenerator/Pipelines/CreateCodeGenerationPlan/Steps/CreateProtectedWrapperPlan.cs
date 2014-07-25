@@ -45,18 +45,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             return new ProtectedWrapperPlan
             {
-                GenrateProtectedWrapper = !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
+                GenrateProtectedWrapper = 
+                    !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
 
-                Constructors = mixinPlan.MixinAttribute.Mixin
-                                .GetConstructors()
-                                .Where(c => c.IsProtected),
+                Constructors = 
+                    mixinPlan.MixinAttribute.Mixin
+                        .GetConstructors()
+                        .Where(c => c.IsProtected),
 
-                Members = mixinPlan.Members.Where(m =>
-                    m.Member.IsProtected && !m.Member.IsAbstract),
+                Members = 
+                    mixinPlan.Members.Where(m =>
+                        m.Member.IsProtected && !m.Member.IsAbstract),
 
-                GenerateProtectedWrapperInExternalNamespace = !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsPrivate,
+                GenerateProtectedWrapperInExternalNamespace = 
+                    !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsPrivate,
 
-                ProtectedWrapperClassName = mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + "ProtectedMembersWrapper"
+                ProtectedWrapperClassName = 
+                    mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + 
+                    "ProtectedMembersWrapper"
             };
         }
     }

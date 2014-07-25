@@ -16,14 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System;
 using System.Linq;
-using System.Security.Permissions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.Interceptors;
 using ICSharpCode.NRefactory.TypeSystem;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
+namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy
 {
     //TODO: Add support for static members
     public class MasterWrapperCodeGeneratorProxyMemberHelper : CodeGeneratorProxyMemberHelper

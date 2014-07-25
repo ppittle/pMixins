@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -29,9 +28,8 @@ using CopaceticSoftware.pMixins.Infrastructure;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.CSharp;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
-using CSharpParser = ICSharpCode.NRefactory.CSharp.CSharpParser;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
+namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy
 {
     public interface ICodeGeneratorProxy : IpMixinCodeGeneratorProxy
     {

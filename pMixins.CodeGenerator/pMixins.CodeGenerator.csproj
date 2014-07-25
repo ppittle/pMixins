@@ -84,9 +84,9 @@
   <ItemGroup>
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Infrastructure\CodeGenerationPlan\CodeGenerationPlan.cs" />
-    <Compile Include="Infrastructure\CodeGeneratorProxy.cs" />
+    <Compile Include="Infrastructure\CodeGeneratorProxy\CodeGeneratorProxy.cs" />
     <Compile Include="Infrastructure\MemberImplementationStrategies\IImplementationStrategy.cs" />
-    <Compile Include="Infrastructure\MasterWrapperCodeGeneratorProxyMemberHelper.cs" />
+    <Compile Include="Infrastructure\CodeGeneratorProxy\MasterWrapperCodeGeneratorProxyMemberHelper.cs" />
     <Compile Include="Infrastructure\MemberWrapper.cs" />
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />
     <Compile Include="Infrastructure\Log4NetInMemoryStreamAppenderManager.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\ExternalGeneratedNamespaceHelper.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMemberResolvedResult.cs" />
     <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMembersHelper.cs" />
-    <Compile Include="Infrastructure\CodeGeneratorProxyMemberHelper.cs" />
+    <Compile Include="Infrastructure\CodeGeneratorProxy\CodeGeneratorProxyMemberHelper.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\IGenerateCodePipelineState.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\Steps\GenerateMembers\GenerateAbstractWrapperMembers.cs" />
     <Compile Include="Pipelines\pMixinPartialCodeGeneratorPipeline.cs" />

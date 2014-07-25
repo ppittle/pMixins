@@ -25,7 +25,6 @@ using System.Text.RegularExpressions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps;
 using CopaceticSoftware.pMixins.Infrastructure;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.CSharp;

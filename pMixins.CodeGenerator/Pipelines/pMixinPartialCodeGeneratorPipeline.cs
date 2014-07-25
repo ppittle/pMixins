@@ -20,7 +20,6 @@ using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;

@@ -23,10 +23,8 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudioSolu
 using CopaceticSoftware.Common.Infrastructure;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
-using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
@@ -36,7 +34,7 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 {
-    public class CreateCodeGenerationPipelineState : ICodeGenerationPipelineState, IGenerateCodePipelineState, ICreateCodeGenerationPlanPipelineState, IResolveAttributesPipelineState, IParseSourceFilePipelineState, IPipelineCommonState
+    public class CreateCodeGenerationPipelineState : IGenerateCodePipelineState, ICreateCodeGenerationPlanPipelineState, IResolveAttributesPipelineState, IParseSourceFilePipelineState, IPipelineCommonState
     {
         public CreateCodeGenerationPipelineState(ICodeGeneratorContext context)
             :this(context, new TypeInstanceActivator()){}
@@ -58,8 +56,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
 
             CodeGenerationPlans = new Dictionary<TypeDeclaration, CodeGenerationPlan>();
 
-            GeneratedClasses = new List<ICodeGeneratorProxy>();
-            GeneratedCodeSyntaxTree = new SyntaxTree();
+            CodeBehindSyntaxTree = new SyntaxTree();
         }
 
         #region Pipeline Linking
@@ -132,8 +129,5 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         #region IGenerateCodePipelineState
         public SyntaxTree CodeBehindSyntaxTree { get; private set; }
         #endregion
-
-        public IList<ICodeGeneratorProxy> GeneratedClasses { get; private set; }
-        public SyntaxTree GeneratedCodeSyntaxTree { get; private set; }
     }
 }

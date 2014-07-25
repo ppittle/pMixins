@@ -39,7 +39,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
 
         public IDictionary<
             pMixinAttributeResolvedResult,
-            MixinGenerationPlan> MixinGenerationPlans { get; private set; }
+            MixinGenerationPlan> MixinGenerationPlans { get; set; }
 
         public TypeDeclaration SourceClass { get; set; }
 

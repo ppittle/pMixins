@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
@@ -27,17 +28,21 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
-                var codeGenerationPlan = new CodeGenerationPlan
-                {
-                    SourceClass = target
-                };
-
-                foreach (var mixin in manager.GetAllPMixinAttributes(target))
-                    codeGenerationPlan.MixinGenerationPlans.Add(mixin, new MixinGenerationPlan());
-
                 manager.CodeGenerationPlans.Add(
                     target, 
-                    codeGenerationPlan);
+                    new CodeGenerationPlan
+                    {
+                        SourceClass = target,
+
+                        MixinGenerationPlans = 
+                            manager.GetAllPMixinAttributes(target)
+                                .ToDictionary(
+                                    mixin => mixin,
+                                    mixin => new MixinGenerationPlan
+                                    {
+                                        MixinAttribute = mixin
+                                    })
+                    });
             }
 
             return true;

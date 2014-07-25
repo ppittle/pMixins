@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using CopaceticSoftware.Common.Extensions;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -31,6 +32,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
         public static string GetFullTypeName(this TypeDeclaration typeDeclaration)
         {
+            if (null == typeDeclaration)
+                throw new ArgumentNullException("typeDeclaration");
+
             var namespaceDeclaration =
                 typeDeclaration.GetParent<NamespaceDeclaration>();
 

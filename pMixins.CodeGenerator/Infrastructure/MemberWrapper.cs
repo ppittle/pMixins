@@ -35,6 +35,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
                 implementationDetails = new MemberImplementationDetails();
 
             ImplementationDetails = implementationDetails;
+
+            ImplementationDetails.ParentMemberWrapper = this;
         }
 
         /// <summary>

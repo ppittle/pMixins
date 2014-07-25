@@ -31,9 +31,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
-                foreach (var mixin in 
-                    manager.ResolveAttributesPipeline.PartialClassLevelResolvedPMixinAttributes[target]
-                        .OfType<pMixinAttributeResolvedResult>())
+                foreach (var mixin in manager.GetAllPMixinAttributes(target))
                 {
                     var mixinMembers = CollectMemberWrappers(mixin).ToList();
 

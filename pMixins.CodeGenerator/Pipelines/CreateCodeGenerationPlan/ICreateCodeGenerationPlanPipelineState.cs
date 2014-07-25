@@ -17,8 +17,10 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes;
+using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan
@@ -38,5 +40,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         /// each <see cref="IPipelineCommonState.SourcePartialClassDefinitions"/>
         /// </summary>
         Dictionary<TypeDeclaration, CodeGenerationPlan> CodeGenerationPlans { get; }
+    }
+
+    public static class CreateCodeGenerationPlanPipelineExtensions
+    {
+        public static IEnumerable<pMixinAttributeResolvedResult> GetAllPMixinAttributes(
+            this ICreateCodeGenerationPlanPipelineState manager,
+            TypeDeclaration target)
+        {
+            return manager.ResolveAttributesPipeline.PartialClassLevelResolvedPMixinAttributes[target]
+                .OfType<pMixinAttributeResolvedResult>();
+        }
     }
 }

@@ -44,13 +44,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)
         {
-            if (_createTypeDeclarations.RunPipeline(manager,
+            if (!_createTypeDeclarations.RunPipeline(manager,
                 haltOnStepFailing: step => true))
             {
                 return false;
             }
 
-            if (_generateMembers.RunPipeline(manager,
+            if (!_generateMembers.RunPipeline(manager,
                 haltOnStepFailing: step => true))
             {
                 return false;

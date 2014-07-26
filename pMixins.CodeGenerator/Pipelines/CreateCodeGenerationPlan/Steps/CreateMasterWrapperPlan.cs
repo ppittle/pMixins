@@ -20,6 +20,7 @@ using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -57,7 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 RegularMembers =
                     mixinPlan.Members
                         .Where(m =>
-                                !m.Member.IsStatic &&
+                                !m.Member.IsStaticOrConst() &&
                                 !(m.Member.IsAbstract && m.Member.IsProtected) &&
                                 !m.Member.IsOverride &&
                                 !m.Member.IsOverridable &&
@@ -65,7 +66,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                 StaticMembers = 
                     mixinPlan.Members
-                        .Where(m => m.Member.IsStatic),
+                        .Where(m => m.Member.IsStaticOrConst()),
                         
                 VirtualMembers = 
                      mixinPlan.Members

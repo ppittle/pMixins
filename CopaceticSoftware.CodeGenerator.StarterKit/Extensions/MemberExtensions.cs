@@ -178,5 +178,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
             return "public" + additionalModifiers;
         }
+
+        public static bool IsStaticOrConst(this IMember member)
+        {
+            return 
+                member.IsStatic || 
+                (member is IField && (member as IField).IsConst);
+        }
+
     }
 }

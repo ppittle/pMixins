@@ -48,9 +48,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             //have requirementsInterface inherit from sharedRequirementsInterface
             requirementsInterface.BaseTypes.Add(
                 new SimpleType(
-                    (Identifier)
                         manager.TargetLevelCodeGeneratorPipelineState
-                            .SharedRequirementsInterface.Descendants.OfType<Identifier>().First().Clone()));
+                            .SharedRequirementsInterface.GetFullTypeName()));
 
 
             //Have CodeGeneratorProxy add the Code Generated attribute

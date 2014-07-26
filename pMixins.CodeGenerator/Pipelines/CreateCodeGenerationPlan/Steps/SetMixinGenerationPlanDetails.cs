@@ -47,12 +47,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                 mixinPlan.RequirementsInterfacePlan = new RequirementsInterfacePlan
                 {
-                    Members = null,
+                    Members = 
+                        mixinPlan.Members.Where(mw => 
+                            mw.Member.IsAbstract &&
+                            !mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members.Contains(mw)),
 
-                    RequirementsInterfaceName = 
+                    RequirementsInterfaceName =
                         mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + "Requirements"
-                    
-                }
+
+                };
             }
 
             return true;

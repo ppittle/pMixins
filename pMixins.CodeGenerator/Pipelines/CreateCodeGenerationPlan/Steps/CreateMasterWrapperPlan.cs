@@ -50,6 +50,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + 
                     "MasterWrapper",
 
+                MasterWrapperInstanceNameInMixinsContainer = 
+                    mixinPlan.MixinAttribute.Mixin.GetFullNameAsIdentifier(),
+
                 ProtectedAbstractMembers =
                     mixinPlan.Members
                         .Where(m =>

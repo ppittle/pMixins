@@ -71,6 +71,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
             new CreateAbstractWrapperPlan(), 
             new CreateMasterWrapperPlan(), 
             new SetMemberImplementationDetails(), 
+            new FilterMixinMembersForPromotionToTarget(), 
         };
 
         private readonly IPipelineStep<IGenerateCodePipelineState>[] _generateCodeBehind =

@@ -38,6 +38,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     {
                         SourceClass = target,
 
+                        MixinsPropertyName = "__mixins",
+
                         MixinGenerationPlans = 
                             manager.GetAllPMixinAttributes(target)
                                 .ToDictionary(

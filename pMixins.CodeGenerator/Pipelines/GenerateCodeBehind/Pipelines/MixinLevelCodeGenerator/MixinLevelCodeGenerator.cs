@@ -34,6 +34,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 new CreateMixinRequirementsInterfaceTypeDeclaration(), 
                 new CreateProtectedWrapperTypeDeclaration(), 
                 new CreateAbstractWrapperTypeDeclaration(), 
+                new CreateMasterWrapperTypeDeclaration(), 
             };
 
         private readonly IPipelineStep<MixinLevelCodeGeneratorPipelineState>[] _generateMembers =

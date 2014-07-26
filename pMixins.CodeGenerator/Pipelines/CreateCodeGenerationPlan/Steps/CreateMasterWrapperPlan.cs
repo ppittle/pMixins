@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
@@ -44,6 +45,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             return new MasterWrapperPlan
             {
+                MasterWrapperClassName = 
+                    mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier(),
+
                 ProtectedAbstractMembers =
                     mixinPlan.Members
                         .Where(m =>

@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     .AddNestedType(abstractWrapperTypeDeclaration);
             }
 
-            //save protected wrapper to the manager
+            //save abstract wrapper to the manager
             manager.AbstractMembersWrapper = abstractWrapperTypeDeclaration;
 
             return true;

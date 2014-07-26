@@ -53,7 +53,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             !mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members.Contains(mw)),
 
                     RequirementsInterfaceName =
-                        mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + "Requirements"
+                        "I" +
+                        mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + 
+                        "Requirements"
 
                 };
             }

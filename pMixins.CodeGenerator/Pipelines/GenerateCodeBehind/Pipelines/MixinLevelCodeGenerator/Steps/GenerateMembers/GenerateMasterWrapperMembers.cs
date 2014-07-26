@@ -23,6 +23,9 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
+    /// <summary>
+    /// Adds members to the <see cref="MixinLevelCodeGeneratorPipelineState.MasterWrapper"/>.
+    /// </summary>
     public class GenerateMasterWrapperMembers : IPipelineStep<MixinLevelCodeGeneratorPipelineState>
     {
         public bool PerformTask(MixinLevelCodeGeneratorPipelineState manager)

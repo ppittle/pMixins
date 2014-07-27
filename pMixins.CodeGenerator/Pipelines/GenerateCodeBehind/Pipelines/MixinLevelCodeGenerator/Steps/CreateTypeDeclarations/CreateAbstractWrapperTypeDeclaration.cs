@@ -58,7 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     (Identifier)
                         manager.ProtectedMembersWrapper.Descendants.OfType<Identifier>().First().Clone()));
 
-            if (manager.MixinGenerationPlan.AbstractWrapperPlan.GenerateProtectedWrapperInExternalNamespace)
+            if (manager.MixinGenerationPlan.AbstractWrapperPlan.GenerateAbstractWrapperInExternalNamespace)
             {
                 manager.TargetLevelCodeGeneratorPipelineState.CodeBehindSyntaxTree
                     .AddChildTypeDeclaration(

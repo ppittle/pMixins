@@ -51,12 +51,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public IEnumerable<MemberWrapper> Members { get; set; }
 
         /// <summary>
-        /// <c>True</c> to generate the Protected Wrapper in an 
+        /// <c>True</c> to generate the Abstract Wrapper in an 
         /// external namespace.  <c>False</c> to generate it inside
         /// of the Target.  If the Mixin is private, wrappers must be created
         /// inside the Target.
         /// </summary>
-        public bool GenerateProtectedWrapperInExternalNamespace { get; set; }
+        public bool GenerateAbstractWrapperInExternalNamespace { get; set; }
 
         public string AbstractWrapperClassName { get; set; }
     }

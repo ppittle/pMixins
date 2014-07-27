@@ -16,9 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -33,7 +36,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             {
                 foreach (var mixin in manager.GetAllPMixinAttributes(target))
                 {
-                    var mixinMembers = CollectMemberWrappers(mixin).ToList();
+                    var memberFilter = BuildMemberFilterFunction(
+                        mixin,
+                        manager.CommonState.Context.TypeResolver.Compilation);
+
+                    var mixinMembers = CollectMemberWrappers(mixin, memberFilter).ToList();
 
                     //Save Members
                     manager.CodeGenerationPlans[target].MixinGenerationPlans[mixin].Members = mixinMembers;
@@ -43,21 +50,26 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             return true;
         }
 
-        private IEnumerable<MemberWrapper> CollectMemberWrappers(pMixinAttributeResolvedResult mixinAttribute)
+        private IEnumerable<MemberWrapper> CollectMemberWrappers(
+            pMixinAttributeResolvedResult mixinAttribute,
+            Func<IMember, bool> memberFilter)
         {
             return 
                 //Collect all applicable types
                 mixinAttribute.Mixin.GetAllBaseTypes()
                     .Union(new[] {mixinAttribute.Mixin})
                     //Collect all members
-                    .SelectMany(t => CollectMemberWrappers(t, mixinAttribute));
+                    .SelectMany(t => CollectMemberWrappers(t, mixinAttribute, memberFilter));
         }
 
-        private IEnumerable<MemberWrapper> CollectMemberWrappers(IType parentType, 
-            pMixinAttributeResolvedResult mixinAttribute)
+        private IEnumerable<MemberWrapper> CollectMemberWrappers(
+            IType parentType, 
+            pMixinAttributeResolvedResult mixinAttribute,
+            Func<IMember, bool> memberFilter)
         {
             return
                 parentType.GetMembers()
+                    .Where(memberFilter)
                     .Select(m =>
                         new MemberWrapper
                         {
@@ -66,6 +78,30 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             MixinAttribute = mixinAttribute
                         });
 
+        }
+
+        private Func<IMember, bool> BuildMemberFilterFunction(
+            pMixinAttributeResolvedResult mixinAttribute,
+            ICompilation compilation)
+        {
+            var includeInternalMembers =
+                    mixinAttribute.Mixin.GetDefinition().ParentAssembly.Equals(
+                    compilation.MainAssembly);
+
+            var doNotMixinIType =
+                typeof(DoNotMixinAttribute)
+                .ToIType(compilation);
+
+            return new Func<IMember, bool>(
+                member => (
+                            !member.IsPrivate &&
+                            (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
+                            (!member.IsInternal || includeInternalMembers) &&
+                            !member.FullName.StartsWith("System.Object") &&
+                            !member.IsDecoratedWithAttribute(doNotMixinIType) &&
+                            !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes: false)));
+
+        
         }
     }
 }

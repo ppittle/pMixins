@@ -24,7 +24,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using CopaceticSoftware.pMixins.Infrastructure;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.CreateTypeDeclarations
+namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.GenerateMembers
 {
     /// <summary>
     /// Generates the members for <see cref="CodeGenerationPlan.MixinsClassName"/> inside

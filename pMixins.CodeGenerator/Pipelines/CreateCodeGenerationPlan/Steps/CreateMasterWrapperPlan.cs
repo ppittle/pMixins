@@ -21,6 +21,8 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using CopaceticSoftware.pMixins.Infrastructure;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -60,6 +62,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                 MixinInstanceInitializationStatement =
                     CreateMixinInitializationStatement(mixinPlan, mixinInstanceTypeFullName),
+
+                MixinDependencies = 
+                    mixinPlan.MixinAttribute.Mixin
+                        .GetAllBaseTypes()
+                        .Where(t => 
+                            t.Kind == TypeKind.Interface &&
+                            t.GetOriginalFullName().StartsWith(
+                                typeof (IMixinDependency<>).GetOriginalFullName()
+                                //This is hacky, but can't find a way to compare typeof(IMixinDependency<>) 
+                                //to new IType(IMixinDependency<int>)
+                                .Replace("<>", ""))),
 
                 ProtectedAbstractMembers =
                     mixinPlan.Members

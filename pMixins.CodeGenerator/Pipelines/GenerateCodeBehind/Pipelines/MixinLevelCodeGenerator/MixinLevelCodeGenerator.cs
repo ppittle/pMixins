@@ -43,6 +43,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 new GenerateProtectedWrapperMembers(),  
                 new GenerateAbstractWrapperMembers(),  
                 new GenerateMasterWrapperConstructorAndDataMembers(), 
+                new GenerateMasterWrapperActivateDependencyMethod(), 
                 new GenerateMasterWrapperMembers(), 
                 new GenerateMembersInTargetClass()
             };

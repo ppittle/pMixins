@@ -16,7 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections;
 using System.Collections.Generic;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -65,6 +67,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// ]]></code>
         /// </summary>
         public string MixinInstanceInitializationStatement { get; set; }
+
+        public IEnumerable<IType> MixinDependencies { get; set; }
 
         #region Memebers
 

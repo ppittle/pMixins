@@ -55,7 +55,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     mixinPlan.MixinAttribute.ExplicitlyInitializeMixin ||
                     !mixinPlan.MixinAttribute.Mixin.HasParameterlessConstructor(),
 
-                GenerateProtectedWrapperInExternalNamespace = 
+                GenerateAbstractWrapperInExternalNamespace = 
                     !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsPrivate,
 
                 AbstractWrapperClassName = 

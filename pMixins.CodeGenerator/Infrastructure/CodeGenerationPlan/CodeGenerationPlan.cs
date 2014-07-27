@@ -62,5 +62,42 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// </code>
         /// </summary>
         public string MixinsPropertyName { get; set; }
+
+        /// <summary>
+        /// Class name for the __Mixins class:
+        /// <code>
+        /// <![CDATA[
+        /// public partial class Target
+        /// {
+        ///     private sealed class __Mixins{}
+        /// }
+        /// ]]>
+        /// </code>
+        /// </summary>
+        public string MixinsClassName { get; set; }
+
+        /// <summary>
+        /// Static lock data member inside <see cref="MixinsClassName"/>:
+        /// <code>
+        /// <![CDATA[
+        /// private sealed class __Mixins{
+        ///     private static object ____Lock = new object();
+        /// }
+        /// ]]></code>
+        /// </summary>
+        public string MixinsLockVariableName { get; set; }
+
+        /// <summary>
+        /// Activate Mixin Dependencies method inside <see cref="MixinsClassName"/>:
+        /// <code>
+        /// <![CDATA[
+        /// private sealed class __Mixins{
+        ///     public void __ActivateMixinDependencies (Target target)
+        ///     {
+        ///     }
+        /// }
+        /// ]]></code>
+        /// </summary>
+        public string MixinsActivateMixinDependenciesMethodName { get; set; }
     }
 }

@@ -18,12 +18,13 @@
 
 using System.Collections.Generic;
 using System.Text;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
-using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using CopaceticSoftware.pMixins.Infrastructure;
+using TypeExtensions = CopaceticSoftware.pMixins.CodeGenerator.Extensions.TypeExtensions;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -165,7 +166,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     new[]
                     {
                         new KeyValuePair<string, string>(
-                            manager.TargetSourceTypeDeclaration.Name,
+                            manager.TargetSourceTypeDeclaration.GetFullTypeName(),
                             targetInstanceMethodParameterName)
                     },
                 methodBody:

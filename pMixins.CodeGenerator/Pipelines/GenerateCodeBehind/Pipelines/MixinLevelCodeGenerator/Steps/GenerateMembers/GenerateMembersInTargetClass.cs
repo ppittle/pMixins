@@ -37,7 +37,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
     /// 
     /// Member invocation is 
     /// proxied to the Master Wrapper (<see cref="MixinLevelCodeGeneratorPipelineState.MasterWrapper"/>
-    /// via the __mixins private Property (<see cref="CodeGenerationPlan.MixinsPropertyName"/>)
+    /// via the __mixins private Property (<see cref="TargetCodeBehindPlan.MixinsPropertyName"/>)
     /// <code>
     /// <![CDATA[
     /// public partial class Target
@@ -77,7 +77,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             //__mixins.Test_ExampleMixin
             var masterWrapperVariableName =
-                manager.MixinGenerationPlan.CodeGenerationPlan.MixinsPropertyName.EnsureEndsWith(".") +
+                manager.MixinGenerationPlan.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName
+                    .EnsureEndsWith(".") +
                 manager.MixinGenerationPlan.MasterWrapperPlan.MasterWrapperInstanceNameInMixinsContainer;
 
             foreach (var mw in membersPromotedToTarget)

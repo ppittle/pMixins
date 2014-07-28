@@ -16,17 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.CreateTypeDeclarations
 {
     /// <summary>
-    /// Creates the <see cref="CodeGenerationPlan.MixinsClassName"/> inside
+    /// Creates the <see cref="TargetCodeBehindPlan.MixinsClassName"/> inside
     /// <see cref="TargetLevelCodeGeneratorPipelineState.TargetCodeBehindTypeDeclaration"/>
     /// and assigns it to <see cref="TargetLevelCodeGeneratorPipelineState.MixinsClassInTargetCodeBehind"/>
     /// <code>
@@ -46,7 +44,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 {
                     ClassType = ClassType.Class,
                     Modifiers = Modifiers.Private | Modifiers.Sealed,
-                    Name = manager.CodeGenerationPlan.MixinsClassName,
+                    Name = manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsClassName,
                 };
 
             new CodeGeneratorProxy(manager.TargetCodeBehindTypeDeclaration)

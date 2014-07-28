@@ -40,15 +40,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     target, 
                     new CodeGenerationPlan
                     {
-                        SourceClass = target,
+                        SourceClass = 
+                            target,
 
-                        MixinsPropertyName = "__mixins",
+                        TargetCodeBehindPlan = 
+                            new TargetCodeBehindPlan
+                            {
+                                MixinsPropertyName = "__mixins",
 
-                        MixinsClassName = "__Mixins",
+                                MixinsClassName = "__Mixins",
 
-                        MixinsLockVariableName = "____Lock",
+                                MixinsLockVariableName = "____Lock",
 
-                        MixinsActivateMixinDependenciesMethodName = "__ActivateMixinDependencies",
+                                MixinsActivateMixinDependenciesMethodName = "__ActivateMixinDependencies",
+                            },
 
                         MixinGenerationPlans = 
                             manager.GetAllPMixinAttributes(target)
@@ -67,12 +72,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                  ?? new NamespaceDeclaration("Unknown")).FullName,
                                 target.Name,
                                 "__Shared"),
+
+
                     });
 
+                //Wire TargetCodeBehindPlan up to CodeGenerationPlan
+                manager.CodeGenerationPlans.Values.Map(
+                    cgp => cgp.TargetCodeBehindPlan.CodeGenerationPlan = cgp);
+
                 //Wire MixinGenerationPlan up to CodeGenerationPlan
-                manager.CodeGenerationPlans.Map(cgp => 
-                    cgp.Value.MixinGenerationPlans.Values.Map(
-                        mgp =>  mgp.CodeGenerationPlan = cgp.Value ));
+                manager.CodeGenerationPlans.Values.Map(cgp => 
+                    cgp.MixinGenerationPlans.Values.Map(
+                        mgp =>  mgp.CodeGenerationPlan = cgp ));
+                
             }
 
             return true;

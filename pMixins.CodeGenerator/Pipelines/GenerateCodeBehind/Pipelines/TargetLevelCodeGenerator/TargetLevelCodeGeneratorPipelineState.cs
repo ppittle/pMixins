@@ -78,7 +78,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         /// <summary>
         /// Type declaration for the 
-        /// <see cref="Infrastructure.CodeGenerationPlan.CodeGenerationPlan.MixinsClassName"/>.
+        /// <see cref="TargetCodeBehindPlan.MixinsClassName"/>.
         /// Set in <see cref="CreateMixinsClassInTargetCodeBehind"/>
         /// </summary>
         public TypeDeclaration MixinsClassInTargetCodeBehind { get; set; }

@@ -26,7 +26,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
     /// <summary>
-    /// Adds the <see cref="CodeGenerationPlan.MixinsActivateMixinDependenciesMethodName"/> method 
+    /// Adds the <see cref="TargetCodeBehindPlan.MixinsActivateMixinDependenciesMethodName"/> method 
     /// to the <see cref="MixinLevelCodeGeneratorPipelineState.MasterWrapper"/>.
     /// <code>
     /// <![CDATA[
@@ -52,13 +52,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             return true;
         }
 
-        private void CreateActivateDependencyMethod(CodeGeneratorProxy codeGenerator, MixinGenerationPlan mixinGenerationPlan)
+        private void CreateActivateDependencyMethod(CodeGeneratorProxy codeGenerator, MixinGenerationPlan mixinPlan)
         {
             const string targetInstanceMethodParameterName = "target";
 
             var methodBodyStatements = new StringBuilder();
 
-            foreach (var dependency in mixinGenerationPlan.MasterWrapperPlan.MixinDependencies)
+            foreach (var dependency in mixinPlan.MasterWrapperPlan.MixinDependencies)
             {
                 methodBodyStatements.AppendFormat(
                     @"  (({0}){1}).Dependency = {2};
@@ -75,12 +75,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 returnTypeFullName:
                     "void",
                 methodName:
-                    mixinGenerationPlan.CodeGenerationPlan.MixinsActivateMixinDependenciesMethodName,
+                    mixinPlan.CodeGenerationPlan.TargetCodeBehindPlan.MixinsActivateMixinDependenciesMethodName,
                 parameters:
                     new[]
                     {
                         new KeyValuePair<string, string>(
-                            mixinGenerationPlan.CodeGenerationPlan.SourceClass.GetFullTypeName(), 
+                            mixinPlan.CodeGenerationPlan.SourceClass.GetFullTypeName(), 
                             targetInstanceMethodParameterName)
                     },
                 methodBody:

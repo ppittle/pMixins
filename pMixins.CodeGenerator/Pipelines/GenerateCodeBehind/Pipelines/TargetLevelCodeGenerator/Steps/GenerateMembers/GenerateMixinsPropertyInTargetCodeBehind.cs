@@ -51,14 +51,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             var codeGenerator =
                 new CodeGeneratorProxy(manager.TargetCodeBehindTypeDeclaration);
 
-            var backingFiledName = "__" + manager.CodeGenerationPlan.MixinsPropertyName;
+            var backingFiledName = "__" + manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName;
 
             //create backing field
             codeGenerator.CreateDataMember(
                 modifiers:
                     "private",
                 dataMemberTypeFullName:
-                    manager.CodeGenerationPlan.MixinsClassName,
+                    manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsClassName,
                 dataMemberName:
                     backingFiledName
                 );
@@ -68,9 +68,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 modifier:
                     "private",
                 returnTypeFullName:
-                    manager.CodeGenerationPlan.MixinsClassName,
+                    manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsClassName,
                 propertyName:
-                    manager.CodeGenerationPlan.MixinsPropertyName,
+                    manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName,
                 getterMethodBody:
                     string.Format(
                         @"
@@ -92,9 +92,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                                 }}
                             ",
                         backingFiledName,
-                        manager.CodeGenerationPlan.MixinsClassName,
-                        manager.CodeGenerationPlan.MixinsLockVariableName,
-                        manager.CodeGenerationPlan.MixinsActivateMixinDependenciesMethodName)
+                        manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsClassName,
+                        manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsLockVariableName,
+                        manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsActivateMixinDependenciesMethodName)
                 ,
                 setterMethodBody:
                     string.Empty //no setter

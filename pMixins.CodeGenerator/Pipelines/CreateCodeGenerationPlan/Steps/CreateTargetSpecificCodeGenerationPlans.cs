@@ -71,9 +71,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 (target.GetParent<NamespaceDeclaration>()
                                  ?? new NamespaceDeclaration("Unknown")).FullName,
                                 target.Name,
-                                "__Shared"),
-
-
+                                "__Shared")
                     });
 
                 //Wire TargetCodeBehindPlan up to CodeGenerationPlan

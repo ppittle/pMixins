@@ -31,7 +31,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
-            //For now, no filtering logic:
+            //TODO: Add filtering logic:
             manager.CodeGenerationPlans.Values.Map(
                 cgp => cgp.MixinGenerationPlans.Values.Map(
                     mgp => mgp.MembersPromotedToTarget = mgp.Members)

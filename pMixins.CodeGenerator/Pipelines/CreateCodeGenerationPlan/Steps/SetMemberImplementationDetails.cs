@@ -41,13 +41,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             var member = implDetails.ParentMemberWrapper.Member;
 
-            if (member.IsAbstract)
-                implDetails.RequirementsInterfaceImplementationName = 
-                    member.Name + "Implementation";
+            implDetails.RequirementsInterfaceImplementationName =
+                (member.IsAbstract)
+                ? member.Name + "Implementation"
+                : member.Name;
 
-            if (member.IsAbstract && member.IsProtected)
-                implDetails.ProtectedAbstractMemberPromotedToPublicMemberName = 
-                    member.Name + "_Public";
+            implDetails.ProtectedAbstractMemberPromotedToPublicMemberName =
+               (member.IsAbstract && member.IsProtected)
+               ? member.Name + "_Public"
+               : member.Name;
         }
     }
 }

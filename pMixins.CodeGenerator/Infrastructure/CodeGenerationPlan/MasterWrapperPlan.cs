@@ -16,7 +16,6 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Collections;
 using System.Collections.Generic;
 using ICSharpCode.NRefactory.TypeSystem;
 

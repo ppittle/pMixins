@@ -172,7 +172,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 return
                     string.Format("base.TryActivateMixin<{0}>({1});",
                         mixinInstanceTypeFullName,
-                        MasterWrapperPlan.TargetInstanceConstructorParameterName); ;
+                        MasterWrapperPlan.TargetInstanceConstructorParameterName);
             }
         }
     }

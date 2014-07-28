@@ -52,7 +52,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                         returnTypeFullName:
                             mw.Member.ReturnType.GetOriginalFullNameWithGlobal(),
                         methodName:
-                            mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName,
+                            mw.ImplementationDetails.RequirementsInterfaceImplementationName,
                         parameters:
                             (mw.Member as IMethod).Parameters.ToKeyValuePair(),
                         methodBody:
@@ -71,7 +71,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                         returnTypeFullName:
                             mw.Member.ReturnType.GetOriginalFullNameWithGlobal(),
                         propertyName:
-                            mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName,
+                           mw.ImplementationDetails.RequirementsInterfaceImplementationName,
                         getterMethodBody:
                             (mw.Member as IProperty).CanGet ? "get;" : "",
                         setterMethodBody:

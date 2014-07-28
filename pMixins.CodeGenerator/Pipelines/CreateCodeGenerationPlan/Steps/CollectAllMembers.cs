@@ -94,12 +94,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
             return new Func<IMember, bool>(
                 member => (
-                            !member.IsPrivate &&
-                            (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
-                            (!member.IsInternal || includeInternalMembers) &&
-                            !member.FullName.StartsWith("System.Object") &&
-                            !member.IsDecoratedWithAttribute(doNotMixinIType) &&
-                            !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes: false)));
+                    !member.IsPrivate &&
+                    (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
+                    (!member.IsInternal || includeInternalMembers) &&
+                    !member.FullName.StartsWith("System.Object") &&
+                    !member.IsDecoratedWithAttribute(doNotMixinIType) &&
+                    !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes: false)));
 
         
         }

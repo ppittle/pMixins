@@ -70,7 +70,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             codeGenerator.CreateDataMember(
                 modifiers:
-                    "private",
+                    //must be public for implicit conversion operator
+                    "public",  
                 dataMemberTypeFullName:
                     manager.MixinGenerationPlan.MasterWrapperPlan.MixinInstanceTypeFullName,
                 dataMemberName:

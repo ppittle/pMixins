@@ -40,7 +40,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                         mixin,
                         manager.CommonState.Context.TypeResolver.Compilation);
 
-                    var mixinMembers = CollectMemberWrappers(mixin, memberFilter).ToList();
+                    var mixinMembers = 
+                        CollectMemberWrappers(mixin, memberFilter)
+                        .DistinctMemberWrappers()
+                        .ToList();
 
                     //Save Members
                     manager.CodeGenerationPlans[target].MixinGenerationPlans[mixin].Members = mixinMembers;

@@ -19,7 +19,6 @@
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCode;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Steps;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;
@@ -50,7 +49,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         private readonly IPipelineStep<IResolveAttributesPipelineState>[] _resolveAttributesPipeline =
         {
             new InitializeResolveAttributesPipeline(),
-            new ResolveAttributes.Steps.ResolveAttributes(),
+            new ResolveAttributes.Steps.ResolveAttributes()
         };
 
         /*
@@ -78,7 +77,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         private readonly IPipelineStep<IGenerateCodePipelineState>[] _generateCodeBehind =
             {
                 new AddCodeBehindHeaderCommentMessage(),
-                new RunTargetLevelCodeGeneratorForEachTarget(), 
+                new RunTargetLevelCodeGeneratorForEachTarget()
             };       
 
         public bool PerformTask(CreateCodeGenerationPipelineState manager)

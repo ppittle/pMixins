@@ -16,6 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -101,5 +104,28 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
             get { return ParentMemberWrapper.Member.Name + "Func"; }
         }
 
+    }
+
+    public static class MemberWrapperExtensions
+    {
+        private static readonly MemberWrapperEqualityComparer _equalityComparer = new MemberWrapperEqualityComparer();
+
+        public class MemberWrapperEqualityComparer : IEqualityComparer<MemberWrapper>
+        {
+            public bool Equals(MemberWrapper x, MemberWrapper y)
+            {
+                return x.Member.EqualsMember(y.Member);
+            }
+            
+            public int GetHashCode(MemberWrapper obj)
+            {
+                return new MemberExtensions.MemberEqualityComparer().GetHashCode(obj.Member);
+            }
+        }
+
+        public static IEnumerable<MemberWrapper> DistinctMemberWrappers(this IEnumerable<MemberWrapper> memberWrappers)
+        {
+            return memberWrappers.Distinct(_equalityComparer);
+        }
     }
 }

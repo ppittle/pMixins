@@ -58,7 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                    baseObjectIdentifierFunc:
                        member =>
                            manager.MixinGenerationPlan.AbstractWrapperPlan.GenrateAbstractWrapper
-                           ? manager.AbstractMembersWrapper.Name
+                           ? manager.AbstractMembersWrapper.GetFullTypeName()
                            : manager.MixinGenerationPlan.MixinAttribute.Mixin.GetOriginalFullNameWithGlobal()
                );
         }

@@ -42,6 +42,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                     var mixinMembers = 
                         CollectMemberWrappers(mixin, memberFilter)
+                        //TODO: At this point should duplicates be removed or marked as 'don't implement'?
                         .DistinctMemberWrappers()
                         .ToList();
 

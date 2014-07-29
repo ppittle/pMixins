@@ -282,6 +282,11 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return provider.GetTypeOutput(reference);
         }
 
+        public static string GetOriginalFullNameWithGlobal(this Type type)
+        {
+            return "global::" + type.GetOriginalFullName();
+        }
+
         public static bool HasParameterlessConstructor(this IType type)
         {
             return 

@@ -64,6 +64,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// Target should implement as well.
         /// </summary>
         public IEnumerable<IType> MixinInterfaces { get; set; } 
+        
+        /// <summary>
+        /// Collection of <see cref="IAttribute"/> to add to the
+        /// Target.
+        /// </summary>
+        public IEnumerable<IAttribute> MixinAttributes { get; set; } 
 
         #region Mixins Class
         /// <summary>

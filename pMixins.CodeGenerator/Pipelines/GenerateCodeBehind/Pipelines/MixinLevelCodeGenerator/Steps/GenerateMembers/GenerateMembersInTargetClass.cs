@@ -77,9 +77,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             //__mixins.Test_ExampleMixin
             var masterWrapperVariableName =
-                manager.MixinGenerationPlan.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName
-                    .EnsureEndsWith(".") +
-                manager.MixinGenerationPlan.MasterWrapperPlan.MasterWrapperInstanceNameInMixinsContainer;
+                manager.MixinGenerationPlan.MasterWrapperPlan
+                    .MasterWrapperInstanceNameAvailableFromTargetCodeBehind;
 
             var masterWrapperStaticName =
                 manager.MasterWrapper.GetFullTypeName();

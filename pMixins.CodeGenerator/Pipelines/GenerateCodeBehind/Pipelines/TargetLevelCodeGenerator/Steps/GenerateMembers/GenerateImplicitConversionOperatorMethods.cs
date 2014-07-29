@@ -67,10 +67,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         },
                     methodBody:
                         string.Format(
-                            "return {0}.{1}.{2}.{3};",
+                            "return {0}.{1}.{2};",
                             targetInstanceMethodParameterName,
-                            manager.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName,
-                            conversionPlan.MixinGenerationPlan.MasterWrapperPlan.MasterWrapperInstanceNameInMixinsContainer,
+                            conversionPlan.MixinGenerationPlan.MasterWrapperPlan
+                                .MasterWrapperInstanceNameAvailableFromTargetCodeBehind,
                             MasterWrapperPlan.MixinInstanceDataMemberName)
                 );
             }

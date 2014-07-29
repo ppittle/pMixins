@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using CopaceticSoftware.Common.Extensions;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
@@ -57,6 +58,33 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// ]]></code>
         /// </summary>
         public string MasterWrapperInstanceNameInMixinsContainer { get; set; }
+
+        /// <summary>
+        /// The Master Wrapper instance variable name scoped to the level
+        /// of the <see cref="TargetCodeBehindPlan"/>.
+        /// <code>
+        /// <![CDATA[
+        /// public partial class Target
+        /// {
+        ///     public string MixinMethod()
+        ///     {    
+        ///         //MasterWrapperInstanceNameAvailableFromTargetCodeBehind = ___mixins.Test_MixinWithAttributes
+        ///         return ___mixins.Test_MixinWithAttributes.MixinMethod();
+        ///     }
+        /// }
+        /// ]]>
+        /// </code>
+        /// </summary>
+        public string MasterWrapperInstanceNameAvailableFromTargetCodeBehind
+        {
+            get
+            {
+                return
+                    MixinGenerationPlan.CodeGenerationPlan.TargetCodeBehindPlan.MixinsPropertyName
+                        .EnsureEndsWith(".") +
+                    MasterWrapperInstanceNameInMixinsContainer;
+            }
+        }
 
         /// <summary>
         /// The Full Type Name for <see cref="MixinInstanceDataMemberName"/>.

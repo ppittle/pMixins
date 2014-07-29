@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
@@ -30,6 +31,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
     /// <see cref="IMember"/>s with Mixin 
     /// specific context.
     /// </summary>
+    [DebuggerDisplay("{Member} - {DeclaringType.Name}")]
     public class MemberWrapper
     {
         public MemberWrapper(MemberImplementationDetails implementationDetails = null)

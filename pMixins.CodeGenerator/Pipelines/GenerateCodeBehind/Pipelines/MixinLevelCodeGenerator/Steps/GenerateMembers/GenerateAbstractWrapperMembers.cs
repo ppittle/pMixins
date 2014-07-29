@@ -194,7 +194,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             proxyMemberHelper.CreateMembers(
                 manager.MixinGenerationPlan.AbstractWrapperPlan.Members,
-                generateMemberModifier: member => member.Member.GetModifiersString(),
+                generateMemberModifier: member => member.Member.GetModifiersString(overrideModifiers: "override"),
                 generateReturnTypeFunc: member => member.Member.ReturnType.GetOriginalFullNameWithGlobal(),
                 baseObjectIdentifierFunc: member => RequirementsVariable,
                 baseObjectMemberNameFunc: member => member.ImplementationDetails.RequirementsInterfaceImplementationName);

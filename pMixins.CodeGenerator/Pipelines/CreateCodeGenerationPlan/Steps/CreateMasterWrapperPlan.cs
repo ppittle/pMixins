@@ -50,6 +50,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
             return new MasterWrapperPlan
             {
+                MixinGenerationPlan = mixinPlan,
+
                 MasterWrapperClassName = 
                     mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + 
                     "MasterWrapper",

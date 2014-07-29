@@ -30,6 +30,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public const string MixinInstanceDataMemberName = "_mixinInstance";
 
         /// <summary>
+        /// Parent Mixin Generation Plan
+        /// </summary>
+        public MixinGenerationPlan MixinGenerationPlan { get; set; }
+
+        /// <summary>
         /// The Constructor paramater name for the Mixin reference
         /// (with a type of IRequirements interface).  This 
         /// parameter is assigned to <see cref="MixinInstanceDataMemberName"/>

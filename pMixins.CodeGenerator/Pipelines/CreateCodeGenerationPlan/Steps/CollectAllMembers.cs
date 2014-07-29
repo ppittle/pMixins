@@ -59,9 +59,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             Func<IMember, bool> memberFilter)
         {
             return 
-                //Collect all applicable types
-                mixinAttribute.Mixin.GetAllBaseTypes()
-                    .Union(new[] {mixinAttribute.Mixin})
+                
+                new[] {mixinAttribute.Mixin}
+                    //Collect all applicable types
+                    .Union(mixinAttribute.Mixin.GetAllBaseTypes())
+
                     //Collect all members
                     .SelectMany(t => CollectMemberWrappers(t, mixinAttribute, memberFilter));
         }

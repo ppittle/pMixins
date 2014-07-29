@@ -81,6 +81,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     .EnsureEndsWith(".") +
                 manager.MixinGenerationPlan.MasterWrapperPlan.MasterWrapperInstanceNameInMixinsContainer;
 
+            var masterWrapperStaticName =
+                manager.MasterWrapper.GetFullTypeName();
+
+
             foreach (var mw in membersPromotedToTarget)
             {
                 EntityDeclaration newMemberDeclaration = null;
@@ -90,19 +94,25 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         mw.Member as IMethod,
                         targetCodeBehind,
                         compilation,
-                        masterWrapperVariableName);
+                        mw.Member.IsStaticOrConst()
+                            ? masterWrapperStaticName
+                            : masterWrapperVariableName);
 
                 else if (mw.Member is IProperty)
                     newMemberDeclaration = GenerateProperty(
                         mw.Member as IProperty,
                         targetCodeBehind,
-                        masterWrapperVariableName);
+                        mw.Member.IsStaticOrConst()
+                            ? masterWrapperStaticName
+                            : masterWrapperVariableName);
 
                 else if (mw.Member is IField)
                     newMemberDeclaration = GenerateField(
                         mw.Member as IField,
                         targetCodeBehind,
-                        masterWrapperVariableName);
+                        mw.Member.IsStaticOrConst()
+                            ? masterWrapperStaticName
+                            : masterWrapperVariableName);
 
                 else
                     continue;

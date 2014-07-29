@@ -140,21 +140,24 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 .Any(a => Equals(a.AttributeType, attributeType));
         }
 
-        public static string GetModifiersString(this IMember member)
+        public static string GetModifiersString(this IMember member, string overrideModifiers = null )
         {
-            var additionalModifiers =
-                member.IsOverridable
-                    ? " virtual"
-                    : "";
+            if (null == overrideModifiers)
+            {
+                overrideModifiers =
+                    (member.IsOverridable
+                        ? " virtual"
+                        : "") +
+                    (member.IsOverride
+                        ? " override"
+                        : "");
+            }
+
+            var additionalModifiers = overrideModifiers;
 
             additionalModifiers +=
                 member.IsStatic
                     ? " static"
-                    : "";
-
-            additionalModifiers +=
-                member.IsOverride
-                    ? " override"
                     : "";
 
             var method = member as IMethod;
@@ -168,15 +171,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             }
 
             if (member.IsPrivate)
-                return "private" + additionalModifiers;
+                return "private " + additionalModifiers;
 
             if (member.IsProtected)
-                return "protected" + additionalModifiers;
+                return "protected " + additionalModifiers;
 
             if (member.IsInternal)
-                return "internal" + additionalModifiers;
+                return "internal " + additionalModifiers;
 
-            return "public" + additionalModifiers;
+            return "public " + additionalModifiers;
         }
 
         public static bool IsStaticOrConst(this IMember member)

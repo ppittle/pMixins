@@ -35,6 +35,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             if (null == typeDeclaration)
                 throw new ArgumentNullException("typeDeclaration");
 
+            var parentContainerClass =
+                typeDeclaration.GetParent<TypeDeclaration>();
+
+            if (null != parentContainerClass)
+                return parentContainerClass.GetFullTypeName() + "." + typeDeclaration.Name;
+
             var namespaceDeclaration =
                 typeDeclaration.GetParent<NamespaceDeclaration>();
 

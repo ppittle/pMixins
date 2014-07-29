@@ -18,6 +18,7 @@
 
 
 using System.Collections.Generic;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -57,6 +58,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// </code>
         /// </summary>
         public IEnumerable<ImplicitConversionPlan> ImplicitCoversionPlans { get; set; }
+
+        /// <summary>
+        /// The collection of interfaces Mixins implement that the 
+        /// Target should implement as well.
+        /// </summary>
+        public IEnumerable<IType> MixinInterfaces { get; set; } 
 
         #region Mixins Class
         /// <summary>

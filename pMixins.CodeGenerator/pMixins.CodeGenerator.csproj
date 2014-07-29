@@ -98,6 +98,7 @@
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />
     <Compile Include="Infrastructure\Log4NetInMemoryStreamAppenderManager.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CalculateTargetSpecificImplicitConversionTypes.cs" />
+    <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CalculateTargetSpecificMixinInterfacesToImplement.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CreateAbstractWrapperPlan.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CreateMasterWrapperPlan.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CreateProtectedWrapperPlan.cs" />

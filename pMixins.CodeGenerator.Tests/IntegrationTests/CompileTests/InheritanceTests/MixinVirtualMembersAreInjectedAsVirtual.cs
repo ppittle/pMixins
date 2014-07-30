@@ -54,7 +54,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             {
                                 public Target()
                                 {
-                                    ___mixins.Test_MixinWithVirtualMembers.StringMethodFunc = () => ""Overridden Method"";
+                                    __mixins.Test_MixinWithVirtualMembers.StringMethodFunc = () => ""Overridden Method"";
                                 }
                             }
 

@@ -25,6 +25,7 @@ using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.Refactoring;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem.Implementation;
+using JetBrains.Annotations;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
@@ -292,6 +293,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return 
                 type.GetConstructors().Any(
                     c => null == c.Parameters || 0 == c.Parameters.Count);
+        }
+
+        public static bool DefinesMember(this IType type, IMember member)
+        {
+            return
+                null !=
+                type.GetDeclaredMemberThatMatchesSignature(member);
+        }
+
+        [CanBeNull]
+        public static IMember GetDeclaredMemberThatMatchesSignature(this IType type, IMember member)
+        {
+            return 
+                type.GetMembers()
+                    .Where(m => m.DeclaringType.Equals(type))
+                    .FirstOrDefault(m => m.EqualsMember(member));
         }
     }
 }

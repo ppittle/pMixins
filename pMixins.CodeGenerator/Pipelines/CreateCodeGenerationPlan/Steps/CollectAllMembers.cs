@@ -43,8 +43,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                     var mixinMembers = 
                         CollectMemberWrappers(mixin, memberFilter)
-                        //TODO: At this point should duplicates be removed or marked as 'don't implement'?
-                        .DistinctMemberWrappers()
                         .ToList();
 
                     //Save Members
@@ -57,39 +55,47 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
         private IEnumerable<MemberWrapper> CollectMemberWrappers(
             pMixinAttributeResolvedResult mixinAttribute,
-            Func<IMember, bool> memberFilter)
+            Func<IMember, bool> memberFilter,
+            IType declaringType = null)
         {
-            return 
-                
-                new[] {mixinAttribute.Mixin}
-                    //Collect all applicable types
-                    .Union(mixinAttribute.Mixin.GetAllBaseTypes())
+            declaringType =
+                declaringType ?? mixinAttribute.Mixin;
 
-                    //Collect all members
-                    .SelectMany(t => CollectMemberWrappers(t, mixinAttribute, memberFilter));
-        }
-
-        private IEnumerable<MemberWrapper> CollectMemberWrappers(
-            IType parentType, 
-            pMixinAttributeResolvedResult mixinAttribute,
-            Func<IMember, bool> memberFilter)
-        {
-            //Ignore interface members
-            if (parentType.Kind == TypeKind.Interface)
+            if (declaringType.FullName.ToLower().Equals("system.object"))
                 return Enumerable.Empty<MemberWrapper>();
 
-
             var allMembers =
-                parentType.GetMembers()
-                    .Where(memberFilter)
-                    .Select(m =>
-                        new MemberWrapper
-                        {
-                            DeclaringType = parentType,
-                            Member = m,
-                            MixinAttribute = mixinAttribute
-                        });
+               mixinAttribute.Mixin.GetMembers()
+                   .Where(m => m.DeclaringType.Equals(declaringType))
+                   .Where(memberFilter)
+                   .Select(m =>
+                       new MemberWrapper
+                       {
+                           DeclaringType = mixinAttribute.Mixin,
 
+                           Member = m,
+
+                           MixinAttribute = mixinAttribute,
+
+                           ParentDeclarations = 
+                                CollectParentDeclarations(
+                                    m,
+                                    declaringType.DirectBaseTypes,
+                                    mixinAttribute)
+
+                       });
+
+            allMembers =
+                allMembers
+                    .Union(
+                        declaringType.DirectBaseTypes
+                            .SelectMany(bt =>
+                                CollectMemberWrappers(
+                                    mixinAttribute,
+                                    memberFilter,
+                                    bt)))
+                    .DistinctMemberWrappers()
+                    .ToList();
 
             //Handle Mixin Masks
             if (mixinAttribute.Masks.IsNullOrEmpty())
@@ -103,9 +109,34 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             return
                 allMembers
                     .Where(mw => maskMethods.Any(mm => mm.EqualsMember(mw.Member)));
-
         }
 
+        private IEnumerable<MemberWrapper> CollectParentDeclarations(
+            IMember member,
+            IEnumerable<IType> directBaseTypes,
+            pMixinAttributeResolvedResult mixinAttribute)
+        {
+            return
+                directBaseTypes
+                    .Where(t => !t.FullName.ToLower().Equals("system.object"))
+                    .Where(t => t.DefinesMember(member))
+                    .Select(t =>
+                        new MemberWrapper
+                        {
+                            DeclaringType = t,
+
+                            Member = t.GetDeclaredMemberThatMatchesSignature(member),
+
+                            MixinAttribute = mixinAttribute,
+
+                            ParentDeclarations =
+                                CollectParentDeclarations(
+                                    member,
+                                    t.DirectBaseTypes,
+                                    mixinAttribute)
+                        });
+        }
+        
         private Func<IMember, bool> BuildMemberFilterFunction(
             pMixinAttributeResolvedResult mixinAttribute,
             ICompilation compilation)

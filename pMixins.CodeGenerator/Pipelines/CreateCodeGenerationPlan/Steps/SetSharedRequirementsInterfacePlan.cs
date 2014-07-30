@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
@@ -31,11 +32,30 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             {
                 codeGenerationPlan.SharedRequirementsInterfacePlan = new RequirementsInterfacePlan
                 {
-                    RequirementsInterfaceName = "ISharedRequirementsName",
-
-                    //TODO: Create Member Filter Logic
-                    Members = Enumerable.Empty<MemberWrapper>()
+                    RequirementsInterfaceName = "ISharedRequirements"
                 };
+
+                var abstractMembers =
+                    codeGenerationPlan.MixinGenerationPlans.Values
+                        .Where(mgp => mgp.MixinAttribute.EnableSharedRequirementsInterface)
+                        .SelectMany(mgp => mgp.Members)
+                        .Where(mw => mw.Member.IsAbstract)
+                        .ToList();
+
+                var groupedByCount =
+                    abstractMembers
+                        .DistinctMemberWrappers()
+                        .Select(mw =>
+                            new KeyValuePair<MemberWrapper, int>(
+                                mw,
+                                abstractMembers.Count(x =>
+                                    new MemberWrapperExtensions.MemberWrapperEqualityComparer().Equals(mw, x))));
+
+                codeGenerationPlan.SharedRequirementsInterfacePlan.Members =
+                    groupedByCount
+                        .Where(x => x.Value > 1)
+                        .Select(x => x.Key)
+                        .ToList();
             }
 
             return true;

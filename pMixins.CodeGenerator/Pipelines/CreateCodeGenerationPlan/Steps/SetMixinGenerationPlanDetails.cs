@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -55,7 +56,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     Members = 
                         mixinPlan.Members.Where(mw => 
                             mw.Member.IsAbstract &&
-                            !mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members.Contains(mw)),
+                            !mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members.Contains(
+                                mw, new MemberWrapperExtensions.MemberWrapperEqualityComparer())),
 
                     RequirementsInterfaceName =
                         "I" +

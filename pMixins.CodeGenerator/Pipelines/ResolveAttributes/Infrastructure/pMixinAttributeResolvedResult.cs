@@ -46,6 +46,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.In
 
             Masks = new List<IType>(0);
             Interceptors = new List<IType>(0);
+            EnableSharedRequirementsInterface = new pMixinAttribute().EnableSharedRequirementsInterface;
 
             GenerateExtensionMethodWrappers = 
                 new pMixinAttribute().GenerateExtensionMethodWrappers;

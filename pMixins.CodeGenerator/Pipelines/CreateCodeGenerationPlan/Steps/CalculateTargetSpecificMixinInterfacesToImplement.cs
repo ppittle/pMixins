@@ -17,7 +17,9 @@
 //-----------------------------------------------------------------------
 
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.TypeSystem;
 
@@ -30,12 +32,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
+            var doNotMixinIType =
+                typeof (DoNotMixinAttribute).ToIType(
+                    manager.CommonState.Context.TypeResolver.Compilation);
+
             foreach (var cgp in manager.CodeGenerationPlans.Values)
             {
                 cgp.TargetCodeBehindPlan.MixinInterfaces =
                     cgp.MixinGenerationPlans.Values
                         .SelectMany(mgp => mgp.MixinAttribute.Mixin.GetAllBaseTypes())
                         .Where(bt => bt.Kind == TypeKind.Interface)
+                        //Filter out interfaces decorated with DoNotMixin
+                        .Where(bt => !bt.IsDecoratedWithAttribute(doNotMixinIType))
                         .Distinct();
             }
 

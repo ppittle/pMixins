@@ -133,20 +133,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             if (mw.Member is IMethod)
             {
                 //ProtectedVirtualMethodFunc = (i) => AbstractWrapper.ProtectedVirtualMethod(i);
-                return string.Format("{0} = ({1}) => {2};",
+                return string.Format("{0} = ({1}) => {2}.{3}({1});",
 
                     mw.ImplementationDetails.VirtualMemberFunctionName,
 
                     string.Join(",",
                         (mw.Member as IMethod).Parameters.Select(x => x.Name)),
 
-                    masterWrapperMemberHelper.GetMethodBodyCallStatement(
-                        method:
-                            mw.Member as IMethod,
-                        baseObjectIdentifier:
-                            MasterWrapperPlan.MixinInstanceDataMemberName,
-                        methodName:
-                            mw.Member.Name));
+                    MasterWrapperPlan.MixinInstanceDataMemberName,
+
+                    mw.Member.Name);
             }
 
             #endregion
@@ -156,28 +152,22 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             if (mw.Member is IProperty)
             {
                 return string.Format(
-                    "{0}" +     //Get
-                    "{1}",      //Set
+                    "{0}" + //Get
+                    "{1}", //Set
 
                     
                     (!(mw.Member as IProperty).CanGet)
                         ? string.Empty
-                        : 
+                        :
+
                         #region Get
                         string.Format(
-                            "{0}Get = () => {1};",
+                            "{0}Get = () => {1}.{2};",
                             mw.ImplementationDetails.VirtualMemberFunctionName,
 
-                            masterWrapperMemberHelper.GetPropertyGetterReturnBodyStatement(
-                                prop:
-                                    mw.Member as IProperty,
-                                baseObjectIdentifier:
-                                    MasterWrapperPlan.MixinInstanceDataMemberName,
-                                propertyName:
-                                    mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName
-                                        .IfEmpty(mw.Member.Name)
-                                )
-                            ),
+                            MasterWrapperPlan.MixinInstanceDataMemberName,
+
+                            mw.Member.Name),
                     #endregion
                 
                     (!(mw.Member as IProperty).CanSet)
@@ -185,19 +175,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         : 
                         #region Set
                         string.Format(
-                            "{0}Set = (value) => {1};",
+                            "{0}Set = (value) => {1}.{2} = value;",
+
                             mw.ImplementationDetails.VirtualMemberFunctionName,
 
-                            masterWrapperMemberHelper.GetPropertySetterReturnBodyStatement(
-                                prop:
-                                    mw.Member as IProperty,
-                                baseObjectIdentifier:
-                                    MasterWrapperPlan.MixinInstanceDataMemberName,
-                                propertyName:
-                                    mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName
-                                        .IfEmpty(mw.Member.Name)
-                                )
-                            )
+                            MasterWrapperPlan.MixinInstanceDataMemberName,
+
+                            mw.Member.Name)
                     #endregion
                     );
             }

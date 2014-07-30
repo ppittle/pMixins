@@ -16,10 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -51,9 +53,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 Members = 
                     mixinPlan.Members.Where(x => x.Member.IsAbstract),
 
-                WrapAllConstructors =
-                    mixinPlan.MixinAttribute.ExplicitlyInitializeMixin ||
-                    !mixinPlan.MixinAttribute.Mixin.HasParameterlessConstructor(),
+                Constructors = 
+                    GetConstructors(mixinPlan),
 
                 GenerateAbstractWrapperInExternalNamespace = 
                     !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsPrivate,
@@ -62,6 +63,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() +
                     "AbstractWrapper"
             };
+        }
+
+        private IEnumerable<IMethod> GetConstructors(MixinGenerationPlan mixinPlan)
+        {
+            var wrapAllConstructors =
+                mixinPlan.MixinAttribute.ExplicitlyInitializeMixin ||
+                !mixinPlan.MixinAttribute.Mixin.HasParameterlessConstructor();
+
+            return
+                mixinPlan.MixinAttribute.Mixin
+                    .GetConstructors()
+                    .Where(c => c.Parameters.Count == 0 || wrapAllConstructors);
+
         }
     }
 }

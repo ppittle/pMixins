@@ -16,10 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -49,9 +51,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
 
                 Constructors = 
-                    mixinPlan.MixinAttribute.Mixin
-                        .GetConstructors()
-                        .Where(c => c.IsProtected),
+                    GetConstructors(mixinPlan),
 
                 Members = 
                     mixinPlan.Members.Where(m =>
@@ -64,6 +64,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     mixinPlan.MixinAttribute.Mixin.GetNameAsIdentifier() + 
                     "ProtectedMembersWrapper"
             };
+        }
+
+        private IEnumerable<IMethod> GetConstructors(MixinGenerationPlan mixinPlan)
+        {
+            var wrapAllConstructors =
+                mixinPlan.MixinAttribute.ExplicitlyInitializeMixin ||
+                !mixinPlan.MixinAttribute.Mixin.HasParameterlessConstructor();
+
+            return
+                mixinPlan.MixinAttribute.Mixin
+                    .GetConstructors()
+                    .Where(c => c.IsProtected || wrapAllConstructors);
+
         }
     }
 }

@@ -22,6 +22,7 @@ using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
+using ICSharpCode.NRefactory.Semantics;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -98,11 +99,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         }
 
         private void CreateRequirementsDataMemberAndConstructor(
-            ICodeGeneratorProxy abstractWrapperCodeGenerator, 
+            ICodeGeneratorProxy abstractWrapperCodeGenerator,
             MixinLevelCodeGeneratorPipelineState manager)
         {
             var requirementsVariableConstructorParameterName =
-                    RequirementsVariable.Replace("_", "");
+                RequirementsVariable.Replace("_", "");
 
             var requirementsVariableTypeFullName =
                 manager.RequirementsInterface
@@ -122,64 +123,31 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     RequirementsVariable,
                     //equals constructor param name
                     requirementsVariableConstructorParameterName);
-            
-            if (manager.MixinGenerationPlan.AbstractWrapperPlan.WrapAllConstructors)
-            {
-                var allConstructors =
-                    manager.MixinGenerationPlan.MixinAttribute.Mixin.GetConstructors();
 
-                foreach (var constructor in allConstructors)
-                {
-                    //Add requirementsVariableConstructorParameterName
-                    //as first constructor argument
-                    var updatedParameters =
-                        new []
+            foreach (var constructor in manager.MixinGenerationPlan.AbstractWrapperPlan.Constructors)
+            {
+                //Add requirementsVariableConstructorParameterName
+                //as first constructor argument
+                var updatedParameters =
+                    new[]
                         {
                             requirementsVariableConstructorParamater
                         }
-                        .Union(
-                            constructor.Parameters.ToKeyValuePair())
-                        .ToList();
+                    .Union(
+                        constructor.Parameters.ToKeyValuePair())
+                    .ToList();
 
-                    abstractWrapperCodeGenerator.CreateConstructor(
-                        modifiers:
-                            "public",
-                        parameters:
-                            updatedParameters,
-                        constructorInitializer:
-                            //pass original constructor arguments to original Mixin constructor
-                            ": base(" + string.Join(",", constructor.Parameters.Select(p => p.Name)) + ")",
-                        constructorBody:
-                            requirementsVariableAssignmentExpression
-                    );
-                }
-            }
-            else
-            {
-                //Add a simple constructor 
-                //that takes a single parameter of type CurrentMixinRequirementsInterface
-                //public AbstractWrapper(IMixinRequirements target)
-                //{
-                //    _target = target;
-                //}
-                abstractWrapperCodeGenerator
-                    .CreateConstructor(
-                        modifiers:
-                            "public",
-                        parameters:
-                            new[]
-                            {
-                                new KeyValuePair<string, string>(
-                                    //param type
-                                    requirementsVariableTypeFullName,
-                                    //param var name
-                                    requirementsVariableConstructorParameterName)
-                            },
-                        constructorInitializer:
-                            string.Empty,
-                        constructorBody:
-                            requirementsVariableAssignmentExpression
-                        );
+                abstractWrapperCodeGenerator.CreateConstructor(
+                    modifiers:
+                        "public",
+                    parameters:
+                        updatedParameters,
+                    constructorInitializer:
+                        //pass original constructor arguments to original Mixin constructor
+                        ": base(" + string.Join(",", constructor.Parameters.Select(p => p.Name)) + ")",
+                    constructorBody:
+                        requirementsVariableAssignmentExpression
+                );
             }
         }
 

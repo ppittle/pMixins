@@ -17,7 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using CopaceticSoftware.pMixins.Attributes;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -30,23 +30,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         public bool GenrateAbstractWrapper { get; set; }
 
         /// <summary>
-        /// Indicates if all constructors should be wrapped by the 
-        /// Abstract Wrapper, or if the Abstract Wrapper should have a 
-        /// 'simple constructor'.  This is dictated by
-        /// <see cref="pMixinAttribute.ExplicitlyInitializeMixin"/>
-        /// or if <see cref="pMixinAttribute.Mixin"/> has a 
-        /// parameterless constructor.
+        /// Collection of Constructors that should be wrapped in the
+        /// Abstract Wrapper.  Note: this should probably match 
+        /// <see cref="ProtectedWrapperPlan.Constructors"/>
         /// </summary>
-        /// <remarks>
-        /// <code>
-        /// <![CDATA[
-        ///  var wrapAllConstructors =
-        ///     manager.MixinResolvedResult.ExplicitlyInitializeMixin ||
-        ///     !manager.MixinResolvedResult.Mixin.HasParameterlessConstructor();
-        /// ]]>
-        /// </code>
-        /// </remarks>
-        public bool WrapAllConstructors { get; set; }
+        public IEnumerable<IMethod> Constructors { get; set; }
 
         public IEnumerable<MemberWrapper> Members { get; set; }
 

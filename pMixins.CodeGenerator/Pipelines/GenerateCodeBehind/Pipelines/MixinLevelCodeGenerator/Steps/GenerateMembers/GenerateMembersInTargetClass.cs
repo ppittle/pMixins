@@ -183,17 +183,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             if (!prop.CanGet || prop.Getter.IsPrivate)
                 return string.Empty;
-
-            var formatString =
-                (prop.IsVirtual)
-                // virtual properties are wrapped as functions and need to be called as a method
-                    ? "get{{ return {0}.{1}FuncGet(); }}"
-                    : "get{{ return {0}.{1}; }}";
-
-
-            return string.Format(formatString,
-                                 masterWrapperVariableName,
-                                 prop.Name);
+            
+            return string.Format(
+                "get{{ return {0}.{1}; }}",
+                masterWrapperVariableName,
+                prop.Name);
 
         }
 
@@ -203,16 +197,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             if (!prop.CanSet || prop.Setter.IsPrivate)
                 return string.Empty;
-
-            var formatString =
-                (prop.IsVirtual)
-                // virtual properties are wrapped as functions and need to be called as a method
-                    ? "set{{ {0}.{1}FuncSet(value); }}"
-                    : "set{{ {0}.{1} = value; }}";
-
-            return string.Format(formatString,
-                                 masterWrapperVariableName,
-                                 prop.Name);
+            
+            return string.Format(
+                "set{{ {0}.{1} = value; }}",
+                masterWrapperVariableName,
+                prop.Name);
         }
 
         #endregion

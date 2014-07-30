@@ -63,7 +63,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// The collection of interfaces Mixins implement that the 
         /// Target should implement as well.
         /// </summary>
-        public IEnumerable<IType> MixinInterfaces { get; set; } 
+        public List<IType> MixinInterfaces { get; set; } 
         
         /// <summary>
         /// Collection of <see cref="IAttribute"/> to add to the

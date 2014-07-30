@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.Caching;
@@ -53,7 +54,7 @@ namespace CopaceticSoftware.pMixins.VisualStudio.IO
         {
             try
             {
-                if (null == response.CodeGeneratorContext)
+                if (null == response.CodeGeneratorContext || response.Errors.Any())
                     return;
 
                 var codeBehindFileName = _codeBehindFileHelper.GetOrAddCodeBehindFile(

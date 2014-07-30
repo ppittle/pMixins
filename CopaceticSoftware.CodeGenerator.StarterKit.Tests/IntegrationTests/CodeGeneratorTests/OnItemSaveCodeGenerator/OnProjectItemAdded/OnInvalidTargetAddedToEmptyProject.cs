@@ -44,13 +44,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
             this.AddMockSourceFile(s => s.Projects[0], _fileToAdd);
         }
 
+        //Logic updated.  Code Behind file is not created 
+        //on error in target.
         [Test]
-        public void EmptyCodeBehindFileIsGenerated()
+        public void NoCodeBehindFileIsGenerated()
         {
-            this.AssertCodeBehindFileWasGenerated(_MockSolution.Projects[0].MockSourceFiles[0]);
-
-            //Code Behind File should be empty
-            _MockSolution.Projects[0].MockSourceFiles[1].Source.ShouldBeEmpty();
+            this.AssertCodeBehindFileWasNotGenerated();
         }
     }
 }

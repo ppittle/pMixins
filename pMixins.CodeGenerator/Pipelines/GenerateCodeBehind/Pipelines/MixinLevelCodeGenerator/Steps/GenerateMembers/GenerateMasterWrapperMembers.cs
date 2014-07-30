@@ -118,15 +118,21 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     propertyName:
                         virtualProp.Member.Name,
                     getterMethodBody:
-                        string.Format(
-                            "get{{ return base.ExecutePropertyGet(\"{0}\", () => {1}Get();}}",
-                            virtualProp.Member.Name,
-                            virtualProp.ImplementationDetails.VirtualMemberFunctionName),
+                        ( ! (virtualProp.Member is IProperty) || 
+                          ! (virtualProp.Member as IProperty).CanGet)
+                          ? string.Empty
+                          : string.Format(
+                                "get{{ return base.ExecutePropertyGet(\"{0}\", () => {1}Get();}}",
+                                virtualProp.Member.Name,
+                                virtualProp.ImplementationDetails.VirtualMemberFunctionName),
                     setterMethodBody:
-                        string.Format(
-                            "set{{ base.ExecutePropertySet(\"{0}\", value, (v) => {1}Set(v);}}",
-                            virtualProp.Member.Name,
-                            virtualProp.ImplementationDetails.VirtualMemberFunctionName)
+                         (!(virtualProp.Member is IProperty) ||
+                          !(virtualProp.Member as IProperty).CanSet)
+                          ? string.Empty
+                          : string.Format(
+                                "set{{ base.ExecutePropertySet(\"{0}\", value, (v) => {1}Set(v);}}",
+                                virtualProp.Member.Name,
+                                virtualProp.ImplementationDetails.VirtualMemberFunctionName)
                     );
             }
 

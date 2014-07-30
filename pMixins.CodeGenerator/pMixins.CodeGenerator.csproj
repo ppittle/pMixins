@@ -92,7 +92,6 @@
     <Compile Include="Infrastructure\CodeGenerationPlan\RequirementsInterfacePlan.cs" />
     <Compile Include="Infrastructure\CodeGenerationPlan\TargetCodeBehindPlan.cs" />
     <Compile Include="Infrastructure\CodeGeneratorProxy\CodeGeneratorProxy.cs" />
-    <Compile Include="Infrastructure\MemberImplementationStrategies\IImplementationStrategy.cs" />
     <Compile Include="Infrastructure\CodeGeneratorProxy\MasterWrapperCodeGeneratorProxyMemberHelper.cs" />
     <Compile Include="Infrastructure\MemberWrapper.cs" />
     <Compile Include="Pipelines\CodeGenerationPipelineState.cs" />

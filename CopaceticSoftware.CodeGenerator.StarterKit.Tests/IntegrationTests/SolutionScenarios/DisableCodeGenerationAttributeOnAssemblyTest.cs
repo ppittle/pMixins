@@ -42,6 +42,17 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Solu
 
                                 }"
                    });
+
+            _MockSolution.Projects[0].MockSourceFiles.Add(
+                new MockSourceFile("c:\\test\\MockSolution\\MockProject\\Properties\\AssemblyInfo.cs")
+                {
+                    Source = @"
+                        using CopaceticSoftware.pMixins.Attributes;
+
+                        [assembly: DisableCodeGeneration]
+                            "
+                });
+
         }
 
         [Test]

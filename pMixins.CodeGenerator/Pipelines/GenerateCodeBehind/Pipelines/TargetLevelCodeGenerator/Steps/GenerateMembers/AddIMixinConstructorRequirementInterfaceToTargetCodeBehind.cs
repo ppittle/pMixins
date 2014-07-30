@@ -45,24 +45,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         {
             var codeGeneratorProxy =
                 new CodeGeneratorProxy(manager.TargetCodeBehindTypeDeclaration);
-
-            var mixinConstructorRequirements =
-                typeof (IMixinConstructorRequirement<>).ToIType(manager.CommonState.Context.TypeResolver.Compilation)
-                    .GetDefinition();
-
+            
             manager.CodeGenerationPlan.MixinGenerationPlans.Values
                 .Where(mgp => mgp.AddIMixinConstructorRequirementInterface)
                 .Map(mgp =>
 
-                    codeGeneratorProxy.ImplementInterface(
-                        new ParameterizedType(
-                            mixinConstructorRequirements, 
-                            new[] {mgp.MixinAttribute.Mixin})
-                        .GetOriginalFullNameWithGlobal(
-                            manager.CommonState.Context.TypeResolver.Resolve(
-                                manager.TargetSourceTypeDeclaration)
-                            .Type))
-                );
+                        codeGeneratorProxy.ImplementInterface(
+                            string.Format("{0}.{1}<{2}>",
+                                typeof (IMixinConstructorRequirement<>).Namespace,
+                                "IMixinConstructorRequirement",
+                                mgp.MasterWrapperPlan.MixinInstanceTypeFullName
+                                )
+                            )
+                        );
 
             return true;
         }

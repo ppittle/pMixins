@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 
 using CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator;
-using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnSolutionOpenCodeGenerator
@@ -29,13 +28,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
             _MockSolution.InitializeWithInvalidTargetFile();
         }
 
+        //Logic updated.  Code Behind file is not created 
+        //on error in target.
         [Test]
-        public void EmptyCodeBehindFileIsGenerated()
+        public void NoCodeBehindFileIsGenerated()
         {
-            this.AssertCodeBehindFileWasGenerated(_MockSolution.Projects[0].MockSourceFiles[0]);
-
-            //Code Behind File should be empty
-            _MockSolution.Projects[0].MockSourceFiles[1].Source.ShouldBeEmpty();
+            this.AssertCodeBehindFileWasNotGenerated();
         }
     }
 }

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
@@ -73,7 +74,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             pMixinAttributeResolvedResult mixinAttribute,
             Func<IMember, bool> memberFilter)
         {
-            return
+            //Ignore interface members
+            if (parentType.Kind == TypeKind.Interface)
+                return Enumerable.Empty<MemberWrapper>();
+
+
+            var allMembers =
                 parentType.GetMembers()
                     .Where(memberFilter)
                     .Select(m =>
@@ -83,6 +89,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             Member = m,
                             MixinAttribute = mixinAttribute
                         });
+
+
+            //Handle Mixin Masks
+            if (mixinAttribute.Masks.IsNullOrEmpty())
+                return allMembers;
+
+            var maskMethods =
+                mixinAttribute.Masks
+                    .SelectMany(x => x.GetMembers())
+                    .Where(memberFilter);
+
+            return
+                allMembers
+                    .Where(mw => maskMethods.Any(mm => mm.EqualsMember(mw.Member)));
 
         }
 

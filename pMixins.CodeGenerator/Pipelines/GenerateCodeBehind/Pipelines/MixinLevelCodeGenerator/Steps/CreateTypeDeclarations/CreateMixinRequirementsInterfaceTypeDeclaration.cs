@@ -16,10 +16,8 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
-using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -49,7 +47,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             requirementsInterface.BaseTypes.Add(
                 new SimpleType(
                         manager.TargetLevelCodeGeneratorPipelineState
-                            .SharedRequirementsInterface.GetFullTypeName()));
+                            .SharedRequirementsInterface.GetFullTypeNameWithGlobal()));
 
 
             //Have CodeGeneratorProxy add the Code Generated attribute

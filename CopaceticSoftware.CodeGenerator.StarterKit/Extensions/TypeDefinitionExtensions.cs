@@ -52,5 +52,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 ) +
                 typeDeclaration.Name;
         }
+
+        public static string GetFullTypeNameWithGlobal(this TypeDeclaration typeDeclaration)
+        {
+            return GetFullTypeName(typeDeclaration).EnsureStartsWith("global::");
+        }
     }
 }

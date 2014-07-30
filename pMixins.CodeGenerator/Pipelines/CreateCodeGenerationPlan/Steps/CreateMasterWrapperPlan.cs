@@ -110,8 +110,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         private string ResolveMixinInstanceTypeFullName(
             MixinGenerationPlan mixinPlan)
         {
-            if (!mixinPlan.AbstractWrapperPlan.Members.Any() &&
-                !mixinPlan.ProtectedWrapperPlan.Members.Any())
+            if (!mixinPlan.ProtectedWrapperPlan.Members.Any() &&
+               (
+                    !mixinPlan.AbstractWrapperPlan.Members.Any() ||
+                    mixinPlan.MixinAttribute.ExplicitlyInitializeMixin
+                ))
             {
                 //Can just use mixin type
                 return

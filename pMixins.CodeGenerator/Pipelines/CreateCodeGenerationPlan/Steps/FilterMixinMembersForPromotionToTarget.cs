@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
@@ -31,11 +32,31 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
-            //TODO: Add filtering logic:
-            manager.CodeGenerationPlans.Values.Map(
-                cgp => cgp.MixinGenerationPlans.Values.Map(
-                    mgp => mgp.MembersPromotedToTarget = mgp.Members)
-                );
+            foreach (var cgp in manager.CodeGenerationPlans.Values)
+            {
+                var allMixinGenPlans =
+                    cgp.MixinGenerationPlans.Values.ToList();
+
+                for (int i = 0; i < allMixinGenPlans.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        allMixinGenPlans[i].MembersPromotedToTarget =
+                            allMixinGenPlans[i].Members.ToList();
+
+                        continue;
+                    }
+
+                    var previouslyPromotedMembers =
+                        allMixinGenPlans.Take(i).SelectMany(x => x.MembersPromotedToTarget);
+
+                    allMixinGenPlans[i].MembersPromotedToTarget =
+                        allMixinGenPlans[i].Members
+                            .Where(m => previouslyPromotedMembers.All(
+                                ppm => !ppm.Member.EqualsMember(m.Member)))
+                            .ToList();
+                }
+            }
 
             return true;
         }

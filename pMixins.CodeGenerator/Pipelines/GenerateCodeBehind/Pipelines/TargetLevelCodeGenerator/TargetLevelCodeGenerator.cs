@@ -44,6 +44,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 new AddMixinRequirementsInterfacesToTargetCodeBehind(), 
                 new AddMixinAttributesToTargetCodeBehind(),
                 new AddIContainMixinInterfacesToTargetCodeBehind(),
+                new AddIMixinConstructorRequirementInterfaceToTargetCodeBehind(), 
                 new GenerateImplicitConversionOperatorMethods(), 
 
                 //Run Mixin Level Code Generator

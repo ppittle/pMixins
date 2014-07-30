@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.CreateTypeDeclarations;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using CopaceticSoftware.pMixins.ConversionOperators;
+using CopaceticSoftware.pMixins.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
@@ -77,5 +78,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
         /// <see cref="TargetCodeBehindPlan"/> on behalf of this mixin.
         /// </summary>
         public bool AddAnIContainsMixinImplementation { get; set; }
+
+        /// <summary>
+        /// Indicates if the Target Code Behind should implement
+        /// <see cref="IMixinConstructorRequirement{TMixin}"/>
+        /// for this <see cref="MixinAttribute"/>
+        /// </summary>
+        public bool AddIMixinConstructorRequirementInterface { get; set; }
     }
 }

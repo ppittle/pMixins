@@ -66,6 +66,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                 mixinPlan.AddAnIContainsMixinImplementation =
                     !mixinPlan.MixinAttribute.Mixin.GetDefinition().IsStatic;
+
+                mixinPlan.AddIMixinConstructorRequirementInterface =
+                    mixinPlan.MixinAttribute.ExplicitlyInitializeMixin;
             }
 
             return true;

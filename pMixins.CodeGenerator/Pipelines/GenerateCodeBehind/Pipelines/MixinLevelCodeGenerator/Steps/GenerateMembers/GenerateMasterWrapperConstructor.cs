@@ -175,6 +175,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                                     MasterWrapperPlan.MixinInstanceDataMemberName,
                                 propertyName:
                                     mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName
+                                        .IfEmpty(mw.Member.Name)
                                 )
                             ),
                     #endregion
@@ -194,6 +195,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                                     MasterWrapperPlan.MixinInstanceDataMemberName,
                                 propertyName:
                                     mw.ImplementationDetails.ProtectedAbstractMemberPromotedToPublicMemberName
+                                        .IfEmpty(mw.Member.Name)
                                 )
                             )
                     #endregion

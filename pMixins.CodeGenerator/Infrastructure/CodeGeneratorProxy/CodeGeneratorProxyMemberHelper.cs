@@ -26,8 +26,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
 {
     public class CodeGeneratorProxyMemberHelper
     {
-        protected readonly ICodeGeneratorProxy CodeGeneratorProxy;
-        protected readonly ICompilation Compilation;
+        public ICodeGeneratorProxy CodeGeneratorProxy { get; protected set; }
+        public ICompilation Compilation { get; protected set; }
 
         public CodeGeneratorProxyMemberHelper(ICodeGeneratorProxy codeGeneratorProxy, ICompilation compilation)
         {

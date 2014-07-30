@@ -16,10 +16,12 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -82,15 +84,53 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             MasterWrapperCodeGeneratorProxyMemberHelper proxyMemberHelper, 
             MixinLevelCodeGeneratorPipelineState manager)
         {
-            proxyMemberHelper.CreateMembers(
-                manager.MixinGenerationPlan.MasterWrapperPlan.VirtualMembers,
-                generateMemberModifier:
-                        member => "internal",
-                baseObjectIdentifierFunc:
-                        member => "this",
-                baseObjectMemberNameFunc:
-                        member => member.ImplementationDetails.VirtualMemberFunctionName
-                 );  
+            var virtualMethods =
+                manager.MixinGenerationPlan.MasterWrapperPlan.VirtualMembers
+                    .Where(mw => mw.Member is IMethod);
+
+            var virtualPropertiesAndFields =
+                manager.MixinGenerationPlan.MasterWrapperPlan.VirtualMembers
+                    .Where(mw => mw.Member is IProperty || mw.Member is IField);
+
+            #region Methods
+                proxyMemberHelper.CreateMembers(
+                    virtualMethods,
+                    generateMemberModifier:
+                            member => "internal",
+                    baseObjectIdentifierFunc:
+                            member => "this",
+                    baseObjectMemberNameFunc:
+                            member => member.ImplementationDetails.VirtualMemberFunctionName
+                     );
+            #endregion
+
+            #region Properties
+
+            //virtual properties need to be created directly.
+
+            foreach (var virtualProp in virtualPropertiesAndFields)
+            {
+                proxyMemberHelper.CodeGeneratorProxy.CreateProperty(
+                    modifier:
+                        "internal",
+                    returnTypeFullName:
+                        virtualProp.Member.ReturnType.GetOriginalFullNameWithGlobal(),
+                    propertyName:
+                        virtualProp.Member.Name,
+                    getterMethodBody:
+                        string.Format(
+                            "get{{ return base.ExecutePropertyGet(\"{0}\", () => {1}Get();}}",
+                            virtualProp.Member.Name,
+                            virtualProp.ImplementationDetails.VirtualMemberFunctionName),
+                    setterMethodBody:
+                        string.Format(
+                            "set{{ base.ExecutePropertySet(\"{0}\", value, (v) => {1}Set(v);}}",
+                            virtualProp.Member.Name,
+                            virtualProp.ImplementationDetails.VirtualMemberFunctionName)
+                    );
+            }
+
+            #endregion
         }
 
         private void ProcessRegularMembers(

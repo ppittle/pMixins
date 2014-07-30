@@ -38,7 +38,7 @@ namespace pMixins.Mvc.Recipes.VirtualMethodOverride
     {
         public VirtualMethodOverride()
         {
-            this.___mixins.pMixins_Mvc_Recipes_VirtualMethodOverride_VirtualMemberMixin.GetNameFunc =
+            this.__mixins.pMixins_Mvc_Recipes_VirtualMethodOverride_VirtualMemberMixin.GetNameFunc =
                 () => "Target";
         }
     }

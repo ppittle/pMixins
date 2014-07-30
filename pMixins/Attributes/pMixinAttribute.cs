@@ -65,6 +65,7 @@ namespace CopaceticSoftware.pMixins.Attributes
             Masks = new Type[0];
             Interceptors = new Type[0];
             GenerateExtensionMethodWrappers = false;
+            EnableSharedRequirementsInterface = true;
         }
 
         /// <summary>
@@ -166,6 +167,8 @@ namespace CopaceticSoftware.pMixins.Attributes
         /// If <c>false</c> all members are added individually to the Mixin
         /// specific requirements interface and must be separately implemented
         /// by the Target.
+        /// 
+        /// Default is <c>true</c>.
         /// </summary>
         public bool EnableSharedRequirementsInterface { get; set; }
 

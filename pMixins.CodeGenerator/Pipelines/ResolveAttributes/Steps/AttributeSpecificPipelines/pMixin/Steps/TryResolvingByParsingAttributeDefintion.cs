@@ -49,13 +49,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (null != interceptors)
                 manager.ResolvedResult.Interceptors = interceptors.OfType<IType>().ToList();
                     
-            var generateExtensionsMethodWrappers = 
-                attribute.GetNamedArgumentValue("GenerateExtensionMethodWrappers");
-
-            if (null != generateExtensionsMethodWrappers)
-                manager.ResolvedResult.GenerateExtensionMethodWrappers =
-                    bool.Parse(generateExtensionsMethodWrappers.ToString());
-
             var explicitlyInitializeMixin =
                attribute.GetNamedArgumentValue("ExplicitlyInitializeMixin");
 
@@ -70,14 +63,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 manager.ResolvedResult.EnableSharedRequirementsInterface =
                     bool.Parse(enableSharedRequirementsInterface.ToString());
 
-            var loggingVerbosity = attribute.GetNamedArgumentValue("LoggingVerbosity");
-
-            if (null != loggingVerbosity)
-                manager.ResolvedResult.LoggingVerbosity = (LoggingVerbosity)
-                                                                   Enum.Parse(typeof(LoggingVerbosity),
-                                                                   loggingVerbosity.ToString());
-            return true;
-                
+           return true;
         }
     }
 }

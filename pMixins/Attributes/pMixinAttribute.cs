@@ -61,10 +61,8 @@ namespace CopaceticSoftware.pMixins.Attributes
     {
         public pMixinAttribute()
         {
-            LoggingVerbosity = LoggingVerbosity.Error;
             Masks = new Type[0];
             Interceptors = new Type[0];
-            GenerateExtensionMethodWrappers = false;
             EnableSharedRequirementsInterface = true;
         }
 
@@ -147,20 +145,6 @@ namespace CopaceticSoftware.pMixins.Attributes
         public Type[] Interceptors { get; set; }
 
         /// <summary>
-        /// Sets how much logging is done in the generated file.
-        /// Default is 
-        /// <see cref="Attributes.LoggingVerbosity.Error"/>
-        /// </summary>
-        public LoggingVerbosity LoggingVerbosity { get; set; }
-
-        /// <summary>
-        /// Indicates if all loaded assemblies should be scanned for extension
-        /// methods.  Extension methods will then be copied to work with the 
-        /// host type.  Default is <c>False</c>.
-        /// </summary>
-        public bool GenerateExtensionMethodWrappers { get; set; }
-
-        /// <summary>
         /// If <c>true</c>, mixed in members with the same signature should
         /// be combined into a single interface (ISharedRequirements)
         /// so that the Target only need to implement them once.
@@ -181,7 +165,8 @@ namespace CopaceticSoftware.pMixins.Attributes
         /// </summary>
         public bool ExplicitlyInitializeMixin { get; set; }
 
-        /* Implement in later version
+        #region Implement in later version
+        /*
         /// <summary>
         /// An optional <see cref="Type"/> that can initialize the <see cref="Mixin"/>.
         /// 
@@ -190,6 +175,21 @@ namespace CopaceticSoftware.pMixins.Attributes
         ///    - must implement <see cref="IMixinActivator"/>
         /// </summary>
         public Type ExplicitInitializer { get; set; }
+         
+        /// <summary>
+        /// Sets how much logging is done in the generated file.
+        /// Default is 
+        /// <see cref="Attributes.LoggingVerbosity.Error"/>
+        /// </summary>
+        public LoggingVerbosity LoggingVerbosity { get; set; }
+
+        /// <summary>
+        /// Indicates if all loaded assemblies should be scanned for extension
+        /// methods.  Extension methods will then be copied to work with the 
+        /// host type.  Default is <c>False</c>.
+        /// </summary>
+        public bool GenerateExtensionMethodWrappers { get; set; } 
          */
+        #endregion
     }
 }

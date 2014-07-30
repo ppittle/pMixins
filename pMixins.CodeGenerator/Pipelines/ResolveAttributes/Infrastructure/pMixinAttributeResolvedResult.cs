@@ -42,14 +42,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.In
         public pMixinAttributeResolvedResult(IAttribute attribute)
             : base(attribute)
         {
-            LoggingVerbosity = new pMixinAttribute().LoggingVerbosity;
-
             Masks = new List<IType>(0);
             Interceptors = new List<IType>(0);
             EnableSharedRequirementsInterface = new pMixinAttribute().EnableSharedRequirementsInterface;
-
-            GenerateExtensionMethodWrappers = 
-                new pMixinAttribute().GenerateExtensionMethodWrappers;
         }
 
         /// <summary>
@@ -66,17 +61,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.In
         /// Matches <see cref="pMixinAttribute.Interceptors"/>
         /// </summary>
         public IList<IType> Interceptors { get; set; }
-
-        /// <summary>
-        /// Matches <see cref="pMixinAttribute.LoggingVerbosity"/>
-        /// </summary>
-        public LoggingVerbosity LoggingVerbosity { get; set; }
-
-        /// <summary>
-        /// Matches <see cref="pMixinAttribute.GenerateExtensionMethodWrappers"/>
-        /// </summary>
-        public bool GenerateExtensionMethodWrappers { get; set; }
-
+        
         /// <summary>
         /// Matches <see cref="pMixinAttribute.ExplicitlyInitializeMixin"/>
         /// </summary>

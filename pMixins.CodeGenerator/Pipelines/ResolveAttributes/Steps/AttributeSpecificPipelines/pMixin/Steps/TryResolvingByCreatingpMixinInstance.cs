@@ -45,12 +45,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                         manager.ResolvedResult.Interceptors =
                             pMixinAttributeInstance.Interceptors.Select(t => t.ToIType(compilation)).ToList();
 
-                        manager.ResolvedResult.LoggingVerbosity =
-                            pMixinAttributeInstance.LoggingVerbosity;
-
-                        manager.ResolvedResult.GenerateExtensionMethodWrappers =
-                            pMixinAttributeInstance.GenerateExtensionMethodWrappers;
-
                         manager.ResolvedResult.ExplicitlyInitializeMixin =
                             pMixinAttributeInstance.ExplicitlyInitializeMixin;
 

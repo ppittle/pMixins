@@ -147,10 +147,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 overrideModifiers =
                     (member.IsOverridable
                         ? " virtual"
-                        : "") +
-                    (member.IsOverride
-                        ? " override"
-                        : "");
+                        : (member.IsOverride
+                            ? " override"
+                            : ""));
             }
 
             var additionalModifiers = overrideModifiers;

@@ -22,7 +22,6 @@ using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using CopaceticSoftware.pMixins.ConversionOperators;
-using Mono.Cecil.Cil;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -63,10 +62,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             MixinGenerationPlan mgp)
         {
             var containMixinInterfaceName =
-                string.Format("global::{0}.{1}<{2}>",
-                              typeof(IContainMixin<>).Namespace,
-                              "IContainMixin",
-                              mgp.MixinAttribute.Mixin.GetOriginalFullNameWithGlobal());
+                string.Format(
+                    "global::{0}.{1}<{2}>",
+                    typeof(IContainMixin<>).Namespace,
+                    "IContainMixin",
+                    mgp.MixinAttribute.Mixin.GetOriginalFullNameWithGlobal());
 
             codeBehind.ImplementInterface(
                 containMixinInterfaceName);

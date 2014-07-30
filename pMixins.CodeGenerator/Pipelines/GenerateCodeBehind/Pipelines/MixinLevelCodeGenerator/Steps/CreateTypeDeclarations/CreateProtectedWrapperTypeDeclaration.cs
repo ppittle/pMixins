@@ -49,7 +49,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             var protectedWrapperTypeDeclaration = new TypeDeclaration
             {
                 ClassType = ClassType.Class,
-                Modifiers = Modifiers.Abstract | Modifiers.Public,
+                Modifiers = Modifiers.Abstract | 
+                    (manager.MixinGenerationPlan.MixinAttribute.Mixin.GetDefinition().IsInternal
+                    ? Modifiers.Internal
+                    : Modifiers.Public),
                 Name = manager.MixinGenerationPlan.ProtectedWrapperPlan.ProtectedWrapperClassName
             };
 

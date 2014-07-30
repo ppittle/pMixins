@@ -48,7 +48,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             var abstractWrapperTypeDeclaration = new TypeDeclaration
             {
                 ClassType = ClassType.Class,
-                Modifiers = Modifiers.Public,
+                Modifiers = 
+                    (manager.MixinGenerationPlan.MixinAttribute.Mixin.GetDefinition().IsInternal
+                    ? Modifiers.Internal
+                    : Modifiers.Public),
                 Name = manager.MixinGenerationPlan.AbstractWrapperPlan.AbstractWrapperClassName
             };
 

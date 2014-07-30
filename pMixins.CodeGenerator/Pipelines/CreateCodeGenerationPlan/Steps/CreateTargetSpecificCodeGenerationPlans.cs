@@ -16,14 +16,11 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
-using Mono.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {

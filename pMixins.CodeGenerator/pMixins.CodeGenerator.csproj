@@ -141,14 +141,10 @@
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\TargetLevelCodeGenerator\TargetLevelCodeGeneratorPipelineState.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Steps\AddCodeBehindHeaderCommentMessage.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Steps\RunTargetLevelCodeGeneratorForEachTarget.cs" />
-    <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\ExternalGeneratedNamespaceHelper.cs" />
-    <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMemberResolvedResult.cs" />
-    <Compile Include="Pipelines\GenerateCodeOld\Infrastructure\MixinMembersHelper.cs" />
     <Compile Include="Infrastructure\CodeGeneratorProxy\CodeGeneratorProxyMemberHelper.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\IGenerateCodePipelineState.cs" />
     <Compile Include="Pipelines\GenerateCodeBehind\Pipelines\MixinLevelCodeGenerator\Steps\GenerateMembers\GenerateAbstractWrapperMembers.cs" />
     <Compile Include="Pipelines\pMixinPartialCodeGeneratorPipeline.cs" />
-    <Compile Include="Pipelines\GenerateCodeOld\ICodeGenerationPipelineState.cs" />
     <Compile Include="Pipelines\IPipelineCommonState.cs" />
     <Compile Include="Pipelines\ParseSourceFile\IParseSourceFilePipelineState.cs" />
     <Compile Include="Pipelines\ParseSourceFile\Steps\ParsepMixinAttributes.cs" />

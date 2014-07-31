@@ -37,6 +37,8 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
 
     public class SourceCodeRepository : ISourceCodeRepository
     {
+        private const string zipEmbeddedResourceId = "CopaceticSoftware.pMixins.Mvc.Content.pMixins.Mvc.Recipes.zip";
+
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly CSharpParser _parser = new CSharpParser();
         private readonly Regex spaceParanthCleanupRegex = new Regex(@"(?:[a-z. ])( \()");
@@ -98,8 +100,8 @@ namespace CopaceticSoftware.pMixins.Mvc.BAL
                     {
                         lock (zipFileStreamLock)
                         {
-                            using (var fs = File.Open(PMixinsRecipesZipFilePath, FileMode.Open))
-                            using (var zip = new ZipArchive(fs))
+                            using (var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(zipEmbeddedResourceId))
+                            using (var zip = new ZipArchive(resourceStream))
                             {
                                 var entry = zip.GetEntry(p);
 

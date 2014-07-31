@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+  	<!-- package type setting -->
+  	<PackageType Condition="'$(PackageType)' == ''">update</PackageType>
+	    <IncludeAppData Condition="'$(IncludeAppData)' == ''">False</IncludeAppData>
+	    <SetAppDataAcl Condition="'$(SetAppDataAcl)' == ''">False</SetAppDataAcl>
+    <SetDestinationAcl Condition="'$(SetDestinationAcl)' == ''">False</SetDestinationAcl>
+  
+    <DeployAsIisApp>False</DeployAsIisApp>
+
+    <AppDataAclUser Condition="'$(AppDataAclUser)' == ''">IIS AppPool\$(SPDestination)</AppDataAclUser>
+  </PropertyGroup>
+  
+  <Target Name="ModifySetParameters">
+    <Message Text="##teamcity[progressStart 'Modify SetParameters.xml'" />
+  </Target>
+</Project>

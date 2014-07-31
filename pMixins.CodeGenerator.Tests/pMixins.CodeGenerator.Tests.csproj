@@ -131,6 +131,7 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualMethods.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
+    <Compile Include="IntegrationTests\CompileTests\Interceptors\MeasureMethodExecutionTimeWithAStatefulInterceptor.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsClass.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsImplementedByTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsInheritedByTarget.cs" />

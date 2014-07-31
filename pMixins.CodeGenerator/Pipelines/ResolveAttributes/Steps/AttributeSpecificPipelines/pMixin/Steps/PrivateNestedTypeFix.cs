@@ -25,13 +25,13 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class PrivateNestedTypeFix : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class PrivateNestedTypeFix : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             var resolvedClassDefs =
-                manager.BaseState.Context.Source.SyntaxTree.GetClassDefinitions()
-                    .Select(classDef => manager.BaseState.Context.TypeResolver.Resolve(classDef))
+                manager.BaseState.CommonState.Context.Source.SyntaxTree.GetClassDefinitions()
+                    .Select(classDef => manager.BaseState.CommonState.Context.TypeResolver.Resolve(classDef))
                     .Where(resolvedClassDef => !resolvedClassDef.IsError)
                     .ToList();
 
@@ -56,7 +56,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
         private IType TryResolvePrivateNestedType(IType type, IEnumerable<ResolveResult> resolvedClassDefs)
         {
-            if (!type.IsUnkown())
+            if (!type.IsUnknown())
                 return type;
 
             foreach (var resolvedClassDef in resolvedClassDefs)

@@ -61,10 +61,9 @@ namespace CopaceticSoftware.pMixins.Attributes
     {
         public pMixinAttribute()
         {
-            LoggingVerbosity = LoggingVerbosity.Error;
             Masks = new Type[0];
             Interceptors = new Type[0];
-            GenerateExtensionMethodWrappers = false;
+            EnableSharedRequirementsInterface = true;
         }
 
         /// <summary>
@@ -146,6 +145,38 @@ namespace CopaceticSoftware.pMixins.Attributes
         public Type[] Interceptors { get; set; }
 
         /// <summary>
+        /// If <c>true</c>, mixed in members with the same signature should
+        /// be combined into a single interface (ISharedRequirements)
+        /// so that the Target only need to implement them once.
+        /// If <c>false</c> all members are added individually to the Mixin
+        /// specific requirements interface and must be separately implemented
+        /// by the Target.
+        /// 
+        /// Default is <c>true</c>.
+        /// </summary>
+        public bool EnableSharedRequirementsInterface { get; set; }
+
+        /// <summary>
+        /// When set to <c>True</c> a method is added to the Target class
+        /// that allows the consumer to explicitly initialize the Mixin.
+        /// This can be useful if the Mixin has multiple constructors and 
+        /// using a particular constructor is desired.  
+        ///  Default is <c>False</c>.
+        /// </summary>
+        public bool ExplicitlyInitializeMixin { get; set; }
+
+        #region Implement in later version
+        /*
+        /// <summary>
+        /// An optional <see cref="Type"/> that can initialize the <see cref="Mixin"/>.
+        /// 
+        /// The <see cref="Type"/> must meet the following requirements:
+        ///    - public parameterless constructor
+        ///    - must implement <see cref="IMixinActivator"/>
+        /// </summary>
+        public Type ExplicitInitializer { get; set; }
+         
+        /// <summary>
         /// Sets how much logging is done in the generated file.
         /// Default is 
         /// <see cref="Attributes.LoggingVerbosity.Error"/>
@@ -157,24 +188,8 @@ namespace CopaceticSoftware.pMixins.Attributes
         /// methods.  Extension methods will then be copied to work with the 
         /// host type.  Default is <c>False</c>.
         /// </summary>
-        public bool GenerateExtensionMethodWrappers { get; set; }
-
-        /// <summary>
-        /// When set to <c>True</c> a method is added to the Target class
-        /// that allows the consumer to explicitly initialize the Mixin.
-        /// This can be useful if the Mixin has multiple constructors and 
-        /// using a particular constructor is desired.  
-        ///  Default is <c>False</c>.
-        /// </summary>
-        public bool ExplicitlyInitializeMixin { get; set; }
-
-        /// <summary>
-        /// An optional <see cref="Type"/> that can initialize the <see cref="Mixin"/>.
-        /// 
-        /// The <see cref="Type"/> must meet the following requirements:
-        ///    - public parameterless constructor
-        ///    - 
-        /// </summary>
-        public Type ExplicitInitializer { get; set; }
+        public bool GenerateExtensionMethodWrappers { get; set; } 
+         */
+        #endregion
     }
 }

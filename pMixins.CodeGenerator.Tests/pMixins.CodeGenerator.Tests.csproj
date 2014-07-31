@@ -117,6 +117,7 @@
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\StaticImplicitConversionOperator.cs" />
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\TargetWithAbstractMixin.cs" />
     <Compile Include="IntegrationTests\CompileTests\DoNotMixin\DoNotMixinMethod.cs" />
+    <Compile Include="IntegrationTests\CompileTests\EnableSharedRequirementsInterface\EnableSharedRequirementsInterface.cs" />
     <Compile Include="IntegrationTests\CompileTests\ExistingFile\ExistingMixinFileTest.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\GenericInterfaceInheritance.cs" />
     <Compile Include="IntegrationTests\CompileTests\InheritanceTests\MixinBaseClassMembersAreInjectedIntoTarget.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualMethods.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\InterceptVirtualProperties.cs" />
     <Compile Include="IntegrationTests\CompileTests\Interceptors\ManipulateReturnValueInterceptorTest.cs" />
+    <Compile Include="IntegrationTests\CompileTests\Interceptors\MeasureMethodExecutionTimeWithAStatefulInterceptor.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsClass.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsImplementedByTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\MixinDependency\MixinDependencyIsInheritedByTarget.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="IntegrationTests\ExpectedErrors\SimpleCircularReferenceTest.cs" />
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
+    <Compile Include="IntegrationTests\RealWorldExamples\AOPExample.cs" />
     <Compile Include="IntegrationTests\RealWorldExamples\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />

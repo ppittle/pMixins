@@ -25,6 +25,7 @@ using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.CSharp.Refactoring;
 using ICSharpCode.NRefactory.TypeSystem;
 using ICSharpCode.NRefactory.TypeSystem.Implementation;
+using JetBrains.Annotations;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 {
@@ -40,6 +41,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// <summary>
         /// "global::" + <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </summary>
+        /// <param name="type">
+        /// The type to work on.
+        /// </param>
         /// <param name="rootDefinition">
         /// Optional parameter that is used to look up the <see cref="DefaultTypeParameter"/>
         /// </param>
@@ -151,7 +155,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// Provides special handling for nested types so the 
         /// type name is Name.Space.Parent+Child instead of
         /// Name.Space.Parent.Child (which would be output by
-        /// <see cref="GetOriginalFullName"/>
+        /// <see cref="GetOriginalFullName(ICSharpCode.NRefactory.TypeSystem.IType)"/>
         /// </remarks>
         /// <remarks>
         /// TODO: This method only supports one level of class nesting.
@@ -240,12 +244,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return type.GetAttributes(includeBaseTypes).Any(a => a.AttributeType.Equals(attributeType));
         }
 
-        public static bool IsNullOrUnkown(this IType type)
+        public static bool IsNullOrUnknown(this IType type)
         {
-            return (null == type || type.IsUnkown());
+            return (null == type || type.IsUnknown());
         }
 
-        public static bool IsUnkown(this IType type)
+        public static bool IsUnknown(this IType type)
         {
             return type.Kind == TypeKind.Unknown;
         }
@@ -277,6 +281,34 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             var reference = new System.CodeDom.CodeTypeReference(type.FullName);
 
             return provider.GetTypeOutput(reference);
+        }
+
+        public static string GetOriginalFullNameWithGlobal(this Type type)
+        {
+            return "global::" + type.GetOriginalFullName();
+        }
+
+        public static bool HasParameterlessConstructor(this IType type)
+        {
+            return 
+                type.GetConstructors().Any(
+                    c => null == c.Parameters || 0 == c.Parameters.Count);
+        }
+
+        public static bool DefinesMember(this IType type, IMember member)
+        {
+            return
+                null !=
+                type.GetDeclaredMemberThatMatchesSignature(member);
+        }
+
+        [CanBeNull]
+        public static IMember GetDeclaredMemberThatMatchesSignature(this IType type, IMember member)
+        {
+            return 
+                type.GetMembers()
+                    .Where(m => m.DeclaringType.Equals(type))
+                    .FirstOrDefault(m => m.EqualsMember(member));
         }
     }
 }

@@ -3,12 +3,12 @@
   <Metadata>
     <Identity Id="f570ab75-84bd-49bc-96a3-16a0363f16c1" Version="0.1.7.1" Language="en-US" Publisher="Copacetic Software / Philip Pittle" />
     <DisplayName>pMixins Code Generator - Item Template</DisplayName>
-    <Description xml:space="preserve">Adds a pMixin Template to make it even easier to use the pMixins Code Generator.</Description>
+    <Description xml:space="preserve">Adds a pMixin Template to make it even easier to use the [pMixins] Code Generator.</Description>
     <MoreInfo>http://pmixins.com</MoreInfo>
     <License>ApacheLicense.txt</License>
     <Icon>logoSmall.png</Icon>
     <PreviewImage>logo.png</PreviewImage>
-    <Tags>pMixins Code Generator Mixin Aspect AOP Copacetic</Tags>
+    <Tags>pMixins [pMixins] Code Generator Mixin Aspect AOP Copacetic</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
     <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0, 13.0)" />

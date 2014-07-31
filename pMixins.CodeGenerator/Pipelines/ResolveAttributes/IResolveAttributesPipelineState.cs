@@ -21,14 +21,21 @@ using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
 {
-    public interface IResolveAttributesPipelineState : IParseSourceFilePipelineState
+    public interface IResolveAttributesPipelineState 
     {
-        ITypeInstanceActivator TypeInstanceActivator { get; }
+        IPipelineCommonState CommonState { get; }
 
-        IList<pMixinAttributeResolvedResultBase> AssemblyLevelResolvedpMixinAttributes { get; }
+        IParseSourceFilePipelineState ParseSourceFilePipeline { get; }
+
+        /// <summary>
+        /// A <see cref="ITypeInstanceActivator"/> that can 
+        /// be used to create instances of <see cref="IAttribute"/>s.
+        /// </summary>
+        ITypeInstanceActivator TypeInstanceActivator { get; }
 
         /// <summary>
         /// Dictionary of <see cref="pMixinAttributeResolvedResultBase"/> representing
@@ -36,6 +43,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
         /// parsed class.
         /// </summary>
         Dictionary<TypeDeclaration, IList<pMixinAttributeResolvedResultBase>> 
-            PartialClassLevelResolvedpMixinAttributes { get; }
+            PartialClassLevelResolvedPMixinAttributes { get; }
     }
 }

@@ -47,7 +47,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             }
                         
 
-                            public class Mixin : IMixin1
+                            public class Mixin : IMixin1, IMixin2
                             {
                                 public int InterfaceMethod1()
                                 {

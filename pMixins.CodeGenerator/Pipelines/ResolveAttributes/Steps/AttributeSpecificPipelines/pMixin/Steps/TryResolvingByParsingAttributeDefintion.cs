@@ -26,11 +26,11 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class TryResolvingByParsingAttributeDefintion :  IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class TryResolvingByParsingAttributeDefintion :  IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
-            if (!manager.ResolvedResult.Mixin.IsNullOrUnkown())
+            if (!manager.ResolvedResult.Mixin.IsNullOrUnknown())
                 //ResolvedResult has already been resolved!
                 return true;
 
@@ -49,13 +49,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (null != interceptors)
                 manager.ResolvedResult.Interceptors = interceptors.OfType<IType>().ToList();
                     
-            var generateExtensionsMethodWrappers = 
-                attribute.GetNamedArgumentValue("GenerateExtensionMethodWrappers");
-
-            if (null != generateExtensionsMethodWrappers)
-                manager.ResolvedResult.GenerateExtensionMethodWrappers =
-                    bool.Parse(generateExtensionsMethodWrappers.ToString());
-
             var explicitlyInitializeMixin =
                attribute.GetNamedArgumentValue("ExplicitlyInitializeMixin");
 
@@ -63,14 +56,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 manager.ResolvedResult.ExplicitlyInitializeMixin =
                     bool.Parse(explicitlyInitializeMixin.ToString());
 
-            var loggingVerbosity = attribute.GetNamedArgumentValue("LoggingVerbosity");
+            var enableSharedRequirementsInterface =
+               attribute.GetNamedArgumentValue("EnableSharedRequirementsInterface");
 
-            if (null != loggingVerbosity)
-                manager.ResolvedResult.LoggingVerbosity = (LoggingVerbosity)
-                                                                   Enum.Parse(typeof(LoggingVerbosity),
-                                                                   loggingVerbosity.ToString());
-            return true;
-                
+            if (null != enableSharedRequirementsInterface)
+                manager.ResolvedResult.EnableSharedRequirementsInterface =
+                    bool.Parse(enableSharedRequirementsInterface.ToString());
+
+           return true;
         }
     }
 }

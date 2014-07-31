@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using ICSharpCode.NRefactory.TypeSystem;
 using Mono.CSharp;
 
@@ -37,58 +38,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
             public int GetHashCode(IMember obj)
             {
-                var hashCodeParts = new Func<IMember, string>[]
-                {
-                    //Hash member name
-                    m => m.Name.GetHashCode().ToString(),
-                    //Hash return type
-                    m => m.ReturnType.GetHashCode().ToString(),
-                    //Hash method parameters
-                    m =>
-                    {
-                        var result = "";
-
-                        var method = m as IMethod;
-
-                        if (null == method)
-                            return result;
-
-                        result += method.TypeParameters.Count.GetHashCode();
-
-                        foreach (var p in method.Parameters)
-                            result += p.Type;
-
-                        return result;
-                    },
-                    //Hash get vs set vs indexer on Property
-                    m =>
-                    {
-                        var result = "";
-
-                        var property = m as IProperty;
-
-                        if (null == property)
-                            return result;
-
-                        if (property.CanGet)
-                            result += "Get";
-
-                        if (property.CanSet)
-                            result += "Set";
-
-                        if (property.IsIndexer)
-                            result += "Indexer";
-
-                        return result;
-                    }
-                        
-                    
-                };
-
-                var hash = 
-                    string.Join("", hashCodeParts.Select(x => x(obj))).GetHashCode();
-
-                return hash;
+                return obj.GetMemberSignature().GetHashCode();
             }
         }
 
@@ -100,6 +50,60 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         public static IEnumerable<IMember> DistinctMembers(this IEnumerable<IMember> members)
         {
             return members.Distinct(_equalityComparer);
+        }
+
+        public static IEnumerable<KeyValuePair<IMember, int>> GroupByCount(this IEnumerable<IMember> members)
+        {
+            var membersList = members.ToList();
+
+            var distinctMembers = membersList.DistinctMembers().ToList();
+
+            return
+                distinctMembers.Select(x => 
+                        new KeyValuePair<IMember, int>(
+                            x, 
+                            membersList.Count(m => _equalityComparer.Equals(m, x))));
+        }
+
+
+        /// <summary>
+        /// Intended for use by the <see cref="MemberEqualityComparer"/>
+        /// and debugging.
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public static string GetMemberSignature(this IMember member)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendFormat("{0} {1}",
+                member.Name,
+                member.ReturnType.GetOriginalFullName());
+
+
+            if (member is IMethod)
+                sb.AppendFormat("({0})",
+                    string.Join(",",
+                        (member as IMethod).Parameters.Select(p => p.Type.GetOriginalFullName())));
+
+
+            if (member is IProperty)
+            {
+                sb.Append("{");
+
+                if ((member as IProperty).CanGet)
+                    sb.Append(" get; ");
+
+                if ((member as IProperty).CanGet)
+                    sb.Append(" set; ");
+
+                if ((member as IProperty).IsIndexer)
+                    sb.Append(" indexer; ");
+
+                sb.Append("}");
+            }
+
+            return sb.ToString();
         }
 
         public static string GetOriginalName(this IMember member)
@@ -126,5 +130,54 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                     member.ImplementedInterfaceMembers.SelectMany(x => x.DeclaringType.GetAttributes()))
                 .Any(a => Equals(a.AttributeType, attributeType));
         }
+
+        public static string GetModifiersString(this IMember member, string overrideModifiers = null )
+        {
+            if (null == overrideModifiers)
+            {
+                overrideModifiers =
+                    (member.IsOverridable
+                        ? " virtual"
+                        : (member.IsOverride
+                            ? " override"
+                            : ""));
+            }
+
+            var additionalModifiers = overrideModifiers;
+
+            additionalModifiers +=
+                member.IsStatic
+                    ? " static"
+                    : "";
+
+            var method = member as IMethod;
+
+            if (null != method)
+            {
+                additionalModifiers +=
+                    method.IsAsync
+                        ? " async"
+                        : "";
+            }
+
+            if (member.IsPrivate)
+                return "private " + additionalModifiers;
+
+            if (member.IsProtected)
+                return "protected " + additionalModifiers;
+
+            if (member.IsInternal)
+                return "internal " + additionalModifiers;
+
+            return "public " + additionalModifiers;
+        }
+
+        public static bool IsStaticOrConst(this IMember member)
+        {
+            return 
+                member.IsStatic || 
+                (member is IField && (member as IField).IsConst);
+        }
+
     }
 }

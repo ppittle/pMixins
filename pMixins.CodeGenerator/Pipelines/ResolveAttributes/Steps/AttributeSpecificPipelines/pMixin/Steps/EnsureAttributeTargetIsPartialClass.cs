@@ -22,20 +22,20 @@ using ICSharpCode.NRefactory.CSharp;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class EnsureAttributeTargetIsPartialClass  : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class EnsureAttributeTargetIsPartialClass  : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
-            if (!manager.TargetClassDefintion.HasModifier(Modifiers.Partial))
+            if (!manager.TargetClassDefinition.HasModifier(Modifiers.Partial))
                 #region Log Error and Return False
                 {
-                manager.BaseState.CodeGenerationErrors.Add(
+                manager.BaseState.CommonState.CodeGenerationErrors.Add(
                     new CodeGenerationError(
                         string.Format(Strings.WarningpMixinAttributeOnNonPartialClass,
-                                        manager.TargetClassDefintion.Name),
+                                        manager.TargetClassDefinition.Name),
                         CodeGenerationError.SeverityOptions.Warning,
-                        manager.TargetClassDefintion.StartLocation.Line,
-                        manager.TargetClassDefintion.StartLocation.Column));
+                        manager.TargetClassDefinition.StartLocation.Line,
+                        manager.TargetClassDefinition.StartLocation.Column));
 
                     return false;
                 }

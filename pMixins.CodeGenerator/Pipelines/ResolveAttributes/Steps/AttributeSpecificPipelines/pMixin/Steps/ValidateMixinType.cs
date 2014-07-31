@@ -24,21 +24,21 @@ using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class ValidateMixinType : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class ValidateMixinType : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             var pMixinResolvedResult = manager.ResolvedResult;
             
             if (null == pMixinResolvedResult.Mixin)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             Strings.ErrorMixinTypeIsNotSpecified,
                             CodeGenerationError.SeverityOptions.Error,
-                            manager.TargetClassDefintion.StartLocation.Line,
-                            manager.TargetClassDefintion.StartLocation.Column));
+                            manager.TargetClassDefinition.StartLocation.Line,
+                            manager.TargetClassDefinition.StartLocation.Column));
 
                     return false;
                 }
@@ -47,14 +47,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
             if (pMixinResolvedResult.Mixin.Kind == TypeKind.Unknown)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinCouldNotBeResolved,
                                 pMixinResolvedResult.Mixin.Name),
                             CodeGenerationError.SeverityOptions.Error,
-                            manager.TargetClassDefintion.StartLocation.Line,
-                            manager.TargetClassDefintion.StartLocation.Column));
+                            manager.TargetClassDefinition.StartLocation.Line,
+                            manager.TargetClassDefinition.StartLocation.Column));
 
                     return false;
                 }
@@ -64,14 +64,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 pMixinResolvedResult.Mixin.Kind == TypeKind.Struct)
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinCanNotBeInterfaceOrStruct,
                                 pMixinResolvedResult.Mixin.GetOriginalFullName()),
                             CodeGenerationError.SeverityOptions.Error,
-                            manager.TargetClassDefintion.StartLocation.Line,
-                            manager.TargetClassDefintion.StartLocation.Column));
+                            manager.TargetClassDefinition.StartLocation.Line,
+                            manager.TargetClassDefinition.StartLocation.Column));
 
                     return false;
                 }
@@ -81,14 +81,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 pMixinResolvedResult.Mixin.GetDefinition().IsNestedType())
                 #region Log Error and Return False
                 {
-                    manager.BaseState.CodeGenerationErrors.Add(
+                    manager.BaseState.CommonState.CodeGenerationErrors.Add(
                         new CodeGenerationError(
                             string.Format(
                                 Strings.ErrorMixinIsNestedAndAbstract,
                                 pMixinResolvedResult.Mixin.GetOriginalFullName()),
                             CodeGenerationError.SeverityOptions.Error,
-                            manager.TargetClassDefintion.StartLocation.Line,
-                            manager.TargetClassDefintion.StartLocation.Column));
+                            manager.TargetClassDefinition.StartLocation.Line,
+                            manager.TargetClassDefinition.StartLocation.Column));
 
                     return false;
                 }
@@ -96,10 +96,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
             foreach (var mixinMember in pMixinResolvedResult.Mixin.GetMembers())
             {
-                if (mixinMember.ReturnType.IsUnkown())
+                if (mixinMember.ReturnType.IsUnknown())
                     #region Log Error and Return False
                     {
-                        manager.BaseState.CodeGenerationErrors.Add(
+                        manager.BaseState.CommonState.CodeGenerationErrors.Add(
                             new CodeGenerationError(
                                 string.Format(
                                     Strings.ErrorTypeInMixinMemberCouldNotBeResolved,
@@ -107,8 +107,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                                     "Return Type",
                                     mixinMember.ReturnType.GetOriginalFullName()),
                                 CodeGenerationError.SeverityOptions.Error,
-                                manager.TargetClassDefintion.StartLocation.Line,
-                                manager.TargetClassDefintion.StartLocation.Column));
+                                manager.TargetClassDefinition.StartLocation.Line,
+                                manager.TargetClassDefinition.StartLocation.Column));
 
                         return false;
                     }
@@ -118,10 +118,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                     continue;
 
                 foreach (var memberParamType in (mixinMember as IMethod).Parameters
-                    .Where(memberParamType => memberParamType.Type.IsUnkown()))
+                    .Where(memberParamType => memberParamType.Type.IsUnknown()))
                         #region Log Error and Return False
                         {
-                            manager.BaseState.CodeGenerationErrors.Add(
+                            manager.BaseState.CommonState.CodeGenerationErrors.Add(
                                 new CodeGenerationError(
                                     string.Format(
                                         Strings.ErrorTypeInMixinMemberCouldNotBeResolved,
@@ -129,8 +129,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                                         "Method Parameter Type",
                                         memberParamType.Type.GetOriginalFullName()),
                                     CodeGenerationError.SeverityOptions.Error,
-                                    manager.TargetClassDefintion.StartLocation.Line,
-                                    manager.TargetClassDefintion.StartLocation.Column));
+                                    manager.TargetClassDefinition.StartLocation.Line,
+                                    manager.TargetClassDefinition.StartLocation.Column));
 
                             return false;
                         }

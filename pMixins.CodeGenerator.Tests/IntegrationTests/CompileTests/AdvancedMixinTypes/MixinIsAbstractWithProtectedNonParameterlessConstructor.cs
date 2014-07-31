@@ -106,7 +106,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     {
                         public Target()
                         {
-                            ___mixins.Test_AbstractWithProtectedNonParameterlessConstructorMixin.PublicVirtualMethodFunc = () => ""Target's Public Virtual Method"";
+                            __mixins.Test_AbstractWithProtectedNonParameterlessConstructorMixin.PublicVirtualMethodFunc = () => ""Target's Public Virtual Method"";
                         }                        
                     
                         string IAbstractWithProtectedNonParameterlessConstructorMixinRequirements.PublicAbstractMethodImplementation()

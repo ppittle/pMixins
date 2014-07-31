@@ -24,11 +24,11 @@ using CopaceticSoftware.pMixins.Attributes;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class TryResolvingByCreatingpMixinInstance : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class TryResolvingByCreatingpMixinInstance : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
-            var compilation = manager.BaseState.Context.TypeResolver.Compilation;
+            var compilation = manager.BaseState.CommonState.Context.TypeResolver.Compilation;
 
             manager.BaseState.TypeInstanceActivator.TryCreateInstance<pMixinAttribute>(
                 manager.ResolvedResult.AttributeDefinition,
@@ -45,14 +45,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                         manager.ResolvedResult.Interceptors =
                             pMixinAttributeInstance.Interceptors.Select(t => t.ToIType(compilation)).ToList();
 
-                        manager.ResolvedResult.LoggingVerbosity =
-                            pMixinAttributeInstance.LoggingVerbosity;
-
-                        manager.ResolvedResult.GenerateExtensionMethodWrappers =
-                            pMixinAttributeInstance.GenerateExtensionMethodWrappers;
-
                         manager.ResolvedResult.ExplicitlyInitializeMixin =
                             pMixinAttributeInstance.ExplicitlyInitializeMixin;
+
+                        manager.ResolvedResult.EnableSharedRequirementsInterface =
+                            pMixinAttributeInstance.EnableSharedRequirementsInterface;
                     }
                     catch (Exception e)
                     {

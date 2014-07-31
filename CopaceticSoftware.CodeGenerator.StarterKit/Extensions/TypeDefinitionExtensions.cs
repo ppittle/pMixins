@@ -16,6 +16,9 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
+using CopaceticSoftware.Common.Extensions;
+using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
@@ -25,6 +28,34 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         public static bool IsNestedType(this ITypeDefinition typeDefinition)
         {
             return typeDefinition.Name.Contains("+");
+        }
+
+        public static string GetFullTypeName(this TypeDeclaration typeDeclaration)
+        {
+            if (null == typeDeclaration)
+                throw new ArgumentNullException("typeDeclaration");
+
+            var parentContainerClass =
+                typeDeclaration.GetParent<TypeDeclaration>();
+
+            if (null != parentContainerClass)
+                return parentContainerClass.GetFullTypeName() + "." + typeDeclaration.Name;
+
+            var namespaceDeclaration =
+                typeDeclaration.GetParent<NamespaceDeclaration>();
+
+            return
+                (
+                    (null != namespaceDeclaration)
+                        ? namespaceDeclaration.FullName.EnsureEndsWith(".")
+                        : ""
+                ) +
+                typeDeclaration.Name;
+        }
+
+        public static string GetFullTypeNameWithGlobal(this TypeDeclaration typeDeclaration)
+        {
+            return GetFullTypeName(typeDeclaration).EnsureStartsWith("global::");
         }
     }
 }

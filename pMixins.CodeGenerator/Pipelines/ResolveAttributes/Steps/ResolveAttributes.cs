@@ -32,7 +32,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
         private readonly IEnumerable<IPipelineStep<IResolveAttributesPipelineState>> _attributePipelines =
             new List<IPipelineStep<IResolveAttributesPipelineState>>
                 {
-                   new ResolvepMixinAttributes(),
+                   new ResolvePMixinAttributes(),
                    new ResolveInterceptorMixinRequirements()
                 };
 
@@ -48,9 +48,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
     {
         public bool PerformTask(IResolveAttributesPipelineState manager)
         {
-            foreach (var classAtts in manager.SourcePartialClassAttributes)
+            foreach (var classAtts in manager.CommonState.SourcePartialClassAttributes)
             {
-                var allMixinAttributes = manager.PartialClassLevelResolvedpMixinAttributes[classAtts.Key]
+                var allMixinAttributes = manager.PartialClassLevelResolvedPMixinAttributes[classAtts.Key]
                                         .OfType<pMixinAttributeResolvedResult>()
                                         .ToList();
 
@@ -72,7 +72,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
                 foreach (var mixin in mixinsToAdd)
                 {
-                     manager.PartialClassLevelResolvedpMixinAttributes[classAtts.Key]
+                     manager.PartialClassLevelResolvedPMixinAttributes[classAtts.Key]
                         .Add(new pMixinAttributeResolvedResult(null){Mixin = mixin});
                 }
             }

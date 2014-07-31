@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Web.Mvc;
 
 namespace CopaceticSoftware.pMixins.Mvc.Controllers
@@ -24,6 +25,10 @@ namespace CopaceticSoftware.pMixins.Mvc.Controllers
     {
         public ActionResult Index()
         {
+            if (Request.Url.AbsoluteUri.ToLower().Contains("pmixins.apphb.com"))
+                Response.RedirectPermanent("http://pmixins.com/", endResponse: true);
+            
+
             return View();
         }
     }

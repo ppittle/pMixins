@@ -20,9 +20,9 @@ using CopaceticSoftware.Common.Patterns;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Steps.AttributeSpecificPipelines.pMixin.Steps
 {
-    public class ValidateMaskTypes : IPipelineStep<ResolvepMixinAttributePipelineState>
+    public class ValidateMaskTypes : IPipelineStep<ResolvePMixinAttributePipelineState>
     {
-        public bool PerformTask(ResolvepMixinAttributePipelineState manager)
+        public bool PerformTask(ResolvePMixinAttributePipelineState manager)
         {
             //TODO: Validate Mask types - is any work required here?
             return true;

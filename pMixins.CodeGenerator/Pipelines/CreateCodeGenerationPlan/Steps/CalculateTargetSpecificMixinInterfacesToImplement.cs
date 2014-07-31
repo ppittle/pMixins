@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure;
+using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
@@ -43,7 +44,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             {
                 cgp.TargetCodeBehindPlan.MixinInterfaces =
                     cgp.MixinGenerationPlans.Values
-                        .SelectMany(mgp => mgp.MixinAttribute.Mixin.GetAllBaseTypes())
+                        .SelectMany(mgp =>
+                        
+                            //If masks have been defined, only use the masks,
+                            //otherwise, use all Mixin base types.
+                            mgp.MixinAttribute.Masks.IsNullOrEmpty()
+                                ?  mgp.MixinAttribute.Mixin.GetAllBaseTypes()
+                                :  mgp.MixinAttribute.Masks
+                        )
                         .Where(bt => bt.Kind == TypeKind.Interface)
                         //Filter out interfaces decorated with DoNotMixin
                         .Where(bt => !bt.IsDecoratedWithAttribute(doNotMixinIType))

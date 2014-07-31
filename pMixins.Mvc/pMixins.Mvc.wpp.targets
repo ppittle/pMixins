@@ -13,5 +13,6 @@
   
   <Target Name="ModifySetParameters">
     <Message Text="##teamcity[progressStart 'Modify SetParameters.xml'" />
+    <XmlPoke XmlInputPath="$(GenerateSampleParametersValueLocation)" Query="//parameters/setParameter[@name='IIS Web Application Name']/@value" Value='$(SPDestination)' Condition="'$(SPDestination)' != ''"/>
   </Target>
 </Project>

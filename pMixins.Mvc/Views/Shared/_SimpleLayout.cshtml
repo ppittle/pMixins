@@ -1,4 +1,6 @@
 ﻿@using System
+@using System.Reflection
+@using CopaceticSoftware.pMixins.Mvc.Controllers
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,6 +66,9 @@
                     <small>Special Thanks:</small>
                     <img src="~/Content/Images/logo_digitaslbi.svg" height="18" />
                 </span>
+                <h6>
+                    <small> v@(new MvcHtmlString(Assembly.GetExecutingAssembly().GetName().Version.ToString()))</small>
+                </h6>
             </p>
         </footer>
     </div>

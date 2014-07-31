@@ -324,7 +324,7 @@
   <Import Project="..\tools\MSBuild.Extensions\MSBuild.ExtensionPack.tasks" />
   <Target Name="ZipPMixinsMvcRecipesProject" BeforeTargets="PrepareForBuild">
     <!--http://www.msbuildextensionpack.com/help/4.0.9.0/index.html -->
-    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressPath="$(SolutionDir)\pMixins.Mvc.Recipes" ZipFileName="$(SolutionDir)pMixins.Mvc\Content\pMixins.Mvc.Recipes.zip" />
+    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressPath="$(SolutionDir)\pMixins.Mvc.Recipes" ZipFileName="$(SolutionDir)\pMixins.Mvc\Content\pMixins.Mvc.Recipes.zip" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

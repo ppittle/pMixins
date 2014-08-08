@@ -109,6 +109,8 @@
     <Compile Include="COVERED\HostCanAccessProtectedMembersInMixin\HostCanAccessProtectedMembersInMixinSpecTest.cs" />
     <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpec.cs" />
     <Compile Include="COVERED\HostCanOverrideAndExposeVirtualMixinMembers\HostCanOverrideAndExposeVirtualMixinMembersSpecTest.cs" />
+    <Compile Include="COVERED\TargetIsAbstract\TargetIsAbstractAndKeepAbstractMembersAbstractIsTrueSpec.cs" />
+    <Compile Include="COVERED\TargetIsAbstract\TargetIsAbstractAndKeepAbstractMembersAbstractIsTrueSpecTest.cs" />
     <Compile Include="DoNotMixinAttribute.cs" />
     <Compile Include="GenericDecorator\GenericDecorator.cs" />
     <Compile Include="GenericDecorator\GenericDecoratorSpecTest.cs" />

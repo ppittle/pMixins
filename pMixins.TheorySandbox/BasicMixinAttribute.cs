@@ -58,6 +58,18 @@ namespace CopaceticSoftware.pMixins.TheorySandbox
         /// <see cref="IMixinInterceptor"/>
         /// </summary>
         public Type[] Interceptors { get; set; }
+
+        /// <summary>
+        /// When set to <c>True</c> abstract members are implemented
+        /// in the target as abstract.
+        /// 
+        /// Default is <c>false</c>.
+        /// </summary>
+        /// <remarks>
+        /// It is an error to set this to <c>true</c> if the 
+        /// target is not abstract.
+        /// </remarks>
+        public bool KeepAbstractMembersAbstract { get; set; }
     }
 
     public enum Verbosity

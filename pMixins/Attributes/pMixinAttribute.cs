@@ -165,6 +165,18 @@ namespace CopaceticSoftware.pMixins.Attributes
         /// </summary>
         public bool ExplicitlyInitializeMixin { get; set; }
 
+        /// <summary>
+        /// When set to <c>True</c> abstract members are implemented
+        /// in the target as abstract.
+        /// 
+        /// Default is <c>false</c>.
+        /// </summary>
+        /// <remarks>
+        /// It is an error to set this to <c>true</c> if the 
+        /// target is not abstract.
+        /// </remarks>
+        public bool KeepAbstractMembersAbstract { get; set; }
+
         #region Implement in later version
         /*
         /// <summary>

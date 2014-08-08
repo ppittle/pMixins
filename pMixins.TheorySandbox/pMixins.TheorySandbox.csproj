@@ -122,6 +122,8 @@
     <Compile Include="COVERED\HostInheritsStaticMembersInMixin\HostInheritsStaticMembersInMixinSpecTest.cs" />
     <Compile Include="IMixinDependency.cs" />
     <Compile Include="IMixinInterceptor.cs" />
+    <Compile Include="ImprovedVirtualMemberOverrides\ImprovedVirtualMemberOverridesSpec.cs" />
+    <Compile Include="ImprovedVirtualMemberOverrides\ImprovedVirtualMemberOverridesSpecTest.cs" />
     <Compile Include="InterceptorMixinRequirementAttribute.cs" />
     <Compile Include="COVERED\Interceptors\BasicInterceptor\BasicInterceptorSpec.cs" />
     <Compile Include="COVERED\Interceptors\BasicInterceptor\BasicInterceptorSpecTest.cs" />

@@ -56,7 +56,7 @@
             <p>
                 <strong>The Problem</strong>
                 <br />
-                So I set about updating one of our existing projects to use the new <code>BaseRepository</code>.
+                I set about updating one of our existing projects to use the new <code>BaseRepository</code>.
                 I immediately ran into a problem: business logic.  I found an <em>Entity</em>, in this case it was a
                 Twitter post, that could be Created, Read, and Deleted but never Updated.  My initial reaction
                 was to split up <code>BaseRepository</code> so the <em>Update</em> method would go into a new
@@ -66,7 +66,7 @@
                 This worked for the Twitter use case, but as I continued I encountered more and more permutations of
                 Entities that would only support subsets of CRUD.  Create, Read, and Update, but not Delete.  Create, Read
                 but not Update or Delete.  Read, Update and Delete, but not Create.
-                So there was no way to split up <code>BaseRepository</code> without ending
+                There was no way to logically split up <code>BaseRepository</code> without ending
                 up with something nasty like:
             </p>
             <pre class="prettyprint">
@@ -90,7 +90,7 @@ public class CreateReadButNotUpdateOrDelete : BaseRepository&lt;ExampleEntity&gt
             <p>
                 <strong>The Quest</strong>
                 <br />
-                So I started searching for a better solution.
+                I started searching for a better solution.
                 I experimented with extension methods and
                 <a href="http://en.wikipedia.org/wiki/Marker_interface">marker interfaces</a>,
                 but this solution had testability limitations.
@@ -108,7 +108,7 @@ public class CreateReadButNotUpdateOrDelete : BaseRepository&lt;ExampleEntity&gt
                 but the syntax was too unwieldy.
             </p>
             <p>
-                So I took what I had found and went to Stack Overflow:
+                I took what I had found and went to Stack Overflow:
                 <a href="http://stackoverflow.com/q/15452377/1224069">
                     C# Object Composition - Removing Boilerplate Code
                 </a>.  I received some interesting feedback but the big take away

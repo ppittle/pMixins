@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SourceCodeHelper.cs" />
+    <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\ChainedMixins.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\Decorator.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinDoesNotHaveParameterlessConstructor.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinDoesNotHavePublicConstructor.cs" />

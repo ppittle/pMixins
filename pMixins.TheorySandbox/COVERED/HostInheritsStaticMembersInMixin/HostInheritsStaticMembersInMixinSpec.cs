@@ -59,7 +59,7 @@ namespace CopaceticSoftware.pMixins.TheorySandbox.COVERED.HostInheritsStaticMemb
     /// </summary>
     public class HostInheritsProtectedStaticMembersInMixinMixinWrapper : HostInheritsProtectedStaticMembersInMixinMixin
     {
-        public static string ProtectedPrettyPrint(string name)
+        public new static string ProtectedPrettyPrint(string name)
         {
             return HostInheritsProtectedStaticMembersInMixinMixin.ProtectedPrettyPrint(name);
         }

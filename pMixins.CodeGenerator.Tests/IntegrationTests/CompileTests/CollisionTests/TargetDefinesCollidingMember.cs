@@ -1,8 +1,8 @@
 ﻿//----------------------------------------------------------------------- 
-// <copyright file="TargetDefinesMemberThatSatisfiesAbstractMember.cs" company="Copacetic Software"> 
+// <copyright file="TargetDefinesCollidingMember.cs" company="Copacetic Software"> 
 // Copyright (c) Copacetic Software.  
 // <author>Philip Pittle</author> 
-// <date>Wednesday, August 13, 2014 2:57:58 PM</date> 
+// <date>Wednesday, August 13, 2014 2:51:05 PM</date> 
 // Licensed under the Apache License, Version 2.0,
 // you may not use this file except in compliance with this License.
 //  
@@ -20,9 +20,9 @@ using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
-namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.AdvancedMixinTypes
+namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.CollisionTests
 {
-    public class TargetDefinesMemberThatSatisfiesAbstractMember : GenerateCodeAndCompileTestBase
+    public class TargetDefinesCollidingMember : GenerateCodeAndCompileTestBase
     {
         protected override string SourceCode
         {
@@ -32,16 +32,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     @"
                         namespace Test
                         {
-                            public abstract class Mixin
+                            public class Mixin
                             {
-                                
-                                protected abstract int Number{get;}                               
-
-
-                                public int MixinMethod()
+                                public int Collision()
                                 {
-                                     return Number;
+                                    return 100000;
                                 }
+
+                                 public int MixinMethod()
+                                 {
+                                      return 42;
+                                 }
                             }
    
                             
@@ -49,7 +50,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                                 Mixin = typeof (Test.Mixin))]
                             public partial class Target
                             {
-                                public int Number{get{return 42;}}   
+                                public int Collision()
+                                {
+                                    return 24;
+                                }
                             }                      
                         }
                     ";
@@ -58,13 +62,23 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         }
 
         [Test]
-        public void CanCallMixinMethod()
+        public void CanCallNonCollidingMixinMethod()
         {
             CompilerResults
                 .ExecuteMethod<int>(
                     "Test.Target",
                     "MixinMethod")
                 .ShouldEqual(42);
+        }
+
+        [Test]
+        public void CanCallTargetMethod()
+        {
+            CompilerResults
+                .ExecuteMethod<int>(
+                    "Test.Target",
+                    "Collision")
+                .ShouldEqual(24);
         }
     }
 }

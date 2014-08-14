@@ -20,6 +20,7 @@ using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
+using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -30,23 +31,32 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
-            manager.CodeGenerationPlans
-                .SelectMany(x => x.Value.Members)
-                .Map(m => SetDetails(m.ImplementationDetails));
+            foreach (var cgp in manager.CodeGenerationPlans.Values)
+            {
+                cgp.Members
+                    .Map(m => SetDetails(cgp, m.ImplementationDetails));
+            }
 
             return true;
         }
 
-        private void SetDetails(MemberImplementationDetails implDetails)
+        private void SetDetails(
+            CodeGenerationPlan cgp,
+            MemberImplementationDetails implDetails)
         {
             var member = implDetails.ParentMemberWrapper.Member;
 
+            var sourceClassAlsoDefinesMember =
+                cgp.SourceClassMembers.Contains(member, new MemberExtensions.MemberEqualityComparer());
+
+
             implDetails.RequirementsInterfaceImplementationName =
-                (member.IsAbstract)
+                (member.IsAbstract && !sourceClassAlsoDefinesMember)
                 ? member.Name + "Implementation"
                 : member.Name;
 
-            if (member.IsAbstract && member.IsProtected)
+            if (member.IsAbstract && 
+                member.IsProtected )
             {
                 implDetails.ProtectedAbstractMemberPromotedToPublicMemberName =
                     member.Name + "_Public";

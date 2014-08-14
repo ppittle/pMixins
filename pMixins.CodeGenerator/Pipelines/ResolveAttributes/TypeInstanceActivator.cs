@@ -62,6 +62,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes
             {
                 return assembly.GetType(type.GetFullTypeName(), true);
             }
+            catch (TypeLoadException e)
+            {
+                Log.Warn("Could not load [" + type.FullName + "] from assembly [" + assembly.Location + "] because the type is not listed in the assembly!", e);
+                throw;
+            }
             catch (Exception e)
             {
                 Log.Warn("Exception in LoadType(" + type.FullName + ")", e);

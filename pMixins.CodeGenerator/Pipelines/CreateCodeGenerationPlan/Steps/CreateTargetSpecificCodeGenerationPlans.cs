@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
 
@@ -42,6 +43,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     {
                         SourceClass = 
                             target,
+
+                        SourceClassMembers = 
+                            target.ResolveMembers(manager.CommonState),
 
                         TargetCodeBehindPlan = 
                             new TargetCodeBehindPlan

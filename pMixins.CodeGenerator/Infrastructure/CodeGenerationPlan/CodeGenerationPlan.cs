@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan
 {
@@ -39,6 +40,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
             MixinGenerationPlan> MixinGenerationPlans { get; set; }
 
         public TypeDeclaration SourceClass { get; set; }
+
+        public IEnumerable<IMember> SourceClassMembers { get; set; } 
 
         /// <summary>
         /// Collects all <see cref="MemberWrapper"/>s

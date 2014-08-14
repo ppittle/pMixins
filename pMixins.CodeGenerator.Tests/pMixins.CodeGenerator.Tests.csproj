@@ -106,6 +106,7 @@
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsSealedType.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsNestedType.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\TargetDefinesCollidingMember.cs" />
+    <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\TargetDefinesMemberThatSatisfiesAbstractMember.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\TargetIsAbstractAndKeepAbstractMembersAbstractIsTrue.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\CodeBehindMethodParametersShouldBeGlobal.cs" />
     <Compile Include="IntegrationTests\CompileTests\BasicTests\Log4NetMixin.cs" />

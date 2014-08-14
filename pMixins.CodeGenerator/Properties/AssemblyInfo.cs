@@ -53,4 +53,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.1.10.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
+#pragma warning disable 1699
 [assembly: AssemblyKeyFile(@"..\..\..\pMixins.snk")]
+#pragma warning restore 1699

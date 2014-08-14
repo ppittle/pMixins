@@ -101,7 +101,7 @@ namespace CopaceticSoftware.pMixins.TheorySandbox.COVERED.NonParameterlessConstr
         }
 
         //Elevate protected members to public
-        public new void RandomProtectedMethod()
+        public void RandomProtectedMethod()
         {
             base.RandomProtetectedMethod();
         }

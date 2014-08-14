@@ -47,7 +47,7 @@ namespace CopaceticSoftware.pMixins.TheorySandbox.ImprovedVirtualMemberOverrides
     public partial class ImprovedVirtualMemberOverridesSpec
     {
 
-        public new void InterfaceMethod() { }
+        public void InterfaceMethod() { }
 
         public ImprovedVirtualMemberOverridesSpec()
         {

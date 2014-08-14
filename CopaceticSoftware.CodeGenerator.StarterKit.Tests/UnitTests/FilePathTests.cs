@@ -84,7 +84,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.UnitTests
                 dict.Add(new FilePath(fullPath2), new object());
                 Assert.Fail("Expected Key Exception");
             }
-            catch (ArgumentException e) { }
+            catch (ArgumentException) { }
             
         }
     }

@@ -56,6 +56,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 ppm => !ppm.Member.EqualsMember(m.Member)))
                             .ToList();
                 }
+
+                //ensure there wont be any collisions with members
+                //already defined in Target
+                var existingTargetMembers =
+                    manager.CommonState.Context.TypeResolver.Resolve(cgp.SourceClass)
+                        .Type.GetMembers();
+
+                allMixinGenPlans.Map(
+                    agp => agp.MembersPromotedToTarget =
+                        agp.MembersPromotedToTarget
+                            .Where(m => existingTargetMembers.All(
+                                exm => !exm.EqualsMember(m.Member))));
             }
 
             return true;

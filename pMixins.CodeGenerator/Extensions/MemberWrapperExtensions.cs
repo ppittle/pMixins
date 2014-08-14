@@ -63,13 +63,5 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Extensions
                 memberWrappers
                     .Where(mw => !membersToExclude.Contains(mw.Member, new MemberExtensions.MemberEqualityComparer()));
         }
-
-        public static IEnumerable<MemberWrapper> FilterMembersFromType(
-            this IEnumerable<MemberWrapper> memberWrappers,
-            TypeDeclaration type,
-            IPipelineCommonState pipelineCommonState)
-        {
-            return memberWrappers.FilterMemberWrappers(type.ResolveMembers(pipelineCommonState));
-        }
     }
 }

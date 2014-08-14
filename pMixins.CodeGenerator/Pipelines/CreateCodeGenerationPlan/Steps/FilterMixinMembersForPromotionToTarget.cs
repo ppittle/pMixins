@@ -63,7 +63,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 allMixinGenPlans.Map(
                     agp => agp.MembersPromotedToTarget =
                         agp.MembersPromotedToTarget
-                            .FilterMembersFromType(cgp.SourceClass, manager.CommonState));
+                            .FilterMemberWrappers(cgp.SourceClassMembers));
             }
 
             return true;

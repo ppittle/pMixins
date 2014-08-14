@@ -42,7 +42,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                         .Where(mgp => mgp.MixinAttribute.EnableSharedRequirementsInterface)
                         .SelectMany(mgp => mgp.Members)
                         .Where(mw => mw.Member.IsAbstract)
-                        .FilterMembersFromType(codeGenerationPlan.SourceClass, manager.CommonState)
+                        .FilterMemberWrappers(codeGenerationPlan.SourceClassMembers)
                         .ToList();
 
                 var groupedByCount =

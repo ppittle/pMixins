@@ -108,27 +108,4 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         }
 
     }
-
-    public static class MemberWrapperExtensions
-    {
-        private static readonly MemberWrapperEqualityComparer _equalityComparer = new MemberWrapperEqualityComparer();
-
-        public class MemberWrapperEqualityComparer : IEqualityComparer<MemberWrapper>
-        {
-            public bool Equals(MemberWrapper x, MemberWrapper y)
-            {
-                return x.Member.EqualsMember(y.Member);
-            }
-            
-            public int GetHashCode(MemberWrapper obj)
-            {
-                return new MemberExtensions.MemberEqualityComparer().GetHashCode(obj.Member);
-            }
-        }
-
-        public static IEnumerable<MemberWrapper> DistinctMemberWrappers(this IEnumerable<MemberWrapper> memberWrappers)
-        {
-            return memberWrappers.Distinct(_equalityComparer);
-        }
-    }
 }

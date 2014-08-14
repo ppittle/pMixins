@@ -19,6 +19,7 @@
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
@@ -59,15 +60,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
                 //ensure there wont be any collisions with members
                 //already defined in Target
-                var existingTargetMembers =
-                    manager.CommonState.Context.TypeResolver.Resolve(cgp.SourceClass)
-                        .Type.GetMembers();
-
                 allMixinGenPlans.Map(
                     agp => agp.MembersPromotedToTarget =
                         agp.MembersPromotedToTarget
-                            .Where(m => existingTargetMembers.All(
-                                exm => !exm.EqualsMember(m.Member))));
+                            .FilterMembersFromType(cgp.SourceClass, manager.CommonState));
             }
 
             return true;

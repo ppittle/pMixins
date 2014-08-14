@@ -18,7 +18,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 
@@ -40,6 +42,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                         .Where(mgp => mgp.MixinAttribute.EnableSharedRequirementsInterface)
                         .SelectMany(mgp => mgp.Members)
                         .Where(mw => mw.Member.IsAbstract)
+                        .FilterMembersFromType(codeGenerationPlan.SourceClass, manager.CommonState)
                         .ToList();
 
                 var groupedByCount =

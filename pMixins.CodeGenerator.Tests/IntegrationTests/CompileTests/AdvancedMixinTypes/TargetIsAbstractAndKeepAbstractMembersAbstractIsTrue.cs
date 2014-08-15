@@ -49,7 +49,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             public partial class Target {}      
 
                             public class Child : Target{
-                                public override int Number{ get{ return 42; }
+                                public override int Number{ get{ return 42; } }
                             }                
                         }
                     ";

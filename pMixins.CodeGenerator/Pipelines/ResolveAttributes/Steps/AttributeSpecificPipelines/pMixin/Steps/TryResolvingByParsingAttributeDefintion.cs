@@ -63,6 +63,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
                 manager.ResolvedResult.EnableSharedRequirementsInterface =
                     bool.Parse(enableSharedRequirementsInterface.ToString());
 
+            var keepAbstractMembersAbstract =
+               attribute.GetNamedArgumentValue("KeepAbstractMembersAbstract");
+
+            if (null != keepAbstractMembersAbstract)
+                manager.ResolvedResult.KeepAbstractMembersAbstract =
+                    bool.Parse(keepAbstractMembersAbstract.ToString());
+
            return true;
         }
     }

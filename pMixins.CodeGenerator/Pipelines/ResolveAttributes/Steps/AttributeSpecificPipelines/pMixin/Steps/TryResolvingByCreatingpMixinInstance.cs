@@ -50,6 +50,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.St
 
                         manager.ResolvedResult.EnableSharedRequirementsInterface =
                             pMixinAttributeInstance.EnableSharedRequirementsInterface;
+
+                        manager.ResolvedResult.KeepAbstractMembersAbstract =
+                            pMixinAttributeInstance.KeepAbstractMembersAbstract;
                     }
                     catch (Exception e)
                     {

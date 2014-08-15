@@ -71,5 +71,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.In
         /// Matches <see cref="pMixinAttribute.EnableSharedRequirementsInterface"/>
         /// </summary>
         public bool EnableSharedRequirementsInterface { get; set; }
+
+        /// <summary>
+        /// Matches <see cref="pMixinAttribute.KeepAbstractMembersAbstract"/>
+        /// </summary>
+        public bool KeepAbstractMembersAbstract { get; set; }
     }
 }

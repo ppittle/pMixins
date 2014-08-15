@@ -90,6 +90,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 if (mw.Member is IMethod)
                     newMemberDeclaration = GenerateMethod(
                         mw.Member as IMethod,
+                        mw.ImplementationDetails.ImplementInTargetAsAbstract,
                         targetCodeBehind,
                         compilation,
                         mw.Member.IsStaticOrConst()
@@ -99,6 +100,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 else if (mw.Member is IProperty)
                     newMemberDeclaration = GenerateProperty(
                         mw.Member as IProperty,
+                        mw.ImplementationDetails.ImplementInTargetAsAbstract,
                         targetCodeBehind,
                         mw.Member.IsStaticOrConst()
                             ? masterWrapperStaticName
@@ -129,6 +131,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         private EntityDeclaration GenerateMethod(
             IMethod method,
+            bool implementAbstract,
             ICodeGeneratorProxy targetCodeBehind,
             ICompilation compilation,
             string masterWrapperVariableName)
@@ -136,7 +139,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             return
                 targetCodeBehind.CreateMethod(
                     modifier:
-                        method.GetModifiersString(),
+                    method.GetModifiersString(
+                        overrideModifiers: implementAbstract ? "abstract" : null),
                     returnTypeFullName:
                         method.ReturnType.GetOriginalFullNameWithGlobal(),
                     methodName:
@@ -144,7 +148,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     parameters:
                         method.Parameters.ToKeyValuePair(),
                     methodBody:
-                        string.Format(
+                        implementAbstract 
+                        ? string.Empty
+                        : string.Format(
                             "{0} {1}.{2}({3});",
                             (method.ReturnType.Kind == TypeKind.Void)
                             ? string.Empty : "return",
@@ -160,29 +166,35 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         private EntityDeclaration GenerateProperty(
             IProperty property,
+            bool implementAbstract,
             ICodeGeneratorProxy targetCodeBehind,
             string masterWrapperVariableName)
         {
             return
                 targetCodeBehind.CreateProperty(
                     modifier:
-                        property.GetModifiersString(),
+                        property.GetModifiersString(
+                        overrideModifiers: implementAbstract ? "abstract" : null),
                     returnTypeFullName:
                         property.ReturnType.GetOriginalFullNameWithGlobal(),
                     propertyName:
                         property.Name,
                     getterMethodBody:
-                        GetPropertyGetterStatement(property, masterWrapperVariableName),
+                        GetPropertyGetterStatement(property, implementAbstract, masterWrapperVariableName),
                     setterMethodBody:
-                        GetPropertySetterStatement(property, masterWrapperVariableName));
+                        GetPropertySetterStatement(property, implementAbstract, masterWrapperVariableName));
         }
 
         private string GetPropertyGetterStatement(
            IProperty prop,
+            bool implementAbstract,
            string masterWrapperVariableName)
         {
             if (!prop.CanGet || prop.Getter.IsPrivate)
                 return string.Empty;
+
+            if (implementAbstract)
+                return "get;";
             
             return string.Format(
                 "get{{ return {0}.{1}; }}",
@@ -193,11 +205,15 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
         private string GetPropertySetterStatement(
             IProperty prop,
+            bool implementAbstract,
             string masterWrapperVariableName)
         {
             if (!prop.CanSet || prop.Setter.IsPrivate)
                 return string.Empty;
-            
+
+            if (implementAbstract)
+                return "set;";
+
             return string.Format(
                 "set{{ {0}.{1} = value; }}",
                 masterWrapperVariableName,

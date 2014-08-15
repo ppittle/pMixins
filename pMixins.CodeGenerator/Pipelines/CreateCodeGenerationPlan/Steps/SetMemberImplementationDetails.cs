@@ -46,12 +46,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             var member = implDetails.ParentMemberWrapper.Member;
 
+            implDetails.ImplementInTargetAsAbstract =
+                member.IsAbstract &&
+                implDetails.ParentMemberWrapper.MixinAttribute.KeepAbstractMembersAbstract;
+
+
             var sourceClassAlsoDefinesMember =
                 cgp.SourceClassMembers.Contains(member, new MemberExtensions.MemberEqualityComparer());
 
-
             implDetails.RequirementsInterfaceImplementationName =
-                (member.IsAbstract && !sourceClassAlsoDefinesMember)
+                (   member.IsAbstract && 
+                    !sourceClassAlsoDefinesMember && 
+                    !implDetails.ImplementInTargetAsAbstract)
                 ? member.Name + "Implementation"
                 : member.Name;
 

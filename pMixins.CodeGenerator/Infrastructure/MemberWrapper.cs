@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ResolveAttributes.Infrastructure;
 using ICSharpCode.NRefactory.TypeSystem;
@@ -107,5 +108,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
             get { return ParentMemberWrapper.Member.Name + "Func"; }
         }
 
+        /// <summary>
+        /// Instructs the Code Generation Pipeline to implement 
+        /// the member as <c>abstract</c> when added to the Target.
+        /// </summary>
+        /// <remarks>
+        /// This is in response to <see cref="pMixinAttribute.KeepAbstractMembersAbstract"/>
+        /// </remarks>
+        public bool ImplementInTargetAsAbstract { get; set; }
     }
 }

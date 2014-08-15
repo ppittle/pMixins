@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Reflection;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
@@ -35,6 +36,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                         {
                             public abstract class Mixin
                             {
+                                 public abstract int RandomNumber();
+
                                  public abstract int Number {get;}
                                     
                                  public int NumberPlusOne()
@@ -46,10 +49,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             [CopaceticSoftware.pMixins.Attributes.pMixin(
                                 Mixin = typeof (Test.Mixin),
                                 KeepAbstractMembersAbstract = true)]                            
-                            public partial class Target {}      
+                            public abstract partial class Target {}      
 
                             public class Child : Target{
                                 public override int Number{ get{ return 42; } }
+
+                                public override int RandomNumber(){
+                                    return 24;
+                                }
                             }                
                         }
                     ";
@@ -61,9 +68,35 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         {
             CompilerResults
                 .ExecuteMethod<int>(
-                    "Test.Target",
+                    "Test.Child",
                     "NumberPlusOne")
                 .ShouldEqual(43);
+
+            CompilerResults
+               .ExecuteMethod<int>(
+                   "Test.Child",
+                   "RandomNumber")
+               .ShouldEqual(24);
+        }
+
+        [Test]
+        // ReSharper disable PossibleNullReferenceException
+        public void TargetMembersAreImplementedAbstract()
+        {
+            var targetType =
+                CompilerResults.CompiledAssembly
+                    .GetType("Test.Target");
+
+            targetType
+                .GetMethod("RandomNumber")
+                .IsAbstract
+                .ShouldBeTrue();
+
+            targetType
+                .GetProperty("Number")
+                .GetMethod
+                .IsAbstract
+                .ShouldBeTrue();
         }
     }
 }

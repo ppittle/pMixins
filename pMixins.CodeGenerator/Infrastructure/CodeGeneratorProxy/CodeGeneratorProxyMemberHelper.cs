@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using ICSharpCode.NRefactory.TypeSystem;
+using ICSharpCode.NRefactory.TypeSystem.Implementation;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy
 {
@@ -83,9 +84,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
             string propertyName )
         {
             return string.Format(
-                "get{{ return {0}.{1}; }}",
+                "get{{ return {0}{1}; }}",
                 baseObjectIdentifier,
-                propertyName);
+                prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + propertyName);
         }
 
         public string GetPropertySetterStatement(
@@ -110,9 +113,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
             string propertyName)
         {
             return string.Format(
-                "set{{ {0}.{1} = value; }}",
+                "set{{ {0}{1} = value; }}",
                 baseObjectIdentifier,
-                propertyName);
+                prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + propertyName);
         }
 
         public virtual string GetFieldGetterStatement(

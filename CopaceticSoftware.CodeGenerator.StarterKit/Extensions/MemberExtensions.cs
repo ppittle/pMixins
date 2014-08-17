@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.TypeSystem;
+using ICSharpCode.NRefactory.TypeSystem.Implementation;
 using Mono.CSharp;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
@@ -108,6 +109,15 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
         public static string GetOriginalName(this IMember member)
         {
+            var indexerProperty = member as SpecializedProperty;
+            if (null != indexerProperty && indexerProperty.IsIndexer)
+            {
+                return string.Format(
+                    "this[{0} {1}]",
+                    indexerProperty.Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                    indexerProperty.Parameters.First().Name);
+            }
+
             var method = member as IMethod;
 
             if (null == method)

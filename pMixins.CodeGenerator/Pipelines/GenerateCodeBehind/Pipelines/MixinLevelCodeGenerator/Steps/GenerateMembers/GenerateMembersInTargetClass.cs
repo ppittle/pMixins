@@ -26,6 +26,7 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
+using ICSharpCode.NRefactory.TypeSystem.Implementation;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -178,7 +179,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                     returnTypeFullName:
                         property.ReturnType.GetOriginalFullNameWithGlobal(),
                     propertyName:
-                        property.Name,
+                        property.IsIndexer
+                        ? string.Format(
+                            "this [{0} {1}]",
+                                (property as SpecializedProperty).Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                                (property as SpecializedProperty).Parameters.First().Name
+                            )
+                        : property.Name,
                     getterMethodBody:
                         GetPropertyGetterStatement(property, implementAbstract, masterWrapperVariableName),
                     setterMethodBody:
@@ -197,10 +204,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 return "get;";
             
             return string.Format(
-                "get{{ return {0}.{1}; }}",
+                "get{{ return {0}{1}; }}",
                 masterWrapperVariableName,
-                prop.Name);
-
+                prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + prop.Name);
         }
 
         private string GetPropertySetterStatement(
@@ -215,9 +223,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 return "set;";
 
             return string.Format(
-                "set{{ {0}.{1} = value; }}",
+                "set{{ {0}{1} = value; }}",
                 masterWrapperVariableName,
-                prop.Name);
+                prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + prop.Name);
         }
 
         #endregion

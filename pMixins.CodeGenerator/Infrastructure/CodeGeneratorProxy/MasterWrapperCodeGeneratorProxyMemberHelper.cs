@@ -20,6 +20,7 @@ using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.Interceptors;
 using ICSharpCode.NRefactory.TypeSystem;
+using ICSharpCode.NRefactory.TypeSystem.Implementation;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy
 {
@@ -104,10 +105,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
             string baseObjectIdentifier,
             string propertyName)
         {
-            return string.Format("base.ExecutePropertyGet(\"{0}\", () => {1}.{2})",
+            return string.Format("base.ExecutePropertyGet(\"{0}\", () => {1}{2})",
                 prop.Name,
                 baseObjectIdentifier,
-                propertyName);
+                 prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + propertyName);
         }
 
         protected override string GetPropertySetterStatementImpl(
@@ -127,10 +130,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
             string baseObjectIdentifier,
             string propertyName)
         {
-            return string.Format("base.ExecutePropertySet(\"{0}\", value, (v) => {1}.{2} = v)",
+            return string.Format("base.ExecutePropertySet(\"{0}\", value, (v) => {1}{2} = v)",
                 prop.Name,
                 baseObjectIdentifier,
-                propertyName);
+                 prop.IsIndexer
+                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 : "." + propertyName);
         }
     }
 }

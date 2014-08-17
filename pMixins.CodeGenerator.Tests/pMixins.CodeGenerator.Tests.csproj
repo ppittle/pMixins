@@ -160,6 +160,7 @@
     <Compile Include="IntegrationTests\GenerateCodeTestBase.cs" />
     <Compile Include="IntegrationTests\IntegrationTestBase.cs" />
     <Compile Include="IntegrationTests\RealWorldExamples\AOPExample.cs" />
+    <Compile Include="IntegrationTests\RealWorldExamples\ListExample.cs" />
     <Compile Include="IntegrationTests\RealWorldExamples\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />

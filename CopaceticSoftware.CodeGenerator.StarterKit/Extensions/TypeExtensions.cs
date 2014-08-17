@@ -77,6 +77,12 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                     .GetOriginalFullNameWithGlobal(rootDefinition);
             }
 
+            var specializedTypeParam = type as AbstractTypeParameter;
+            if (null != specializedTypeParam)
+            {
+                return specializedTypeParam.Owner.DeclaringType.GetOriginalFullNameWithGlobal();
+            }
+
             //Fall back case
             return "global::" + type.GetOriginalFullName();
         }

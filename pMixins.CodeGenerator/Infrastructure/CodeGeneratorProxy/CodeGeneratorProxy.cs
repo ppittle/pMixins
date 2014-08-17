@@ -69,7 +69,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
         {
             var attribute = new Attribute
             {
-                Type = new SimpleType("System.CodeDom.Compiler.GeneratedCodeAttribute"),
+                Type = new SimpleType("global::System.CodeDom.Compiler.GeneratedCodeAttribute"),
             };
 
             attribute.Arguments.Add(new PrimitiveExpression("pMixin"));

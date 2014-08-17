@@ -51,6 +51,7 @@
     <Compile Include="Attributes\InterceptorMixinRequirementAttribute.cs" />
     <Compile Include="Attributes\IPMixinAttribute.cs" />
     <Compile Include="Attributes\LoggingVerbosity.cs" />
+    <Compile Include="Attributes\MixedInMemberAttribute.cs" />
     <Compile Include="Attributes\pMixinAttribute.cs" />
     <Compile Include="ConversionOperators\AsIsHelper.cs" />
     <Compile Include="ConversionOperators\IContainMixin.cs" />

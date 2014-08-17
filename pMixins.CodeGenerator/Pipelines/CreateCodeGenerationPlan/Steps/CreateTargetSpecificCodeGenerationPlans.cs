@@ -16,12 +16,15 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
 using ICSharpCode.NRefactory.CSharp;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -45,7 +48,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             target,
 
                         SourceClassMembers = 
-                            target.ResolveMembers(manager.CommonState),
+                            ResolveSourceClassMembers(target, manager.CommonState),
 
                         TargetCodeBehindPlan = 
                             new TargetCodeBehindPlan
@@ -91,5 +94,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
 
             return true;
         }
+
+        private IEnumerable<IMember> ResolveSourceClassMembers(TypeDeclaration sourceClass, IPipelineCommonState manager)
+        {
+            var mixedInMemberAttribute =
+                typeof (MixedInMemberAttribute).ToIType(manager.Context.TypeResolver.Compilation);
+
+            var resolvedSourceResult = manager.Context.TypeResolver.Resolve(sourceClass);
+
+
+            if (resolvedSourceResult.IsError)
+                return Enumerable.Empty<IMember>();
+                
+            return
+                resolvedSourceResult.Type.GetMembers()
+                    .Where(m =>
+                        !m.DeclaringType.Equals(resolvedSourceResult.Type) ||
+                        !m.IsDecoratedWithAttribute(mixedInMemberAttribute));
+        }
+
     }
 }

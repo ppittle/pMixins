@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Extensions;
 using CopaceticSoftware.Common.Infrastructure;
+using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.Infrastructure;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.CSharp;
@@ -273,7 +274,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                                                    : "";
 
             var methodSource =
-                string.Format("{0} {1} {2} {3}({4}) {5} {6} ",
+                string.Format("[{0}]{1} {2} {3} {4}({5}) {6} {7} ",
+                              typeof(MixedInMemberAttribute).GetOriginalFullNameWithGlobal(),
                               debuggerStepThroughAttribute,
                               modifier,
                               returnTypeFullName,
@@ -315,7 +317,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
             Ensure.ArgumentNotNullOrEmpty(propertyName, "propertyName");
 
             var propSource =
-                string.Format("{0} {1} {2} {{ {3} {4} }}",
+                string.Format("[{0}]{1} {2} {3} {{ {4} {5} }}",
+                            typeof(MixedInMemberAttribute).GetOriginalFullNameWithGlobal(),
                               modifier,
                               returnTypeFullName,
                               propertyName,

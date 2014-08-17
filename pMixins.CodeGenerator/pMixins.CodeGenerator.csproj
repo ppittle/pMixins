@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\MemberWrapperExtensions.cs" />
-    <Compile Include="Extensions\TypeDeclarationExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Infrastructure\CodeGenerationPlan\AbstractWrapperPlan.cs" />
     <Compile Include="Infrastructure\CodeGenerationPlan\CodeGenerationPlan.cs" />

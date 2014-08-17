@@ -46,7 +46,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                         .FirstOrDefault(a => a.AttributeType.FullName == "System.AttributeUsageAttribute");
 
                 if (null == attributeUsageAttr)
+                {
                     yield return attr;
+                    yield break;
+                }
 
                 if (!attributeUsageAttr.NamedArguments
                     .Any(na => null != na.Key && na.Key.Name == "Inherited"))

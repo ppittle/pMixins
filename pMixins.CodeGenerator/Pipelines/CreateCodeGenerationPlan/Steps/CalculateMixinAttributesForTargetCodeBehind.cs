@@ -16,11 +16,13 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Diagnostics;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationPlan;
+using ICSharpCode.NRefactory.TypeSystem.Implementation;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGenerationPlan.Steps
 {
@@ -34,6 +36,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             var doNotMixinType = typeof (DoNotMixinAttribute)
                 .ToIType(manager.CommonState.Context.TypeResolver.Compilation);
 
+            var debuggerTypeProxyAttributeType = typeof(DebuggerTypeProxyAttribute)
+                .ToIType(manager.CommonState.Context.TypeResolver.Compilation);
+
             foreach (var cgp in manager.CodeGenerationPlans.Values)
             {
                 cgp.TargetCodeBehindPlan.MixinAttributes =
@@ -43,8 +48,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             att.Mixin
                                 .GetAttributes()
                                 .FilterOutNonInheritedAttributes()
-                                //Don't add a DoNotMixin Type
-                                .Where(a => !a.AttributeType.Equals(doNotMixinType)));
+                                .Where(a =>
+                                    //Don't add a DoNotMixin Type
+                                    !a.AttributeType.Equals(doNotMixinType) &&
+                                    //Ignore unknown types (mostly microsoft internal attributes)
+                                    !(a.AttributeType is UnknownType) &&
+                                    //Don't add the DebuggerTypeProxyAttribute - It doesn't get added correctly
+                                    !a.AttributeType.Equals(debuggerTypeProxyAttributeType)));
+
             }
 
             return true;

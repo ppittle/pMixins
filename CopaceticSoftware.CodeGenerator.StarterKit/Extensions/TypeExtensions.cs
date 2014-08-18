@@ -77,9 +77,22 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                     .GetOriginalFullNameWithGlobal(rootDefinition);
             }
 
+
+            //magic to handle Generic parameters:
+            // public class A<T>{  
+            //      TOutput SomeMethod<T,TOutput>(T input, TOutput example){}
+            // }
             var specializedTypeParam = type as AbstractTypeParameter;
             if (null != specializedTypeParam)
             {
+                var ownerMethod = specializedTypeParam.Owner as SpecializedMethod;
+
+                if (null != ownerMethod)
+                {
+                    if (ownerMethod.Substitution.MethodTypeArguments.Contains(type))
+                        return specializedTypeParam.Name;
+                }
+
                 return specializedTypeParam.Owner.DeclaringType.GetOriginalFullNameWithGlobal();
             }
 

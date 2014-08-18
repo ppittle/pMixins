@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
@@ -58,26 +59,21 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         [Test]
         public void MethodWithGenericParam()
         {
-            CompilerResults
-                .ExecuteMethod<int>(
-                    "Test.Target",
-                    "GenericMethodParam",
-                    ReflectionHelper.DefaultBindingFlags,
-                    5, "HelloWorld")
-                .ShouldEqual(5);
+            dynamic target = CompilerResults
+                .TryLoadCompiledType("Test.Target");
+
+            ( (int) target.GenericMethodParam(5, "HelloWorld"))
+            .ShouldEqual(5);
         }
 
         [Test]
         public void MethodWithGenericOutput()
         {
+            dynamic target = CompilerResults
+               .TryLoadCompiledType("Test.Target");
 
-            CompilerResults
-                .ExecuteMethod<string>(
-                    "Test.Target",
-                    "GenericMethodParam",
-                    ReflectionHelper.DefaultBindingFlags,
-                    5, "HelloWorld")
-                .ShouldEqual("HelloWorld");
+            ((string)target.GenericMethodOutput(5, "HelloWorld"))
+                        .ShouldEqual("HelloWorld");
         }
 
         [Test]

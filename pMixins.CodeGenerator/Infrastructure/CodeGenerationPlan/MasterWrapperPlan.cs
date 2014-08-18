@@ -113,6 +113,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGenerationP
 
         public IEnumerable<MemberWrapper> RegularMembers { get; set; }
 
+        public IEnumerable<MemberWrapper> ImplementExplicitlyMembers { get; set; } 
+
         #endregion
     }
 }

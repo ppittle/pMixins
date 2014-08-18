@@ -64,12 +64,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines
         {
             new CreateTargetSpecificCodeGenerationPlans(),
             new CollectAllMembers(),
+            new SetMemberImplementationDetails(), 
             new SetSharedRequirementsInterfacePlan(), 
             new SetMixinGenerationPlanDetails(), 
             new CreateProtectedWrapperPlan(),
             new CreateAbstractWrapperPlan(), 
             new CreateMasterWrapperPlan(), 
-            new SetMemberImplementationDetails(), 
             new FilterMixinMembersForPromotionToTarget(), 
             new CalculateTargetSpecificImplicitConversionTypes(),
             new CalculateTargetSpecificMixinInterfacesToImplement(),

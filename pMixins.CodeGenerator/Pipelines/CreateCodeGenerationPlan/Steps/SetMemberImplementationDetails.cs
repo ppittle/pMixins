@@ -46,11 +46,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
         {
             var member = implDetails.ParentMemberWrapper.Member;
 
+            if (member.IsExplicitInterfaceImplementation)
+                implDetails.ExplicitInterfaceImplementationType =
+                    member.ImplementedInterfaceMembers.First().DeclaringType;
+                    
             implDetails.ImplementInTargetAsAbstract =
                 member.IsAbstract &&
                 implDetails.ParentMemberWrapper.MixinAttribute.KeepAbstractMembersAbstract;
-
-
+            
             var sourceClassAlsoDefinesMember =
                 cgp.SourceClassMembers.Contains(member, new MemberExtensions.MemberEqualityComparer());
 

@@ -116,5 +116,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// This is in response to <see cref="pMixinAttribute.KeepAbstractMembersAbstract"/>
         /// </remarks>
         public bool ImplementInTargetAsAbstract { get; set; }
+
+        /// <summary>
+        /// Get or Sets an Interface that should be used
+        /// to implement this interface explicitly.
+        /// </summary>
+        public IType ExplicitInterfaceImplementationType { get; set; }
+
+        public bool ImplementExplicitly { get { return null != ExplicitInterfaceImplementationType; } }
     }
 }

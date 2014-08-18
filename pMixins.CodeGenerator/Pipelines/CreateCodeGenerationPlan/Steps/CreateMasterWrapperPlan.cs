@@ -76,11 +76,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 //to new IType(IMixinDependency<int>)
                                 .Replace("<>", ""))),
 
+                ImplementExplicitlyMembers = 
+                    mixinPlan.Members
+                        .Where(x => x.ImplementationDetails.ImplementExplicitly),
+
                 ProtectedAbstractMembers =
                     mixinPlan.Members
                         .Where(m =>
                             (m.Member.IsAbstract || m.Member.IsOverride)
-                            && m.Member.IsProtected),
+                            && m.Member.IsProtected
+                            && !m.ImplementationDetails.ImplementExplicitly),
 
                 RegularMembers =
                     mixinPlan.Members
@@ -89,7 +94,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                             !(m.Member.IsAbstract && m.Member.IsProtected) &&
                             !m.Member.IsOverride &&
                             !m.Member.IsOverridable &&
-                            !m.Member.IsVirtual),
+                            !m.Member.IsVirtual &&
+                            !m.ImplementationDetails.ImplementExplicitly),
 
                 StaticMembers =
                     mixinPlan.Members
@@ -98,12 +104,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 VirtualMembers =
                     mixinPlan.Members
                         .Where(m =>
+
+                            !m.ImplementationDetails.ImplementExplicitly &&
                             m.Member.IsVirtual ||
                             (
                                 m.Member.IsOverride ||
                                 m.Member.IsOverridable &&
-                                ! m.Member.IsProtected
-                                ))
+                                ! m.Member.IsProtected )),
+
             };
         }
 

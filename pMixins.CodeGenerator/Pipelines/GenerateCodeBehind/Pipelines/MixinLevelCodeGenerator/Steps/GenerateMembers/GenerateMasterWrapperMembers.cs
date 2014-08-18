@@ -58,7 +58,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             proxyMemberHelper.CreateMembers(
                   manager.MixinGenerationPlan.MasterWrapperPlan.StaticMembers,
                    generateMemberModifier: 
-                        member => "internal static",
+                        member => "public static",
                    baseObjectIdentifierFunc:
                        member =>
                            manager.MixinGenerationPlan.AbstractWrapperPlan.GenrateAbstractWrapper
@@ -74,7 +74,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             proxyMemberHelper.CreateMembers(
                   manager.MixinGenerationPlan.MasterWrapperPlan.ProtectedAbstractMembers,
                   generateMemberModifier: 
-                        member => "internal",
+                        member => "public",
                   baseObjectIdentifierFunc:
                         member => MasterWrapperPlan.MixinInstanceDataMemberName,
                   baseObjectMemberNameFunc: 
@@ -98,7 +98,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 proxyMemberHelper.CreateMembers(
                     virtualMethods,
                     generateMemberModifier:
-                            member => "internal",
+                            member => "public",
                     baseObjectIdentifierFunc:
                             member => "this",
                     baseObjectMemberNameFunc:
@@ -148,7 +148,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
             proxyMemberHelper.CreateMembers(
                    manager.MixinGenerationPlan.MasterWrapperPlan.RegularMembers,
                    generateMemberModifier: 
-                        member => "internal",
+                        member => "public",
                    baseObjectIdentifierFunc:
                         member => MasterWrapperPlan.MixinInstanceDataMemberName);
         }

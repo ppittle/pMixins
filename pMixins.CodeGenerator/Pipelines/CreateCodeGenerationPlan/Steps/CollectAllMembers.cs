@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -66,8 +67,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 return Enumerable.Empty<MemberWrapper>();
 
             var allMembers =
-               mixinAttribute.Mixin.GetMembers()
-                   .Where(m => m.DeclaringType.Equals(declaringType))
+               declaringType.GetMembers()
                    .Where(memberFilter)
                    .Select(m =>
                        new MemberWrapper
@@ -84,19 +84,25 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                     declaringType.DirectBaseTypes,
                                     mixinAttribute)
 
-                       });
+                       })
+                    .ToList();
+
+            //filter out parent members from list
+            var allParentMembers =
+                allMembers.SelectMany(x => x.ParentDeclarations)
+                .ToList();
 
             allMembers =
                 allMembers
-                    .Union(
-                        declaringType.DirectBaseTypes
-                            .SelectMany(bt =>
-                                CollectMemberWrappers(
-                                    mixinAttribute,
-                                    memberFilter,
-                                    bt)))
-                    .DistinctMemberWrappers()
-                    .ToList();
+                    .Where(m => !allParentMembers.Contains(
+                        m,
+                        new MemberWrapperExtensions.MemberWrapperEqualityComparer
+                        {
+                            IncludeDeclaringTypeInComparison = true
+                        }
+                    ))
+                .ToList();
+           
 
             //Handle Mixin Masks
             if (mixinAttribute.Masks.IsNullOrEmpty())
@@ -121,6 +127,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 directBaseTypes
                     .Where(t => !t.FullName.ToLower().Equals("system.object"))
                     .Where(t => t.DefinesMember(member))
+                    .Where(t => !Equals(t, member.DeclaringType))
                     .Select(t =>
                         new MemberWrapper
                         {

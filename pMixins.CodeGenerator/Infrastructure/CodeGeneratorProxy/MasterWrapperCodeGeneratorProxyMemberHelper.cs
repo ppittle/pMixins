@@ -109,7 +109,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                 prop.Name,
                 baseObjectIdentifier,
                  prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + propertyName);
         }
 
@@ -134,7 +134,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                 prop.Name,
                 baseObjectIdentifier,
                  prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + propertyName);
         }
     }

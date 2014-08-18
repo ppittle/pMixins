@@ -182,8 +182,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         property.IsIndexer
                         ? string.Format(
                             "this [{0} {1}]",
-                                (property as SpecializedProperty).Parameters.First().Type.GetOriginalFullNameWithGlobal(),
-                                (property as SpecializedProperty).Parameters.First().Name
+                                property.Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                                property.Parameters.First().Name
                             )
                         : property.Name,
                     getterMethodBody:
@@ -207,7 +207,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 "get{{ return {0}{1}; }}",
                 masterWrapperVariableName,
                 prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + prop.Name);
         }
 
@@ -226,7 +226,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                 "set{{ {0}{1} = value; }}",
                 masterWrapperVariableName,
                 prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + prop.Name);
         }
 

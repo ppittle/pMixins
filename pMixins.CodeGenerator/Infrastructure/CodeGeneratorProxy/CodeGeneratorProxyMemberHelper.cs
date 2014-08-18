@@ -87,7 +87,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                 "get{{ return {0}{1}; }}",
                 baseObjectIdentifier,
                 prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + propertyName);
         }
 
@@ -116,7 +116,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorPr
                 "set{{ {0}{1} = value; }}",
                 baseObjectIdentifier,
                 prop.IsIndexer
-                 ? "[" + (prop as SpecializedProperty).Parameters.First().Name + "]"
+                 ? "[" + prop.Parameters.First().Name + "]"
                  : "." + propertyName);
         }
 

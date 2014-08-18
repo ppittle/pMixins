@@ -53,15 +53,36 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 return "void";
 
             if (type is ParameterizedType)
-                return
-                    "global::" +
-                    type.FullName +
-                       "<" +
-                       string.Join(
-                            ",", 
-                            (type as ParameterizedType).TypeArguments
-                                .Select(x => x.GetOriginalFullNameWithGlobal(rootDefinition)))
-                       + ">";
+            {
+                var genericTypeFullName =
+                    (null == type.DeclaringType)
+                        ? "global::" + type.FullName
+                        : type.DeclaringType.GetOriginalFullNameWithGlobal(rootDefinition) 
+                            + "." + type.Name;
+
+                var applicableTypeArguments =
+                   ( !(type.DeclaringType is ParameterizedType)
+                        ? (type as ParameterizedType).TypeArguments
+                        //skip the type arguments that are for the declaring type
+                        : (type as ParameterizedType).TypeArguments
+                            .Skip((type.DeclaringType as ParameterizedType).TypeArguments.Count)
+                    ).ToList();
+
+
+                var renderedTypeArguments =
+                    applicableTypeArguments.Any()
+                        ? "<" +
+                          string.Join(
+                              ",",
+                              applicableTypeArguments
+                                  .Select(x => x.GetOriginalFullNameWithGlobal(rootDefinition)))
+                          + ">"
+                        : string.Empty;
+
+
+                return genericTypeFullName + renderedTypeArguments;
+            }
+               
 
 
             var defaultTypeParam = type as DefaultTypeParameter;

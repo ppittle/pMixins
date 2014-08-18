@@ -39,10 +39,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                                     public int Number = 42;
                                 }
 
+                                public class GenericChild<K>
+                                {
+                                     public K Method(K obj){ return obj; }
+                                }
+
                                 public GenericMixin<T>.Child GetChild()
                                 {
                                     return new Child();
-                                }                                
+                                }  
+
+                                public GenericMixin<T>.GenericChild<K> GetGenericChild<K>()
+                                {
+                                    return new GenericChild<K>();
+                                }                                  
                             }
 
                             [CopaceticSoftware.pMixins.Attributes.pMixin(
@@ -61,6 +71,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
 
             ((int)target.GetChild().Number)
                 .ShouldEqual(42);
+        }
+
+        [Test]
+        public void MethodThatReturnsGenericChild()
+        {
+            dynamic target = CompilerResults
+                .TryLoadCompiledType("Test.Target");
+
+            ((string)target.GetGenericChild<string>().Method("HelloWorld"))
+                .ShouldEqual("HelloWorld");
         }
     }
 }

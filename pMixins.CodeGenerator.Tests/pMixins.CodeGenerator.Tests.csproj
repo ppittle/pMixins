@@ -92,6 +92,7 @@
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\Decorator.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinDoesNotHaveParameterlessConstructor.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinDoesNotHavePublicConstructor.cs" />
+    <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinHasGenericMembers.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinHasMultipleConstructors.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinHasNestedAbstractClasses.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinHasNonParamaterlessConstructorButTargetDoesNotInitialize.cs" />

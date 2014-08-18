@@ -102,6 +102,7 @@
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsCreatedWithDependencyInjection.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsGenericGenericType.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsGenericType.cs" />
+    <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsGenericWithChildType.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsInternalType.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsPrivateNestedTypeInTarget.cs" />
     <Compile Include="IntegrationTests\CompileTests\AdvancedMixinTypes\MixinIsSealedType.cs" />

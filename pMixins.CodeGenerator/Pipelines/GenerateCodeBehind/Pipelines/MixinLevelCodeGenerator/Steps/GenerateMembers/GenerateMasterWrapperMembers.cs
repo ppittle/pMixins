@@ -46,6 +46,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             ProcessRegularMembers(proxyMemberHelper, manager);
 
+            ProcessExplicitlyImplementedMembers(proxyMemberHelper, manager);
+
             return true;
         }
 
@@ -149,6 +151,38 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         member => "internal",
                    baseObjectIdentifierFunc:
                         member => MasterWrapperPlan.MixinInstanceDataMemberName);
+        }
+
+        private void ProcessExplicitlyImplementedMembers(
+            MasterWrapperCodeGeneratorProxyMemberHelper proxyMemberHelper,
+            MixinLevelCodeGeneratorPipelineState manager)
+        {
+            proxyMemberHelper.CreateMembers(
+                   manager.MixinGenerationPlan.MasterWrapperPlan.ImplementExplicitlyMembers,
+                   generateMemberModifier:
+                        member => "",
+                        
+                    generateMemberNameFunc:
+                        member => 
+                            string.Format("{0}.{1}",
+                                member.ImplementationDetails.ExplicitInterfaceImplementationType
+                                    .GetOriginalFullNameWithGlobal(),
+                                member.Member.Name),
+
+                    baseObjectIdentifierFunc:
+                        member => 
+                            string.Format("( ({0}) {1} )",
+                                member.ImplementationDetails.ExplicitInterfaceImplementationType
+                                    .GetOriginalFullNameWithGlobal(),
+                                MasterWrapperPlan.MixinInstanceDataMemberName));
+
+
+            //Implement Explicit interfaces
+            manager.MixinGenerationPlan.MasterWrapperPlan.ImplementExplicitlyMembers
+                .Select(x => x.ImplementationDetails.ExplicitInterfaceImplementationType
+                    .GetOriginalFullNameWithGlobal())
+                .Map(t => 
+                    proxyMemberHelper.CodeGeneratorProxy.ImplementInterface(t));
         }
     }
 }

@@ -32,14 +32,24 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                     @"
                         namespace Test
                         {
-                            public interface IMixin
+                            public interface IBaseMixinInterface
+                            {
+                                void DoStuff();
+                            }
+
+
+                            public interface IMixin : IBaseMixinInterface
                             {
                                 object GetThing(object o);
+
+                                bool Method();
                             }
 
                             public interface IMixin<T> : IMixin
                             {
                                 new T GetThing(T o);
+
+                                new bool Method();
                             }
 
                             public class GenericMixin<T> : IMixin<T>
@@ -49,9 +59,21 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                                     return o;
                                 }            
 
+                                public bool Method()
+                                {
+                                    return true;
+                                }
+
                                 object IMixin.GetThing(object o){
                                     return GetThing((T)o);
-                                }                                             
+                                }
+
+                                bool IMixin.Method()
+                                {
+                                    return false;
+                                } 
+
+                                public void DoStuff(){}                                        
                             }
                           
                             [CopaceticSoftware.pMixins.Attributes.pMixin(
@@ -62,8 +84,13 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                             {
                                 public bool CanCallShadowedMethod()
                                 {
-                                    return 5 == 
-                                        new Target().GetThing(5);
+                                    return 
+                                        (5 == 
+                                            new Target().GetThing(5)) &&
+                                        
+                                        new Target().Method();
+
+                                    
                                 }
 
                                 public bool CanCallBaseMethod()
@@ -71,9 +98,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                                     IMixin explicitCast = (IMixin)
                                         new Target();
 
-                                    return 5 == 
+                                    return 
+                                        (5 == 
                                         (int)
-                                        explicitCast.GetThing(5);
+                                        explicitCast.GetThing(5)) &&
+                                        (!explicitCast.Method());
                                 }
                             }                     
                         }

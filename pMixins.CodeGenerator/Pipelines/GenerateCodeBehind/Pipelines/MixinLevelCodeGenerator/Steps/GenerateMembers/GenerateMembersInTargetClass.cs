@@ -26,7 +26,6 @@ using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure.CodeGeneratorProxy;
 using CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.TargetLevelCodeGenerator;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
-using ICSharpCode.NRefactory.TypeSystem.Implementation;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.Pipelines.MixinLevelCodeGenerator.Steps.GenerateMembers
 {
@@ -90,8 +89,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
                 if (mw.Member is IMethod)
                     newMemberDeclaration = GenerateMethod(
-                        mw.Member as IMethod,
-                        mw.ImplementationDetails.ImplementInTargetAsAbstract,
+                        mw,
                         targetCodeBehind,
                         compilation,
                         mw.Member.IsStaticOrConst()
@@ -100,8 +98,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
                 else if (mw.Member is IProperty)
                     newMemberDeclaration = GenerateProperty(
-                        mw.Member as IProperty,
-                        mw.ImplementationDetails.ImplementInTargetAsAbstract,
+                        mw,
                         targetCodeBehind,
                         mw.Member.IsStaticOrConst()
                             ? masterWrapperStaticName
@@ -131,78 +128,159 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         #region Methods
 
         private EntityDeclaration GenerateMethod(
-            IMethod method,
-            bool implementAbstract,
+            MemberWrapper mw,
             ICodeGeneratorProxy targetCodeBehind,
             ICompilation compilation,
             string masterWrapperVariableName)
         {
-            return
-                targetCodeBehind.CreateMethod(
-                    modifier:
-                    method.GetModifiersString(
-                        overrideModifiers: implementAbstract ? "abstract" : null),
-                    returnTypeFullName:
-                        method.ReturnType.GetOriginalFullNameWithGlobal(),
-                    methodName:
-                        method.GetOriginalName(),
-                    parameters:
-                        method.Parameters.ToKeyValuePair(),
-                    methodBody:
-                        implementAbstract 
-                        ? string.Empty
-                        : string.Format(
-                            "{0} {1}.{2}({3});",
-                            (method.ReturnType.Kind == TypeKind.Void)
-                            ? string.Empty : "return",
+            var method = (IMethod) mw.Member;
+
+            if (mw.ImplementationDetails.ImplementExplicitly)
+            {
+                return 
+                    targetCodeBehind.CreateMethod(
+                        modifier:
+                            string.Empty,
+                        returnTypeFullName:
+                            method.ReturnType.GetOriginalFullNameWithGlobal(),
+                        methodName:
+                            mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                                .GetOriginalFullNameWithGlobal() +
+                                "." + method.Name,
+                        parameters:
+                            method.Parameters.ToKeyValuePair(),
+                        methodBody:
+                            string.Format(
+                                "{0} (({1}){2}).{3}({4});",
+                            (mw.Member.ReturnType.Kind == TypeKind.Void)
+                                ? string.Empty : "return",
+
+                            mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                                .GetOriginalFullNameWithGlobal(),
                             masterWrapperVariableName,
+
                             method.GetOriginalName(),
+
                             string.Join(",", method.Parameters.Select(x => x.Name))),
                     constraingClause:
                         method.GetGenericMethodConstraints(compilation));
+            }
+            else
+            {
+                return
+                    targetCodeBehind.CreateMethod(
+                        modifier:
+                            method.GetModifiersString(
+                                overrideModifiers: 
+                                    mw.ImplementationDetails.ImplementInTargetAsAbstract 
+                                    ? "abstract" : null),
+                        returnTypeFullName:
+                            method.ReturnType.GetOriginalFullNameWithGlobal(),
+                        methodName:
+                            method.GetOriginalName(),
+                        parameters:
+                            method.Parameters.ToKeyValuePair(),
+                        methodBody:
+                            mw.ImplementationDetails.ImplementInTargetAsAbstract
+                                ? string.Empty
+                                : string.Format(
+                                    "{0} {1}.{2}({3});",
+                                    (method.ReturnType.Kind == TypeKind.Void)
+                                        ? string.Empty
+                                        : "return",
+                                    masterWrapperVariableName,
+                                    method.GetOriginalName(),
+                                    string.Join(",", method.Parameters.Select(x => x.Name))),
+                        constraingClause:
+                            method.GetGenericMethodConstraints(compilation));
+            }
         }
         #endregion
 
         #region Properties
 
         private EntityDeclaration GenerateProperty(
-            IProperty property,
-            bool implementAbstract,
+            MemberWrapper mw,
             ICodeGeneratorProxy targetCodeBehind,
             string masterWrapperVariableName)
         {
-            return
-                targetCodeBehind.CreateProperty(
-                    modifier:
-                        property.GetModifiersString(
-                        overrideModifiers: implementAbstract ? "abstract" : null),
-                    returnTypeFullName:
-                        property.ReturnType.GetOriginalFullNameWithGlobal(),
-                    propertyName:
-                        property.IsIndexer
-                        ? string.Format(
-                            "this [{0} {1}]",
-                                property.Parameters.First().Type.GetOriginalFullNameWithGlobal(),
-                                property.Parameters.First().Name
-                            )
-                        : property.Name,
-                    getterMethodBody:
-                        GetPropertyGetterStatement(property, implementAbstract, masterWrapperVariableName),
-                    setterMethodBody:
-                        GetPropertySetterStatement(property, implementAbstract, masterWrapperVariableName));
+            var property = (IProperty) mw.Member;
+
+            if (mw.ImplementationDetails.ImplementExplicitly)
+            {
+                return
+                    targetCodeBehind.CreateProperty(
+                        modifier:
+                            string.Empty,
+                        returnTypeFullName:
+                            property.ReturnType.GetOriginalFullNameWithGlobal(),
+                        propertyName:
+                            property.IsIndexer
+                                ? string.Format(
+                                    "{0}.this [{1} {2}]",
+                                    mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                                        .GetOriginalFullNameWithGlobal(),
+                                    property.Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                                    property.Parameters.First().Name
+                                    )
+                                :
+                                mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                                    .GetOriginalFullNameWithGlobal() +
+                                 "." + property.Name,
+                        getterMethodBody:
+                            GetPropertyGetterStatement(mw, masterWrapperVariableName),
+                        setterMethodBody:
+                            GetPropertySetterStatement(mw,  masterWrapperVariableName));
+            }
+            else
+            {
+                return
+                    targetCodeBehind.CreateProperty(
+                        modifier:
+                            property.GetModifiersString(
+                                overrideModifiers: 
+                                    mw.ImplementationDetails.ImplementInTargetAsAbstract
+                                    ? "abstract" : null),
+                        returnTypeFullName:
+                            property.ReturnType.GetOriginalFullNameWithGlobal(),
+                        propertyName:
+                            property.IsIndexer
+                                ? string.Format(
+                                    "this [{0} {1}]",
+                                    property.Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                                    property.Parameters.First().Name
+                                    )
+                                : property.Name,
+                        getterMethodBody:
+                            GetPropertyGetterStatement(mw, masterWrapperVariableName),
+                        setterMethodBody:
+                            GetPropertySetterStatement(mw,masterWrapperVariableName));
+            }
         }
 
         private string GetPropertyGetterStatement(
-           IProperty prop,
-            bool implementAbstract,
-           string masterWrapperVariableName)
+            MemberWrapper mw,
+            string masterWrapperVariableName)
         {
+            var prop = (IProperty) mw.Member;
+
             if (!prop.CanGet || prop.Getter.IsPrivate)
                 return string.Empty;
 
-            if (implementAbstract)
+            if (mw.ImplementationDetails.ImplementInTargetAsAbstract)
                 return "get;";
+
+            if (mw.ImplementationDetails.ImplementExplicitly)
+                return string.Format(
+                    "get{{ return (({0}){1}){2}; }}",
+                    mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                        .GetOriginalFullNameWithGlobal(),
+                    masterWrapperVariableName,
+                    prop.IsIndexer
+                        ? "[" + prop.Parameters.First().Name + "]"
+                        : "." + prop.Name);
             
+
             return string.Format(
                 "get{{ return {0}{1}; }}",
                 masterWrapperVariableName,
@@ -212,15 +290,27 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
         }
 
         private string GetPropertySetterStatement(
-            IProperty prop,
-            bool implementAbstract,
+            MemberWrapper mw,
             string masterWrapperVariableName)
         {
+            var prop = (IProperty)mw.Member;
+
             if (!prop.CanSet || prop.Setter.IsPrivate)
                 return string.Empty;
 
-            if (implementAbstract)
+            if (mw.ImplementationDetails.ImplementInTargetAsAbstract)
                 return "set;";
+
+            if (mw.ImplementationDetails.ImplementExplicitly)
+                return string.Format(
+                    "set{{ return (({0}){1}){2} = value; }}",
+                    mw.ImplementationDetails.ExplicitInterfaceImplementationType
+                        .GetOriginalFullNameWithGlobal(),
+                    masterWrapperVariableName,
+                    prop.IsIndexer
+                        ? "[" + prop.Parameters.First().Name + "]"
+                        : "." + prop.Name);
+
 
             return string.Format(
                 "set{{ {0}{1} = value; }}",

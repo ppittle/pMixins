@@ -20,8 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.pMixins.CodeGenerator.Infrastructure;
-using CopaceticSoftware.pMixins.CodeGenerator.Pipelines;
-using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Extensions
@@ -32,14 +30,22 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Extensions
 
         public class MemberWrapperEqualityComparer : IEqualityComparer<MemberWrapper>
         {
+            public bool IncludeDeclaringTypeInComparison { get; set; }
+
             public bool Equals(MemberWrapper x, MemberWrapper y)
             {
-                return x.Member.EqualsMember(y.Member);
+                return new MemberExtensions.MemberEqualityComparer
+                {
+                    IncludeDeclaringTypeInComparison = IncludeDeclaringTypeInComparison
+                }.Equals(x.Member, y.Member);
             }
 
             public int GetHashCode(MemberWrapper obj)
             {
-                return new MemberExtensions.MemberEqualityComparer().GetHashCode(obj.Member);
+                return new MemberExtensions.MemberEqualityComparer
+                {
+                    IncludeDeclaringTypeInComparison = IncludeDeclaringTypeInComparison,
+                }.GetHashCode(obj.Member);
             }
         }
 

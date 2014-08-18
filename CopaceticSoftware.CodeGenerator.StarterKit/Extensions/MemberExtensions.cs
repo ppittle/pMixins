@@ -32,6 +32,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         private static readonly MemberEqualityComparer _equalityComparer = new MemberEqualityComparer();
         public class MemberEqualityComparer : IEqualityComparer<IMember>
         {
+            public bool IncludeDeclaringTypeInComparison { get; set; }
+
             public bool Equals(IMember x, IMember y)
             {
                 return GetHashCode(x) == GetHashCode(y);
@@ -39,7 +41,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
             public int GetHashCode(IMember obj)
             {
-                return obj.GetMemberSignature().GetHashCode();
+                return obj.GetMemberSignature(IncludeDeclaringTypeInComparison)
+                    .GetHashCode();
             }
         }
 
@@ -71,16 +74,18 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
         /// Intended for use by the <see cref="MemberEqualityComparer"/>
         /// and debugging.
         /// </summary>
-        /// <param name="member"></param>
         /// <returns></returns>
-        public static string GetMemberSignature(this IMember member)
+        public static string GetMemberSignature(this IMember member, bool includeDeclaringType = false)
         {
             var sb = new StringBuilder();
 
-            sb.AppendFormat("{0} {1}",
-                member.Name,
-                member.ReturnType.GetOriginalFullName());
-
+            sb.AppendFormat("{0} {1}{2}",
+                member.ReturnType.GetOriginalFullName(),
+                includeDeclaringType
+                    ? member.DeclaringType.GetOriginalFullName() + "."
+                    : "",
+                member.Name);
+            
 
             if (member is IMethod)
                 sb.AppendFormat("({0})",

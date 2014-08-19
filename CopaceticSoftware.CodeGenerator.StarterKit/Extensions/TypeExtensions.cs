@@ -350,5 +350,13 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                     .Where(m => m.DeclaringType.Equals(type))
                     .FirstOrDefault(m => m.EqualsMember(member));
         }
+
+        public static int InheritanceDepth(this IType type)
+        {
+            if (null == type || type.DirectBaseTypes.All(t => t.Kind != TypeKind.Class))
+                return 0;
+
+            return 1 + type.DirectBaseTypes.First(t => t.Kind == TypeKind.Class).InheritanceDepth();
+        }
     }
 }

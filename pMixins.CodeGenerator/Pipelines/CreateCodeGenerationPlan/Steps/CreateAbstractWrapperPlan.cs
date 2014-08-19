@@ -51,7 +51,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     !mixinPlan.MixinAttribute.Mixin.IsStaticOrSealed(),
 
                 Members = 
-                    mixinPlan.Members.Where(x => x.Member.IsAbstract),
+                    mixinPlan.Members.Where(
+                        x => x.Member.IsAbstract && 
+                        !x.ImplementationDetails.ImplementExplicitly),
 
                 Constructors = 
                     GetConstructors(mixinPlan),

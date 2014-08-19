@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
@@ -75,20 +74,18 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             /// </summary>
             public IEnumerable<MemberWrapper> CollectMemberWrappers(
                 pMixinAttributeResolvedResult mixinAttribute,
-                Func<IMember, bool> memberFilter,
-                IType declaringType = null)
+                Func<IMember, bool> memberFilter)
             {
-                declaringType =
-                    declaringType ?? mixinAttribute.Mixin;
-
-                if (declaringType.FullName.ToLower().Equals("system.object"))
-                    return Enumerable.Empty<MemberWrapper>();
-
-
+                
                 var declaredMembers =
-                    declaringType
+                    mixinAttribute.Mixin
                         .GetMembers()
                         .Where(memberFilter)
+                        //Order by inheritance depth, so 'DistinctMembers' will 
+                        //remove the member furthest from mixinAttribute.Mixin
+                        .OrderByDescending(x => x.DeclaringType.InheritanceDepth())
+                        //Remove inherited duplicates
+                        .DistinctMembers()
                         .Select(m =>
                             new MemberWrapper
                             {
@@ -97,10 +94,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 Member = m,
 
                                 MixinAttribute = mixinAttribute
-                            });
+                            })
+                        .ToList();
 
+                //collect shadowed interface members
                 var interfaceMembers =
-                    declaringType
+                    mixinAttribute.Mixin
                         .GetAllBaseTypes()
                         .Where(t => t.GetDefinition().Kind == TypeKind.Interface)
                         .SelectMany(t =>
@@ -120,13 +119,16 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                         MixinAttribute = mixinAttribute
                                     }))
                         //Remove inherited duplicates
-                        .DistinctMemberWrappers(includeDeclaringTypeInComparison: true);
+                        .DistinctMemberWrappers(includeDeclaringTypeInComparison: true)
+                        //Remove any members that were already declared
+                        //explicitly implemented in the declaredMembers.
+                        .FilterMemberWrappers(
+                            declaredMembers.Where(x => x.Member.IsExplicitInterfaceImplementation));
 
                 var allMembers =
                     declaredMembers
                         .Union(interfaceMembers)
                         .ToList();
-
               
 
                 //Handle Mixin Masks

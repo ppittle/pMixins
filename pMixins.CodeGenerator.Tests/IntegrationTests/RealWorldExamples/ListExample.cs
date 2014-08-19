@@ -23,6 +23,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests;
+using CopaceticSoftware.pMixins.Tests.Common.Extensions;
+using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.RealWorldExamples
@@ -54,9 +56,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.RealWor
                 "; }
         }
 
+        [Test]
         public void TargetAddMethodIsAlwaysCalled()
         {
-            
+            var target = (IList<int>) 
+                CompilerResults.TryLoadCompiledType("Test.Target");
+
+
+            target.Add(1);
+
+            target.Add(2);
+
+            target.Add(4);
+
+            target.ShouldContain(42);
         }
     }
 }

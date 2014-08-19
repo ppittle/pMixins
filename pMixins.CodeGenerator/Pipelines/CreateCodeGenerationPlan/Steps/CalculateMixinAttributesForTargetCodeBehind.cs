@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using CopaceticSoftware.CodeGenerator.StarterKit.Extensions;
 using CopaceticSoftware.Common.Patterns;
 using CopaceticSoftware.pMixins.Attributes;
@@ -33,12 +34,14 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
-            var doNotMixinType = typeof (DoNotMixinAttribute)
-                .ToIType(manager.CommonState.Context.TypeResolver.Compilation);
+            var attributesToIgnore = new[]
+            {
+                typeof (DoNotMixinAttribute),
+                typeof(DebuggerTypeProxyAttribute),
+                typeof(DefaultMemberAttribute)
+            }.Select(t => t.ToIType(manager.CommonState.Context.TypeResolver.Compilation));
 
-            var debuggerTypeProxyAttributeType = typeof(DebuggerTypeProxyAttribute)
-                .ToIType(manager.CommonState.Context.TypeResolver.Compilation);
-
+            
             foreach (var cgp in manager.CodeGenerationPlans.Values)
             {
                 cgp.TargetCodeBehindPlan.MixinAttributes =
@@ -49,12 +52,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                                 .GetAttributes()
                                 .FilterOutNonInheritedAttributes()
                                 .Where(a =>
-                                    //Don't add a DoNotMixin Type
-                                    !a.AttributeType.Equals(doNotMixinType) &&
+                                    !attributesToIgnore.Contains(a.AttributeType) &&
                                     //Ignore unknown types (mostly microsoft internal attributes)
-                                    !(a.AttributeType is UnknownType) &&
-                                    //Don't add the DebuggerTypeProxyAttribute - It doesn't get added correctly
-                                    !a.AttributeType.Equals(debuggerTypeProxyAttributeType)));
+                                    !(a.AttributeType is UnknownType)));
 
             }
 

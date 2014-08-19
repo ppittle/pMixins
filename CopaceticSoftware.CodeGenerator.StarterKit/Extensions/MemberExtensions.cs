@@ -84,8 +84,8 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
                 includeDeclaringType
                     ? member.DeclaringType.GetOriginalFullName() + "."
                     : "",
-                member.Name);
-            
+                member.GetOriginalName());
+
 
             if (member is IMethod)
                 sb.AppendFormat("({0})",

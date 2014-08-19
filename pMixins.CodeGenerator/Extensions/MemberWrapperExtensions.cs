@@ -49,9 +49,10 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Extensions
             }
         }
 
-        public static IEnumerable<MemberWrapper> DistinctMemberWrappers(this IEnumerable<MemberWrapper> memberWrappers)
+        public static IEnumerable<MemberWrapper> DistinctMemberWrappers(this IEnumerable<MemberWrapper> memberWrappers, bool includeDeclaringTypeInComparison = false)
         {
-            return memberWrappers.Distinct(_equalityComparer);
+            return 
+                memberWrappers.Distinct(new MemberWrapperEqualityComparer{IncludeDeclaringTypeInComparison = includeDeclaringTypeInComparison});
         }
 
         public static IEnumerable<MemberWrapper> FilterMemberWrappers(

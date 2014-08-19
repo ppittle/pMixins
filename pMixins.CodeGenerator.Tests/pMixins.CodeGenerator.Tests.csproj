@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CopaceticSoftware.Common, Version=0.2.5010.18016, Culture=neutral, PublicKeyToken=cb24be53a247b8ec, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CopaceticSoftware.Common.0.2.5010.18016\lib\net40\CopaceticSoftware.Common.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.NRefactory, Version=5.0.0.0, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ICSharpCode.NRefactory.5.3.0\lib\Net40\ICSharpCode.NRefactory.dll</HintPath>
@@ -168,6 +172,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scratch.cs" />
     <Compile Include="UnitTests\Infrastructure\Log4NetInMemoryStreamAppenderManagerTest.cs" />
+    <Compile Include="UnitTests\MemberCollectorTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

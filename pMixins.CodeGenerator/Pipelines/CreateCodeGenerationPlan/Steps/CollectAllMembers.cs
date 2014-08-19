@@ -35,16 +35,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
     {
         public bool PerformTask(ICreateCodeGenerationPlanPipelineState manager)
         {
+            var memberCollector = new MemberCollector();
+
             foreach (var target in manager.CommonState.SourcePartialClassDefinitions)
             {
                 foreach (var mixin in manager.GetAllPMixinAttributes(target))
                 {
-                    var memberFilter = BuildMemberFilterFunction(
-                        mixin,
-                        manager.CommonState.Context.TypeResolver.Compilation);
-
-                    var mixinMembers = 
-                        CollectMemberWrappers(mixin, memberFilter)
+                    
+                    var mixinMembers =
+                        memberCollector.CollectMemberWrappers(
+                            mixin, 
+                            manager.CommonState.Context.TypeResolver.Compilation)
                         .ToList();
 
                     //Save Members
@@ -55,118 +56,143 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
             return true;
         }
 
-        private IEnumerable<MemberWrapper> CollectMemberWrappers(
-            pMixinAttributeResolvedResult mixinAttribute,
-            Func<IMember, bool> memberFilter,
-            IType declaringType = null)
+        /// <summary>
+        /// Placed in a child class so it can be unit tested.
+        /// </summary>
+        public class MemberCollector
         {
-            declaringType =
-                declaringType ?? mixinAttribute.Mixin;
+            public IEnumerable<MemberWrapper> CollectMemberWrappers(
+                pMixinAttributeResolvedResult mixinAttribute,
+                ICompilation compilation)
+            {
+                return CollectMemberWrappers(
+                    mixinAttribute,
+                    BuildMemberFilterFunction(mixinAttribute, compilation));
+            }
 
-            if (declaringType.FullName.ToLower().Equals("system.object"))
-                return Enumerable.Empty<MemberWrapper>();
+            /// <summary>
+            /// There be dragons here!
+            /// </summary>
+            public IEnumerable<MemberWrapper> CollectMemberWrappers(
+                pMixinAttributeResolvedResult mixinAttribute,
+                Func<IMember, bool> memberFilter,
+                IType declaringType = null)
+            {
+                declaringType =
+                    declaringType ?? mixinAttribute.Mixin;
 
-            var allMembers =
-               declaringType.GetMembers()
-                   .Where(memberFilter)
-                   .Select(m =>
-                       new MemberWrapper
-                       {
-                           DeclaringType = mixinAttribute.Mixin,
+                if (declaringType.FullName.ToLower().Equals("system.object"))
+                    return Enumerable.Empty<MemberWrapper>();
 
-                           Member = m,
 
-                           MixinAttribute = mixinAttribute,
+                var declaredMembers =
+                    declaringType
+                        .GetMembers()
+                        .Where(memberFilter)
+                        .Select(m =>
+                            new MemberWrapper
+                            {
+                                DeclaringType = mixinAttribute.Mixin,
 
-                           ParentDeclarations = 
-                                CollectParentDeclarations(
-                                    m,
-                                    declaringType.DirectBaseTypes,
-                                    mixinAttribute)
+                                Member = m,
 
-                       })
-                    .ToList();
+                                MixinAttribute = mixinAttribute
+                            });
 
-            //filter out parent members from list
-            var allParentMembers =
-                allMembers.SelectMany(x => x.ParentDeclarations)
-                .ToList();
+                var interfaceMembers =
+                    declaringType
+                        .GetAllBaseTypes()
+                        .Where(t => t.GetDefinition().Kind == TypeKind.Interface)
+                        .SelectMany(t =>
+                            t.GetMembers()
+                                .Where(memberFilter)
+                                .Select(m =>
+                                    new MemberWrapper(
+                                        new MemberImplementationDetails
+                                        {
+                                            ExplicitInterfaceImplementationType = t
+                                        })
+                                    {
+                                        DeclaringType = t,
 
-            allMembers =
-                allMembers
-                    .Where(m => !allParentMembers.Contains(
-                        m,
-                        new MemberWrapperExtensions.MemberWrapperEqualityComparer
-                        {
-                            IncludeDeclaringTypeInComparison = true
-                        }
-                    ))
-                .ToList();
-           
+                                        Member = m,
 
-            //Handle Mixin Masks
-            if (mixinAttribute.Masks.IsNullOrEmpty())
-                return allMembers;
+                                        MixinAttribute = mixinAttribute
+                                    }))
+                        //Remove inherited duplicates
+                        .DistinctMemberWrappers(includeDeclaringTypeInComparison: true);
 
-            var maskMethods =
-                mixinAttribute.Masks
-                    .SelectMany(x => x.GetMembers())
-                    .Where(memberFilter);
+                var allMembers =
+                    declaredMembers
+                        .Union(interfaceMembers)
+                        .ToList();
 
-            return
-                allMembers
-                    .Where(mw => maskMethods.Any(mm => mm.EqualsMember(mw.Member)));
-        }
+              
 
-        private IEnumerable<MemberWrapper> CollectParentDeclarations(
-            IMember member,
-            IEnumerable<IType> directBaseTypes,
-            pMixinAttributeResolvedResult mixinAttribute)
-        {
-            return
-                directBaseTypes
-                    .Where(t => !t.FullName.ToLower().Equals("system.object"))
-                    .Where(t => t.DefinesMember(member))
-                    .Where(t => !Equals(t, member.DeclaringType))
-                    .Select(t =>
-                        new MemberWrapper
-                        {
-                            DeclaringType = t,
+                //Handle Mixin Masks
+                if (mixinAttribute.Masks.IsNullOrEmpty())
+                    return allMembers;
 
-                            Member = t.GetDeclaredMemberThatMatchesSignature(member),
+                var maskMethods =
+                    mixinAttribute.Masks
+                        .SelectMany(x => x.GetMembers())
+                        .Where(memberFilter);
 
-                            MixinAttribute = mixinAttribute,
+                return
+                    allMembers
+                        .Where(mw => maskMethods.Any(mm => mm.EqualsMember(mw.Member)));
+            }
 
-                            ParentDeclarations =
-                                CollectParentDeclarations(
-                                    member,
-                                    t.DirectBaseTypes,
-                                    mixinAttribute)
-                        });
-        }
-        
-        private Func<IMember, bool> BuildMemberFilterFunction(
-            pMixinAttributeResolvedResult mixinAttribute,
-            ICompilation compilation)
-        {
-            var includeInternalMembers =
+            private IEnumerable<MemberWrapper> CollectParentDeclarations(
+                IMember member,
+                IEnumerable<IType> directBaseTypes,
+                pMixinAttributeResolvedResult mixinAttribute)
+            {
+                return
+                    directBaseTypes
+                        .Where(t => !t.FullName.ToLower().Equals("system.object"))
+                        .Where(t => t.DefinesMember(member))
+                        .Where(t => !Equals(t, member.DeclaringType))
+                        .Select(t =>
+                            new MemberWrapper
+                            {
+                                DeclaringType = t,
+
+                                Member = t.GetDeclaredMemberThatMatchesSignature(member),
+
+                                MixinAttribute = mixinAttribute,
+
+                                ParentDeclarations =
+                                    CollectParentDeclarations(
+                                        member,
+                                        t.DirectBaseTypes,
+                                        mixinAttribute)
+                            });
+            }
+
+            public Func<IMember, bool> BuildMemberFilterFunction(
+                pMixinAttributeResolvedResult mixinAttribute,
+                ICompilation compilation)
+            {
+                var includeInternalMembers =
                     mixinAttribute.Mixin.GetDefinition().ParentAssembly.Equals(
-                    compilation.MainAssembly);
+                        compilation.MainAssembly);
 
-            var doNotMixinIType =
-                typeof(DoNotMixinAttribute)
-                .ToIType(compilation);
+                var doNotMixinIType =
+                    typeof (DoNotMixinAttribute)
+                        .ToIType(compilation);
 
-            return new Func<IMember, bool>(
-                member => (
-                    !member.IsPrivate &&
-                    (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
-                    (!member.IsInternal || includeInternalMembers) &&
-                    !member.FullName.StartsWith("System.Object") &&
-                    !member.IsDecoratedWithAttribute(doNotMixinIType) &&
-                    !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes: false)));
+                return new Func<IMember, bool>(
+                    member => (
+                        !member.IsPrivate &&
+                        (!member.IsProtected || !mixinAttribute.Mixin.GetDefinition().IsSealed) &&
+                        (!member.IsInternal || includeInternalMembers) &&
+                        !member.FullName.StartsWith("System.Object") &&
+                        !member.IsDecoratedWithAttribute(doNotMixinIType) &&
+                        !member.DeclaringType.IsDecoratedWithAttribute(doNotMixinIType, includeBaseTypes: false)));
 
-        
+
+            }
         }
     }
 }

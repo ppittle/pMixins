@@ -62,13 +62,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Infrastructure
         /// </summary>
         public IType DeclaringType { get; set; }
 
-        /// <summary>
-        /// Instances of this <see cref="MemberWrapper"/> as they 
-        /// were declared in the base types (<see cref="IType.DirectBaseTypes"/>
-        /// of <see cref="DeclaringType"/>.
-        /// </summary>
-        public IEnumerable<MemberWrapper> ParentDeclarations { get; set; } 
-
         public MemberImplementationDetails ImplementationDetails { get; private set; }
     }
 

@@ -143,33 +143,6 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                         .Where(mw => maskMethods.Any(mm => mm.EqualsMember(mw.Member)));
             }
 
-            private IEnumerable<MemberWrapper> CollectParentDeclarations(
-                IMember member,
-                IEnumerable<IType> directBaseTypes,
-                pMixinAttributeResolvedResult mixinAttribute)
-            {
-                return
-                    directBaseTypes
-                        .Where(t => !t.FullName.ToLower().Equals("system.object"))
-                        .Where(t => t.DefinesMember(member))
-                        .Where(t => !Equals(t, member.DeclaringType))
-                        .Select(t =>
-                            new MemberWrapper
-                            {
-                                DeclaringType = t,
-
-                                Member = t.GetDeclaredMemberThatMatchesSignature(member),
-
-                                MixinAttribute = mixinAttribute,
-
-                                ParentDeclarations =
-                                    CollectParentDeclarations(
-                                        member,
-                                        t.DirectBaseTypes,
-                                        mixinAttribute)
-                            });
-            }
-
             public Func<IMember, bool> BuildMemberFilterFunction(
                 pMixinAttributeResolvedResult mixinAttribute,
                 ICompilation compilation)

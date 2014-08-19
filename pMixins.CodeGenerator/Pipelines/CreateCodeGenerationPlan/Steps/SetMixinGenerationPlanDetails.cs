@@ -55,8 +55,11 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 {
                     Members = 
                         mixinPlan.Members
-                            .Where(mw => mw.Member.IsAbstract)
-                            .FilterMemberWrappers(mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members),
+                            .Where(mw => 
+                                mw.Member.IsAbstract  &&
+                                !mw.ImplementationDetails.ImplementExplicitly)
+                            .FilterMemberWrappers(
+                                mixinPlan.CodeGenerationPlan.SharedRequirementsInterfacePlan.Members),
 
                     RequirementsInterfaceName =
                         "I" +

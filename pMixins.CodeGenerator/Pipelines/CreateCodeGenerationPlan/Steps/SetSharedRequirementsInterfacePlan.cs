@@ -41,7 +41,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                     codeGenerationPlan.MixinGenerationPlans.Values
                         .Where(mgp => mgp.MixinAttribute.EnableSharedRequirementsInterface)
                         .SelectMany(mgp => mgp.Members)
-                        .Where(mw => mw.Member.IsAbstract)
+                        .Where(mw => 
+                            mw.Member.IsAbstract &&
+                            !mw.ImplementationDetails.ImplementExplicitly)
                         .FilterMemberWrappers(codeGenerationPlan.SourceClassMembers)
                         .ToList();
 

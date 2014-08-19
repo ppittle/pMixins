@@ -104,13 +104,12 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.CreateCodeGeneration
                 VirtualMembers =
                     mixinPlan.Members
                         .Where(m =>
-
                             !m.ImplementationDetails.ImplementExplicitly &&
-                            m.Member.IsVirtual ||
+                            (m.Member.IsVirtual ||
                             (
                                 m.Member.IsOverride ||
                                 m.Member.IsOverridable &&
-                                ! m.Member.IsProtected )),
+                                ! m.Member.IsProtected ))),
 
             };
         }

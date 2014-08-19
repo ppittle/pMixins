@@ -163,11 +163,17 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
                         member => "",
                         
                     generateMemberNameFunc:
-                        member => 
+                        member =>
                             string.Format("{0}.{1}",
                                 member.ImplementationDetails.ExplicitInterfaceImplementationType
                                     .GetOriginalFullNameWithGlobal(),
-                                member.Member.Name),
+
+                                (member.Member is IProperty) &&
+                                (member.Member as IProperty).IsIndexer
+                                ? string.Format("this [{0} {1}]",
+                                    (member.Member as IProperty).Parameters.First().Type.GetOriginalFullNameWithGlobal(),
+                                    (member.Member as IProperty).Parameters.First().Name)
+                                : member.Member.Name),
 
                     baseObjectIdentifierFunc:
                         member => 

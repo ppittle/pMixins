@@ -303,7 +303,7 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.GenerateCodeBehind.P
 
             if (mw.ImplementationDetails.ImplementExplicitly)
                 return string.Format(
-                    "set{{ return (({0}){1}){2} = value; }}",
+                    "set{{ (({0}){1}){2} = value; }}",
                     mw.ImplementationDetails.ExplicitInterfaceImplementationType
                         .GetOriginalFullNameWithGlobal(),
                     masterWrapperVariableName,

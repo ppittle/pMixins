@@ -164,6 +164,7 @@
     <Compile Include="Pipelines\ResolveAttributes\Steps\InitializeResolveAttributesPipeline.cs" />
     <Compile Include="Pipelines\ResolveAttributes\IResolveAttributesPipelineState.cs" />
     <Compile Include="Pipelines\ResolveAttributes\Steps\ResolveAttributes.cs" />
+    <Compile Include="Pipelines\ResolveAttributes\Steps\ResolveInterceptorMixinRequirements.cs" />
     <Compile Include="Pipelines\ResolveAttributes\TypeInstanceActivator.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\Steps\CollectAllMembers.cs" />
     <Compile Include="Pipelines\CreateCodeGenerationPlan\ICreateCodeGenerationPlanPipelineState.cs" />

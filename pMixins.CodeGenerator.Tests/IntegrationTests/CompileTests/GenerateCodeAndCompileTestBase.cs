@@ -35,7 +35,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         protected CompilerResults CompilerResults { get; private set; }
 
         private bool _hasCompilerErrors = false;
-        
+
+        protected virtual bool FailIfNoCodeGenerated { get { return true; } }
+
         public override void MainSetup()
         {
             base.MainSetup();
@@ -44,7 +46,8 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
 
             Assert.True(null != project, "Failed to load project from Solution.Projects.  This is a bug with the Test");
 
-            Assert.False(string.IsNullOrEmpty(GeneratedCode), "No Code was Generated");
+            if (FailIfNoCodeGenerated)
+                Assert.False(string.IsNullOrEmpty(GeneratedCode), "No Code was Generated");
 
             //http://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments
             var csc = new CSharpCodeProvider(

@@ -128,6 +128,7 @@
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\StaticImplicitConversionOperator.cs" />
     <Compile Include="IntegrationTests\CompileTests\ConversionTests\TargetWithAbstractMixin.cs" />
     <Compile Include="IntegrationTests\CompileTests\CustomPMixinAttributes\BasicCustomPMixinAttribute.cs" />
+    <Compile Include="IntegrationTests\CompileTests\BasicTests\NormalPartialClassWithNoMixinAttribute.cs" />
     <Compile Include="IntegrationTests\CompileTests\DoNotMixin\DoNotMixinMethod.cs" />
     <Compile Include="IntegrationTests\CompileTests\EnableSharedRequirementsInterface\EnableSharedRequirementsInterface.cs" />
     <Compile Include="IntegrationTests\CompileTests\ExistingFile\ExistingMixinFileTest.cs" />

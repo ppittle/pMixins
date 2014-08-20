@@ -16,12 +16,16 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.CustomPMixinAttributes
 {
+    /// <summary>
+    /// Test for https://github.com/ppittle/pMixins/issues/30
+    /// </summary>
     [TestFixture]
     public class BasicCustomPMixinAttribute : GenerateCodeAndCompileTestBase
     {
@@ -35,17 +39,20 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
                         {
                             using CopaceticSoftware.pMixins.Attributes;
 
-                            public class Mixin
+                            public class Mixin1
                             {
                                 public int Number{ get{ return 42;} }
                             }
 
-                            public class CustomPMixinsAttribute : pMixinAttribute
+                            public class Mixin2
                             {
-                                public CustomPMixinsAttribute()
-                                {
-                                    Mixin = typeof(Mixin);
-                                }
+                                public int OtherNumber{ get{ return 24;} }
+                            }
+
+                            [pMixin(Mixin = typeof(Mixin1))]
+                            [pMixin(Mixin = typeof(Mixin2))]
+                            public class CustomPMixinsAttribute : System.Attribute
+                            {                               
                             }
 
                             [CustomPMixins]                           
@@ -59,13 +66,19 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.Compile
         }
 
         [Test]
-        public void CanCallMixinProperty()
+        public void CanCallMixinProperties()
         {
             CompilerResults
                 .ExecutePropertyGet<int>(
                     "Test.Target",
                     "Number")
                 .ShouldEqual(42);
+
+            CompilerResults
+                .ExecutePropertyGet<int>(
+                    "Test.Target",
+                    "OtherNumber")
+                .ShouldEqual(24);
         }
     }
 }

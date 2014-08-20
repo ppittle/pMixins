@@ -65,7 +65,9 @@ namespace CopaceticSoftware.pMixins.CodeGenerator.Pipelines.ParseSourceFile.Step
 
                 manager.SourcePartialClassAttributes[classDef].AddRange(
                         resolvedClass.Type
-                        .GetAttributes()
+                        .GetAttributes(
+                            //collect Custom PMixin Attributes
+                            includeAttributesDeclaredOnAttributes: true)
                         .Where(x => x.AttributeType.Implements<IPMixinAttribute>()));
             }
             #endregion

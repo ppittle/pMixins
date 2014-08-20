@@ -249,7 +249,10 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
             return Implements(type, typeof(TBaseType).GetOriginalFullName());
         }
 
-        public static IEnumerable<IAttribute> GetAttributes(this IType type, bool includeBaseTypes = true, bool includeNonInheritedAttributes = false)
+        public static IEnumerable<IAttribute> GetAttributes(this IType type, 
+            bool includeBaseTypes = true, 
+            bool includeNonInheritedAttributes = false,
+            bool includeAttributesDeclaredOnAttributes = false)
         {
             Ensure.ArgumentNotNull(type, "type");
 
@@ -263,12 +266,29 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Extensions
 
             //TODO: Can I get attributes on any other type?
 
+            if (includeAttributesDeclaredOnAttributes)
+            {
+                var attributesDeclaredOnAttributes =
+                    attributes
+                        .SelectMany(x => x.AttributeType
+                            //don't recurse on includeAttributesDeclaredOnAttributes - it's not necessary and causes infinite loop
+                            .GetAttributes());
+
+                attributes =
+                    attributes.Union(attributesDeclaredOnAttributes)
+                        .ToList();
+            }
+            
+
             if (includeBaseTypes)
             {
                 var baseTypeAttributes =
                     (type.GetAllBaseTypes() ?? new IType[]{})
                         .Where(bt => bt.FullName != type.FullName && !bt.IsKnownType(KnownTypeCode.Object))
-                        .SelectMany(baseType => baseType.GetAttributes(true, includeNonInheritedAttributes));
+                        .SelectMany(baseType => baseType.GetAttributes(
+                            true, 
+                            includeNonInheritedAttributes, 
+                            includeAttributesDeclaredOnAttributes));
 
                 if (!includeNonInheritedAttributes)
                     baseTypeAttributes = baseTypeAttributes.FilterOutNonInheritedAttributes();

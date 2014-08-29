@@ -16,12 +16,14 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using CopaceticSoftware.pMixins.Tests.Common;
 using CopaceticSoftware.pMixins.Tests.Common.Extensions;
 using NBehave.Spec.NUnit;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.pMixins.CodeGenerator.Tests.IntegrationTests.CompileTests.AdvancedMixinTypes
 {
+    [FutureRelease]
     [TestFixture]
     public class ChainedMixins : GenerateCodeAndCompileTestBase
     {

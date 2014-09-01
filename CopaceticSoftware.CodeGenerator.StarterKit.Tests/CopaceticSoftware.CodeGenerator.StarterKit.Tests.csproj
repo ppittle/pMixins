@@ -108,6 +108,7 @@
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnErrorAddToTargetClass.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinAddedToTargetClass.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinRemovedFromTargetClass.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnSavedCustomPMixinsAttribute.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnValidTargetWithMixinInSameClassSaved.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnInvalidTargetAddedToEmptyProject.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnProjectItemAdded\OnNormalClassIsAddedToAnEmptyProject.cs" />

@@ -59,7 +59,7 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.Code
         {
             _MockSolution.InitializeWithEmptyProject();
 
-            _MockSolution.Projects[0].MockSourceFiles.Add(new MockSourceFile()
+            _MockSolution.Projects[0].MockSourceFiles.Add(new MockSourceFile
             {
                 Source = InitialFileSource
             });

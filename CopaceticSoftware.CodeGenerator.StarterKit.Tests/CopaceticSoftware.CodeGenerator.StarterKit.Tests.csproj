@@ -103,6 +103,8 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnBuildCodeGenerator\OnBuildCodeGeneratorTests.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnChainedMixinsInSameFiles.cs" />
+    <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnChainedMixinsInSeperateFiles.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnErrorAddToTargetClass.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinAddedToTargetClass.cs" />
     <Compile Include="IntegrationTests\CodeGeneratorTests\OnItemSaveCodeGenerator\OnItemSaved\OnMixinRemovedFromTargetClass.cs" />

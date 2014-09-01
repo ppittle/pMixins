@@ -283,6 +283,23 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests
 
             return s;
         }
+
+        public static MockSolution InitializeWithChainedMixinInSeparateFiles(this MockSolution s)
+        {
+            s.InitializeWithTargetAndMixinInSeparateClass();
+
+            s.Projects[0].MockSourceFiles.Add(new MockSourceFile("Chained")
+            {
+                FileName = new FilePath(MockSolution.MockSolutionFolder, "Chained.cs"),
+                Source = @"
+                    namespace Testing{
+                        [CopaceticSoftware.pMixins.Attributes.pMixin(Mixin = typeof(Target))]                                        
+                        public partial class Chained  {}
+                    }"
+            });
+
+            return s;
+        }
     }
 
     public static class MockSolutionManipulator

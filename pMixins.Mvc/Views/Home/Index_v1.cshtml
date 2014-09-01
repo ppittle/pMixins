@@ -1,0 +1,177 @@
+﻿@{
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<div class="container body-content">
+    <div class="section">
+        <div class="center-block text-center">
+            <p></p>
+            <p class="logo-code logo-code-large">[<span class="typ">p</span>Mixins]</p>
+            <p class="lead">A lightweight open source <a href="http://en.wikipedia.org/wiki/Mixins">Mixin</a> and <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> framework for C#</p>
+        </div>
+    </div>
+</div>
+
+<div class="container fullwidth">
+    <div class="section section-small section--grey1">
+        <div class="row">
+            <div class="col-md-12 text-center" style="margin-top: -30px">
+                <a href="https://github.com/ppittle/pMixins/releases/tag/v0.5.2-beta">
+                    Current Release: <strong class="com" style="font-size:16px;">0.5.2-beta</strong>
+                </a>
+            </div>
+        </div>
+        <div class="row clearfix text-center" style="margin-left: -30px">
+            <div class="col-sm-6 col-md-6 col-xs-6 col-lg-push-1">
+                <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
+                <p></p>
+                <a href="https://github.com/ppittle/pMixins" class="btn-default btn">
+                    Contribute
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xs-6 col-lg-pull-1">
+                <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
+                <p></p>
+
+                <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2" class="btn-default btn">
+                    Download
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container body-content">
+    <div class="section">
+        <div class="row clearfix">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3>
+                            Why Mixin / AOP
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>Promote Code Reuse</li>
+                            <li>Remove Boilerplate Code</li>
+                            <li>De-obfuscate Your Code</li>
+                            <li>Adhear to Liskov Substitution</li>
+                            <li>Avoid Inheritance as Antipattern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>Intellisense Support</li>
+                            <li>No Compiler Magic</li>
+                            <li>Single Assembly Dependency - Delivered via NuGet</li>
+                            <li>Simple, Straightforward AOP</li>
+                            <li><strong>100% Free!</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                
+                <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
+                    <h4>Learn More</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fullwidth">
+    <div class="section--grey1 text-center">
+        <div class="container body-content">
+            <div class="row">
+                <div class="col-lg-6 col-lg-push-0 col-sm-6">
+                    <p>&nbsp;</p>
+                    <h2><span class="logo-code">[Introduction]</span></h2>
+                    <p>Welcome to <span class="logo-code">[<span class="typ">p</span>Mixins]</span> with Hello World!</p>
+                    <p>&nbsp;</p>
+                    <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
+                        <h4>Introduction</h4>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-lg-pull-0 col-sm-6">
+                    <p>&nbsp;</p>
+                    <h2><span class="logo-code">[How It Works]</span></h2>
+                    <p>Learn about Design-Time weaving and how <span class="logo-code">[<span class="typ">p</span>Mixins]</span> creates the code-behind</p>
+                    <p>&nbsp;</p>
+
+                    <a href="@Url.Action("Index", "HowItWorks")" class="btn-default btn btn-lg">
+                        <h4>How It Works</h4>
+                    </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-lg-push-0">
+                    <p>&nbsp;</p>
+                    <h2><span class="logo-code">[Motivation]</span></h2>
+                    <p>Explore what lead to the creation of <span class="logo-code">[<span class="typ">p</span>Mixins]</span> and when <em>Inheritance</em> becomes an anti-pattern.</p>
+                    <p>&nbsp;</p>
+
+                    <a href="@Url.Action("Index", "Motivation")" class="btn-default btn btn-lg">
+                        <h4>Motivation</h4>
+                    </a>
+
+                    <p>&nbsp;</p>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-lg-pull-0">
+                    <p>&nbsp;</p>
+                    <h2><span class="logo-code">[Recipes]</span></h2>
+                    <p>Get up and running in no time with these common usage scenarios and examples!</p>
+                    <p>&nbsp;</p>
+
+                    <a href="@Url.Action("Index", "Recipes")" class="btn-default btn btn-lg">
+                        <h4>Recipes</h4>
+                    </a>
+
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 " style="padding-top: 20px">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section-small body-content">
+        <div class="container text-center">
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <h2>Corporate Sponsorship</h2>
+                    <br />
+                    <br />
+
+                    <a href="http://www.digitaslbi.com/nl/">
+                        <img src="~/Content/Images/logo_digitaslbi.svg" height="50" width="200" />
+                    </a>
+                    <p>
+                        Special thanks to <a href="http://www.digitaslbi.com/nl/">DigitasLBi</a> for sponsoring
+                        <span class="logo-code">[<span class="typ">p</span>Mixins]</span>!
+                    </p>
+                    <div class="bs-callout bs-callout-info">
+                        Join our development team?!  Check
+                        <a href="http://www.digitaslbi.com/nl/vacatures/">http://www.digitaslbi.com/nl/vacatures/</a>
+                        
+                        <span class="pull-right btn btn-ad btn-sm">Ad</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

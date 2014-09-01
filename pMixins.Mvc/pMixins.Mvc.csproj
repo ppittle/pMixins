@@ -209,10 +209,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\flyingFishRaw.png" />
     <Content Include="Content\Images\fullLogo.png" />
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
     <Content Include="Content\Images\helloWorldIntellisense.png" />
     <Content Include="Content\Images\logo_digitaslbi.svg" />
+    <Content Include="Content\Images\pegasusRaw.png" />
+    <Content Include="Content\Images\penguinRaw.png" />
     <Content Include="Content\Images\pMixinsAddNewItem.png" />
     <Content Include="Content\Images\pMixinsExtensionAndUpdates.png" />
     <Content Include="Content\Images\VisualStudio2013_black.png" />
@@ -277,6 +280,7 @@
     <Content Include="Views\Recipes\MixinMasks.cshtml" />
     <Content Include="Views\Recipes\Repository.cshtml" />
     <Content Include="Views\Installation\Index.cshtml" />
+    <Content Include="Views\Home\Index_v1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

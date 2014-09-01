@@ -1,6 +1,183 @@
-﻿@{
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
+@{
     Layout = "~/Views/Shared/_SimpleLayout.cshtml";
 }
+
+<style>
+    .color-primary-0 {
+        color: #2B92AF;
+    }
+    /* Main Primary color */
+    .color-primary-1 {
+        color: #76C2D7;
+    }
+
+    .color-primary-2 {
+        color: #4BA7C1;
+    }
+
+    .color-primary-3 {
+        color: #0A81A2;
+    }
+
+    .color-primary-4 {
+        color: #04617B;
+    }
+
+    .color-secondary-1-0 {
+        color: #3B54BB;
+    }
+    /* Main Secondary color (1) */
+    .color-secondary-1-1 {
+        color: #8395DD;
+    }
+
+    .color-secondary-1-2 {
+        color: #5A70CB;
+    }
+
+    .color-secondary-1-3 {
+        color: #1A37B1;
+    }
+
+    .color-secondary-1-4 {
+        color: #102787;
+    }
+
+    .color-secondary-2-0 {
+        color: #2CC85B;
+    }
+    /* Main Secondary color (2) */
+    .color-secondary-2-1 {
+        color: #7AE39A;
+    }
+
+    .color-secondary-2-2 {
+        color: #4ED476;
+    }
+
+    .color-secondary-2-3 {
+        color: #05BF3E;
+    }
+
+    .color-secondary-2-4 {
+        color: #00922C;
+    }
+
+    .color-complement-0 {
+        color: #FF9C38;
+    }
+    /* Main Complement color */
+    .color-complement-1 {
+        color: #FFC488;
+    }
+
+    .color-complement-2 {
+        color: #FFAF5D;
+    }
+
+    .color-complement-3 {
+        color: #FF8407;
+    }
+
+    .color-complement-4 {
+        color: #C66400;
+    }
+
+    .background-color-primary-0 {
+        background-color: #2B92AF;
+    }
+    /* Main Primary color */
+    .background-color-primary-1 {
+        background-color: #76C2D7;
+    }
+
+    .background-color-primary-2 {
+        background-color: #4BA7C1;
+    }
+
+    .background-color-primary-3 {
+        background-color: #0A81A2;
+    }
+
+    .background-color-primary-4 {
+        background-color: #04617B;
+    }
+
+    .background-color-secondary-1-0 {
+        background-color: #3B54BB;
+    }
+    /* Main Secondary color (1) */
+    .background-color-secondary-1-1 {
+        background-color: #8395DD;
+    }
+
+    .background-color-secondary-1-2 {
+        background-color: #5A70CB;
+    }
+
+    .background-color-secondary-1-3 {
+        background-color: #1A37B1;
+    }
+
+    .background-color-secondary-1-4 {
+        background-color: #102787;
+    }
+
+    .background-color-secondary-2-0 {
+        background-color: #2CC85B;
+    }
+    /* Main Secondary color (2) */
+    .background-color-secondary-2-1 {
+        background-color: #7AE39A;
+    }
+
+    .background-color-secondary-2-2 {
+        background-color: #4ED476;
+    }
+
+    .background-color-secondary-2-3 {
+        background-color: #05BF3E;
+    }
+
+    .background-color-secondary-2-4 {
+        background-color: #00922C;
+    }
+
+    .background-color-complement-0 {
+        background-color: #FF9C38;
+    }
+    /* Main Complement color */
+    .background-color-complement-1 {
+        background-color: #FFC488;
+    }
+
+    .background-color-complement-2 {
+        background-color: #FFAF5D;
+    }
+
+    .background-color-complement-3 {
+        background-color: #FF8407;
+    }
+
+    .background-color-complement-4 {
+        background-color: #C66400;
+    }
+
+
+    /*Carousel*/
+    .carousel-control.left {
+        background-image: none;
+    }
+
+    .carousel-control.right {
+        background-image: none;
+    }
+
+    
+
+</style>
+
 
 <div class="container body-content">
     <div class="section">
@@ -12,37 +189,107 @@
     </div>
 </div>
 
-<div class="container fullwidth">
-    <div class="section section-small section--grey1">
-        <div class="row">
-            <div class="col-md-12 text-center" style="margin-top: -30px">
-                <a href="https://github.com/ppittle/pMixins/releases/tag/v0.5.2-beta">
-                    Current Release: <strong class="com" style="font-size:16px;">0.5.2-beta</strong>
-                </a>
-            </div>
-        </div>
-        <div class="row clearfix text-center" style="margin-left: -30px">
-            <div class="col-sm-6 col-md-6 col-xs-6 col-lg-push-1">
-                <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
-                <p></p>
-                <a href="https://github.com/ppittle/pMixins" class="btn-default btn">
-                    Contribute
-                </a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-xs-6 col-lg-pull-1">
-                <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
-                <p></p>
-
-                <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2" class="btn-default btn">
-                    Download
-                </a>
+<div class="body-content background-color-secondary-2-1">
+    <div class="container">
+        <div class="section text-center">
+            <div class="row">
+                <h2>
+                    mixins & the power of composition
+                </h2>
+                <p>
+                    The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
+                    design pattern engenders highly flexible architectures
+                    and domain classes by providing a structured mechanism for code reuse without relying on
+                    <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
+                    <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
+                    by generating the composition code and wrapper
+                    functions necessary to support CoI; freeing developers from the scourge of authoring and maintaining
+                    <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
+                </p>
             </div>
         </div>
     </div>
+    <!--
+
+        <div class="section section-small">
+            <div class="row">
+                <div class="col-md-12 text-center" style="margin-top: -30px">
+                    <a href="https://github.com/ppittle/pMixins/releases/tag/v0.5.2-beta">
+                        Current Release: <strong class="com" style="font-size:16px;">0.5.2-beta</strong>
+                    </a>
+                </div>
+            </div>
+            <div class="row clearfix text-center" style="margin-left: -30px">
+                <div class="col-sm-6 col-md-6 col-xs-6 col-lg-push-1">
+                    <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
+                    <p></p>
+                    <a href="https://github.com/ppittle/pMixins" class="btn-default btn">
+                        Contribute
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xs-6 col-lg-pull-1">
+                    <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
+                    <p></p>
+
+                    <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2" class="btn-default btn">
+                        Download
+                    </a>
+                </div>
+            </div>
+        </div>
+        -->
 </div>
 
 <div class="container body-content">
     <div class="section">
+
+        <h2>
+            in action
+        </h2>
+        <div id="InActionCarousel" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#InActionCarousel" data-slide-to="1" ></li>
+                <li data-target="#InActionCarousel" data-slide-to="2" ></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="text-center">
+                        <h3>
+                            Step 1 - Define Mixins
+                        </h3>
+                    </div>
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
+                </div>
+                <div class="item">
+                    <div class="text-center">
+                        <h3>
+                            Step 2 - Define Domain
+                        </h3>
+                    </div>
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
+                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
+                </div>
+                <div class="item">
+                    
+                    <img src="~/Content/Images/penguinRaw.png"/>
+                    <img src="~/Content/Images/flyingFishRaw.png"/>
+                    <img src="~/Content/Images/pegasusRaw.png"/>
+                </div>
+            </div>
+            <!--  Next and Previous controls below
+                href values must reference the id for this carousel -->
+            <a class="carousel-control left" href="#InActionCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#InActionCarousel" data-slide="next">&rsaquo;</a>
+
+        </div>
+
+
+
+        <!--
         <div class="row clearfix">
             <div class="col-md-6">
                 <div class="panel panel-default">
@@ -81,12 +328,13 @@
         </div>
         <div class="row">
             <div class="col-lg-12 text-center">
-                
+
                 <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
                     <h4>Learn More</h4>
                 </a>
             </div>
         </div>
+        -->
     </div>
 </div>
 <div class="fullwidth">
@@ -166,12 +414,21 @@
                     <div class="bs-callout bs-callout-info">
                         Join our development team?!  Check
                         <a href="http://www.digitaslbi.com/nl/vacatures/">http://www.digitaslbi.com/nl/vacatures/</a>
-                        
+
                         <span class="pull-right btn btn-ad btn-sm">Ad</span>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.carousel').carousel();
+        });
+    </script>
+}

@@ -96,6 +96,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DependencyInjectionMixin.cs</DependentUpon>
     </Compile>
+    <Compile Include="InActionCarousel\InActionCarousel.cs">
+      <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
+      <LastGenOutput>InActionCarousel.mixin.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="InActionCarousel\InActionCarousel.mixin.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InActionCarousel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Introduction\AspectIntroduction.cs">
       <Generator>pMixinsEmptySingleFileCodeGenerator</Generator>
       <LastGenOutput>AspectIntroduction.mixin.cs</LastGenOutput>

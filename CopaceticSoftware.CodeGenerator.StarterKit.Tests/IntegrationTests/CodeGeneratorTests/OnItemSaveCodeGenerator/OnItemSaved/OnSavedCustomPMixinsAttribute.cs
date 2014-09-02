@@ -23,7 +23,7 @@ using NUnit.Framework;
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnItemSaved
 {
     [TestFixture]
-    public class OnSavedWithCustomPMixinsAttribute : CodeBehindFileIsGeneratedWithOnItemSaveCodeGenerator
+    public class OnSavedWithCustomPMixinsAttribute : OnItemSaveCodeGeneratorTestBase
     {
         protected override void MainSetupInitializeSolution()
         {

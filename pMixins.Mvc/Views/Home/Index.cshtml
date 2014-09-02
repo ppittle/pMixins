@@ -164,6 +164,18 @@
         background-color: #C66400;
     }
 
+    .background-color-beige {
+        background-color: #f4f2ed;
+    }
+
+    .border-beige {
+        border-top: 1px solid #dedcd7;
+        border-bottom: 1px solid #dedcd7;
+    }
+
+    .clear-border-left {
+        border-left: none;
+    }
 
     /*Carousel*/
     .carousel-control.left {
@@ -174,8 +186,10 @@
         background-image: none;
     }
 
-    
-
+    hr {
+        /* don't show footer hr*/
+        visibility:hidden;
+    }
 </style>
 
 
@@ -191,23 +205,99 @@
 
 <div class="body-content background-color-secondary-2-1">
     <div class="container">
-        <div class="section text-center">
-            <div class="row">
-                <h2>
-                    mixins & the power of composition
-                </h2>
-                <p>
-                    The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
-                    design pattern engenders highly flexible architectures
-                    and domain classes by providing a structured mechanism for code reuse without relying on
-                    <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
-                    <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
-                    by generating the composition code and wrapper
-                    functions necessary to support CoI; freeing developers from the scourge of authoring and maintaining
-                    <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
-                </p>
+        <div class="section">
+            <h2>
+                in action
+            </h2>
+            <div id="InActionCarousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#InActionCarousel" data-slide-to="1"></li>
+                    <li data-target="#InActionCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <div class="text-center">
+                            <h3>
+                                Step 1 - Define Mixins
+                            </h3>
+                        </div>
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
+                    </div>
+                    <div class="item">
+                        <div class="text-center">
+                            <h3>
+                                Step 2 - Define Domain
+                            </h3>
+                        </div>
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
+                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
+                    </div>
+                    <div class="item">
+
+                        <img src="~/Content/Images/penguinRaw.png" />
+                        <img src="~/Content/Images/flyingFishRaw.png" />
+                        <img src="~/Content/Images/pegasusRaw.png" />
+                    </div>
+                </div>
+                <!--  Next and Previous controls below
+                href values must reference the id for this carousel -->
+                <a class="carousel-control left" href="#InActionCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#InActionCarousel" data-slide="next">&rsaquo;</a>
+
             </div>
+
+            <!--
+            <div class="row clearfix">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                            <h3>
+                                Why Mixin / AOP
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>Promote Code Reuse</li>
+                                <li>Remove Boilerplate Code</li>
+                                <li>De-obfuscate Your Code</li>
+                                <li>Adhear to Liskov Substitution</li>
+                                <li>Avoid Inheritance as Antipattern</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center">
+                            <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>Intellisense Support</li>
+                                <li>No Compiler Magic</li>
+                                <li>Single Assembly Dependency - Delivered via NuGet</li>
+                                <li>Simple, Straightforward AOP</li>
+                                <li><strong>100% Free!</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+
+                    <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
+                        <h4>Learn More</h4>
+                    </a>
+                </div>
+            </div>
+            -->
         </div>
+
     </div>
     <!--
 
@@ -240,106 +330,48 @@
         -->
 </div>
 
-<div class="container body-content">
-    <div class="section">
-
-        <h2>
-            in action
-        </h2>
-        <div id="InActionCarousel" class="carousel slide">
-            <ol class="carousel-indicators">
-                <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#InActionCarousel" data-slide-to="1" ></li>
-                <li data-target="#InActionCarousel" data-slide-to="2" ></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="item active">
-                    <div class="text-center">
-                        <h3>
-                            Step 1 - Define Mixins
-                        </h3>
-                    </div>
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
-                </div>
-                <div class="item">
-                    <div class="text-center">
-                        <h3>
-                            Step 2 - Define Domain
-                        </h3>
-                    </div>
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
-                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
-                </div>
-                <div class="item">
-                    
-                    <img src="~/Content/Images/penguinRaw.png"/>
-                    <img src="~/Content/Images/flyingFishRaw.png"/>
-                    <img src="~/Content/Images/pegasusRaw.png"/>
-                </div>
-            </div>
-            <!--  Next and Previous controls below
-                href values must reference the id for this carousel -->
-            <a class="carousel-control left" href="#InActionCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="carousel-control right" href="#InActionCarousel" data-slide="next">&rsaquo;</a>
-
-        </div>
-
-
-
-        <!--
-        <div class="row clearfix">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">
-                        <h3>
-                            Why Mixin / AOP
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>Promote Code Reuse</li>
-                            <li>Remove Boilerplate Code</li>
-                            <li>De-obfuscate Your Code</li>
-                            <li>Adhear to Liskov Substitution</li>
-                            <li>Avoid Inheritance as Antipattern</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">
-                        <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>Intellisense Support</li>
-                            <li>No Compiler Magic</li>
-                            <li>Single Assembly Dependency - Delivered via NuGet</li>
-                            <li>Simple, Straightforward AOP</li>
-                            <li><strong>100% Free!</strong></li>
-                        </ul>
-                    </div>
-                </div>
+<div class="body-content">
+    <div class="container">
+        <div class="section text-center">
+            <div class="row">
+                <h2>
+                    mixins & the power of composition
+                </h2>
+                <p>
+                    The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
+                    design pattern engenders highly flexible architectures
+                    and domain classes by providing a structured mechanism for code reuse without relying on
+                    <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
+                    <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
+                    by generating the composition code and wrapper
+                    functions necessary to support CoI; freeing developers from the scourge of authoring and maintaining
+                    <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
+                </p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 text-center">
-
-                <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
-                    <h4>Learn More</h4>
-                </a>
-            </div>
-        </div>
-        -->
     </div>
 </div>
-<div class="fullwidth">
-    <div class="section--grey1 text-center">
-        <div class="container body-content">
+<div class="body-content background-color-beige border-beige">
+    <div class="container">
+        <div class="section text-center">
+            <div class="row">
+                <h2>
+                    design time weaving
+                </h2>
+                <p>
+                    <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>
+                    uses a <a href="#">Visual Studio plugin</a> to generate all the necessary
+                    composition code.  As soon as you press save, mixed in code is automatically
+                    added to code-behind files and is ready for use.  Intellisense is happy,
+                    the compiler is happy, you are happy.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body-content">
+    <div class="container">
+        <div class="section text-center">
             <div class="row">
                 <div class="col-lg-6 col-lg-push-0 col-sm-6">
                     <p>&nbsp;</p>
@@ -396,8 +428,10 @@
             </div>
         </div>
     </div>
-    <div class="section section-small body-content">
-        <div class="container text-center">
+</div>
+<div class="body-content background-color-beige border-beige">
+    <div class="container">
+        <div class="section section-small text-center">
             <div class="row clearfix">
                 <div class="col-md-12">
                     <h2>Corporate Sponsorship</h2>
@@ -411,7 +445,7 @@
                         Special thanks to <a href="http://www.digitaslbi.com/nl/">DigitasLBi</a> for sponsoring
                         <span class="logo-code">[<span class="typ">p</span>Mixins]</span>!
                     </p>
-                    <div class="bs-callout bs-callout-info">
+                    <div class="bs-callout border-beige clear-border-left">
                         Join our development team?!  Check
                         <a href="http://www.digitaslbi.com/nl/vacatures/">http://www.digitaslbi.com/nl/vacatures/</a>
 

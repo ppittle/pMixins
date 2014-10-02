@@ -42,6 +42,7 @@ namespace CopaceticSoftware.pMixins.Mvc
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/Icons/icons.css",
                       "~/Content/site.css"));
         }
     }

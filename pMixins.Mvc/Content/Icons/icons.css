@@ -1,0 +1,184 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "untitled-font-1";
+  src:url("fonts/untitled-font-1.eot");
+  src:url("fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"),
+    url("fonts/untitled-font-1.woff") format("woff"),
+    url("fonts/untitled-font-1.ttf") format("truetype"),
+    url("fonts/untitled-font-1.svg#untitled-font-1") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "untitled-font-1" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "untitled-font-1" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-information-circle:before {
+  content: "a";
+}
+.icon-information:before {
+  content: "b";
+}
+.icon-play:before {
+  content: "c";
+}
+.icon-play-circle:before {
+  content: "d";
+}
+.icon-hospital-square:before {
+  content: "e";
+}
+.icon-plus-circle:before {
+  content: "f";
+}
+.icon-home:before {
+  content: "g";
+}
+.icon-gears-setting:before {
+  content: "h";
+}
+.icon-file-text:before {
+  content: "i";
+}
+.icon-science-laboratory:before {
+  content: "j";
+}
+.icon-wrench:before {
+  content: "k";
+}
+.icon-widget:before {
+  content: "l";
+}
+.icon-projection-screen:before {
+  content: "m";
+}
+.icon-page-multiple:before {
+  content: "n";
+}
+.icon-page-copy:before {
+  content: "o";
+}
+.icon-clipboard-pencil:before {
+  content: "p";
+}
+.icon-settings-streamline-2:before {
+  content: "q";
+}
+.icon-settings-streamline-1:before {
+  content: "r";
+}
+.icon-settings-streamline:before {
+  content: "s";
+}
+.icon-notebook-streamline:before {
+  content: "t";
+}
+.icon-cook-pan-pot-streamline:before {
+  content: "u";
+}
+.icon-chef-food-restaurant-streamline:before {
+  content: "v";
+}
+.icon-bubble-love-streamline-talk:before {
+  content: "w";
+}
+.icon-monocle-mustache-streamline:before {
+  content: "x";
+}
+.icon-speech-streamline-talk-user:before {
+  content: "y";
+}
+.icon-barbecue-eat-food-streamline:before {
+  content: "z";
+}
+.icon-book-read-streamline:before {
+  content: "A";
+}
+.icon-eat-food-fork-knife-streamline:before {
+  content: "B";
+}
+.icon-rocket:before {
+  content: "C";
+}
+.icon-lab:before {
+  content: "D";
+}
+.icon-atom:before {
+  content: "E";
+}
+.icon-diamond:before {
+  content: "F";
+}
+.icon-heart:before {
+  content: "G";
+}
+.icon-meter:before {
+  content: "H";
+}
+.icon-home-1:before {
+  content: "I";
+}
+.icon-settings:before {
+  content: "J";
+}
+.icon-download:before {
+  content: "K";
+}
+.icon-files:before {
+  content: "L";
+}
+.icon-food:before {
+  content: "M";
+}
+.icon-heart-1:before {
+  content: "N";
+}
+.icon-bulb:before {
+  content: "O";
+}
+.icon-lab-1:before {
+  content: "P";
+}
+.icon-diamond-1:before {
+  content: "Q";
+}
+.icon-data:before {
+  content: "R";
+}
+.icon-news:before {
+  content: "S";
+}
+.icon-note:before {
+  content: "T";
+}
+.icon-search:before {
+  content: "U";
+}
+.icon-settings-1:before {
+  content: "V";
+}

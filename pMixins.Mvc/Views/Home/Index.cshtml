@@ -92,6 +92,10 @@
         background-color: #76C2D7;
     }
 
+    .background-color-primary-1 a, a:visited, a:hover {
+        color: #102787;
+    }
+
     .background-color-primary-2 {
         background-color: #4BA7C1;
     }
@@ -130,6 +134,15 @@
     /* Main Secondary color (2) */
     .background-color-secondary-2-1 {
         background-color: #7AE39A;
+    }
+
+    .body-content-color-secondary-2-1 {
+        
+        background-color: #7AE39A;
+        border-top: 1px solid #00922C;
+        border-bottom: 1px solid #00922C;
+        color: #f4f2ed;
+        
     }
 
     .background-color-secondary-2-2 {
@@ -186,10 +199,49 @@
         background-image: none;
     }
 
+    .home-carousel-slide-1 {
+        background-image: url(/Content/Images/home-MixinsWithInterfaces.png);
+        background-repeat: no-repeat;
+        background-position: 600px;
+    }
+
+    #InActionCarousel .item {
+        height: 500px;
+    }
+
+    #InActionCarousel {
+        padding-top: 50px;
+    }
+
+
     hr {
         /* don't show footer hr*/
-        visibility:hidden;
+        visibility: hidden;
     }
+
+    .section {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+
+    .icon {
+        font-size: 600%;
+    }
+
+    h1,h2,h3 {
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    h1 {
+        font-size: 45px;
+    }
+
+    .hidden {
+        display: none;
+    }
+    
+
 </style>
 
 
@@ -203,12 +255,39 @@
     </div>
 </div>
 
-<div class="body-content background-color-secondary-2-1">
+
+<div class="body-content background-color-primary-1">
+    <div class="container">
+        <div class="section text-center">
+            <h1>
+                mixins & the power of composition
+            </h1>
+            <div class="row">
+                <div class="col-lg-8 col-lg-push-2">
+                    <p>
+                        The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
+                        design pattern engenders highly flexible architectures
+                        and domain classes by providing a structured mechanism for code reuse without relying on
+                        <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
+                        <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
+                        by generating the composition code and wrapper
+                        functions necessary to suppot CoI; freeing developers from the scourge of authoring and maintaining
+                        <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="body-content">
     <div class="container">
         <div class="section">
-            <h2>
+            <h1 class="text-center">
                 in action
-            </h2>
+            </h1>
             <div id="InActionCarousel" class="carousel slide">
                 <ol class="carousel-indicators">
                     <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
@@ -216,31 +295,62 @@
                     <li data-target="#InActionCarousel" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="text-center">
-                            <h3>
-                                Step 1 - Define Mixins
-                            </h3>
+                    <div class="item active home-carousel-slide-1">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h3>
+                                    Step 1 - Define Mixins
+                                </h3>
+                                <p>
+                                    Create classes and interfaces that will be used
+                                    to add value to your domain objects.
+                                </p>
+                            </div>
                         </div>
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
-                    </div>
-                    <div class="item">
-                        <div class="text-center">
-                            <h3>
-                                Step 2 - Define Domain
-                            </h3>
-                        </div>
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
-                        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
-                    </div>
-                    <div class="item">
 
-                        <img src="~/Content/Images/penguinRaw.png" />
-                        <img src="~/Content/Images/flyingFishRaw.png" />
-                        <img src="~/Content/Images/pegasusRaw.png" />
+                        <div class="row text-left hidden">
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
+                            </div>
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
+                            </div>
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>
+                            Step 2 - Define Domain
+                        </h3>
+                        <div class="row text-left">
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
+                            </div>
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
+                            </div>
+                            <div class="col-md-4">
+                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3>
+                            Step 3 - Enjoy
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="~/Content/Images/penguinRaw.png" />
+                            </div>
+                            <div class="col-md-4">
+                                <img src="~/Content/Images/flyingFishRaw.png" />
+                            </div>
+                            <div class="col-md-4">
+                                <img src="~/Content/Images/pegasusRaw.png" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--  Next and Previous controls below
@@ -330,34 +440,15 @@
         -->
 </div>
 
-<div class="body-content">
-    <div class="container">
-        <div class="section text-center">
-            <div class="row">
-                <h2>
-                    mixins & the power of composition
-                </h2>
-                <p>
-                    The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
-                    design pattern engenders highly flexible architectures
-                    and domain classes by providing a structured mechanism for code reuse without relying on
-                    <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
-                    <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
-                    by generating the composition code and wrapper
-                    functions necessary to support CoI; freeing developers from the scourge of authoring and maintaining
-                    <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+
+
 <div class="body-content background-color-beige border-beige">
     <div class="container">
         <div class="section text-center">
             <div class="row">
-                <h2>
+                <h1>
                     design time weaving
-                </h2>
+                </h1>
                 <p>
                     <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>
                     uses a <a href="#">Visual Studio plugin</a> to generate all the necessary
@@ -369,7 +460,80 @@
         </div>
     </div>
 </div>
+
 <div class="body-content">
+    <div class="container">
+        <div class="section text-center">
+            <h1>
+                keep exploring
+            </h1>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <h4>Introduction</h4>
+                            <p>
+                                Hello World!
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="icon icon-heart color-secondary-1-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>Recipes</h4>
+                            <p>
+                                Get going in no time!
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="icon icon-food color-secondary-2-3"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <h4>Motivation / Inspiration</h4>
+                            <p>
+                                Explore
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="icon icon-bulb color-primary-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h4>How It Works</h4>
+                            <p>
+                                Get going in no time!
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="icon icon-gears-setting color-complement-3"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="body-content hidden">
     <div class="container">
         <div class="section text-center">
             <div class="row">
@@ -429,9 +593,10 @@
         </div>
     </div>
 </div>
+
 <div class="body-content background-color-beige border-beige">
     <div class="container">
-        <div class="section section-small text-center">
+        <div class="section text-center">
             <div class="row clearfix">
                 <div class="col-md-12">
                     <h2>Corporate Sponsorship</h2>
@@ -462,7 +627,7 @@
 {
     <script>
         $(document).ready(function () {
-            $('.carousel').carousel();
+            $('.carousel').carousel({ interval: 700000 });
         });
     </script>
 }

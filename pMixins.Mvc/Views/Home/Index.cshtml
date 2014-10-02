@@ -92,9 +92,9 @@
         background-color: #76C2D7;
     }
 
-    .background-color-primary-1 a, a:visited, a:hover {
-        color: #102787;
-    }
+        .background-color-primary-1 a, a:visited, a:hover {
+            color: #102787;
+        }
 
     .background-color-primary-2 {
         background-color: #4BA7C1;
@@ -137,12 +137,10 @@
     }
 
     .body-content-color-secondary-2-1 {
-        
         background-color: #7AE39A;
         border-top: 1px solid #00922C;
         border-bottom: 1px solid #00922C;
         color: #f4f2ed;
-        
     }
 
     .background-color-secondary-2-2 {
@@ -229,7 +227,7 @@
         font-size: 600%;
     }
 
-    h1,h2,h3 {
+    h1, h2, h3 {
         font-family: 'Open Sans', sans-serif;
     }
 
@@ -240,8 +238,56 @@
     .hidden {
         display: none;
     }
-    
 
+    .btn-info {
+        color: #fff !important;
+        background-color: #164f78 !important;
+    }
+
+    .vs-background {
+        /*
+        background-color: #1E1E1E;
+        border-top: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        */
+        background-color: #164f78;        
+    }
+
+        .vs-background a, a:visited {
+            /*color: #2FAEB7; */
+            /*color: #57A64A;*/
+            /*color: #F4CF64;*/
+            color: #05BF3E;
+        }
+
+            .vs-background a:hover {
+                color: #013242;
+            }
+
+
+
+
+    .vs-background-foreground-1 {
+        /*color: #57A64A;*/
+        color: #DCDCDC;
+    }
+
+    .vs-background-foreground-2 {
+        color: #409A9B;
+    }
+
+    .vs-background-foreground-3 {
+        color: #4EC9B0;
+    }
+
+    .vs-background-foreground-4 {
+        color: #DCDCDC;
+    }
+
+    h1, .lead {
+        font-family: 'Asap', sans-serif;
+        margin-bottom: 80px !important;
+    }
 </style>
 
 
@@ -256,22 +302,25 @@
 </div>
 
 
-<div class="body-content background-color-primary-1">
+<div class="body-content vs-background">
     <div class="container">
-        <div class="section text-center">
-            <h1>
+        <div class="section ">
+            <h1 class="vs-background-foreground-1 text-center">
                 mixins & the power of composition
             </h1>
             <div class="row">
                 <div class="col-lg-8 col-lg-push-2">
-                    <p>
+                    <p class="vs-background-foreground-4 lead">
                         The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
                         design pattern engenders highly flexible architectures
                         and domain classes by providing a structured mechanism for code reuse without relying on
                         <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
+                    </p>
+                    <p></p>
+                    <p class="vs-background-foreground-4 lead">
                         <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
-                        by generating the composition code and wrapper
-                        functions necessary to suppot CoI; freeing developers from the scourge of authoring and maintaining
+                        by generating the necessary composition code and wrapper functions;
+                        freeing developers from the scourge of authoring and maintaining
                         <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
                     </p>
                 </div>
@@ -449,7 +498,7 @@
                 <h1>
                     design time weaving
                 </h1>
-                <p>
+                <p class="lead">
                     <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>
                     uses a <a href="#">Visual Studio plugin</a> to generate all the necessary
                     composition code.  As soon as you press save, mixed in code is automatically

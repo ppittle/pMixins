@@ -5,7 +5,7 @@ pMixins
   Welcome to pMixins!  http://pmixins.com
   
   pMixins is a Mixin (http://en.wikipedia.org/wiki/Mixins)
-  framework for C#.  Mixin code is generated via design time by a Visual Studio plug-in.
+  framework for C#.  Mixin code is generated at design time by a Visual Studio plug-in.
   
   Example usage:
   

@@ -18,11 +18,13 @@
 
 using System.Linq;
 using CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.IO;
+using CopaceticSoftware.pMixins.Tests.Common;
 using NUnit.Framework;
 
 namespace CopaceticSoftware.CodeGenerator.StarterKit.Tests.IntegrationTests.CodeGeneratorTests.OnItemSaveCodeGenerator.OnItemSaved
 {
     [TestFixture]
+    [FutureRelease]
     public class OnSavedWithCustomPMixinsAttribute : OnItemSaveCodeGeneratorTestBase
     {
         protected override void MainSetupInitializeSolution()

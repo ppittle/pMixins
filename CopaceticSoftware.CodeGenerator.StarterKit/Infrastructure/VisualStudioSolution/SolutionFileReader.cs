@@ -53,7 +53,9 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
         {
             var projectReferences = new List<SolutionFileProjectReference>();
 
-            foreach (var p in _dte.Solution.Projects.OfType<Project>())
+            var allProjects = RecursivelyCollectProjects(_dte.Solution.Projects.OfType<Project>());
+            
+            foreach (var p in allProjects)
             {
                 if (string.IsNullOrEmpty(p.FullName))
                     continue;
@@ -66,6 +68,44 @@ namespace CopaceticSoftware.CodeGenerator.StarterKit.Infrastructure.VisualStudio
             }
 
             return projectReferences;
+        }
+
+      
+        /// <summary>
+        /// Collects CSharp Projects and takes into account Solution Folders.
+        /// 
+        /// Solution Folders will appear as a Project.
+        /// http://weblogs.asp.net/soever/enumerating-projects-in-a-visual-studio-solution
+        /// </summary>
+        private IEnumerable<Project> RecursivelyCollectProjects(
+            IEnumerable<Project> projects)
+        {
+            if (null == projects)
+                yield break;
+            
+            foreach (var p in projects)
+            {
+                if (p.ConfigurationManager != null)
+                {
+                    //it's a project
+                    yield return p;
+                }
+                else if (null != p.ProjectItems)
+                {
+                    foreach (var pi in p.ProjectItems.OfType<ProjectItem>())
+                    {
+                        if (null != pi.SubProject)
+                        {
+                            //pi is a solution folder
+                            foreach (var childP in RecursivelyCollectProjects(
+                                new []{pi.SubProject}))
+                            {
+                                yield return childP;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

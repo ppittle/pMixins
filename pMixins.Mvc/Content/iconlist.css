@@ -1,0 +1,49 @@
+﻿html, body {
+    margin: 0; padding: 0;
+}
+
+ul.icons {
+    font-size: 0;
+    margin-left: -40px;
+}
+ul.icons li {
+    position: relative;
+    width: 40%;
+    display: inline-block;
+    font-size: 14px; 
+    vertical-align: top;
+    margin: 0 0 20px 0;
+    padding-left: 10%;
+}
+ul.icons li:before {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 60px;
+}
+ul.icons li.icon-1:before {
+    content: 'G';
+    color: #428bca;    
+}
+ul.icons li.icon-2:before {
+    content: 'M'; 
+    color:  #428bca;
+}
+ul.icons li.icon-3:before {
+    content: 'O'; 
+    color:  #428bca;
+}
+ul.icons li.icon-4:before {
+    content: 'h';  
+    color:  #428bca;
+}
+/* make them 100% width and hide the icon */
+@media all and (max-width: 699px) {
+    ul.icons li { 
+        width: 100%;
+        padding: 0;
+    }
+    ul.icons li:before {
+        display: none;    
+    }
+}

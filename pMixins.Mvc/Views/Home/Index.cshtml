@@ -288,395 +288,412 @@
         font-family: 'Asap', sans-serif;
         margin-bottom: 80px !important;
     }
+
+    .navbar-inverse {
+        background: rgb(45, 45, 48);
+    }
+
+    .navbar-inverse li a,
+    .navbar-inverse .full-logo {
+        color: #dcdcdc !important;
+    }
+
+    .background-color-vs-editor {
+        background: rgb(30, 30, 30);
+    }
 </style>
 
-
-<div class="container body-content">
-    <div class="section">
-        <div class="center-block text-center">
-            <p></p>
-            <p class="logo-code logo-code-large">[<span class="typ">p</span>Mixins]</p>
-            <p class="lead">A lightweight open source <a href="http://en.wikipedia.org/wiki/Mixins">Mixin</a> and <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> framework for C#</p>
-        </div>
-    </div>
-</div>
-
-
-<div class="body-content vs-background">
-    <div class="container">
-        <div class="section ">
-            <h1 class="vs-background-foreground-1 text-center">
-                mixins & the power of composition
-            </h1>
-            <div class="row">
-                <div class="col-lg-8 col-lg-push-2">
-                    <p class="vs-background-foreground-4 lead">
-                        The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
-                        design pattern engenders highly flexible architectures
-                        and domain classes by providing a structured mechanism for code reuse without relying on
-                        <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
-                    </p>
-                    <p></p>
-                    <p class="vs-background-foreground-4 lead">
-                        <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
-                        by generating the necessary composition code and wrapper functions;
-                        freeing developers from the scourge of authoring and maintaining
-                        <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="body-content">
-    <div class="container">
+<div class="body-content background-color-vs-editor vs-background-foreground-4">
+    <div class="container body-content ">
         <div class="section">
-            <h1 class="text-center">
-                in action
-            </h1>
-            <div id="InActionCarousel" class="carousel slide">
-                <ol class="carousel-indicators">
-                    <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#InActionCarousel" data-slide-to="1"></li>
-                    <li data-target="#InActionCarousel" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="item active home-carousel-slide-1">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h3>
-                                    Step 1 - Define Mixins
-                                </h3>
-                                <p>
-                                    Create classes and interfaces that will be used
-                                    to add value to your domain objects.
-                                </p>
-                            </div>
-                        </div>
+            <div class="center-block text-center">
+                <p></p>
+                <p class="logo-code logo-code-large">[<span class="typ">p</span>Mixins]</p>
+                <p class="lead" style="font-family: 'Segoe UI'">A lightweight open source <a href="http://en.wikipedia.org/wiki/Mixins">Mixin</a> and <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> framework for C#</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <div class="row text-left hidden">
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
-                            </div>
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
-                            </div>
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <h3>
-                            Step 2 - Define Domain
-                        </h3>
-                        <div class="row text-left">
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
-                            </div>
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
-                            </div>
-                            <div class="col-md-4">
-                                @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <h3>
-                            Step 3 - Enjoy
-                        </h3>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img src="~/Content/Images/penguinRaw.png" />
-                            </div>
-                            <div class="col-md-4">
-                                <img src="~/Content/Images/flyingFishRaw.png" />
-                            </div>
-                            <div class="col-md-4">
-                                <img src="~/Content/Images/pegasusRaw.png" />
-                            </div>
-                        </div>
+
+    <div class="body-content">
+        <div class="container">
+            <div class="section ">
+                <h1 class="text-center">
+                    mixins & the power of composition
+                </h1>
+                <div class="row">
+                    <div class="col-lg-8 col-lg-push-2">
+                        <p class="lead">
+                            The <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance">Compostion over Inheritance</a>
+                            design pattern engenders highly flexible architectures
+                            and domain classes by providing a structured mechanism for code reuse without relying on
+                            <a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">implementation inheritance</a>.
+                        </p>
+                        <p></p>
+                        <p class="lead">
+                            <a href="http://en.wikipedia.org/wiki/Mixin">Mixin</a> frameworks help developers realize these benefits
+                            by generating the necessary composition code and wrapper functions;
+                            freeing developers from the scourge of authoring and maintaining
+                            <a href="http://en.wikipedia.org/wiki/Boilerplate_code">boilerplate code</a>.
+                        </p>
                     </div>
                 </div>
-                <!--  Next and Previous controls below
-                href values must reference the id for this carousel -->
-                <a class="carousel-control left" href="#InActionCarousel" data-slide="prev">&lsaquo;</a>
-                <a class="carousel-control right" href="#InActionCarousel" data-slide="next">&rsaquo;</a>
-
             </div>
+        </div>
+    </div>
 
-            <!--
-            <div class="row clearfix">
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-center">
+
+
+    <div class="body-content">
+        <div class="container">
+            <div class="section">
+                <h1 class="text-center">
+                    in action
+                </h1>
+                @Html.Partial("_Step1CodeView")
+
+                <div id="InActionCarousel" class="carousel slide hidden">
+                    <ol class="carousel-indicators">
+                        <li data-target="#InActionCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#InActionCarousel" data-slide-to="1"></li>
+                        <li data-target="#InActionCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner ">
+                        <div class="item active home-carousel-slide-1">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h3>
+                                        Step 1 - Define Mixins
+                                    </h3>
+                                    <p>
+                                        Create classes and interfaces that will be used
+                                        to add value to your domain objects.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row text-left hidden">
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
                             <h3>
-                                Why Mixin / AOP
+                                Step 2 - Define Domain
                             </h3>
+                            <div class="row text-left">
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Penguin")
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "FlyingFish")
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Pegasus")
+                                </div>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <ul>
-                                <li>Promote Code Reuse</li>
-                                <li>Remove Boilerplate Code</li>
-                                <li>De-obfuscate Your Code</li>
-                                <li>Adhear to Liskov Substitution</li>
-                                <li>Avoid Inheritance as Antipattern</li>
-                            </ul>
+                        <div class="item">
+                            <h3>
+                                Step 3 - Enjoy
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="~/Content/Images/penguinRaw.png" />
+                                </div>
+                                <div class="col-md-4">
+                                    <img src="~/Content/Images/flyingFishRaw.png" />
+                                </div>
+                                <div class="col-md-4">
+                                    <img src="~/Content/Images/pegasusRaw.png" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading text-center">
-                            <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
-                        </div>
-                        <div class="panel-body">
-                            <ul>
-                                <li>Intellisense Support</li>
-                                <li>No Compiler Magic</li>
-                                <li>Single Assembly Dependency - Delivered via NuGet</li>
-                                <li>Simple, Straightforward AOP</li>
-                                <li><strong>100% Free!</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
+                    <!--  Next and Previous controls below
+        href values must reference the id for this carousel -->
+                    <a class="carousel-control left" href="#InActionCarousel" data-slide="prev">&lsaquo;</a>
+                    <a class="carousel-control right" href="#InActionCarousel" data-slide="next">&rsaquo;</a>
 
-                    <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
-                        <h4>Learn More</h4>
-                    </a>
+                </div>
+
+                <!--
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center">
+                                <h3>
+                                    Why Mixin / AOP
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>Promote Code Reuse</li>
+                                    <li>Remove Boilerplate Code</li>
+                                    <li>De-obfuscate Your Code</li>
+                                    <li>Adhear to Liskov Substitution</li>
+                                    <li>Avoid Inheritance as Antipattern</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading text-center">
+                                <h3>Why <span class="logo-code">[<span class="typ">p</span>Mixins]?</span></h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>Intellisense Support</li>
+                                    <li>No Compiler Magic</li>
+                                    <li>Single Assembly Dependency - Delivered via NuGet</li>
+                                    <li>Simple, Straightforward AOP</li>
+                                    <li><strong>100% Free!</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+
+                        <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
+                            <h4>Learn More</h4>
+                        </a>
+                    </div>
+                </div>
+                -->
+            </div>
+
+        </div>
+        <!--
+
+            <div class="section section-small">
+                <div class="row">
+                    <div class="col-md-12 text-center" style="margin-top: -30px">
+                        <a href="https://github.com/ppittle/pMixins/releases/tag/v0.5.2-beta">
+                            Current Release: <strong class="com" style="font-size:16px;">0.5.2-beta</strong>
+                        </a>
+                    </div>
+                </div>
+                <div class="row clearfix text-center" style="margin-left: -30px">
+                    <div class="col-sm-6 col-md-6 col-xs-6 col-lg-push-1">
+                        <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
+                        <p></p>
+                        <a href="https://github.com/ppittle/pMixins" class="btn-default btn">
+                            Contribute
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xs-6 col-lg-pull-1">
+                        <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
+                        <p></p>
+
+                        <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2" class="btn-default btn">
+                            Download
+                        </a>
+                    </div>
                 </div>
             </div>
             -->
-        </div>
-
     </div>
-    <!--
-
-        <div class="section section-small">
-            <div class="row">
-                <div class="col-md-12 text-center" style="margin-top: -30px">
-                    <a href="https://github.com/ppittle/pMixins/releases/tag/v0.5.2-beta">
-                        Current Release: <strong class="com" style="font-size:16px;">0.5.2-beta</strong>
-                    </a>
-                </div>
-            </div>
-            <div class="row clearfix text-center" style="margin-left: -30px">
-                <div class="col-sm-6 col-md-6 col-xs-6 col-lg-push-1">
-                    <p><a href="https://github.com/ppittle/pMixins"><img src="~/Content/Images/GitHub-Mark-120px-plus.png" alt="Contribute on github" /></a></p>
-                    <p></p>
-                    <a href="https://github.com/ppittle/pMixins" class="btn-default btn">
-                        Contribute
-                    </a>
-                </div>
-                <div class="col-sm-6 col-md-6 col-xs-6 col-lg-pull-1">
-                    <p><a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2"><img src="~/Content/Images/VisualStudio2013_black.png" alt="Download from Visual Studio Gallery" style="width: 120px; height: 120px;" /></a></p>
-                    <p></p>
-
-                    <a href="http://visualstudiogallery.msdn.microsoft.com/a40fde9e-0e3f-4cdc-9c2a-af9de11695b2" class="btn-default btn">
-                        Download
-                    </a>
-                </div>
-            </div>
-        </div>
-        -->
-</div>
 
 
 
-<div class="body-content background-color-beige border-beige">
-    <div class="container">
-        <div class="section text-center">
-            <div class="row">
-                <h1>
-                    design time weaving
-                </h1>
-                <p class="lead">
-                    <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>
-                    uses a <a href="#">Visual Studio plugin</a> to generate all the necessary
-                    composition code.  As soon as you press save, mixed in code is automatically
-                    added to code-behind files and is ready for use.  Intellisense is happy,
-                    the compiler is happy, you are happy.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="body-content">
-    <div class="container">
-        <div class="section text-center">
-            <h1>
-                keep exploring
-            </h1>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <h4>Introduction</h4>
-                            <p>
-                                Hello World!
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="icon icon-heart color-secondary-1-3"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h4>Recipes</h4>
-                            <p>
-                                Get going in no time!
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="icon icon-food color-secondary-2-3"></div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <h4>Motivation / Inspiration</h4>
-                            <p>
-                                Explore
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="icon icon-bulb color-primary-3"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h4>How It Works</h4>
-                            <p>
-                                Get going in no time!
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="icon icon-gears-setting color-complement-3"></div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="body-content hidden">
-    <div class="container">
-        <div class="section text-center">
-            <div class="row">
-                <div class="col-lg-6 col-lg-push-0 col-sm-6">
-                    <p>&nbsp;</p>
-                    <h2><span class="logo-code">[Introduction]</span></h2>
-                    <p>Welcome to <span class="logo-code">[<span class="typ">p</span>Mixins]</span> with Hello World!</p>
-                    <p>&nbsp;</p>
-                    <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
-                        <h4>Introduction</h4>
-                    </a>
-                </div>
-                <div class="col-lg-6 col-lg-pull-0 col-sm-6">
-                    <p>&nbsp;</p>
-                    <h2><span class="logo-code">[How It Works]</span></h2>
-                    <p>Learn about Design-Time weaving and how <span class="logo-code">[<span class="typ">p</span>Mixins]</span> creates the code-behind</p>
-                    <p>&nbsp;</p>
-
-                    <a href="@Url.Action("Index", "HowItWorks")" class="btn-default btn btn-lg">
-                        <h4>How It Works</h4>
-                    </a>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-sm-6 col-lg-push-0">
-                    <p>&nbsp;</p>
-                    <h2><span class="logo-code">[Motivation]</span></h2>
-                    <p>Explore what lead to the creation of <span class="logo-code">[<span class="typ">p</span>Mixins]</span> and when <em>Inheritance</em> becomes an anti-pattern.</p>
-                    <p>&nbsp;</p>
-
-                    <a href="@Url.Action("Index", "Motivation")" class="btn-default btn btn-lg">
-                        <h4>Motivation</h4>
-                    </a>
-
-                    <p>&nbsp;</p>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-lg-pull-0">
-                    <p>&nbsp;</p>
-                    <h2><span class="logo-code">[Recipes]</span></h2>
-                    <p>Get up and running in no time with these common usage scenarios and examples!</p>
-                    <p>&nbsp;</p>
-
-                    <a href="@Url.Action("Index", "Recipes")" class="btn-default btn btn-lg">
-                        <h4>Recipes</h4>
-                    </a>
-
-                    <p>&nbsp;</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12 " style="padding-top: 20px">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="body-content background-color-beige border-beige">
-    <div class="container">
-        <div class="section text-center">
-            <div class="row clearfix">
-                <div class="col-md-12">
-                    <h2>Corporate Sponsorship</h2>
-                    <br />
-                    <br />
-
-                    <a href="http://www.digitaslbi.com/nl/">
-                        <img src="~/Content/Images/logo_digitaslbi.svg" height="50" width="200" />
-                    </a>
-                    <p>
-                        Special thanks to <a href="http://www.digitaslbi.com/nl/">DigitasLBi</a> for sponsoring
-                        <span class="logo-code">[<span class="typ">p</span>Mixins]</span>!
+    <div class="body-content background-color-beige border-beige">
+        <div class="container">
+            <div class="section text-center">
+                <div class="row">
+                    <h1>
+                        design time weaving
+                    </h1>
+                    <p class="lead">
+                        <span class="logo-code ">[<span class="typ">p</span>Mixins]</span>
+                        uses a <a href="#">Visual Studio plugin</a> to generate all the necessary
+                        composition code.  As soon as you press save, mixed in code is automatically
+                        added to code-behind files and is ready for use.  Intellisense is happy,
+                        the compiler is happy, you are happy.
                     </p>
-                    <div class="bs-callout border-beige clear-border-left">
-                        Join our development team?!  Check
-                        <a href="http://www.digitaslbi.com/nl/vacatures/">http://www.digitaslbi.com/nl/vacatures/</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <span class="pull-right btn btn-ad btn-sm">Ad</span>
+    <div class="body-content">
+        <div class="container">
+            <div class="section text-center">
+                <h1>
+                    keep exploring
+                </h1>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <h4>Introduction</h4>
+                                <p>
+                                    Hello World!
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="icon icon-heart color-secondary-1-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Recipes</h4>
+                                <p>
+                                    Get going in no time!
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="icon icon-food color-secondary-2-3"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <h4>Motivation / Inspiration</h4>
+                                <p>
+                                    Explore
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="icon icon-bulb color-primary-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>How It Works</h4>
+                                <p>
+                                    Get going in no time!
+                                </p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="icon icon-gears-setting color-complement-3"></div>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@section scripts
+    <div class="body-content hidden">
+        <div class="container">
+            <div class="section text-center">
+                <div class="row">
+                    <div class="col-lg-6 col-lg-push-0 col-sm-6">
+                        <p>&nbsp;</p>
+                        <h2><span class="logo-code">[Introduction]</span></h2>
+                        <p>Welcome to <span class="logo-code">[<span class="typ">p</span>Mixins]</span> with Hello World!</p>
+                        <p>&nbsp;</p>
+                        <a href="@Url.Action("Index", "Introduction")" class="btn-default btn btn-lg">
+                            <h4>Introduction</h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-lg-pull-0 col-sm-6">
+                        <p>&nbsp;</p>
+                        <h2><span class="logo-code">[How It Works]</span></h2>
+                        <p>Learn about Design-Time weaving and how <span class="logo-code">[<span class="typ">p</span>Mixins]</span> creates the code-behind</p>
+                        <p>&nbsp;</p>
+
+                        <a href="@Url.Action("Index", "HowItWorks")" class="btn-default btn btn-lg">
+                            <h4>How It Works</h4>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-lg-push-0">
+                        <p>&nbsp;</p>
+                        <h2><span class="logo-code">[Motivation]</span></h2>
+                        <p>Explore what lead to the creation of <span class="logo-code">[<span class="typ">p</span>Mixins]</span> and when <em>Inheritance</em> becomes an anti-pattern.</p>
+                        <p>&nbsp;</p>
+
+                        <a href="@Url.Action("Index", "Motivation")" class="btn-default btn btn-lg">
+                            <h4>Motivation</h4>
+                        </a>
+
+                        <p>&nbsp;</p>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-lg-pull-0">
+                        <p>&nbsp;</p>
+                        <h2><span class="logo-code">[Recipes]</span></h2>
+                        <p>Get up and running in no time with these common usage scenarios and examples!</p>
+                        <p>&nbsp;</p>
+
+                        <a href="@Url.Action("Index", "Recipes")" class="btn-default btn btn-lg">
+                            <h4>Recipes</h4>
+                        </a>
+
+                        <p>&nbsp;</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 " style="padding-top: 20px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content background-color-beige border-beige">
+        <div class="container">
+            <div class="section text-center">
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <h2>Corporate Sponsorship</h2>
+                        <br />
+                        <br />
+
+                        <a href="http://www.digitaslbi.com/nl/">
+                            <img src="~/Content/Images/logo_digitaslbi.svg" height="50" width="200" />
+                        </a>
+                        <p>
+                            Special thanks to <a href="http://www.digitaslbi.com/nl/">DigitasLBi</a> for sponsoring
+                            <span class="logo-code">[<span class="typ">p</span>Mixins]</span>!
+                        </p>
+                        <div class="bs-callout border-beige clear-border-left">
+                            Join our development team?!  Check
+                            <a href="http://www.digitaslbi.com/nl/vacatures/">http://www.digitaslbi.com/nl/vacatures/</a>
+
+                            <span class="pull-right btn btn-ad btn-sm">Ad</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts
 {
-    <script>
-        $(document).ready(function () {
-            $('.carousel').carousel({ interval: 700000 });
-        });
-    </script>
-}
+        <script>
+            $(document).ready(function () {
+                $('.carousel').carousel({ interval: 700000 });
+            });
+        </script>
+    }

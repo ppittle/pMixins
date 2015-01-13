@@ -1,0 +1,62 @@
+﻿@using CopaceticSoftware.pMixins.Mvc.Extensions
+
+<style>
+    .code-window-container {
+        background: rgb(45,45,48);
+
+        padding: 20px 10px 10px;
+
+    }
+
+     .code-window {
+         color: #dcdcdc !important;
+         background: rgb(30, 30, 30);
+         border-top: 2px  rgb(0, 122, 204) solid;
+     }
+    .code-window-tab {
+        background: rgb(0, 122, 204);
+        font-family: "Segoe UI";
+        font-size: 13px;
+        margin-top: -20px;
+        margin-right: 20px;
+        padding-left: 5px;
+        padding-right: 20px;
+    }
+
+    .code-window .prettyprint {
+        background: inherit;
+        border: 0;
+        padding-left: 15px;
+    }
+
+    .code-window .prettyprint .pun,
+    .code-window .prettyprint .pln {
+        color: rgb(220,220,220) !important;
+    }
+
+    .code-window .prettyprint .kwd {
+        color: rgb(86, 156, 214) !important;
+    }
+
+    .code-window .prettyprint .typ {
+        color: rgb(78, 201, 176) !important;
+    }
+</style>
+
+<div class="code-window-container col-lg-6 pull-right">
+    <div class="code-window ">
+        <span class="code-window-tab pull-right">
+            Step1Code.cs
+        </span>
+        <br/>
+
+        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Swimmer")
+
+
+        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Flyer")
+
+
+        @Html.RenderSourceClass("InActionCarousel/InActionCarousel.cs", "Runner")
+
+    </div>
+</div>;

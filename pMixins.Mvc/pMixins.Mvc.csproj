@@ -209,16 +209,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Icons\fonts\untitled-font-1.svg" />
-    <Content Include="Content\Icons\icons.css" />
     <Content Include="Content\Images\fullLogo.png" />
     <Content Include="Content\Images\GitHub-Mark-120px-plus.png" />
     <Content Include="Content\Images\helloWorldIntellisense.png" />
-    <Content Include="Content\Images\home-ConsumerNoIntellisense.png" />
-    <Content Include="Content\Images\home-ConsumerWithIntellisense.png" />
-    <Content Include="Content\Images\home-MixinsWithInterfaces.png" />
-    <Content Include="Content\Images\home-MixinsWithoutInterfaces.png" />
-    <Content Include="Content\Images\home-Targets.png" />
     <Content Include="Content\Images\logo_digitaslbi.svg" />
     <Content Include="Content\Images\pMixinsAddNewItem.png" />
     <Content Include="Content\Images\pMixinsExtensionAndUpdates.png" />
@@ -238,9 +231,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="pMixins.Mvc.wpp.targets" />
-    <Content Include="Content\Icons\fonts\untitled-font-1.eot" />
-    <Content Include="Content\Icons\fonts\untitled-font-1.ttf" />
-    <Content Include="Content\Icons\fonts\untitled-font-1.woff" />
+    <Content Include="fonts\weblysleekuil.ttf" />
+    <Content Include="fonts\weblysleekuili.ttf" />
+    <Content Include="fonts\weblysleekuisb.ttf" />
+    <Content Include="fonts\weblysleekuisbi.ttf" />
+    <Content Include="fonts\weblysleekuisl.ttf" />
+    <Content Include="fonts\weblysleekuisli.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -287,6 +283,7 @@
     <Content Include="Views\Recipes\MixinMasks.cshtml" />
     <Content Include="Views\Recipes\Repository.cshtml" />
     <Content Include="Views\Installation\Index.cshtml" />
+    <Content Include="Views\Home\_Step1CodeView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

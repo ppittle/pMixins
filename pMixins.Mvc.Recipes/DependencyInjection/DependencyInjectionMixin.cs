@@ -16,6 +16,7 @@
 // </copyright> 
 //-----------------------------------------------------------------------
 
+using System;
 using System.Linq;
 using CopaceticSoftware.pMixins.Attributes;
 using CopaceticSoftware.pMixins.Infrastructure;

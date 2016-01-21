@@ -35,10 +35,7 @@ namespace pMixins.Mvc.Recipes.AbstractMixin
     [pMixin(Mixin = typeof(PrinterMixin))]
     public partial class AbstractMixinExample 
     {
-        string IPrinterMixinRequirements.NameImplementation
-        {
-            get { return "pMixins"; }
-        }
+        string IPrinterMixinRequirements.Name => "pMixins";
     }
     
     [TestFixture]

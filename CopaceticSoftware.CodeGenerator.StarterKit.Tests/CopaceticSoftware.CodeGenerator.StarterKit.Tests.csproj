@@ -42,6 +42,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\tools\vssdk_tools\binaries\envdte.dll</HintPath>
     </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="GurkBurk">
       <HintPath>..\packages\nbehave.0.6.2\lib\net40\GurkBurk.dll</HintPath>
     </Reference>
